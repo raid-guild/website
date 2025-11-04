@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import PartnerLogoBanner from "./PartnerLogoBanner";
 
 const homeImages = [
   "/images/home-image-1-bw.png",
@@ -25,7 +26,7 @@ export default function HomeHero() {
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-[60px]">
             <div className="flex flex-col gap-10">
-              <h1 className="text-heading-lg font-bold text-moloch-800 text-center pt-44">
+              <h1 className="text-heading-lg font-bold text-scroll-700 text-center pt-44">
                 BUILDING WEB3
                 <br />
                 ONE RAID AT A TIME
@@ -49,12 +50,18 @@ export default function HomeHero() {
               height={36}
             />
             <div className="flex gap-4 flex-wrap w-full">
-              <button className="flex-1 bg-moloch-400 text-[#F1EFEE] px-8 py-3 rounded-md text-label">
+              <a
+                href="#hire-us"
+                className="flex-1 bg-moloch-400 text-scroll-100 px-8 py-3 rounded-md text-label transition-colors hover:bg-moloch-800 text-center"
+              >
                 SUMMON A RAID
-              </button>
-              <button className="flex-1 bg-scroll-100 border-2 border-moloch-800 text-moloch-800 px-8 py-3 rounded-md text-label">
+              </a>
+              <a
+                href="#testimonials"
+                className="flex-1 bg-scroll-100 border-2 border-moloch-800 text-moloch-800 px-8 py-3 rounded-md text-label transition-colors hover:bg-moloch-800 hover:text-scroll-100 text-center"
+              >
                 VIEW OUR WORK
-              </button>
+              </a>
             </div>
             <div>
               <p className="text-body-lg text-moloch-800 text-center">
@@ -69,57 +76,14 @@ export default function HomeHero() {
               alt="Raid Guild Hero"
               width={632}
               height={632}
-              className="w-full h-auto"
+              className="min-w-[632px] h-auto"
             />
           </div>
         </div>
       </div>
 
       {/* Partner Logo Banner */}
-      <div
-        id="partner-logo-banner"
-        className="bg-moloch-400 border-t-[10px] border-[#534A13] py-5"
-      >
-        <div className="container-custom">
-          <div className="flex items-center justify-center gap-16">
-            <Image
-              src="/images/logo-daohaus.svg"
-              alt="DAOHaus"
-              width={200}
-              height={30}
-              className="h-8 w-auto"
-            />
-            <Image
-              src="/images/logo-Gitcoin.svg"
-              alt="Gitcoin"
-              width={200}
-              height={30}
-              className="h-8 w-auto"
-            />
-            <Image
-              src="/images/logo-Gnosis.svg"
-              alt="Gnosis"
-              width={200}
-              height={30}
-              className="h-8 w-auto"
-            />
-            <Image
-              src="/images/logo-Unlock.svg"
-              alt="Unlock"
-              width={200}
-              height={30}
-              className="h-8 w-auto"
-            />
-            <Image
-              src="/images/logo-Pocket.svg"
-              alt="Pocket"
-              width={200}
-              height={30}
-              className="h-8 w-auto"
-            />
-          </div>
-        </div>
-      </div>
+      <PartnerLogoBanner />
     </section>
   );
 }

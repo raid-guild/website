@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Header from "@/components/Header";
 import HomeHero from "@/components/HomeHero";
+import ServicesSection from "@/components/ServicesSection";
+import MercenariesSection from "@/components/MercenariesSection";
 
 export default function Home() {
   return (
@@ -9,204 +11,9 @@ export default function Home() {
 
       <HomeHero />
 
-      {/* Services Section */}
-      <section id="services" className="relative py-24">
-        <Image
-          src="/images/services-back.svg"
-          alt="Services Background"
-          fill
-          className="object-cover opacity-30 -z-10"
-        />
-        <div className="container-custom">
-          <div className="grid-custom gap-4">
-            <div className="col-span-4 md:col-span-8 lg:col-span-6">
-              <h2 className="text-heading-lg text-[#211E07] mb-4">
-                Arsenal of Expertise
-              </h2>
-              <p className="text-body-lg text-[#211E07]">
-                Epic skills wielded by Web3 warriors. Precision tools for
-                decentralized dominance. Mastery unmatched
-              </p>
-            </div>
-            <div className="col-span-4 md:col-span-8 lg:col-span-12">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                <div className="bg-scroll-100 rounded-md p-8 flex flex-col items-center gap-5">
-                  <h3 className="text-heading-md text-moloch-800">
-                    DAO Consulting & Governance
-                  </h3>
-                  <Image
-                    src="/images/services-wizard-1.svg"
-                    alt="Wizard"
-                    width={46}
-                    height={60}
-                  />
-                  <p className="text-body-lg text-moloch-800 text-center">
-                    We've built foundational Web3 tooling. We design DAOs,
-                    governance frameworks, and tokenomic models that help
-                    communities coordinate.
-                  </p>
-                </div>
-                <div className="bg-scroll-100 rounded-md p-8 flex flex-col items-center gap-5">
-                  <h3 className="text-heading-md text-moloch-800">
-                    Marketing & Content Strategy
-                  </h3>
-                  <Image
-                    src="/images/services-archer-2.svg"
-                    alt="Archer"
-                    width={46}
-                    height={60}
-                  />
-                  <p className="text-body-lg text-moloch-800 text-center">
-                    We create engaging content and growth strategies with
-                    lasting impact to help Web3 projects educate, inform, and
-                    activate their communities.
-                  </p>
-                </div>
-                <div className="bg-scroll-100 rounded-md p-8 flex flex-col items-center gap-5">
-                  <h3 className="text-heading-md text-moloch-800">
-                    Product & System Design
-                  </h3>
-                  <Image
-                    src="/images/services-scribe-3.svg"
-                    alt="Scribe"
-                    width={46}
-                    height={60}
-                  />
-                  <p className="text-body-lg text-moloch-800 text-center">
-                    We build intuitive user experiences and workflow-optimized
-                    dApps. Making Web3 accessible, from DAO tooling to token
-                    systems.
-                  </p>
-                </div>
-                <div className="bg-scroll-100 rounded-md p-8 flex flex-col items-center gap-5">
-                  <h3 className="text-heading-md text-moloch-800">
-                    Full-Stack Development
-                  </h3>
-                  <Image
-                    src="/images/services-alchemist-4.svg"
-                    alt="Alchemist"
-                    width={46}
-                    height={60}
-                  />
-                  <p className="text-body-lg text-moloch-800 text-center">
-                    Our software developers and smart contract engineers build
-                    everything from dApps to Discord bots. If it powers the
-                    decentralized Web, we build it.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      <ServicesSection />
 
-        {/* Services Scroller */}
-        <div className="bg-moloch-800 border-t-[10px] border-[#534A13] py-5 overflow-hidden">
-          <div className="flex gap-8 animate-scroll">
-            <span className="text-heading-sm text-scroll-100 whitespace-nowrap">
-              Smart Contract Engineering
-            </span>
-            <span className="text-heading-sm text-scroll-100 whitespace-nowrap">
-              Full-Stack dApp Development
-            </span>
-            <span className="text-heading-sm text-scroll-100 whitespace-nowrap">
-              Token Systems
-            </span>
-            <span className="text-heading-sm text-scroll-100 whitespace-nowrap">
-              DevOps & Infrastructure
-            </span>
-            <span className="text-heading-sm text-scroll-100 whitespace-nowrap">
-              Smart Contract Auditing
-            </span>
-          </div>
-        </div>
-      </section>
-
-      {/* Mercenaries Section */}
-      <section id="mercenaries" className="py-24">
-        <div className="container-custom">
-          <div className="grid-custom gap-4">
-            <div className="col-span-4 md:col-span-8 lg:col-span-6">
-              <Image
-                src="/images/mercenaries-image-1-c.png"
-                alt="Mercenaries"
-                width={632}
-                height={632}
-                className="w-full h-auto"
-              />
-            </div>
-            <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-16">
-              <div>
-                <h2 className="text-heading-lg text-moloch-800 mb-4">
-                  Meet Your Mercenaries
-                </h2>
-                <p className="text-body-lg text-moloch-800">
-                  Elite operators with specialized expertise and proven chops.
-                  Battle-tested talent. Uncompromising quality.
-                </p>
-              </div>
-              <div className="grid grid-cols-3 gap-4 w-full">
-                {[
-                  "Dekan",
-                  "EC Wireless",
-                  "Scottpreneur",
-                  "Takekek",
-                  "Pupcakes",
-                  "Suede",
-                ].map((name) => (
-                  <div key={name} className="flex flex-col items-center gap-2">
-                    <div className="w-16 h-16 bg-scroll-100 rounded-full border border-scroll-100"></div>
-                    <span className="text-heading-sm text-moloch-800">
-                      {name}
-                    </span>
-                  </div>
-                ))}
-              </div>
-              <Image
-                src="/images/mercenaries-divider.svg"
-                alt="Divider"
-                width={450}
-                height={28}
-                className="my-16"
-              />
-              <div className="flex flex-col gap-8 w-full">
-                <p className="text-body-lg text-moloch-800 text-center">
-                  Have questions or ready to start a project? We're here to help
-                  you achieve your goals and bring your vision to life.
-                </p>
-                <div className="flex gap-4">
-                  <button className="flex-1 bg-moloch-400 text-[#F1EFEE] px-8 py-3 rounded-md text-label">
-                    HIRE US
-                  </button>
-                  <button className="flex-1 bg-scroll-100 border-2 border-moloch-800 text-moloch-800 px-8 py-3 rounded-md text-label">
-                    WHAT OTHERS SAY
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mercenaries Scroller */}
-        <div className="bg-[#534A13] border-t-[10px] border-moloch-800 py-5 overflow-hidden">
-          <div className="flex gap-4 justify-center items-center">
-            {[
-              "Dekan",
-              "EC Wireless",
-              "Scottpreneur",
-              "Takekek",
-              "Pupcakes",
-              "Suede",
-            ].map((name) => (
-              <div key={name} className="flex items-center gap-8">
-                <div className="w-8 h-8 border border-scroll-100 rounded"></div>
-                <span className="text-heading-sm text-scroll-100 whitespace-nowrap">
-                  {name}
-                </span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <MercenariesSection />
 
       {/* Portfolio Section */}
       <section id="case-studies" className="py-24">
@@ -335,11 +142,12 @@ export default function Home() {
                   </div>
                   <div className="p-10">
                     <p className="text-body-lg text-moloch-800 mb-8">
-                      "I've worked with RaidGuild for over two years... and can
-                      confidently say they're a reliable, innovative team. Their
-                      technical expertise and collaborative spirit have
-                      consistently delivered exceptional results. I highly
-                      recommend them as a partner in any project."
+                      &quot;I&apos;ve worked with RaidGuild for over two
+                      years... and can confidently say they&apos;re a reliable,
+                      innovative team. Their technical expertise and
+                      collaborative spirit have consistently delivered
+                      exceptional results. I highly recommend them as a partner
+                      in any project.&quot;
                     </p>
                     <p className="text-body-lg text-moloch-800">
                       Kevin Owocki
@@ -359,10 +167,10 @@ export default function Home() {
                   </div>
                   <div className="p-10">
                     <p className="text-body-lg text-moloch-800 mb-8">
-                      "For me, it is the strength of RaidGuild's culture... I
-                      really appreciate the values, the integrity, and the
-                      professionalism of all of the team. It feels like a team
-                      that we can build a relationship with."
+                      &quot;For me, it is the strength of RaidGuild&apos;s
+                      culture... I really appreciate the values, the integrity,
+                      and the professionalism of all of the team. It feels like
+                      a team that we can build a relationship with.&quot;
                     </p>
                     <p className="text-body-lg text-moloch-800">
                       Adrienne Youngman
@@ -382,10 +190,10 @@ export default function Home() {
                   </div>
                   <div className="p-10">
                     <p className="text-body-lg text-moloch-800 mb-8">
-                      "Watching Raid Guild grow out of MetaCartel has been an
-                      inspiring experiment... in decentralized coordination.
+                      &quot;Watching Raid Guild grow out of MetaCartel has been
+                      an inspiring experiment... in decentralized coordination.
                       Their dedication and work set a high bar for the future of
-                      work and online collaboration."
+                      work and online collaboration.&quot;
                     </p>
                     <p className="text-body-lg text-moloch-800">
                       James Young
@@ -506,7 +314,7 @@ export default function Home() {
             <div className="col-span-4 md:col-span-8 lg:col-span-6">
               <div className="bg-scroll-100 border-2 border-moloch-800 rounded-md p-8">
                 <h3 className="text-heading-lg text-moloch-400 mb-8">
-                  Let's Get Started
+                  Let&apos;s Get Started
                 </h3>
                 <div className="space-y-6">
                   <div>

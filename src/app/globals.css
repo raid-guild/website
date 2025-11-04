@@ -8,6 +8,7 @@
   --color-moloch-800: var(--moloch-800);
   --color-moloch-400: var(--moloch-400);
   --color-scroll-100: var(--scroll-100);
+  --color-scroll-700: var(--scroll-700);
 
   /* Typography Scale */
   --font-size-display-lg: 5rem; /* 80px */
@@ -98,6 +99,7 @@
   --moloch-800: #29100a;
   --moloch-400: #d25c41;
   --scroll-100: #f9f7e7;
+  --scroll-700: #534a13;
 
   /* Light Theme - Using brand colors */
   --background: var(--scroll-100);
@@ -284,11 +286,42 @@
 
   .animate-scroll {
     animation: scroll 30s linear infinite;
-    display: flex;
-    gap: 2rem;
   }
 
   .animate-scroll:hover {
     animation-play-state: paused;
+  }
+
+  /* Partner Logo Banner Animation */
+  @keyframes logoRotate {
+    /* Logo appears once per 24s cycle for 8 seconds total */
+    /* 0-1s: fade in (4.17% of 24s) */
+    0% {
+      opacity: 0;
+    }
+    4.17% {
+      opacity: 1;
+    }
+    /* 1-7s: visible (4.17% to 29.17% = 6 seconds) */
+    29.17% {
+      opacity: 1;
+    }
+    /* 7-8s: fade out (29.17% to 33.33% = 1 second) */
+    33.33% {
+      opacity: 0;
+    }
+    /* 8-24s: hidden (33.33% to 100% = 16 seconds) */
+    33.34% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 0;
+    }
+  }
+
+  .animate-logo-rotate {
+    animation: logoRotate 24s infinite;
+    animation-fill-mode: both;
+    animation-timing-function: ease-in-out;
   }
 }

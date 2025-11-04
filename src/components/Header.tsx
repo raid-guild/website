@@ -101,7 +101,7 @@ export default function Header() {
     <header
       ref={headerRef}
       className={`bg-moloch-400 border-t-[10px] border-[#534A13] sticky top-0 z-50 transition-all duration-200 ${
-        isThinNav ? "py-5" : "pt-24 pb-14"
+        isThinNav ? "py-5" : "pt-22 pb-14"
       }`}
     >
       <div className="container-custom">
@@ -124,7 +124,7 @@ export default function Header() {
           </div>
           <nav
             ref={navRef}
-            className={`flex items-center transition-all duration-200 ${
+            className={`flex items-center flex-wrap transition-all duration-200 ${
               isThinNav ? "text-sm" : ""
             }`}
           >
