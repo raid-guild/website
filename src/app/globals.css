@@ -8,7 +8,7 @@
   --color-moloch-800: var(--moloch-800);
   --color-moloch-400: var(--moloch-400);
   --color-scroll-100: var(--scroll-100);
-  
+
   /* Typography Scale */
   --font-size-display-lg: 5rem; /* 80px */
   --font-size-display-md: 3.75rem; /* 60px */
@@ -18,7 +18,7 @@
   --font-size-body-lg: 1.25rem; /* 20px */
   --font-size-body-base: 1rem; /* 16px */
   --font-size-body-sm: 0.75rem; /* 12px */
-  
+
   /* Line Heights */
   --line-height-display-lg: 1.1; /* 110% */
   --line-height-display-md: 1.2; /* 120% */
@@ -28,7 +28,7 @@
   --line-height-body-lg: 1.4; /* 140% */
   --line-height-body-base: 1.6; /* 160% */
   --line-height-body-sm: 1.6; /* 160% */
-  
+
   /* Letter Spacing */
   --letter-spacing-display-lg: -0.02em; /* -2% */
   --letter-spacing-display-md: -0.01em; /* -1% */
@@ -39,12 +39,12 @@
   --letter-spacing-body-base: 0em; /* 0% */
   --letter-spacing-body-sm: 0em; /* 0% */
   --letter-spacing-label: 0.05em; /* 5% for uppercase labels */
-  
+
   /* Font Families */
   --font-display: var(--font-display);
   --font-body: var(--font-body);
   --font-mono: var(--font-mono);
-  
+
   /* Grid System */
   --grid-cols-mobile: 4;
   --grid-cols-tablet: 8;
@@ -52,7 +52,7 @@
   --grid-gap: 1rem; /* 16px */
   --container-padding: 1rem; /* 16px */
   --container-max-width: 80rem; /* 1280px */
-  
+
   /* Shadcn Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -93,12 +93,12 @@
 
 :root {
   --radius: 0.625rem;
-  
+
   /* Brand Colors */
-  --moloch-800: #29100A;
-  --moloch-400: #D25C41;
-  --scroll-100: #F9F7E7;
-  
+  --moloch-800: #29100a;
+  --moloch-400: #d25c41;
+  --scroll-100: #f9f7e7;
+
   /* Light Theme - Using brand colors */
   --background: var(--scroll-100);
   --foreground: var(--moloch-800);
@@ -186,7 +186,7 @@
     font-family: var(--font-display);
     font-weight: 700; /* Bold */
   }
-  
+
   .text-display-md {
     font-size: var(--font-size-display-md);
     line-height: var(--line-height-display-md);
@@ -194,7 +194,7 @@
     font-family: var(--font-display);
     font-weight: 700; /* Bold */
   }
-  
+
   .text-display-sm {
     font-size: var(--font-size-display-sm);
     line-height: var(--line-height-display-sm);
@@ -202,7 +202,7 @@
     font-family: var(--font-display);
     font-weight: 450;
   }
-  
+
   .text-heading-lg {
     font-size: var(--font-size-heading-lg);
     line-height: var(--line-height-heading-lg);
@@ -210,7 +210,7 @@
     font-family: var(--font-display);
     font-weight: 700; /* Bold */
   }
-  
+
   .text-heading-md {
     font-size: var(--font-size-heading-md);
     line-height: var(--line-height-heading-md);
@@ -218,23 +218,22 @@
     font-family: var(--font-display);
     font-weight: 400;
   }
-  
+
   .text-body-lg {
     font-size: var(--font-size-body-lg);
     line-height: var(--line-height-body-lg);
     letter-spacing: var(--letter-spacing-body-lg);
     font-family: var(--font-body);
-    font-weight: 400;
   }
-  
+
   .text-body-base {
     font-size: var(--font-size-body-base);
     line-height: var(--line-height-body-base);
     letter-spacing: var(--letter-spacing-body-base);
     font-family: var(--font-body);
-    font-weight: 400;
+    /* font-weight: 400; */
   }
-  
+
   .text-body-sm {
     font-size: var(--font-size-body-sm);
     line-height: var(--line-height-body-sm);
@@ -242,7 +241,7 @@
     font-family: var(--font-body);
     font-weight: 400;
   }
-  
+
   .text-label {
     font-size: var(--font-size-body-lg);
     line-height: var(--line-height-body-lg);
@@ -251,7 +250,7 @@
     font-weight: 700;
     text-transform: uppercase;
   }
-  
+
   /* Grid System Classes */
   .container-custom {
     width: 100%;
@@ -261,25 +260,25 @@
     padding-left: var(--container-padding);
     padding-right: var(--container-padding);
   }
-  
+
   .grid-custom {
     display: grid;
     grid-template-columns: repeat(var(--grid-cols-mobile), 1fr);
     gap: var(--grid-gap);
   }
-  
+
   @media (min-width: 768px) {
     .grid-custom {
       grid-template-columns: repeat(var(--grid-cols-tablet), 1fr);
     }
   }
-  
+
   @media (min-width: 1024px) {
     .grid-custom {
       grid-template-columns: repeat(var(--grid-cols-desktop), 1fr);
     }
   }
-  
+
   /* Scrolling Animation */
   @keyframes scroll {
     0% {
@@ -289,13 +288,13 @@
       transform: translateX(-50%);
     }
   }
-  
+
   .animate-scroll {
     animation: scroll 30s linear infinite;
     display: flex;
     gap: 2rem;
   }
-  
+
   .animate-scroll:hover {
     animation-play-state: paused;
   }
