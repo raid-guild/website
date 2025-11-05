@@ -1,5 +1,7 @@
 "use client";
 
+import ScrollingBanner from "./ScrollingBanner";
+
 const services = [
   "Smart Contract Engineering",
   "Full-Stack dApp Development",
@@ -33,21 +35,13 @@ const services = [
 ];
 
 export default function ServicesBanner() {
-  // Duplicate services for seamless looping
-  const duplicatedServices = [...services, ...services];
-
   return (
-    <div className="bg-moloch-800 border-t-[10px] border-accent py-5 overflow-hidden">
-      <div className="flex gap-9 animate-scroll">
-        {duplicatedServices.map((service, index) => (
-          <span
-            key={index}
-            className="text-body-lg font-bold text-scroll-100 whitespace-nowrap"
-          >
-            {service}
-          </span>
-        ))}
-      </div>
-    </div>
+    <ScrollingBanner
+      items={services}
+      bgColor="bg-moloch-800"
+      borderColor="border-accent"
+      gap="gap-10"
+      scrollDuration={100}
+    />
   );
 }

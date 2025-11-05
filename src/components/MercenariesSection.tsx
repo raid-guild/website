@@ -8,11 +8,11 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { shuffledMercenaries } from "@/lib/data/members";
+import MercenariesBanner from "./MercenariesBanner";
 
 export default function MercenariesSection() {
-
   return (
-    <section id="mercenaries" className="py-24">
+    <section id="mercenaries" className="pt-24">
       <div className="container-custom">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6">
@@ -103,19 +103,7 @@ export default function MercenariesSection() {
         </div>
       </div>
 
-      {/* Mercenaries Scroller */}
-      <div className="bg-[#534A13] border-t-[10px] border-moloch-800 py-5 overflow-hidden mt-24">
-        <div className="flex gap-4 justify-center items-center">
-          {shuffledMercenaries.map((mercenary) => (
-            <div key={mercenary.name} className="flex items-center gap-8">
-              <div className="w-8 h-8 border border-scroll-100 rounded"></div>
-              <span className="text-heading-sm text-scroll-100 whitespace-nowrap">
-                {mercenary.name}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+      <MercenariesBanner />
     </section>
   );
 }

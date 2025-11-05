@@ -246,6 +246,14 @@
     text-transform: uppercase;
   }
 
+  .text-label-sm {
+    font-size: var(--font-size-body-sm);
+    line-height: var(--line-height-body-sm);
+    font-family: var(--font-body);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
   /* Grid System Classes */
   .container-custom {
     width: 100%;
@@ -285,12 +293,15 @@
   }
 
   .animate-scroll {
-    animation: scroll 30s linear infinite;
+    display: flex;
+    animation-name: scroll;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
   }
 
-  .animate-scroll:hover {
+  /* .animate-scroll:hover {
     animation-play-state: paused;
-  }
+  } */
 
   /* Partner Logo Banner Animation */
   @keyframes logoRotate {

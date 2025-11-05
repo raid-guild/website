@@ -15,8 +15,6 @@ function shuffleArray(array: Mercenary[]) {
   return arr;
 }
 
-
-
 export const mercenaries: Mercenary[] = [
   {
     name: "Suede",
