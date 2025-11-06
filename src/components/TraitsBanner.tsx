@@ -52,7 +52,7 @@ export default function TraitsBanner() {
     <ScrollingBanner
       items={traits}
       bgColor="bg-moloch-400"
-      borderColor="border-[#534A13]"
+      borderColor="border-scroll-700"
       textColor="text-moloch-800"
       gap="gap-11"
       scrollDuration={25}

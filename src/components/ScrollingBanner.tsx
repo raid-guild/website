@@ -50,7 +50,7 @@ export default function ScrollingBanner({
           <div key={key} className={`flex items-center flex-shrink-0`}>
             {typeof item === "string" ? (
               <span
-                className={`text-body-lg font-bold ${textColor} whitespace-nowrap`}
+                className={`text-heading-sm ${textColor} whitespace-nowrap`}
               >
                 {item}
               </span>

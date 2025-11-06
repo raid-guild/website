@@ -40,10 +40,8 @@ export default function PortfolioSection() {
       <div className="container-custom">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-[60px]">
-            <h2 className="text-heading-lg font-bold text-moloch-800 mb-4">
-              Completed Quests
-            </h2>
-            <p className="text-body-lg text-[#211E07]">
+            <h2 className="text-heading-lg mb-8">Completed Quests</h2>
+            <p className="text-body-lg">
               Legendary campaigns executed with precision and proven results.
               War-forged strategies. Total precision.
             </p>
@@ -72,8 +70,8 @@ export default function PortfolioSection() {
                             className="h-10 w-auto"
                           />
                         </div>
-                        <div className="bg-[#534A13] p-12 border-t-2 border-moloch-400 h-[300px] flex flex-col">
-                          <h3 className="text-heading-md font-bold text-scroll-100 mb-4">
+                        <div className="bg-scroll-700 p-12 border-t-2 border-moloch-400 h-[300px] flex flex-col">
+                          <h3 className="text-heading-md text-scroll-100 mb-4">
                             {client.title}
                           </h3>
                           <p className="text-body-lg text-scroll-100 mb-8 flex-grow">

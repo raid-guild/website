@@ -100,7 +100,7 @@ export default function Header() {
   return (
     <header
       ref={headerRef}
-      className={`bg-moloch-400 border-t-[10px] border-[#534A13] sticky top-0 z-50 transition-all duration-200 ${
+      className={`bg-moloch-400 border-t-[10px] border-scroll-700 sticky top-0 z-50 transition-all duration-200 ${
         isThinNav ? "py-5" : "pt-22 pb-14"
       }`}
     >

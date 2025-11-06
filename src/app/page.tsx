@@ -10,6 +10,8 @@ import HireUsSection from "@/components/HireUsSection";
 import OurStorySection from "@/components/OurStorySection";
 import Footer from "@/components/Footer";
 import OurStoryBanner from "@/components/OurStorySectionBanner";
+import ServicesBanner from "@/components/ServicesBanner";
+import MercenariesBanner from "@/components/MercenariesBanner";
 
 export default function Home() {
   return (
@@ -19,8 +21,10 @@ export default function Home() {
       <HomeHero />
 
       <ServicesSection />
+      <ServicesBanner />
 
       <MercenariesSection />
+      <MercenariesBanner />
 
       <PortfolioSection />
       <PortfolioBanner />

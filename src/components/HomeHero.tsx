@@ -26,12 +26,12 @@ export default function HomeHero() {
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-[60px]">
             <div className="flex flex-col gap-10">
-              <h1 className="text-heading-lg font-bold text-scroll-700 text-center pt-44">
+              <h1 className="text-heading-lg text-scroll-700 text-center pt-44">
                 BUILDING WEB3
                 <br />
                 ONE RAID AT A TIME
               </h1>
-              <p className="text-body-lg font-bold text-moloch-800 text-center">
+              <p className="text-heading-sm text-moloch-800 text-center">
                 RaidGuild is a decentralized collective of mercenaries
                 <br />
                 ready to slay your web3 product demons
@@ -63,12 +63,6 @@ export default function HomeHero() {
                 VIEW OUR WORK
               </a>
             </div>
-            <div>
-              <p className="text-body-lg text-moloch-800 text-center">
-                RaidGuild friends, partners, clients, allies, spawned protocol
-                ecosystem
-              </p>
-            </div>
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-6">
             <Image
@@ -83,6 +77,12 @@ export default function HomeHero() {
       </div>
 
       {/* Partner Logo Banner */}
+      <div className="container-custom mt-10 mb-2">
+        <p className="text-body-lg text-moloch text-left w-full">
+          RaidGuild friends, partners, clients, allies, spawned protocol
+          ecosystem
+        </p>
+      </div>
       <PartnerLogoBanner />
     </section>
   );

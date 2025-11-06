@@ -28,9 +28,8 @@ export default function ServiceCard({
       />
 
       <div className="relative z-10 flex flex-col items-center gap-5 w-full flex-1">
-        {/* Title - Fixed height container for alignment */}
-        <div className="h-[120px] flex items-start justify-center w-full">
-          <h3 className="text-heading-lg text-scroll-100 font-bold text-center">
+        <div className="flex items-start justify-center w-full">
+          <h3 className="text-heading-md text-scroll-100 text-center">
             {title}
           </h3>
         </div>
@@ -50,15 +49,13 @@ export default function ServiceCard({
         </p>
 
         {/* Icon - positioned at bottom, overlapping card edge */}
-        <div className="mt-auto relative -mb-12">
+        <div className="mt-auto relative -mb-20">
           <div className="relative flex items-center justify-center">
-            <div className="absolute w-20 h-20 rounded-full border-2 border-black bg-scroll-100" />
-            <div className="absolute w-[72px] h-[72px] rounded-full border-2 border-scroll-100" />
             <Image
               src={iconSrc}
               alt={iconAlt}
-              width={46}
-              height={60}
+              width={112}
+              height={112}
               className="relative z-10"
             />
           </div>

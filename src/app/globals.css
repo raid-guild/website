@@ -87,12 +87,13 @@
   --font-mono: var(--font-mono);
 
   /* Grid System */
-  --grid-cols-mobile: 4;
-  --grid-cols-tablet: 8;
-  --grid-cols-desktop: 12;
+  --grid-column-width: 5.75rem; /* 92px */
   --grid-gap: 1rem; /* 16px */
   --container-padding: 1rem; /* 16px */
   --container-max-width: 80rem; /* 1280px */
+  --container-width-mobile: 26rem; /* 416px */
+  --container-width-tablet: 53rem; /* 848px */
+  --container-width-desktop: 80rem; /* 1280px */
 
   /* Shadcn Colors */
   --color-background: var(--background);
@@ -133,7 +134,7 @@
 }
 
 :root {
-  --radius: 0.375rem;
+  --radius: 0.625rem;
 
   /* Brand Colors - Moloch */
   --moloch-100: #f1efee;
@@ -359,28 +360,48 @@
   /* Grid System Classes */
   .container-custom {
     width: 100%;
-    max-width: var(--container-max-width);
+    max-width: var(--container-width-mobile);
     margin-left: auto;
     margin-right: auto;
     padding-left: var(--container-padding);
     padding-right: var(--container-padding);
   }
 
+  @media (min-width: 768px) {
+    .container-custom {
+      max-width: var(--container-width-tablet);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .container-custom {
+      max-width: var(--container-width-desktop);
+    }
+  }
+
   .grid-custom {
     display: grid;
-    grid-template-columns: repeat(var(--grid-cols-mobile), 1fr);
+    /* Mobile: 4 columns of 92px = 416px container */
+    grid-template-columns: repeat(4, var(--grid-column-width));
     gap: var(--grid-gap);
+    max-width: var(--container-width-mobile);
+    margin-left: auto;
+    margin-right: auto;
   }
 
   @media (min-width: 768px) {
     .grid-custom {
-      grid-template-columns: repeat(var(--grid-cols-tablet), 1fr);
+      /* Tablet: 8 columns of 92px = 848px container */
+      grid-template-columns: repeat(8, var(--grid-column-width));
+      max-width: var(--container-width-tablet);
     }
   }
 
   @media (min-width: 1024px) {
     .grid-custom {
-      grid-template-columns: repeat(var(--grid-cols-desktop), 1fr);
+      /* Desktop: 12 columns of 92px = 1280px container */
+      grid-template-columns: repeat(12, var(--grid-column-width));
+      max-width: var(--container-width-desktop);
     }
   }
 

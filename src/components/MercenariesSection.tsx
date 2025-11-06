@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -7,12 +8,28 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { shuffledMercenaries } from "@/lib/data/members";
-import MercenariesBanner from "./MercenariesBanner";
+import { mercenaries, type Mercenary } from "@/lib/data/members";
+
+function shuffleArray(array: Mercenary[]) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
 
 export default function MercenariesSection() {
+  const [shuffledMercenaries, setShuffledMercenaries] =
+    useState<Mercenary[]>(mercenaries);
+
+  useEffect(() => {
+    // Shuffle on client side only to avoid hydration mismatch
+    setShuffledMercenaries(shuffleArray(mercenaries));
+  }, []);
+
   return (
-    <section id="mercenaries" className="pt-24">
+    <section id="mercenaries" className="my-24">
       <div className="container-custom">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6">
@@ -26,9 +43,7 @@ export default function MercenariesSection() {
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-[60px]">
             <div className="text-center">
-              <h2 className="text-heading-lg font-bold text-moloch-800 mb-4">
-                Meet Your Mercenaries
-              </h2>
+              <h2 className="text-heading-lg mb-8">Meet Your Mercenaries</h2>
               <p className="text-body-lg text-moloch-800">
                 Elite operators with specialized expertise and proven chops.
                 Battle-tested talent. Uncompromising quality.
@@ -54,7 +69,7 @@ export default function MercenariesSection() {
                     side="top"
                     className="max-w-xs bg-moloch-800 p-5"
                   >
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1 text-code-md">
                       <p className="font-semibold">{mercenary.name}</p>
                       <p className="text-xs opacity-90">{mercenary.title}</p>
                       {mercenary.link && (
@@ -102,8 +117,6 @@ export default function MercenariesSection() {
           </div>
         </div>
       </div>
-
-      <MercenariesBanner />
     </section>
   );
 }

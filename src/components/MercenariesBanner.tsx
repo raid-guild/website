@@ -37,7 +37,7 @@ export default function MercenariesBanner() {
   const mercenarySlots = organizeMercenariesIntoSlots(mercenaries);
 
   return (
-    <div className="bg-[#534A13] border-t-[10px] border-moloch-800 py-5 overflow-hidden mt-24">
+    <div className="bg-scroll-700 border-t-[10px] border-moloch-800 py-5 overflow-hidden mt-24">
       <div className="flex gap-20 w-full">
         {mercenarySlots.map((slot, slotIndex) => (
           <div key={slotIndex} className="flex gap-20">
