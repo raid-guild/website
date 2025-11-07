@@ -36,6 +36,7 @@ export default function TestimonialsSection() {
                       alt="Testimonial"
                       width={43}
                       height={54}
+                      data-legacy={testimonial.id}
                     />
                   </div>
                   <div className="p-10">

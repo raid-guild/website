@@ -1,5 +1,6 @@
 import { timelineIconNames, timelineItems } from "@/lib/data/content";
 import TimelineAccordion from "./TimelineAccordion";
+import { Button } from "./ui/button";
 
 export default function OurStorySection() {
   // Split timeline items: first 3 on left, remaining on right
@@ -59,20 +60,26 @@ export default function OurStorySection() {
                 future of Web3.
               </p>
               <div className="flex gap-4 justify-center">
-                <a
-                  href="https://contact.raidguild.org/join-us"
-                  target="_blank"
-                  className="flex-1 bg-moloch-400 text-scroll-100 px-8 py-3 rounded-md text-label transition-colors hover:bg-moloch-800 text-center"
-                >
-                  APPLY TO A COHORT
-                </a>
-                <a
-                  href="https://discord.gg/2vx47gT95y"
-                  target="_blank"
-                  className="flex-1 bg-scroll-100 border-2 border-moloch-800 text-moloch-800 px-8 py-3 rounded-md text-label transition-colors hover:bg-moloch-800 hover:text-scroll-100 text-center"
-                >
-                  JOIN DISCORD
-                </a>
+                <Button className="flex-">
+                  <a
+                    href="https://contact.raidguild.org/join-us"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-label text-scoll-100"
+                  >
+                    APPLY TO A COHORT
+                  </a>
+                </Button>
+                <Button variant="secondary" className="flex-1 text-label">
+                  <a
+                    href="https://discord.gg/2vx47gT95y"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="text-label"
+                  >
+                    JOIN DISCORD
+                  </a>
+                </Button>
               </div>
             </div>
           </div>

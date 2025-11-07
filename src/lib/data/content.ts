@@ -102,7 +102,7 @@ export const testimonials = [
       "and can confidently say they're a reliable, innovative team. Their technical expertise and collaborative spirit have consistently delivered exceptional results. I highly recommend them as a partner in any project.\"",
     authorName: "Kevin Owocki",
     authorTitle: "co-founder of gitcoin, allo.capital",
-    variant: "split",
+    id: "potion",
   },
   {
     iconSrc: "/images/icon-testimonials-2.svg",
@@ -111,7 +111,7 @@ export const testimonials = [
       'I really appreciate the values, the integrity, and the professionalism of all of the team. It feels like a team that we can build a relationship with."',
     authorName: "Adrienne Youngman",
     authorTitle: "CEO at partisia blockchain",
-    variant: "split",
+    id: "ball",
   },
   {
     iconSrc: "/images/icon-testimonials-3.svg",
@@ -121,6 +121,6 @@ export const testimonials = [
       'in decentralized coordination. Their dedication and work set a high bar for the future of work and online collaboration."',
     authorName: "James Young",
     authorTitle: "founder at collab.land",
-    variant: "split",
+    id: "candle",
   },
 ];

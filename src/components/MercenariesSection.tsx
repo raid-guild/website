@@ -8,6 +8,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Button } from "./ui/button";
 import { mercenaries, type Mercenary } from "@/lib/data/members";
 
 function shuffleArray(array: Mercenary[]) {
@@ -100,18 +101,16 @@ export default function MercenariesSection() {
                 help you achieve your goals and bring your vision to life.
               </p>
               <div className="flex gap-4">
-                <a
-                  href="#hire-us"
-                  className="flex-1 bg-moloch-400 text-scroll-100 px-8 py-3 rounded-md text-label transition-colors hover:bg-moloch-800 text-center"
-                >
-                  HIRE US
-                </a>
-                <a
-                  href="#testimonials"
-                  className="flex-1 bg-scroll-100 border-2 border-moloch-800 text-moloch-800 px-8 py-3 rounded-md text-label transition-colors hover:bg-moloch-800 hover:text-scroll-100 text-center"
-                >
-                  WHAT OTHERS SAY
-                </a>
+                <Button variant="primary" className="flex-1">
+                  <a href="#hire-us" className="text-label text-scoll-100">
+                    HIRE US
+                  </a>
+                </Button>
+                <Button variant="secondary" className="flex-1">
+                  <a href="#testimonials" className="text-label">
+                    WHAT OTHERS SAY
+                  </a>
+                </Button>
               </div>
             </div>
           </div>

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import PartnerLogoBanner from "./PartnerLogoBanner";
+import { Button } from "./ui/button";
 
 const homeImages = [
   "/images/home-image-1-bw.png",
@@ -50,18 +51,16 @@ export default function HomeHero() {
               height={36}
             />
             <div className="flex gap-4 flex-wrap w-full">
-              <a
-                href="#hire-us"
-                className="flex-1 bg-moloch-400 text-scroll-100 px-8 py-3 rounded-md text-label transition-colors hover:bg-moloch-800 text-center"
-              >
-                SUMMON A RAID
-              </a>
-              <a
-                href="#testimonials"
-                className="flex-1 bg-scroll-100 border-2 border-moloch-800 text-moloch-800 px-8 py-3 rounded-md text-label transition-colors hover:bg-moloch-800 hover:text-scroll-100 text-center"
-              >
-                VIEW OUR WORK
-              </a>
+              <Button variant="primary" className="flex-1">
+                <a href="#hire-us" className="text-label text-scoll-100">
+                  SUMMON A RAID
+                </a>
+              </Button>
+              <Button variant="secondary" className="flex-1">
+                <a href="#case-studies" className="text-label">
+                  VIEW OUR WORK
+                </a>
+              </Button>
             </div>
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-6">
