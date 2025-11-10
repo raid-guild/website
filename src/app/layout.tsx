@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { maziusDisplay, ebGaramond, ubuntuMono } from "@/lib/fonts";
 import "./globals.css";
-import { ThemeProvider } from "next-themes";
+// import { ThemeProvider } from "next-themes";
 import { Providers } from "@/providers/providers";
 
 export const metadata: Metadata = {
@@ -19,14 +19,14 @@ export default function RootLayout({
       <body
         className={`${maziusDisplay.variable} ${ebGaramond.variable} ${ubuntuMono.variable} antialiased`}
       >
-        <ThemeProvider
+        {/* <ThemeProvider
           attribute="class"
-          defaultTheme="system"
+          defaultTheme="light"
           enableSystem
           disableTransitionOnChange
-        >
+        > */}
           <Providers>{children}</Providers>
-        </ThemeProvider>
+        {/* </ThemeProvider> */}
       </body>
     </html>
   );

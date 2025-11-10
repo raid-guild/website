@@ -1,6 +1,6 @@
 import Image from "next/image";
-import HireUsForm from "./HireUsForm";
 import { hireUsSteps } from "@/lib/data/content";
+import HireUs from "./HireUs";
 
 export default function HireUsSection() {
   return (
@@ -46,7 +46,7 @@ export default function HireUsSection() {
             </div>
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-6">
-            <HireUsForm />
+            <HireUs />
           </div>
         </div>
       </div>

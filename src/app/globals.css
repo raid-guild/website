@@ -183,7 +183,7 @@
   --muted-foreground: var(--neutral-600);
   --accent: var(--moloch-500);
   --accent-foreground: var(--scroll-100);
-  --destructive: var(--moloch-700);
+  --destructive: var(--moloch-300);
   --border: var(--neutral-200);
   --input: var(--neutral-200);
   --ring: var(--moloch-500);
@@ -282,7 +282,7 @@
     /* mb-5 */
   }
 
-  .text-body-base {
+  .text-body-md {
     font-size: var(--font-size-body-base);
     line-height: var(--line-height-body-base);
     letter-spacing: var(--letter-spacing-body-base);

@@ -1,57 +1,52 @@
 import { timelineIconNames, timelineItems } from "@/lib/data/content";
+import Image from "next/image";
 import TimelineAccordion from "./TimelineAccordion";
 import { Button } from "./ui/button";
+import { DISCORD_INVITE_URL } from "@/lib/data/constants";
 
 export default function OurStorySection() {
-  // Split timeline items: first 3 on left, remaining on right
-  const leftTimelineItems = timelineItems.slice(0, 3);
-  const rightTimelineItems = timelineItems.slice(3);
-
   return (
     <section id="our-story" className="my-24">
       <div className="container-custom">
-        <div className="grid-custom gap-4">
-          {/* Row 1: Our Story - 6 columns on left, empty on right (large) */}
-          <div className="col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-1 mb-[60px]">
-            <h2 className="text-heading-lg text-moloch-500 mb-8 text-center">
-              Our Story
-            </h2>
-            <p className="text-body-lg">
-              From rebels to builders of the sovereign internet, RaidGuild was
-              born in the fires of decentralization to slay Moloch and create
-              tools and systems that return power to the people.
-            </p>
-          </div>
-
-          {/* Row 2: Accordion - single merged accordion on medium/small, split on large */}
-          {/* Single merged accordion for medium/small screens */}
-          <div className="col-span-4 md:col-span-8 lg:hidden">
+        <div className="flex flex-col gap-12 lg:grid lg:grid-cols-12 lg:gap-8">
+          <div className="flex flex-col gap-8 lg:col-span-6">
+            <div className="text-center lg:text-left">
+              <h2 className="text-heading-lg text-moloch-500 mb-8">
+                Our Story
+              </h2>
+              <p className="text-body-lg">
+                From rebels to builders of the sovereign internet, RaidGuild was
+                born in the fires of decentralization to slay Moloch and create
+                tools and systems that return power to the people.
+              </p>
+            </div>
             <TimelineAccordion
               items={timelineItems}
               iconNames={timelineIconNames}
               startIndex={0}
             />
           </div>
-          {/* Split accordion for large screens */}
-          <div className="hidden lg:block col-span-6 lg:col-start-1">
-            <TimelineAccordion
-              items={leftTimelineItems}
-              iconNames={timelineIconNames}
-              startIndex={0}
+          <div className="hidden lg:col-span-6 lg:flex lg:justify-center">
+            <Image
+              src="/images/home-image-1-bw.png"
+              alt="Raid Guild illustration"
+              width={640}
+              height={640}
+              className="h-auto max-w-full"
             />
           </div>
-          <div className="hidden lg:block col-span-6 lg:col-start-7">
-            <TimelineAccordion
-              items={rightTimelineItems}
-              iconNames={timelineIconNames}
-              startIndex={3}
+          <div className="lg:hidden">
+            <Image
+              src="/images/mercenaries-divider.svg"
+              alt="Decorative divider"
+              width={450}
+              height={28}
+              className="mx-auto h-auto max-w-[320px]"
             />
           </div>
-
-          {/* Row 3: Join the Guild - 6 columns on right, empty on left (large) */}
-          <div className="col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-7 lg:flex lg:flex-col lg:items-end">
-            <div className="w-full">
-              <h2 className="text-heading-lg text-moloch-500 mb-4 text-center">
+          <div className="lg:col-span-12">
+            <div className="w-full text-center">
+              <h2 className="text-heading-lg text-moloch-500 mb-4">
                 Join the Guild
               </h2>
               <p className="text-body-lg mb-8">
@@ -60,7 +55,7 @@ export default function OurStorySection() {
                 future of Web3.
               </p>
               <div className="flex gap-4 justify-center">
-                <Button className="flex-">
+                <Button>
                   <a
                     href="https://contact.raidguild.org/join-us"
                     target="_blank"
@@ -70,9 +65,9 @@ export default function OurStorySection() {
                     APPLY TO A COHORT
                   </a>
                 </Button>
-                <Button variant="secondary" className="flex-1 text-label">
+                <Button variant="secondary" className="text-label">
                   <a
-                    href="https://discord.gg/2vx47gT95y"
+                    href={DISCORD_INVITE_URL}
                     target="_blank"
                     rel="noreferrer"
                     className="text-label"
