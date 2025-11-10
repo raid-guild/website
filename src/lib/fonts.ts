@@ -10,14 +10,9 @@ export const maziusDisplay = localFont({
       style: "normal",
     },
     {
-      path: "../../public/fonts/MAZIUSREVIEW20.09-Regular.woff",
-      weight: "450",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/MAZIUSREVIEW20.09-Regular.woff",
+      path: "../../public/fonts/MaziusDisplay-Bold.otf",
       weight: "700",
-      style: "normal",
+      style: "bold",
     },
   ],
   variable: "--font-display",

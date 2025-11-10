@@ -1,0 +1,60 @@
+"use client";
+
+import Image from "next/image";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
+
+interface TimelineItem {
+  year: string;
+  title: string;
+  desc: string;
+}
+
+interface TimelineAccordionProps {
+  items: TimelineItem[];
+  iconNames: string[];
+  startIndex?: number;
+}
+
+export default function TimelineAccordion({
+  items,
+  iconNames,
+  startIndex = 0,
+}: TimelineAccordionProps) {
+  return (
+    <Accordion type="single" collapsible className="w-full space-y-2">
+      {items.map((item, idx) => {
+        const globalIndex = startIndex + idx;
+        return (
+          <AccordionItem
+            key={globalIndex}
+            value={`item-${globalIndex}`}
+            className="rounded-md overflow-hidden"
+          >
+            <AccordionTrigger className="bg-scroll-700 px-8 py-4 flex justify-between items-center hover:no-underline hover:bg-scroll-700 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md rounded-b-none [&>svg]:hidden">
+              <span className="text-heading-md text-scroll-100">
+                {item.year} {item.title}
+              </span>
+              <Image
+                src={`/images/icon-og-${iconNames[globalIndex]}.svg`}
+                alt={item.title}
+                width={36}
+                height={36}
+                className="w-9 h-9"
+              />
+            </AccordionTrigger>
+            {item.desc && (
+              <AccordionContent className="bg-scroll-100 px-8 py-5 pt-5 pb-5 border-2 border-scroll-700 rounded-md rounded-t-none">
+                <p className="text-body-lg text-moloch-800">{item.desc}</p>
+              </AccordionContent>
+            )}
+          </AccordionItem>
+        );
+      })}
+    </Accordion>
+  );
+}
