@@ -124,3 +124,18 @@ export const testimonials = [
     id: "candle",
   },
 ];
+
+export const joinUsSteps = [
+  {
+    title: "Submit The Form",
+    description: "Tell us about yourself.",
+  },
+  {
+    title: "We Review & Respond",
+    description: "Someone might reach out",
+  },
+  {
+    title: "Join a Chort",
+    description: "We have cohorts.",
+  },
+];
