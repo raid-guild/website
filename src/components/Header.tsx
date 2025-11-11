@@ -66,7 +66,7 @@ const THEME_CONFIG: Record<HeaderTheme, ThemeConfig> = {
     navActive: "bg-moloch-800",
     navActiveText: "text-scroll-100",
     menuSurface: "bg-scroll-800/95",
-    menuBorder: "border-moloch-400/40",
+    menuBorder: "border-moloch-500",
     logoPath: "/images/logo-RG-home-large.svg",
   },
 };

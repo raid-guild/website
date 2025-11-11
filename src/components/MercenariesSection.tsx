@@ -55,7 +55,7 @@ export default function MercenariesSection() {
                 <Tooltip key={mercenary.name}>
                   <TooltipTrigger asChild>
                     <div className="flex flex-col items-center gap-2 cursor-pointer group">
-                      <div className="relative w-[68px] h-[68px] rounded-md overflow-hidden border-2 border-scroll-100 group-hover:border-moloch-400 transition-colors bg-scroll-100">
+                      <div className="relative w-[68px] h-[68px] rounded-md overflow-hidden border-2 border-scroll-100 group-hover:border-moloch-500 transition-colors bg-scroll-100">
                         <Image
                           src={mercenary.imagePath}
                           alt={mercenary.name}

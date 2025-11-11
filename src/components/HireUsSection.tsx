@@ -8,7 +8,7 @@ export default function HireUsSection() {
       <div className="container-custom">
         <div className="grid-custom gap-4 flex items-start">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 mb-[60px]">
-            <h2 className="text-heading-lg text-moloch-400 mb-8">
+            <h2 className="text-heading-lg text-moloch-500 mb-8">
               Ready to Build Something Legendary?
             </h2>
             <p className="text-body-lg">
@@ -31,7 +31,7 @@ export default function HireUsSection() {
 
         <div className="grid-custom gap-4 flex items-start">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 mb-[60px]">
-            <h3 className="text-heading-lg font-bold text-moloch-400 mb-8">
+            <h3 className="text-heading-lg font-bold text-moloch-500 mb-8">
               How It Works
             </h3>
             <div className="space-y-6">

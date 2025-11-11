@@ -3,6 +3,7 @@ import Image from "next/image";
 import TimelineAccordion from "./TimelineAccordion";
 import { Button } from "./ui/button";
 import { DISCORD_INVITE_URL } from "@/lib/data/constants";
+import Link from "next/link";
 
 export default function OurStorySection() {
   return (
@@ -56,14 +57,9 @@ export default function OurStorySection() {
               </p>
               <div className="flex gap-4 justify-center">
                 <Button>
-                  <a
-                    href="https://contact.raidguild.org/join-us"
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-label text-scoll-100"
-                  >
+                  <Link href="/join" className="text-label text-scoll-100">
                     APPLY TO A COHORT
-                  </a>
+                  </Link>
                 </Button>
                 <Button variant="secondary" className="text-label">
                   <a

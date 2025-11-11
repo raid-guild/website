@@ -30,7 +30,7 @@ export default function TestimonialsSection() {
                   key={index}
                   className="bg-scroll-100 border-2 border-moloch-800 rounded-md overflow-hidden"
                 >
-                  <div className="bg-moloch-400 border-b-2 border-moloch-800 p-8">
+                  <div className="bg-moloch-500 border-b-2 border-moloch-800 p-8">
                     <Image
                       src={testimonial.iconSrc}
                       alt="Testimonial"
