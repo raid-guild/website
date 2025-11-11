@@ -258,7 +258,9 @@ function HeaderDesktopTall({
 }: HeaderLayoutProps) {
   return (
     <div className="flex items-end justify-between gap-10">
-      <Logo variant="tall" logoPath={theme.logoPath} />
+      <div className="-mb-[122px]">
+        <Logo variant="tall" logoPath={theme.logoPath} />
+      </div>
       <NavLinks
         theme={theme}
         activeAnchorId={activeAnchorId}
