@@ -1,21 +1,47 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { clientData } from "@/lib/data/clients";
+
+type Client = (typeof clientData)[number];
+
+const ITEM_SHIFT_PERCENT = 51;
+
+function ClientCard({ client }: { client: Client }) {
+  return (
+    <div className="bg-scroll-100 rounded-md overflow-hidden">
+      <div className="bg-moloch-800 p-8 flex items-center">
+        <Image
+          src={client.logo}
+          alt={client.title}
+          width={234}
+          height={80}
+          className="h-10 w-auto"
+        />
+      </div>
+      <div className="bg-scroll-700 p-12 border-t-2 border-moloch-500 flex flex-col">
+        <h3 className="text-heading-md text-scroll-100 mb-4">{client.title}</h3>
+        <p className="text-body-lg text-scroll-100 mb-8 flex-grow">
+          {client.description}
+        </p>
+        <div className="flex gap-2.5 flex-wrap">
+          {client.tags.map((tag, tagIndex) => (
+            <span
+              key={tagIndex}
+              className="bg-moloch-800 text-scroll-100 px-5 py-2.5 rounded-md text-label-sm"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default function PortfolioSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener("resize", checkMobile);
-    return () => window.removeEventListener("resize", checkMobile);
-  }, []);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % clientData.length);
@@ -25,14 +51,6 @@ export default function PortfolioSection() {
     setCurrentIndex(
       (prev) => (prev - 1 + clientData.length) % clientData.length
     );
-  };
-
-  const getTransform = () => {
-    // On mobile: 1 item visible (100% width each)
-    // On desktop: 2 items visible (50% width each + 1rem gap)
-    // For 2 items: each is 50%, gap is ~1.25% of 1280px container, so move by ~51%
-    const itemWidth = isMobile ? 100 : 51;
-    return `translateX(-${currentIndex * itemWidth}%)`;
   };
 
   return (
@@ -47,48 +65,17 @@ export default function PortfolioSection() {
             </p>
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-12">
-            <div className="relative">
+            <div className="relative hidden lg:block">
               <div className="overflow-hidden">
                 <div
                   className="flex transition-transform duration-500 ease-in-out gap-4"
                   style={{
-                    transform: getTransform(),
+                    transform: `translateX(-${currentIndex * ITEM_SHIFT_PERCENT}%)`,
                   }}
                 >
                   {clientData.map((client) => (
-                    <div
-                      key={client.id}
-                      className="flex-shrink-0 w-full md:w-1/2"
-                    >
-                      <div className="bg-scroll-100 rounded-md  overflow-hidden">
-                        <div className="bg-moloch-800 p-8 h-[140px] flex items-center">
-                          <Image
-                            src={client.logo}
-                            alt={client.title}
-                            width={234}
-                            height={80}
-                            className="h-10 w-auto"
-                          />
-                        </div>
-                        <div className="bg-scroll-700 p-12 border-t-2 border-moloch-500 h-[300px] flex flex-col">
-                          <h3 className="text-heading-md text-scroll-100 mb-4">
-                            {client.title}
-                          </h3>
-                          <p className="text-body-lg text-scroll-100 mb-8 flex-grow">
-                            {client.description}
-                          </p>
-                          <div className="flex gap-2.5 flex-wrap">
-                            {client.tags.map((tag, tagIndex) => (
-                              <span
-                                key={tagIndex}
-                                className="bg-moloch-800 text-scroll-100 px-5 py-2.5 rounded-md text-label-sm"
-                              >
-                                {tag}
-                              </span>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
+                    <div key={client.id} className="flex-shrink-0 w-1/2">
+                      <ClientCard client={client} />
                     </div>
                   ))}
                 </div>
@@ -117,6 +104,11 @@ export default function PortfolioSection() {
                   height={26}
                 />
               </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:hidden">
+              {clientData.map((client) => (
+                <ClientCard key={client.id} client={client} />
+              ))}
             </div>
           </div>
         </div>

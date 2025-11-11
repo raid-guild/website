@@ -25,9 +25,9 @@ export default function HomeHero() {
     <section id="about" className="relative">
       <div className="container-custom mb-9">
         <div className="grid-custom gap-4">
-          <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-[60px]">
+          <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-[60px] order-2 lg:order-1">
             <div className="flex flex-col gap-10">
-              <h1 className="text-heading-lg text-scroll-700 text-center pt-44">
+              <h1 className="text-heading-lg text-scroll-700 text-center lg:pt-44 pt-12">
                 BUILDING WEB3
                 <br />
                 ONE RAID AT A TIME
@@ -63,13 +63,14 @@ export default function HomeHero() {
               </Button>
             </div>
           </div>
-          <div className="col-span-4 md:col-span-8 lg:col-span-6">
+          <div className="col-span-4 md:col-span-8 lg:col-span-6 order-1 lg:order-2">
             <Image
               src={imageSrc}
               alt="Raid Guild Hero"
               width={632}
               height={632}
-              className="min-w-[632px] h-auto"
+              className="w-full max-w-[632px] h-auto mx-auto"
+              sizes="(min-width: 1024px) 632px, 100vw"
             />
           </div>
         </div>

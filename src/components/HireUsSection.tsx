@@ -7,7 +7,7 @@ export default function HireUsSection() {
     <section id="hire-us" className="py-24">
       <div className="container-custom">
         <div className="grid-custom gap-4 flex items-start">
-          <div className="col-span-4 md:col-span-8 lg:col-span-6 mb-[60px]">
+          <div className="col-span-4 md:col-span-8 lg:col-span-6 mb-[60px] text-center lg:text-left">
             <h2 className="text-heading-lg text-moloch-500 mb-8">
               Ready to Build Something Legendary?
             </h2>
@@ -18,7 +18,7 @@ export default function HireUsSection() {
               exact skills you need.
             </p>
           </div>
-          <div className="col-span-8 md:col-span-4 lg:col-span-6 flex justify-end">
+          <div className="col-span-8 md:col-span-4 lg:col-span-6 flex justify-center lg:justify-end">
             <Image
               src="/images/Logomark.svg"
               alt="Raid Guild"
@@ -30,7 +30,7 @@ export default function HireUsSection() {
         </div>
 
         <div className="grid-custom gap-4 flex items-start">
-          <div className="col-span-4 md:col-span-8 lg:col-span-6 mb-[60px]">
+          <div className="col-span-4 md:col-span-8 lg:col-span-6 mb-[60px] text-center lg:text-left">
             <h3 className="text-heading-lg font-bold text-moloch-500 mb-8">
               How It Works
             </h3>

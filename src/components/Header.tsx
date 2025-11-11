@@ -24,7 +24,6 @@ type ThemeConfig = {
   navActive: string;
   navActiveText: string;
   menuSurface: string;
-  menuBorder: string;
   logoPath: string;
 };
 
@@ -43,8 +42,7 @@ const THEME_CONFIG: Record<HeaderTheme, ThemeConfig> = {
     navHover: "hover:bg-moloch-800",
     navActive: "bg-moloch-800",
     navActiveText: "text-moloch-100",
-    menuSurface: "bg-moloch-600/95",
-    menuBorder: "border-scroll-400/40",
+    menuSurface: "bg-moloch-500",
     logoPath: "/images/logo-RG-home-large.svg",
   },
   "moloch-800": {
@@ -55,7 +53,6 @@ const THEME_CONFIG: Record<HeaderTheme, ThemeConfig> = {
     navActive: "bg-moloch-500",
     navActiveText: "text-moloch-100",
     menuSurface: "bg-moloch-800/95",
-    menuBorder: "border-scroll-400/40",
     logoPath: "/images/logo-RG-back-lred.svg",
   },
   "scroll-700": {
@@ -65,8 +62,7 @@ const THEME_CONFIG: Record<HeaderTheme, ThemeConfig> = {
     navHover: "hover:bg-moloch-800",
     navActive: "bg-moloch-800",
     navActiveText: "text-scroll-100",
-    menuSurface: "bg-scroll-800/95",
-    menuBorder: "border-moloch-500",
+    menuSurface: "bg-scroll-700",
     logoPath: "/images/logo-RG-home-large.svg",
   },
 };
@@ -438,8 +434,7 @@ const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(
         aria-label={isOpen ? "Close navigation menu" : "Open navigation menu"}
         onClick={onToggle}
         className={[
-          "inline-flex items-center justify-center rounded-md border px-3 py-2 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none",
-          theme.menuBorder,
+          "inline-flex items-center justify-center rounded-md px-3 py-2 transition-colors duration-200 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 motion-reduce:transition-none",
           theme.navHover,
         ].join(" ")}
       >
@@ -478,16 +473,17 @@ function MobileMenuPanel({
       id={panelId}
       ref={panelRef}
       aria-hidden={!isOpen}
-      className={[
-        "origin-top overflow-hidden text-display-md transition-all duration-300 motion-reduce:transition-none",
-        theme.menuSurface,
-        theme.menuBorder,
-        isOpen
-          ? "mt-2 scale-y-100 opacity-100"
-          : "mt-0 scale-y-95 opacity-0 pointer-events-none",
-      ].join(" ")}
+      className="relative flex justify-end bg-transparent transition-all duration-300 motion-reduce:transition-none"
     >
-      <div className="px-4 py-6">
+      <div
+        className={[
+          "px-4 py-6 w-full max-w-[16rem] origin-top overflow-hidden rounded-b-lg text-display-md transition-all duration-300 motion-reduce:transition-none",
+          theme.menuSurface,
+          isOpen
+            ? "mt-2 scale-y-100 opacity-100"
+            : "mt-0 scale-y-95 opacity-0 pointer-events-none",
+        ].join(" ")}
+      >
         <NavLinks
           theme={theme}
           activeAnchorId={activeAnchorId}
