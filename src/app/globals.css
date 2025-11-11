@@ -90,6 +90,7 @@
   --grid-column-width: 5.75rem; /* 92px */
   --grid-gap: 1rem; /* 16px */
   --container-padding: 1rem; /* 16px */
+  --container-padding-mobile: 0rem; /* 16px */
   --container-max-width: 80rem; /* 1280px */
   --container-width-mobile: 26rem; /* 416px */
   --container-width-tablet: 53rem; /* 848px */
@@ -363,13 +364,13 @@
     max-width: var(--container-width-mobile);
     margin-left: auto;
     margin-right: auto;
-    padding-left: var(--container-padding);
-    padding-right: var(--container-padding);
   }
 
   @media (min-width: 768px) {
     .container-custom {
       max-width: var(--container-width-tablet);
+      padding-left: var(--container-padding);
+      padding-right: var(--container-padding);
     }
   }
 

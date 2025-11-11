@@ -39,7 +39,8 @@ export default function MercenariesSection() {
               alt="Mercenaries"
               width={632}
               height={632}
-              className="min-w-[632px] h-auto"
+              className="w-full max-w-[632px] h-auto mx-auto"
+              sizes="(min-width: 1024px) 632px, 100vw"
             />
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-[60px]">
