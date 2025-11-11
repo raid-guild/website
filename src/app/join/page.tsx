@@ -6,7 +6,7 @@ import JoinUsSection from "@/components/JoinUsSection";
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">
-      <Header />
+      <Header staticAppearance />
 
       <JoinUsSection />
 
