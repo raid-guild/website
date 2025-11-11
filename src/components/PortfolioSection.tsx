@@ -70,7 +70,7 @@ export default function PortfolioSection() {
                             className="h-10 w-auto"
                           />
                         </div>
-                        <div className="bg-scroll-700 p-12 border-t-2 border-moloch-400 h-[300px] flex flex-col">
+                        <div className="bg-scroll-700 p-12 border-t-2 border-moloch-500 h-[300px] flex flex-col">
                           <h3 className="text-heading-md text-scroll-100 mb-4">
                             {client.title}
                           </h3>

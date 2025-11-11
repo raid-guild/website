@@ -562,7 +562,7 @@ export default function HireUs() {
       <div className="mx-auto w-full">
         {submissionStatus === "success" ? (
           <>
-            <h3 className="text-heading-lg font-bold text-moloch-400 mb-12">
+            <h3 className="text-heading-lg font-bold text-moloch-500 mb-12">
               The Fires Have Been Lit!
             </h3>
             <p className="text-center text-body-lg">
@@ -571,7 +571,7 @@ export default function HireUs() {
             </p>
           </>
         ) : (
-          <h3 className="text-heading-lg font-bold text-moloch-400 mb-12">
+          <h3 className="text-heading-lg font-bold text-moloch-500 mb-12">
             Let&apos;s Get Started
           </h3>
         )}

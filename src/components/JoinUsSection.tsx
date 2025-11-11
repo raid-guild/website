@@ -6,7 +6,7 @@ export default function JoinUsSection() {
       <div className="container-custom">
         <div className="grid-custom gap-4 flex items-start">
           <div className="col-span-6 lg:col-span-12">
-            <h2 className="text-heading-lg text-moloch-400 mb-8">
+            <h2 className="text-heading-lg text-moloch-500 mb-8">
               Ready to Build Something Legendary?
             </h2>
           </div>
@@ -17,7 +17,7 @@ export default function JoinUsSection() {
             </div>
           </div>
           <div className="col-span-6 lg:col-span-12 col-span-12 mb-[60px]">
-            {/* <h3 className="text-heading-lg font-bold text-moloch-400 mb-8">
+            {/* <h3 className="text-heading-lg font-bold text-moloch-500 mb-8">
               How It Works
             </h3> */}
             {/* <div className="space-y-6">
