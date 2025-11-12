@@ -4,17 +4,20 @@ import Image from "next/image";
 export default function TestimonialsSection() {
   return (
     <section id="testimonials" className="relative py-24">
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <Image
-          src="/images/testimonials-back.svg"
-          alt="Testimonials Background"
-          fill
-          className="object-contain object-top opacity-30"
-        />
-      </div>
-      <div className="container-custom relative z-10">
+      <div className="container-custom relative">
+        <div className="absolute inset-0 z-0 pointer-events-none -my-24">
+          <Image
+            src="/images/testimonial-image-1-c.png"
+            alt="Testimonials Background"
+            fill
+            className="object-contain"
+            style={{ objectPosition: 'top left' }}
+            priority={false}
+          />
+        </div>
+        <div className="relative z-10">
         <div className="grid-custom gap-4">
-          <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-[60px]">
+          <div className="col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-7 text-center lg:text-left mb-[60px]">
             <h2 className="text-heading-lg text-moloch-800 mb-8">
               Words From Our Clients
             </h2>
@@ -58,6 +61,7 @@ export default function TestimonialsSection() {
               ))}
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>
