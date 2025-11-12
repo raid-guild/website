@@ -118,13 +118,13 @@ export const mercenaries: Mercenary[] = [
     title: "FullStack Dev",
     link: "https://github.com/Fluffy9",
     imagePath: "/images/member-pupcakes.png",
-    roleIcon: "/images/icon-og-services-back.svg",
+    roleIcon: "/images/icon-og-learningnewthings.svg",
   },
   {
     name: "Skuhl",
     title: "FullStack Dev",
     imagePath: "/images/member-samkuhlman.png",
-    roleIcon: "/images/icon-og-testimonials-back.svg",
+    roleIcon: "/images/icon-og-education.svg",
   },
   {
     name: "Georgeh",
