@@ -14,11 +14,19 @@ const homeImages = [
 
 export default function HomeHero() {
   const [imageSrc, setImageSrc] = useState(homeImages[0]);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    // Randomly select an image on mount/refresh
+    // Generate truly random index
     const randomIndex = Math.floor(Math.random() * homeImages.length);
-    setImageSrc(homeImages[randomIndex]);
+    
+    // Preload the random image to prevent flash
+    const img = new window.Image();
+    img.onload = () => {
+      setImageSrc(homeImages[randomIndex]);
+      setIsLoaded(true);
+    };
+    img.src = homeImages[randomIndex];
   }, []);
 
   return (
@@ -69,7 +77,9 @@ export default function HomeHero() {
               alt="Raid Guild Hero"
               width={632}
               height={632}
-              className="w-full max-w-[632px] h-auto mx-auto"
+              className={`w-full max-w-[632px] h-auto mx-auto transition-opacity duration-300 ${
+                isLoaded ? 'opacity-100' : 'opacity-0'
+              }`}
               sizes="(min-width: 1024px) 632px, 100vw"
             />
           </div>
