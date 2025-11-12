@@ -6,39 +6,39 @@ import Image from "next/image";
 const logoSlots = [
   // Slot 1: delay 0s
   [
-    { src: "/images/logo-Unlock.svg", alt: "Unlock Protocol", width: 71.19, height: 16 },
-    { src: "/images/logo-Gitcoin.svg", alt: "Gitcoin", width: 78.08, height: 13.9 },
-    { src: "/images/logo-hats.svg", alt: "Hats", width: 59.38, height: 22 },
+    { src: "/images/logo-Unlock.svg", alt: "Unlock Protocol", width: 71 },
+    { src: "/images/logo-Gitcoin.svg", alt: "Gitcoin", width: 78 },
+    { src: "/images/logo-hats.svg", alt: "Hats", width: 59 },
   ],
   // Slot 2: delay 6s
   [
-    { src: "/images/logo-Gnosis.svg", alt: "Gnosis", width: 148, height: 15 },
-    { src: "/images/logo-ultimatedominion.svg", alt: "Ultimate Dominion", width: 132.4, height: 18 },
-    { src: "/images/logo-cookiejar.svg", alt: "CookieJar", width: 109.82, height: 14 },
+    { src: "/images/logo-Gnosis.svg", alt: "Gnosis", width: 148 },
+    { src: "/images/logo-ultimatedominion.svg", alt: "Ultimate Dominion", width: 132 },
+    { src: "/images/logo-cookiejar.svg", alt: "CookieJar", width: 110 },
   ],
   // Slot 3: delay 3s
   [
-    { src: "/images/logo-brightid.svg", alt: "BrightID", width: 100, height: 25.79 },
-    { src: "/images/logo-daohaus.svg", alt: "DAOHaus", width: 57.85, height: 28 },
-    { src: "/images/logo-metacartel.svg", alt: "MetaCartel", width: 51.2, height: 45 },
+    { src: "/images/logo-brightid.svg", alt: "BrightID", width: 100 },
+    { src: "/images/logo-daohaus.svg", alt: "DAOHaus", width: 58 },
+    { src: "/images/logo-metacartel.svg", alt: "MetaCartel", width: 51 },
   ],
   // Slot 4: delay 1s
   [
-    { src: "/images/logo-Pocket.svg", alt: "Pocket Network", width: 105.39, height: 27 },
-    { src: "/images/logo-collabland.svg", alt: "Collab.Land", width: 130.24, height: 18 },
-    { src: "/images/logo-delegatematch.svg", alt: "DelegateMatch", width: 83.99, height: 24 },
+    { src: "/images/logo-Pocket.svg", alt: "Pocket Network", width: 105 },
+    { src: "/images/logo-collabland.svg", alt: "Collab.Land", width: 130 },
+    { src: "/images/logo-delegatematch.svg", alt: "DelegateMatch", width: 84 },
   ],
   // Slot 5: delay 5s
   [
-    { src: "/images/logo-Hypercerts.svg", alt: "Hypercerts", width: 118, height: 20.87 },
-    { src: "/images/logo-publicnouns.svg", alt: "Public Nouns", width: 76, height: 28 },
-    { src: "/images/logo-metagame.svg", alt: "MetaGame", width: 41.32, height: 36 },
+    { src: "/images/logo-Hypercerts.svg", alt: "Hypercerts", width: 118 },
+    { src: "/images/logo-publicnouns.svg", alt: "Public Nouns", width: 76 },
+    { src: "/images/logo-metagame.svg", alt: "MetaGame", width: 41 },
   ],
   // Slot 6: delay 2s
   [
-    { src: "/images/logo-Protocol.svg", alt: "Protocol Labs", width: 160.55, height: 24.66 },
-    { src: "/images/logo-metafactory.svg", alt: "MetaFactory", width: 121.92, height: 20 },
-    { src: "/images/logo-azos.svg", alt: "Azos", width: 104, height: 26 },
+    { src: "/images/logo-Protocol.svg", alt: "Protocol Labs", width: 161 },
+    { src: "/images/logo-metafactory.svg", alt: "MetaFactory", width: 122 },
+    { src: "/images/logo-azos.svg", alt: "Azos", width: 104 },
   ],
 ];
 
@@ -78,11 +78,10 @@ export default function PartnerLogoBanner() {
                       src={logo.src}
                       alt={logo.alt}
                       width={logo.width}
-                      height={logo.height}
+                      height={50}
                       className="object-contain"
                       style={{ 
                         width: `${logo.width}px`, 
-                        height: `${logo.height}px`,
                         maxWidth: '100%',
                         maxHeight: '50px'
                       }}
