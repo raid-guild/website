@@ -49,13 +49,11 @@ function ClientCard({ client }: { client: Client }) {
 export default function PortfolioSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  const getTimeBasedImage = () => {
+  const [backgroundImageSrc] = useState(() => {
     const now = Date.now();
-    const seconds = Math.floor(now / 1000);
+    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
     return portfolioImages[seconds % portfolioImages.length];
-  };
-
-  const [backgroundImageSrc] = useState(getTimeBasedImage());
+  });
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % clientData.length);

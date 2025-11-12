@@ -13,13 +13,11 @@ const servicesImages = [
 ];
 
 export default function ServicesSection() {
-  const getTimeBasedImage = () => {
+  const [imageSrc] = useState(() => {
     const now = Date.now();
-    const seconds = Math.floor(now / 1000);
+    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
     return servicesImages[seconds % servicesImages.length];
-  };
-
-  const [imageSrc] = useState(getTimeBasedImage());
+  });
 
   return (
     <section id="services" className="relative mt-24 mb-44">

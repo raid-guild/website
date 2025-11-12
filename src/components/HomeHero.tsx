@@ -13,13 +13,11 @@ const homeImages = [
 ];
 
 export default function HomeHero() {
-  const getTimeBasedImage = () => {
+  const [imageSrc] = useState(() => {
     const now = Date.now();
-    const seconds = Math.floor(now / 1000);
+    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
     return homeImages[seconds % homeImages.length];
-  };
-
-  const [imageSrc] = useState(getTimeBasedImage());
+  });
 
   return (
     <section id="about" className="relative">

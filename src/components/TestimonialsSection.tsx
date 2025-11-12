@@ -12,13 +12,11 @@ const testimonialImages = [
 ];
 
 export default function TestimonialsSection() {
-  const getTimeBasedImage = () => {
+  const [imageSrc] = useState(() => {
     const now = Date.now();
-    const seconds = Math.floor(now / 1000);
+    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
     return testimonialImages[seconds % testimonialImages.length];
-  };
-
-  const [imageSrc] = useState(getTimeBasedImage());
+  });
   return (
     <section id="testimonials" className="relative py-24">
       <div className="container-custom relative">

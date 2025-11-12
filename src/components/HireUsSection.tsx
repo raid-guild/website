@@ -13,13 +13,11 @@ const hireUsImages = [
 ];
 
 export default function HireUsSection() {
-  const getTimeBasedImage = () => {
+  const [imageSrc] = useState(() => {
     const now = Date.now();
-    const seconds = Math.floor(now / 1000);
+    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
     return hireUsImages[seconds % hireUsImages.length];
-  };
-
-  const [imageSrc] = useState(getTimeBasedImage());
+  });
   return (
     <section id="hire-us" className="py-24">
       <div className="container-custom">

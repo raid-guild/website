@@ -16,13 +16,11 @@ const storyImages = [
 ];
 
 export default function OurStorySection() {
-  const getTimeBasedImage = () => {
+  const [imageSrc] = useState(() => {
     const now = Date.now();
-    const seconds = Math.floor(now / 1000);
+    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
     return storyImages[seconds % storyImages.length];
-  };
-
-  const [imageSrc] = useState(getTimeBasedImage());
+  });
   return (
     <section id="our-story" className="my-24">
       <div className="container-custom relative">
