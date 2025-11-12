@@ -18,12 +18,12 @@ export default function HireUsSection() {
               exact skills you need.
             </p>
           </div>
-          <div className="col-span-8 md:col-span-4 lg:col-span-6 flex justify-center lg:justify-end">
+          <div className="col-span-8 md:col-span-4 lg:col-span-6 flex justify-center">
             <Image
-              src="/images/Logomark.svg"
-              alt="Raid Guild"
-              width={169}
-              height={159}
+              src="/images/hire-image-1-bw.png"
+              alt="Hire Us"
+              width={632}
+              height={241}
               className="flex-shrink-0"
             />
           </div>
