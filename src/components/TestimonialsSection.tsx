@@ -1,13 +1,30 @@
+"use client";
+
 import { testimonials } from "@/lib/data/content";
 import Image from "next/image";
+import { useState } from "react";
+
+const testimonialImages = [
+  "/images/testimonial-image-1-bw.png",
+  "/images/testimonial-image-1-c.png",
+  "/images/testimonial-image-2-bw.png",
+  "/images/testimonial-image-2-c.png",
+];
 
 export default function TestimonialsSection() {
+  const getTimeBasedImage = () => {
+    const now = Date.now();
+    const seconds = Math.floor(now / 1000);
+    return testimonialImages[seconds % testimonialImages.length];
+  };
+
+  const [imageSrc] = useState(getTimeBasedImage());
   return (
     <section id="testimonials" className="relative py-24">
       <div className="container-custom relative">
         <div className="absolute inset-0 z-0 pointer-events-none -my-24">
           <Image
-            src="/images/testimonial-image-1-c.png"
+            src={imageSrc}
             alt="Testimonials Background"
             fill
             className="object-contain"
