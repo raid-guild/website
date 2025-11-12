@@ -1,8 +1,25 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 import { hireUsSteps } from "@/lib/data/content";
 import HireUs from "./HireUs";
 
+const hireUsImages = [
+  "/images/hire-image-1-bw.png",
+  "/images/hire-image-1-c.png",
+  "/images/hire-image-2-bw.png",
+  "/images/hire-image-2-c.png",
+];
+
 export default function HireUsSection() {
+  const getTimeBasedImage = () => {
+    const now = Date.now();
+    const seconds = Math.floor(now / 1000);
+    return hireUsImages[seconds % hireUsImages.length];
+  };
+
+  const [imageSrc] = useState(getTimeBasedImage());
   return (
     <section id="hire-us" className="py-24">
       <div className="container-custom">
@@ -20,7 +37,7 @@ export default function HireUsSection() {
           </div>
           <div className="col-span-8 md:col-span-4 lg:col-span-6 flex justify-center">
             <Image
-              src="/images/hire-image-1-bw.png"
+              src={imageSrc}
               alt="Hire Us"
               width={632}
               height={241}
