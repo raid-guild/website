@@ -43,27 +43,27 @@ const THEME_CONFIG: Record<HeaderTheme, ThemeConfig> = {
     navActive: "bg-moloch-800",
     navActiveText: "text-moloch-100",
     menuSurface: "bg-moloch-500",
-    logoPath: "/images/logo-RG-home-large.svg",
+    logoPath: "/images/logo-RG-moloch-800.svg",
   },
   "moloch-800": {
     background: "bg-moloch-800",
-    borderAccent: "border-scroll-700",
+    borderAccent: "border-moloch-500",
     text: "text-scroll-100",
     navHover: "hover:bg-moloch-500",
     navActive: "bg-moloch-500",
     navActiveText: "text-moloch-100",
     menuSurface: "bg-moloch-800/95",
-    logoPath: "/images/logo-RG-back-lred.svg",
+    logoPath: "/images/logo-RG-moloch-500.svg",
   },
   "scroll-700": {
     background: "bg-scroll-700",
-    borderAccent: "border-moloch-500",
+    borderAccent: "border-moloch-800",
     text: "text-moloch-100",
     navHover: "hover:bg-moloch-800",
     navActive: "bg-moloch-800",
     navActiveText: "text-scroll-100",
     menuSurface: "bg-scroll-700",
-    logoPath: "/images/logo-RG-home-large.svg",
+    logoPath: "/images/logo-RG-moloch-800.svg",
   },
 };
 
@@ -92,7 +92,7 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
   const [initialTheme] = useState<HeaderTheme>(() => {
     if (!allowDynamic) return "moloch-500";
 
-    const themes: HeaderTheme[] = ["moloch-500", "scroll-700"];
+    const themes: HeaderTheme[] = ["moloch-500", "moloch-800", "scroll-700"];
     const now = Date.now();
     const seconds = Math.floor(now / 30000); // Changes every 30 seconds
     return themes[seconds % themes.length];
