@@ -1,14 +1,32 @@
+"use client";
+
 import Image from "next/image";
+import { useEffect, useState } from "react";
 import ServiceCard from "./ServiceCard";
 import { services } from "@/lib/data/content";
 
+const servicesImages = [
+  "/images/services-image-1-bw.png",
+  "/images/services-image-1-c.png",
+  "/images/services-image-2-bw.png",
+  "/images/services-image-2-c.png",
+];
+
 export default function ServicesSection() {
+  const getTimeBasedImage = () => {
+    const now = Date.now();
+    const seconds = Math.floor(now / 1000);
+    return servicesImages[seconds % servicesImages.length];
+  };
+
+  const [imageSrc] = useState(getTimeBasedImage());
+
   return (
     <section id="services" className="relative mt-24 mb-44">
       <div className="container-custom relative">
         <div className="absolute inset-0 z-0 pointer-events-none -mt-24 -mb-44">
           <Image
-            src="/images/services-image-1-c.png"
+            src={imageSrc}
             alt="Services Background"
             fill
             className="object-contain"
