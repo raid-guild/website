@@ -33,7 +33,7 @@ export default function HireUsSection() {
               exact skills you need.
             </p>
           </div>
-          <div className="col-span-8 md:col-span-4 lg:col-span-6 flex justify-center">
+          <div className="col-span-4 md:col-span-8 lg:col-span-6 flex justify-center lg:justify-end">
             <Image
               src={imageSrc}
               alt="Hire Us"
