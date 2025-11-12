@@ -1,18 +1,35 @@
+"use client";
+
 import { timelineIconNames, timelineItems } from "@/lib/data/content";
 import Image from "next/image";
+import { useState } from "react";
 import TimelineAccordion from "./TimelineAccordion";
 import { Button } from "./ui/button";
 import { DISCORD_INVITE_URL } from "@/lib/data/constants";
 import Link from "next/link";
 
+const storyImages = [
+  "/images/story-image-1-bw.png",
+  "/images/story-image-1-c.png",
+  "/images/story-image-2-bw.png",
+  "/images/story-image-2-c.png",
+];
+
 export default function OurStorySection() {
+  const getTimeBasedImage = () => {
+    const now = Date.now();
+    const seconds = Math.floor(now / 1000);
+    return storyImages[seconds % storyImages.length];
+  };
+
+  const [imageSrc] = useState(getTimeBasedImage());
   return (
     <section id="our-story" className="my-24">
       <div className="container-custom relative">
         <div className="absolute inset-0 z-0 pointer-events-none -my-24">
           <div className="absolute top-0 right-0 w-[632px] h-[843px]">
             <Image
-              src="/images/story-image-1-c.png"
+              src={imageSrc}
               alt="Story Background"
               width={632}
               height={843}
