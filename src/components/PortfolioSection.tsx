@@ -11,13 +11,12 @@ const ITEM_SHIFT_PERCENT = 51;
 function ClientCard({ client }: { client: Client }) {
   return (
     <div className="bg-scroll-100 rounded-md overflow-hidden">
-      <div className="bg-moloch-800 p-8 flex items-center">
+      <div className="bg-moloch-800 p-8 flex items-center h-32">
         <Image
           src={client.logo}
           alt={client.title}
-          width={234}
-          height={80}
-          className="h-10 w-auto"
+          width={client.logoWidth}
+          height={0}
         />
       </div>
       <div className="bg-scroll-700 p-12 border-t-2 border-moloch-500 flex flex-col">
