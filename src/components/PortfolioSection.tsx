@@ -54,7 +54,18 @@ export default function PortfolioSection() {
 
   return (
     <section id="case-studies" className="py-24">
-      <div className="container-custom">
+      <div className="container-custom relative">
+        <div className="absolute inset-0 z-0 pointer-events-none -my-24">
+          <Image
+            src="/images/portfolio-image-1-bw.png"
+            alt="Portfolio Background"
+            fill
+            className="object-contain"
+            style={{ objectPosition: 'top right' }}
+            priority={false}
+          />
+        </div>
+        <div className="relative z-10">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-[60px]">
             <h2 className="text-heading-lg mb-8">Completed Quests</h2>
@@ -110,6 +121,7 @@ export default function PortfolioSection() {
               ))}
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>
