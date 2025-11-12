@@ -90,7 +90,7 @@
   --grid-column-width: 5.75rem; /* 92px */
   --grid-gap: 1rem; /* 16px */
   --container-padding: 1rem; /* 16px */
-  --container-padding-mobile: 0rem; /* 16px */
+  --container-padding-mobile: 0.25rem; /* 4px */
   --container-max-width: 80rem; /* 1280px */
   --container-width-mobile: 26rem; /* 416px */
   --container-width-tablet: 53rem; /* 848px */
