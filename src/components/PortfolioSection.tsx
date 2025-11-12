@@ -4,6 +4,13 @@ import Image from "next/image";
 import { useState } from "react";
 import { clientData } from "@/lib/data/clients";
 
+const portfolioImages = [
+  "/images/portfolio-image-1-bw.png",
+  "/images/portfolio-image-1-c.png",
+  "/images/portfolio-image-2-bw.png",
+  "/images/portfolio-image-2-c.png",
+];
+
 type Client = (typeof clientData)[number];
 
 const ITEM_SHIFT_PERCENT = 51;
@@ -11,13 +18,12 @@ const ITEM_SHIFT_PERCENT = 51;
 function ClientCard({ client }: { client: Client }) {
   return (
     <div className="bg-scroll-100 rounded-md overflow-hidden">
-      <div className="bg-moloch-800 p-8 flex items-center">
+      <div className="bg-moloch-800 p-8 flex items-center h-32">
         <Image
           src={client.logo}
           alt={client.title}
-          width={234}
-          height={80}
-          className="h-10 w-auto"
+          width={client.logoWidth}
+          height={0}
         />
       </div>
       <div className="bg-scroll-700 p-12 border-t-2 border-moloch-500 flex flex-col">
@@ -43,6 +49,12 @@ function ClientCard({ client }: { client: Client }) {
 export default function PortfolioSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const [backgroundImageSrc] = useState(() => {
+    const now = Date.now();
+    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
+    return portfolioImages[seconds % portfolioImages.length];
+  });
+
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % clientData.length);
   };
@@ -55,7 +67,18 @@ export default function PortfolioSection() {
 
   return (
     <section id="case-studies" className="py-24">
-      <div className="container-custom">
+      <div className="container-custom relative">
+        <div className="absolute inset-0 z-0 pointer-events-none -my-24">
+          <Image
+            src={backgroundImageSrc}
+            alt="Portfolio Background"
+            fill
+            className="object-contain"
+            style={{ objectPosition: 'top right' }}
+            priority={false}
+          />
+        </div>
+        <div className="relative z-10">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-[60px]">
             <h2 className="text-heading-lg mb-8">Completed Quests</h2>
@@ -111,6 +134,7 @@ export default function PortfolioSection() {
               ))}
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

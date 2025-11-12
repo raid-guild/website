@@ -13,13 +13,11 @@ const homeImages = [
 ];
 
 export default function HomeHero() {
-  const [imageSrc, setImageSrc] = useState(homeImages[0]);
-
-  useEffect(() => {
-    // Randomly select an image on mount/refresh
-    const randomIndex = Math.floor(Math.random() * homeImages.length);
-    setImageSrc(homeImages[randomIndex]);
-  }, []);
+  const [imageSrc] = useState(() => {
+    const now = Date.now();
+    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
+    return homeImages[seconds % homeImages.length];
+  });
 
   return (
     <section id="about" className="relative">

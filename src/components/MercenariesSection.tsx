@@ -11,6 +11,13 @@ import {
 import { Button } from "./ui/button";
 import { mercenaries, type Mercenary } from "@/lib/data/members";
 
+const mercenariesImages = [
+  "/images/mercenaries-image-1-bw.png",
+  "/images/mercenaries-image-1-c.png",
+  "/images/mercenaries-image-2-bw.png",
+  "/images/mercenaries-image-2-c.png",
+];
+
 function shuffleArray(array: Mercenary[]) {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -24,6 +31,12 @@ export default function MercenariesSection() {
   const [shuffledMercenaries, setShuffledMercenaries] =
     useState<Mercenary[]>(mercenaries);
 
+  const [imageSrc] = useState(() => {
+    const now = Date.now();
+    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
+    return mercenariesImages[seconds % mercenariesImages.length];
+  });
+
   useEffect(() => {
     // Shuffle on client side only to avoid hydration mismatch
     setShuffledMercenaries(shuffleArray(mercenaries));
@@ -35,7 +48,7 @@ export default function MercenariesSection() {
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6">
             <Image
-              src="/images/mercenaries-image-1-c.png"
+              src={imageSrc}
               alt="Mercenaries"
               width={632}
               height={632}

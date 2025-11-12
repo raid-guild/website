@@ -1,15 +1,43 @@
+"use client";
+
 import { timelineIconNames, timelineItems } from "@/lib/data/content";
 import Image from "next/image";
+import { useState } from "react";
 import TimelineAccordion from "./TimelineAccordion";
 import { Button } from "./ui/button";
 import { DISCORD_INVITE_URL } from "@/lib/data/constants";
 import Link from "next/link";
 
+const storyImages = [
+  "/images/story-image-1-bw.png",
+  "/images/story-image-1-c.png",
+  "/images/story-image-2-bw.png",
+  "/images/story-image-2-c.png",
+];
+
 export default function OurStorySection() {
+  const [imageSrc] = useState(() => {
+    const now = Date.now();
+    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
+    return storyImages[seconds % storyImages.length];
+  });
   return (
     <section id="our-story" className="my-24">
-      <div className="container-custom">
-        <div className="flex flex-col gap-12 lg:grid lg:grid-cols-12 lg:gap-8">
+      <div className="container-custom relative">
+        <div className="absolute inset-0 z-0 pointer-events-none -my-24">
+          <div className="absolute top-0 right-0 w-[632px] h-[843px]">
+            <Image
+              src={imageSrc}
+              alt="Story Background"
+              width={632}
+              height={843}
+              className="object-contain"
+              priority={false}
+            />
+          </div>
+        </div>
+        <div className="relative z-10">
+          <div className="flex flex-col gap-12 lg:grid lg:grid-cols-12 lg:gap-8">
           <div className="flex flex-col gap-8 lg:col-span-6">
             <div className="text-center lg:text-left">
               <h2 className="text-heading-lg text-moloch-500 mb-8">
@@ -28,13 +56,7 @@ export default function OurStorySection() {
             />
           </div>
           <div className="hidden lg:col-span-6 lg:flex lg:justify-center">
-            <Image
-              src="/images/home-image-1-bw.png"
-              alt="Raid Guild illustration"
-              width={640}
-              height={640}
-              className="h-auto max-w-full"
-            />
+            {/* Background image now handled above */}
           </div>
           <div className="lg:hidden">
             <Image
@@ -74,6 +96,7 @@ export default function OurStorySection() {
               </div>
             </div>
           </div>
+        </div>
         </div>
       </div>
     </section>

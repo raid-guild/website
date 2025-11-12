@@ -1,8 +1,23 @@
+"use client";
+
 import Image from "next/image";
+import { useState } from "react";
 import { hireUsSteps } from "@/lib/data/content";
 import HireUs from "./HireUs";
 
+const hireUsImages = [
+  "/images/hire-image-1-bw.png",
+  "/images/hire-image-1-c.png",
+  "/images/hire-image-2-bw.png",
+  "/images/hire-image-2-c.png",
+];
+
 export default function HireUsSection() {
+  const [imageSrc] = useState(() => {
+    const now = Date.now();
+    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
+    return hireUsImages[seconds % hireUsImages.length];
+  });
   return (
     <section id="hire-us" className="py-24">
       <div className="container-custom">
@@ -20,10 +35,10 @@ export default function HireUsSection() {
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-6 flex justify-center lg:justify-end">
             <Image
-              src="/images/Logomark.svg"
-              alt="Raid Guild"
-              width={169}
-              height={159}
+              src={imageSrc}
+              alt="Hire Us"
+              width={632}
+              height={241}
               className="flex-shrink-0"
             />
           </div>
