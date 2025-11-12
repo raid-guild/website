@@ -4,6 +4,13 @@ import Image from "next/image";
 import { useState } from "react";
 import { clientData } from "@/lib/data/clients";
 
+const portfolioImages = [
+  "/images/portfolio-image-1-bw.png",
+  "/images/portfolio-image-1-c.png",
+  "/images/portfolio-image-2-bw.png",
+  "/images/portfolio-image-2-c.png",
+];
+
 type Client = (typeof clientData)[number];
 
 const ITEM_SHIFT_PERCENT = 51;
@@ -42,6 +49,14 @@ function ClientCard({ client }: { client: Client }) {
 export default function PortfolioSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const getTimeBasedImage = () => {
+    const now = Date.now();
+    const seconds = Math.floor(now / 1000);
+    return portfolioImages[seconds % portfolioImages.length];
+  };
+
+  const [backgroundImageSrc] = useState(getTimeBasedImage());
+
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % clientData.length);
   };
@@ -57,7 +72,7 @@ export default function PortfolioSection() {
       <div className="container-custom relative">
         <div className="absolute inset-0 z-0 pointer-events-none -my-24">
           <Image
-            src="/images/portfolio-image-1-bw.png"
+            src={backgroundImageSrc}
             alt="Portfolio Background"
             fill
             className="object-contain"
