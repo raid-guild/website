@@ -41,15 +41,16 @@ export default function ServicesSection() {
             </p>
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-12">
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14 lg:gap-4">
+            <div className="grid-custom gap-14 lg:gap-4">
               {services.map((service, index) => (
-                <ServiceCard
-                  key={index}
-                  title={service.title}
-                  bodyText={service.bodyText}
-                  iconSrc={service.iconSrc}
-                  iconAlt={service.iconAlt}
-                />
+                <div key={index} className="col-span-4 md:col-span-4 lg:col-span-3">
+                  <ServiceCard
+                    title={service.title}
+                    bodyText={service.bodyText}
+                    iconSrc={service.iconSrc}
+                    iconAlt={service.iconAlt}
+                  />
+                </div>
               ))}
             </div>
           </div>

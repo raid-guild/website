@@ -14,7 +14,7 @@ export default function ServiceCard({
   iconAlt,
 }: ServiceCardProps) {
   return (
-    <div className="relative bg-moloch-800 p-8 flex flex-col items-center gap-5 rounded-md overflow-visible min-h-[400px]">
+    <div className="relative bg-moloch-800 p-8 flex flex-col items-center gap-5 rounded-md overflow-visible min-h-[460px]">
       {/* Grid pattern overlay */}
       <div
         className="absolute inset-0 opacity-20 rounded-md"
@@ -44,7 +44,7 @@ export default function ServiceCard({
         />
 
         {/* Body Text */}
-        <p className="text-body-lg text-scroll-100 text-left px-2 flex-1">
+        <p className="text-body-lg text-scroll-100 text-center px-2 flex-1">
           {bodyText}
         </p>
 

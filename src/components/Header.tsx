@@ -175,7 +175,7 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
     <header
       ref={headerRef}
       className={[
-        "sticky top-0 z-50 border-t-[10px] transition-colors duration-500 motion-reduce:transition-none",
+        "sticky top-0 z-50 border-t-[10px] border-b-2 border-scroll-100 transition-colors duration-500 motion-reduce:transition-none",
         theme.background,
         theme.borderAccent,
         theme.text,
@@ -231,8 +231,8 @@ function HeaderDesktopAdaptive({
   shrinkProgress,
 }: HeaderLayoutProps) {
   // Interpolate values based on shrinkProgress (0 = tall, 1 = thin)
-  const paddingTop = 1.25 + (1 - shrinkProgress) * 1.75; // 3rem -> 1.25rem
-  const paddingBottom = 1.25 + (1 - shrinkProgress) * 1.75;
+  const paddingTop = 1.25 + (1 - shrinkProgress) * 4.75; // 6rem -> 1.25rem
+  const paddingBottom = 1.25 + (1 - shrinkProgress) * 1.75; // 3rem -> 1.25rem
   const logoHeight = 48 + (1 - shrinkProgress) * 102; // 48px -> 150px
   const logoMarginBottom = -122 * (1 - shrinkProgress); // 0 -> -122px
   const gap = 8 + (1 - shrinkProgress) * 2; // 8 -> 10
@@ -342,9 +342,9 @@ function NavLinks({
   return (
     <nav
       className={[
-        "flex items-center gap-2 transition-all duration-200 motion-reduce:transition-none",
+        "flex items-center transition-all duration-200 motion-reduce:transition-none",
         variant === "desktop"
-          ? "flex-wrap justify-end text-sm uppercase tracking-[0.1em]"
+          ? "flex-wrap justify-end text-sm uppercase tracking-[0.1em] gap-5"
           : "flex-col items-stretch gap-3 text-base font-semibold uppercase tracking-[0.25em]",
       ].join(" ")}
     >
@@ -358,7 +358,7 @@ function NavLinks({
               key={href}
               href={href}
               className={[
-                "text-label-md rounded-md px-5 py-2 text-center transition-colors duration-200 motion-reduce:transition-none",
+                "text-label-md rounded-md px-8 py-1 text-center transition-colors duration-200 motion-reduce:transition-none",
                 theme.navHover,
                 isActive ? theme.navActive : "",
                 isActive ? theme.navActiveText : "",
@@ -380,7 +380,7 @@ function NavLinks({
                 }
               }}
               className={[
-                "text-label-md rounded-md px-5 py-2 text-center transition-colors duration-200 motion-reduce:transition-none",
+                "text-label-md rounded-md px-8 py-1 text-center transition-colors duration-200 motion-reduce:transition-none",
                 theme.navHover,
                 isActive ? theme.navActive : "",
                 isActive ? theme.navActiveText : "",
