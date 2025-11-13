@@ -4,7 +4,7 @@ export const clientData = [
     logo: "/images/logo-Pocket.svg",
     logoWidth: 234,
     title: "10x Increase in Token Value",
-    description: `Created the wrapped version of the $POKT token as well as the UniSwap pool, bridge and staking dApp. Token price increased 10x with the launch of this token. $7M has been transferred over this bridge in 2024.`,
+    description: `Created the wrapped version of the $POKT token as well as the UniSwap pool, bridge and staking dApp. 10x price increase with the launch of this token. $7M has been transferred over this bridge in 2024.`,
     tags: ["Cross-Chain Infra", "Token", "Dapp Dev"],
   },
   {
@@ -12,7 +12,7 @@ export const clientData = [
     logo: "/images/logo-brightid.svg",
     logoWidth: 224,
     title: "Gamifying Trust & Identity",
-    description: `Designed and built a social identity system that uses BrightID verification to increase trust, combat Sybil attacks, and drive community engagement.`,
+    description: `Designed and built a BrightID social identity system to increase trust, combat Sybil attacks, and drive community engagement. Enhanced user verification across multiple Web3 ecosystems.`,
     tags: ["Smart Contracts", "Design", "Gamification"],
   },
   {
@@ -20,7 +20,7 @@ export const clientData = [
     logo: "/images/logo-Hypercerts.svg",
     logoWidth: 280,
     title: "Grants Transparency",
-    description: `Addressed pseudonymity challenges in Web3 grants by implementing smart contracts for minting, burning, and donating Hypercerts to ensure accountability between recipients and issuers.`,
+    description: `Addressed pseudonymity challenges in Web3 grants by implementing smart contracts for minting, burning, and donating Hypercerts to ensure accountability and transparency between recipients and issuers.`,
     tags: ["Smart Contracts", "Design", "Protocol"],
   },
   {
@@ -36,7 +36,7 @@ export const clientData = [
     logo: "/images/logo-Gnosis.svg",
     logoWidth: 320,
     title: "$367M Bridged Net Amount",
-    description: `Built the Gnosis Omni-Token Bridge to enable secure, user-friendly asset transfers of any ERC-20 between Ethereum and Gnosis Chain.`,
+    description: `Built the Gnosis Omni Token Bridge to enable secure, user-friendly asset transfers of any ERC-20 between Ethereum and Gnosis Chain. The bridge has successfully processed over $367M in transfers.`,
     tags: ["Cross-Chain Infra", "Dapp Dev", "UI/UX"],
   },
 ];
