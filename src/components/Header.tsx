@@ -132,6 +132,7 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
     initialTheme,
     allowThemeTransitions: allowDynamic,
     headerHeight,
+    shrinkProgress,
     navAnchorIds,
     themeAnchors,
   });
@@ -186,46 +187,13 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
     >
       <div className="container-custom">
         <div className="hidden lg:block">
-          {/* Container that interpolates padding based on shrinkProgress */}
-          <div
-            style={{
-              paddingTop: `${1.25 + (1 - shrinkProgress) * 1.75}rem`,
-              paddingBottom: `${1.25 + (1 - shrinkProgress) * 1.75}rem`,
-              transition: 'padding 300ms ease-out',
-            }}
-          >
-            <div style={{ position: 'relative' }}>
-              {/* Tall header overlay - purely visual, fades out from scroll 46-146px */}
-              <div
-                style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  opacity: shrinkProgress < 0.3 ? 1 : shrinkProgress > 0.7 ? 0 : 1 - ((shrinkProgress - 0.3) / 0.4),
-                  pointerEvents: 'none',
-                  transition: 'opacity 300ms ease-out',
-                }}
-                className={theme.background}
-              >
-                <HeaderDesktopTall
-                  theme={theme}
-                  activeAnchorId={activeAnchorId}
-                  onNavigate={handleNavigate}
-                  staticAppearance={staticAppearance}
-                />
-              </div>
-
-              {/* Thin header - the real functional header, always present */}
-              <HeaderDesktopThin
-                theme={theme}
-                activeAnchorId={activeAnchorId}
-                onNavigate={handleNavigate}
-                staticAppearance={staticAppearance}
-              />
-            </div>
-          </div>
+          <HeaderDesktopAdaptive
+            theme={theme}
+            activeAnchorId={activeAnchorId}
+            onNavigate={handleNavigate}
+            staticAppearance={staticAppearance}
+            shrinkProgress={shrinkProgress}
+          />
         </div>
 
         <div className="lg:hidden">
@@ -256,46 +224,77 @@ type HeaderLayoutProps = {
   activeAnchorId: string | null;
   onNavigate: (href: string) => void;
   staticAppearance: boolean;
+  shrinkProgress: number;
 };
 
-function HeaderDesktopTall({
+function HeaderDesktopAdaptive({
   theme,
   activeAnchorId,
   onNavigate,
   staticAppearance,
+  shrinkProgress,
 }: HeaderLayoutProps) {
-  return (
-    <div className="flex items-end justify-between gap-10">
-      <div className="-mb-[122px]">
-        <Logo variant="tall" logoPath={theme.logoPath} />
-      </div>
-      <NavLinks
-        theme={theme}
-        activeAnchorId={activeAnchorId}
-        onNavigate={onNavigate}
-        variant="desktop"
-        staticAppearance={staticAppearance}
-      />
-    </div>
-  );
-}
+  // Interpolate values based on shrinkProgress (0 = tall, 1 = thin)
+  const paddingTop = 1.25 + (1 - shrinkProgress) * 1.75; // 3rem -> 1.25rem
+  const paddingBottom = 1.25 + (1 - shrinkProgress) * 1.75;
+  const logoHeight = 48 + (1 - shrinkProgress) * 102; // 48px -> 150px
+  const logoMarginBottom = -122 * (1 - shrinkProgress); // 0 -> -122px
+  const gap = 8 + (1 - shrinkProgress) * 2; // 8 -> 10
 
-function HeaderDesktopThin({
-  theme,
-  activeAnchorId,
-  onNavigate,
-  staticAppearance,
-}: HeaderLayoutProps) {
+  // items-end (flex-end) when tall, items-center when thin
+  const alignItems = shrinkProgress < 0.5 ? 'flex-end' : 'center';
+
   return (
-    <div className="flex items-center justify-between gap-8">
-      <Logo variant="thin" logoPath={theme.logoPath} />
-      <NavLinks
-        theme={theme}
-        activeAnchorId={activeAnchorId}
-        onNavigate={onNavigate}
-        variant="desktop"
-        staticAppearance={staticAppearance}
-      />
+    <div
+      style={{
+        paddingTop: `${paddingTop}rem`,
+        paddingBottom: `${paddingBottom}rem`,
+        transition: 'padding 300ms ease-out',
+      }}
+    >
+      <div
+        style={{
+          display: 'flex',
+          alignItems,
+          justifyContent: 'space-between',
+          gap: `${gap * 0.25}rem`,
+          transition: 'gap 300ms ease-out, align-items 300ms ease-out',
+        }}
+      >
+        <div
+          style={{
+            marginBottom: `${logoMarginBottom}px`,
+            transition: 'margin-bottom 300ms ease-out',
+          }}
+        >
+          <div
+            style={{
+              height: `${logoHeight}px`,
+              transition: 'height 300ms ease-out',
+            }}
+          >
+            <Image
+              src={theme.logoPath}
+              alt="Raid Guild Logo"
+              width={632}
+              height={166}
+              priority
+              style={{
+                width: 'auto',
+                height: '100%',
+                objectFit: 'contain',
+              }}
+            />
+          </div>
+        </div>
+        <NavLinks
+          theme={theme}
+          activeAnchorId={activeAnchorId}
+          onNavigate={onNavigate}
+          variant="desktop"
+          staticAppearance={staticAppearance}
+        />
+      </div>
     </div>
   );
 }
@@ -512,6 +511,7 @@ type UseHeaderThemeOptions = {
   initialTheme: HeaderTheme;
   allowThemeTransitions: boolean;
   headerHeight: number;
+  shrinkProgress: number;
   navAnchorIds: string[];
   themeAnchors: Array<{ id: string; theme: HeaderTheme }>;
 };
@@ -525,6 +525,7 @@ function useHeaderTheme({
   initialTheme,
   allowThemeTransitions,
   headerHeight,
+  shrinkProgress,
   navAnchorIds,
   themeAnchors,
 }: UseHeaderThemeOptions): HeaderThemeState {
@@ -544,7 +545,11 @@ function useHeaderTheme({
 
     const evaluateState = () => {
       rafId = 0;
-      const scrollPosition = window.scrollY + headerHeight;
+
+      // Calculate actual header height based on shrinkProgress
+      // 256px (tall) -> 96px (thin)
+      const actualHeaderHeight = 96 + (1 - shrinkProgress) * 160;
+      const scrollPosition = window.scrollY + actualHeaderHeight;
 
       let nextTheme = initialTheme;
       let firstAvailableAnchor: string | null = null;
@@ -602,6 +607,7 @@ function useHeaderTheme({
   }, [
     allowThemeTransitions,
     headerHeight,
+    shrinkProgress,
     initialTheme,
     navAnchorIds,
     themeAnchors,
