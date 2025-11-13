@@ -79,12 +79,12 @@ export default function PartnerLogoBanner() {
                       alt={logo.alt}
                       width={logo.width}
                       height={50}
-                      className="object-contain"
                       style={{
-                        width: `${logo.width}px`,
+                        width: 'auto',
                         height: 'auto',
                         maxWidth: '100%',
-                        maxHeight: '50px'
+                        maxHeight: '50px',
+                        objectFit: 'contain'
                       }}
                       priority={slotIndex === 0 && logoIndex === 0}
                     />
