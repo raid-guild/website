@@ -31,11 +31,13 @@ export default function MercenariesSection() {
   const [shuffledMercenaries, setShuffledMercenaries] =
     useState<Mercenary[]>(mercenaries);
 
-  const [imageSrc] = useState(() => {
+  const [imageSrc, setImageSrc] = useState(mercenariesImages[0]);
+
+  useEffect(() => {
     const now = Date.now();
     const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    return mercenariesImages[seconds % mercenariesImages.length];
-  });
+    setImageSrc(mercenariesImages[seconds % mercenariesImages.length]);
+  }, []);
 
   useEffect(() => {
     // Shuffle on client side only to avoid hydration mismatch
@@ -44,7 +46,7 @@ export default function MercenariesSection() {
 
   return (
     <section id="mercenaries" className="py-24">
-      <div className="container-custom">
+      <div className="container-custom relative min-h-[843px]">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6">
             <Image
@@ -64,18 +66,18 @@ export default function MercenariesSection() {
                 Battle-tested talent. Uncompromising quality.
               </p>
             </div>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-4 w-full">
+            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-2 ">
               {shuffledMercenaries.map((mercenary) => (
                 <Tooltip key={mercenary.name}>
                   <TooltipTrigger asChild>
                     <div className="flex flex-col items-center gap-2 cursor-pointer group">
-                      <div className="relative w-[68px] h-[68px] rounded-md overflow-hidden border-2 border-scroll-100 group-hover:border-moloch-500 transition-colors bg-scroll-100">
+                      <div className="relative w-[72px] h-[72px] rounded-md overflow-hidden border-2 border-scroll-100 group-hover:border-moloch-500 transition-colors bg-scroll-100">
                         <Image
                           src={mercenary.imagePath}
                           alt={mercenary.name}
                           fill
                           className="object-cover"
-                          sizes="68px"
+                          sizes="72px"
                         />
                       </div>
                     </div>

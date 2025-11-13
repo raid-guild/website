@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { clientData } from "@/lib/data/clients";
 
 const portfolioImages = [
@@ -48,12 +48,13 @@ function ClientCard({ client }: { client: Client }) {
 
 export default function PortfolioSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [backgroundImageSrc, setBackgroundImageSrc] = useState(portfolioImages[0]);
 
-  const [backgroundImageSrc] = useState(() => {
+  useEffect(() => {
     const now = Date.now();
     const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    return portfolioImages[seconds % portfolioImages.length];
-  });
+    setBackgroundImageSrc(portfolioImages[seconds % portfolioImages.length]);
+  }, []);
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % clientData.length);
@@ -66,20 +67,20 @@ export default function PortfolioSection() {
   };
 
   return (
-    <section id="case-studies" className="py-24">
-      <div className="container-custom relative">
-        <div className="absolute inset-0 z-0 pointer-events-none -my-24">
+    <section id="case-studies" className="relative">
+      <div className="container-custom relative min-h-[843px]">
+        <div className="absolute bottom-0 right-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={backgroundImageSrc}
             alt="Portfolio Background"
-            fill
-            className="object-contain"
-            style={{ objectPosition: 'top right' }}
+            width={632}
+            height={843}
+            className="h-auto object-contain object-bottom"
             priority={false}
           />
         </div>
-        <div className="relative z-10">
-        <div className="grid-custom gap-4">
+        <div className="relative z-10 py-24">
+          <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-[60px]">
             <h2 className="text-heading-lg mb-8">Completed Quests</h2>
             <p className="text-body-lg">
@@ -134,7 +135,7 @@ export default function PortfolioSection() {
               ))}
             </div>
           </div>
-        </div>
+          </div>
         </div>
       </div>
     </section>
