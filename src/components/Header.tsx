@@ -89,19 +89,10 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
 
   const allowDynamic = !staticAppearance;
 
-  const [initialTheme, setInitialTheme] = useState<HeaderTheme>("moloch-500");
-
-  useEffect(() => {
-    if (!allowDynamic) {
-      setInitialTheme("moloch-500");
-      return;
-    }
-
-    const themes: HeaderTheme[] = ["moloch-500", "moloch-800", "scroll-700"];
-    const now = Date.now();
-    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    setInitialTheme(themes[seconds % themes.length]);
-  }, [allowDynamic]);
+  // Deterministic theme selection based on 5-minute intervals (no flash, no hydration mismatch)
+  const themes: HeaderTheme[] = ["moloch-500", "moloch-800", "scroll-700"];
+  const interval = Math.floor(Date.now() / (1000 * 60 * 5)); // 5 minutes
+  const initialTheme = allowDynamic ? themes[interval % themes.length] : "moloch-500";
 
   const { isDesktop, shrinkProgress } = useHeaderSize({
     headerRef,

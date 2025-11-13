@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import ServiceCard from "./ServiceCard";
 import { services } from "@/lib/data/content";
 
@@ -13,13 +12,9 @@ const servicesImages = [
 ];
 
 export default function ServicesSection() {
-  const [imageSrc, setImageSrc] = useState(servicesImages[0]);
-
-  useEffect(() => {
-    const now = Date.now();
-    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    setImageSrc(servicesImages[seconds % servicesImages.length]);
-  }, []);
+  // Deterministic image selection based on 12-minute intervals (no flash, no hydration mismatch)
+  const interval = Math.floor(Date.now() / (1000 * 60 * 12)); // 12 minutes
+  const imageSrc = servicesImages[interval % servicesImages.length];
 
   return (
     <section id="services" className="relative">

@@ -31,13 +31,9 @@ export default function MercenariesSection() {
   const [shuffledMercenaries, setShuffledMercenaries] =
     useState<Mercenary[]>(mercenaries);
 
-  const [imageSrc, setImageSrc] = useState(mercenariesImages[0]);
-
-  useEffect(() => {
-    const now = Date.now();
-    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    setImageSrc(mercenariesImages[seconds % mercenariesImages.length]);
-  }, []);
+  // Deterministic image selection based on 20-minute intervals (no flash, no hydration mismatch)
+  const interval = Math.floor(Date.now() / (1000 * 60 * 20)); // 20 minutes
+  const imageSrc = mercenariesImages[interval % mercenariesImages.length];
 
   useEffect(() => {
     // Shuffle on client side only to avoid hydration mismatch

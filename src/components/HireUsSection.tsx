@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import { hireUsSteps } from "@/lib/data/content";
 import HireUs from "./HireUs";
 
@@ -13,13 +12,9 @@ const hireUsImages = [
 ];
 
 export default function HireUsSection() {
-  const [imageSrc, setImageSrc] = useState(hireUsImages[0]);
-
-  useEffect(() => {
-    const now = Date.now();
-    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    setImageSrc(hireUsImages[seconds % hireUsImages.length]);
-  }, []);
+  // Deterministic image selection based on 22-minute intervals (no flash, no hydration mismatch)
+  const interval = Math.floor(Date.now() / (1000 * 60 * 22)); // 22 minutes
+  const imageSrc = hireUsImages[interval % hireUsImages.length];
   return (
     <section id="hire-us" className="py-24">
       <div className="container-custom relative min-h-[843px]">

@@ -2,7 +2,6 @@
 
 import { testimonials } from "@/lib/data/content";
 import Image from "next/image";
-import { useState, useEffect } from "react";
 
 const testimonialImages = [
   "/images/testimonial-image-1-bw.png",
@@ -12,13 +11,9 @@ const testimonialImages = [
 ];
 
 export default function TestimonialsSection() {
-  const [imageSrc, setImageSrc] = useState(testimonialImages[0]);
-
-  useEffect(() => {
-    const now = Date.now();
-    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    setImageSrc(testimonialImages[seconds % testimonialImages.length]);
-  }, []);
+  // Deterministic image selection based on 16-minute intervals (no flash, no hydration mismatch)
+  const interval = Math.floor(Date.now() / (1000 * 60 * 16)); // 16 minutes
+  const imageSrc = testimonialImages[interval % testimonialImages.length];
   return (
     <section id="testimonials" className="relative">
       <div className="container-custom relative min-h-[843px]">

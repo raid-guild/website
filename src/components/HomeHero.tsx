@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
 import PartnerLogoBanner from "./PartnerLogoBanner";
 import { Button } from "./ui/button";
 
@@ -13,13 +12,9 @@ const homeImages = [
 ];
 
 export default function HomeHero() {
-  const [imageSrc, setImageSrc] = useState(homeImages[0]);
-
-  useEffect(() => {
-    const now = Date.now();
-    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    setImageSrc(homeImages[seconds % homeImages.length]);
-  }, []);
+  // Deterministic image selection based on 10-minute intervals (no flash, no hydration mismatch)
+  const interval = Math.floor(Date.now() / (1000 * 60 * 10)); // 10 minutes
+  const imageSrc = homeImages[interval % homeImages.length];
 
   return (
     <section id="about" className="relative">
