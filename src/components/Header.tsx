@@ -631,7 +631,7 @@ function useHeaderSize({
   allowDynamic,
 }: UseHeaderSizeOptions): HeaderSizeState {
   const [isDesktop, setIsDesktop] = useState<boolean>(false);
-  const [shrinkProgress, setShrinkProgress] = useState<number>(1); // 0 = tall, 1 = thin
+  const [shrinkProgress, setShrinkProgress] = useState<number>(0); // 0 = tall, 1 = thin (start tall)
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -682,8 +682,8 @@ function useHeaderSize({
       return;
     }
 
-    // Fixed scroll thresholds: 46px (start fade) to 146px (fully shrunk)
-    const FADE_START = 46;
+    // Fixed scroll thresholds: 0px (start fade) to 146px (fully shrunk)
+    const FADE_START = 0;
     const FADE_END = 146;
     const FADE_RANGE = FADE_END - FADE_START;
 
