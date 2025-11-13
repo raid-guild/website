@@ -65,6 +65,7 @@ export default function OurStorySection() {
               width={450}
               height={28}
               className="mx-auto h-auto max-w-[320px]"
+              style={{ width: 'auto', height: 'auto', maxWidth: '320px' }}
             />
           </div>
           <div className="lg:col-span-12 pt-14">

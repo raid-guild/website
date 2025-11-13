@@ -70,6 +70,7 @@ export default function HomeHero() {
               width={632}
               height={632}
               className="w-full max-w-[632px] h-auto mx-auto"
+              style={{ width: '100%', height: 'auto', maxWidth: '632px' }}
               sizes="(min-width: 1024px) 632px, 100vw"
             />
           </div>

@@ -45,6 +45,7 @@ export default function TimelineAccordion({
                 width={36}
                 height={36}
                 className="w-9 h-9"
+                style={{ width: '36px', height: '36px' }}
               />
             </AccordionTrigger>
             {item.desc && (

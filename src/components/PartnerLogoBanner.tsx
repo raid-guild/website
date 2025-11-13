@@ -80,8 +80,9 @@ export default function PartnerLogoBanner() {
                       width={logo.width}
                       height={50}
                       className="object-contain"
-                      style={{ 
-                        width: `${logo.width}px`, 
+                      style={{
+                        width: `${logo.width}px`,
+                        height: 'auto',
                         maxWidth: '100%',
                         maxHeight: '50px'
                       }}
