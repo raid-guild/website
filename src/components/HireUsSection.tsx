@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { hireUsSteps } from "@/lib/data/content";
 import HireUs from "./HireUs";
 
@@ -13,14 +13,16 @@ const hireUsImages = [
 ];
 
 export default function HireUsSection() {
-  const [imageSrc] = useState(() => {
+  const [imageSrc, setImageSrc] = useState(hireUsImages[0]);
+
+  useEffect(() => {
     const now = Date.now();
     const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    return hireUsImages[seconds % hireUsImages.length];
-  });
+    setImageSrc(hireUsImages[seconds % hireUsImages.length]);
+  }, []);
   return (
     <section id="hire-us" className="py-24">
-      <div className="container-custom">
+      <div className="container-custom relative min-h-[843px]">
         <div className="grid-custom gap-4 flex items-start">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 mb-[60px] text-center lg:text-left">
             <h2 className="text-heading-lg text-moloch-500 mb-8">

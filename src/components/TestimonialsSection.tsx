@@ -2,7 +2,7 @@
 
 import { testimonials } from "@/lib/data/content";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const testimonialImages = [
   "/images/testimonial-image-1-bw.png",
@@ -12,26 +12,28 @@ const testimonialImages = [
 ];
 
 export default function TestimonialsSection() {
-  const [imageSrc] = useState(() => {
+  const [imageSrc, setImageSrc] = useState(testimonialImages[0]);
+
+  useEffect(() => {
     const now = Date.now();
     const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    return testimonialImages[seconds % testimonialImages.length];
-  });
+    setImageSrc(testimonialImages[seconds % testimonialImages.length]);
+  }, []);
   return (
-    <section id="testimonials" className="relative py-24">
-      <div className="container-custom relative">
-        <div className="absolute inset-0 z-0 pointer-events-none -my-24">
+    <section id="testimonials" className="relative">
+      <div className="container-custom relative min-h-[843px]">
+        <div className="absolute top-0 left-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={imageSrc}
             alt="Testimonials Background"
-            fill
-            className="object-contain"
-            style={{ objectPosition: 'top left' }}
+            width={632}
+            height={843}
+            className="h-auto object-contain object-bottom"
             priority={false}
           />
         </div>
-        <div className="relative z-10">
-        <div className="grid-custom gap-4">
+        <div className="relative z-10 py-24">
+          <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-7 text-center lg:text-left mb-[60px]">
             <h2 className="text-heading-lg text-moloch-800 mb-8">
               Words From Our Clients
@@ -76,7 +78,7 @@ export default function TestimonialsSection() {
               ))}
             </div>
           </div>
-        </div>
+          </div>
         </div>
       </div>
     </section>
