@@ -44,7 +44,7 @@ export default function HireUsSection() {
           </div>
         </div>
 
-        <div className="grid-custom gap-4 flex items-start">
+        <div className="grid-custom gap-4 flex items-start pt-14">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 mb-[60px] text-center lg:text-left">
             <h3 className="text-heading-lg font-bold text-moloch-500 mb-8">
               How It Works

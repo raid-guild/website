@@ -67,7 +67,7 @@ export default function OurStorySection() {
               className="mx-auto h-auto max-w-[320px]"
             />
           </div>
-          <div className="lg:col-span-12">
+          <div className="lg:col-span-12 pt-14">
             <div className="w-full text-center">
               <h2 className="text-heading-lg text-moloch-500 mb-4">
                 Join the Guild
