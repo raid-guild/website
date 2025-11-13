@@ -58,7 +58,7 @@ export default function HomeHero() {
               </Button>
             </div>
           </div>
-          <div className="col-span-4 md:col-span-8 lg:col-span-6 order-1 lg:order-2">
+          <div className="col-span-4 md:col-span-8 lg:col-span-6 order-1 lg:order-2 lg:pt-32 pt-12">
             <Image
               src={imageSrc}
               alt="Raid Guild Hero"
