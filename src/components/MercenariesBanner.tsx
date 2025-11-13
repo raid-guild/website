@@ -56,9 +56,10 @@ export default function MercenariesBanner() {
                     <Image
                       src={mercenary.roleIcon}
                       alt={mercenary.name}
-                      width={31}
-                      height={31}
+                      width={32}
+                      height={32}
                       className="w-8 h-8"
+                      style={{ width: '32px', height: '32px' }}
                     />
                   )}
                   <p className="text-body-lg font-bold text-scroll-100 whitespace-nowrap">

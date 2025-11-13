@@ -61,6 +61,7 @@ export default function ScrollingBanner({
                   alt={item.alt}
                   width={item.width}
                   height={item.height}
+                  style={{ width: 'auto', height: 'auto' }}
                   priority
                 />
               </>

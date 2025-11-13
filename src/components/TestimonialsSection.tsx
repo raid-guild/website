@@ -56,6 +56,7 @@ export default function TestimonialsSection() {
                       alt="Testimonial"
                       width={43}
                       height={54}
+                      style={{ width: 'auto', height: 'auto' }}
                       data-legacy={testimonial.id}
                     />
                   </div>
