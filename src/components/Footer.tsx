@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="container-custom py-10">
         <div className="flex flex-col gap-6 items-start">
           <Image
-            src="/images/logo-RG-scroll-200.svg"
+            src="/images/logo-RG-scroll-100.svg"
             alt="Raid Guild"
             width={200}
             height={53}
