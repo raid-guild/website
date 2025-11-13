@@ -98,10 +98,13 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
     return themes[seconds % themes.length];
   });
 
-  const { isDesktop, isShrunk, headerHeight } = useHeaderSize({
+  const { isDesktop, shrinkProgress } = useHeaderSize({
     headerRef,
     allowDynamic,
   });
+
+  // Always use thin height for theme calculations to avoid circular dependency
+  const headerHeight = isDesktop ? DESKTOP_THIN_HEIGHT : MOBILE_HEADER_HEIGHT;
 
   const headerHeightRef = useRef(headerHeight);
   useEffect(() => {
@@ -183,27 +186,45 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
     >
       <div className="container-custom">
         <div className="hidden lg:block">
+          {/* Container that interpolates padding based on shrinkProgress */}
           <div
-            className={[
-              "transition-all duration-300 motion-reduce:transition-none",
-              isShrunk ? "py-5" : "py-12",
-            ].join(" ")}
+            style={{
+              paddingTop: `${1.25 + (1 - shrinkProgress) * 1.75}rem`,
+              paddingBottom: `${1.25 + (1 - shrinkProgress) * 1.75}rem`,
+              transition: 'padding 300ms ease-out',
+            }}
           >
-            {isShrunk ? (
+            <div style={{ position: 'relative' }}>
+              {/* Tall header overlay - purely visual, fades out from scroll 46-146px */}
+              <div
+                style={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  opacity: shrinkProgress < 0.3 ? 1 : shrinkProgress > 0.7 ? 0 : 1 - ((shrinkProgress - 0.3) / 0.4),
+                  pointerEvents: 'none',
+                  transition: 'opacity 300ms ease-out',
+                }}
+                className={theme.background}
+              >
+                <HeaderDesktopTall
+                  theme={theme}
+                  activeAnchorId={activeAnchorId}
+                  onNavigate={handleNavigate}
+                  staticAppearance={staticAppearance}
+                />
+              </div>
+
+              {/* Thin header - the real functional header, always present */}
               <HeaderDesktopThin
                 theme={theme}
                 activeAnchorId={activeAnchorId}
                 onNavigate={handleNavigate}
                 staticAppearance={staticAppearance}
               />
-            ) : (
-              <HeaderDesktopTall
-                theme={theme}
-                activeAnchorId={activeAnchorId}
-                onNavigate={handleNavigate}
-                staticAppearance={staticAppearance}
-              />
-            )}
+            </div>
           </div>
         </div>
 
@@ -596,8 +617,7 @@ type UseHeaderSizeOptions = {
 
 type HeaderSizeState = {
   isDesktop: boolean;
-  isShrunk: boolean;
-  headerHeight: number;
+  shrinkProgress: number;
 };
 
 function useHeaderSize({
@@ -605,8 +625,7 @@ function useHeaderSize({
   allowDynamic,
 }: UseHeaderSizeOptions): HeaderSizeState {
   const [isDesktop, setIsDesktop] = useState<boolean>(false);
-
-  const [isShrunk, setIsShrunk] = useState<boolean>(() => !allowDynamic);
+  const [shrinkProgress, setShrinkProgress] = useState<number>(1); // 0 = tall, 1 = thin
 
   useEffect(() => {
     if (typeof window === "undefined") {
@@ -618,7 +637,7 @@ function useHeaderSize({
     const applyMatchState = (matches: boolean) => {
       setIsDesktop(matches);
       if (!matches) {
-        setIsShrunk(true);
+        setShrinkProgress(1);
       }
     };
 
@@ -648,67 +667,59 @@ function useHeaderSize({
     }
 
     if (!allowDynamic) {
-      setIsShrunk(true);
+      setShrinkProgress(1);
       return;
     }
 
     if (!isDesktop) {
-      setIsShrunk(true);
+      setShrinkProgress(1);
       return;
     }
 
-    const calculateThreshold = () => {
-      const anchor = document.getElementById("services");
-      const baseHeight = headerRef.current
-        ? Math.max(
-            headerRef.current.getBoundingClientRect().height,
-            DESKTOP_TALL_HEIGHT
-          )
-        : DESKTOP_TALL_HEIGHT;
+    // Fixed scroll thresholds: 46px (start fade) to 146px (fully shrunk)
+    const FADE_START = 46;
+    const FADE_END = 146;
+    const FADE_RANGE = FADE_END - FADE_START;
 
-      if (!anchor) {
-        return baseHeight;
-      }
-
-      return anchor.offsetTop - baseHeight;
-    };
-
-    let threshold = calculateThreshold();
-
-    const handleResize = () => {
-      threshold = calculateThreshold();
-      evaluateScroll();
-    };
+    let rafId = 0;
 
     const evaluateScroll = () => {
+      rafId = 0;
       const scrollY = window.scrollY;
 
-      setIsShrunk((previous) => {
-        if (previous) {
-          return scrollY >= threshold - NAV_HYSTERESIS;
-        }
-        return scrollY >= threshold + NAV_HYSTERESIS;
-      });
+      // Calculate progress from 0 (tall) to 1 (thin)
+      if (scrollY <= FADE_START) {
+        setShrinkProgress(0);
+      } else if (scrollY >= FADE_END) {
+        setShrinkProgress(1);
+      } else {
+        const progress = (scrollY - FADE_START) / FADE_RANGE;
+        setShrinkProgress(progress);
+      }
+    };
+
+    const handleScroll = () => {
+      if (rafId !== 0) {
+        return;
+      }
+      rafId = window.requestAnimationFrame(evaluateScroll);
     };
 
     evaluateScroll();
 
-    window.addEventListener("scroll", evaluateScroll, { passive: true });
-    window.addEventListener("resize", handleResize, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("resize", handleScroll, { passive: true });
 
     return () => {
-      window.removeEventListener("scroll", evaluateScroll);
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleScroll);
+      if (rafId !== 0) {
+        window.cancelAnimationFrame(rafId);
+      }
     };
-  }, [allowDynamic, headerRef, isDesktop]);
+  }, [allowDynamic, isDesktop]);
 
-  const headerHeight = isDesktop
-    ? isShrunk
-      ? DESKTOP_THIN_HEIGHT
-      : DESKTOP_TALL_HEIGHT
-    : MOBILE_HEADER_HEIGHT;
-
-  return { isDesktop, isShrunk, headerHeight };
+  return { isDesktop, shrinkProgress };
 }
 
 type UseMobileMenuOptions = {
