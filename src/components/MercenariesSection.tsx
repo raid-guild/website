@@ -43,7 +43,7 @@ export default function MercenariesSection() {
   }, []);
 
   return (
-    <section id="mercenaries" className="my-24">
+    <section id="mercenaries" className="py-24">
       <div className="container-custom">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6">

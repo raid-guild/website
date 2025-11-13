@@ -22,7 +22,7 @@ export default function OurStorySection() {
     return storyImages[seconds % storyImages.length];
   });
   return (
-    <section id="our-story" className="my-24">
+    <section id="our-story" className="py-24">
       <div className="container-custom relative">
         <div className="absolute inset-0 z-0 pointer-events-none -my-24">
           <div className="absolute top-0 right-0 w-[632px] h-[843px]">
