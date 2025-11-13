@@ -39,11 +39,11 @@ export default function TestimonialsSection() {
             </p>
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-12">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid-custom gap-4">
               {testimonials.map((testimonial, index) => (
                 <div
                   key={index}
-                  className="bg-scroll-100 border-2 border-moloch-800 rounded-md overflow-hidden"
+                  className="col-span-4 bg-scroll-100 border-2 border-moloch-800 rounded-md overflow-hidden"
                 >
                   <div className="bg-moloch-500 border-b-2 border-moloch-800 p-8">
                     <Image

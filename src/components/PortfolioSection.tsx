@@ -126,9 +126,11 @@ export default function PortfolioSection() {
                 />
               </button>
             </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 lg:hidden">
+            <div className="grid-custom gap-4 lg:hidden">
               {clientData.map((client) => (
-                <ClientCard key={client.id} client={client} />
+                <div key={client.id} className="col-span-4 md:col-span-4">
+                  <ClientCard client={client} />
+                </div>
               ))}
             </div>
           </div>
