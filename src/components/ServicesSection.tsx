@@ -20,7 +20,7 @@ export default function ServicesSection() {
   });
 
   return (
-    <section id="services" className="relative mt-24 mb-44">
+    <section id="services" className="relative pt-24 pb-44">
       <div className="container-custom relative">
         <div className="absolute inset-0 z-0 pointer-events-none -mt-24 -mb-44">
           <Image
