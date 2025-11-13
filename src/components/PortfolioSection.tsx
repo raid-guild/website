@@ -26,7 +26,7 @@ function ClientCard({ client }: { client: Client }) {
           height={0}
         />
       </div>
-      <div className="bg-scroll-700 p-12 border-t-2 border-moloch-500 flex flex-col">
+      <div className="bg-scroll-700 p-12 border-t-2 border-moloch-500 flex flex-col min-h-[340px]">
         <h3 className="text-heading-md text-scroll-100 mb-4">{client.title}</h3>
         <p className="text-body-lg text-scroll-100 mb-8 flex-grow">
           {client.description}
@@ -86,7 +86,8 @@ export default function PortfolioSection() {
             </p>
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-12">
-            <div className="relative hidden lg:block">
+            {/* Desktop Carousel */}
+            <div className="relative hidden lg:block [&]:!hidden [&]:lg:!block">
               <div className="overflow-hidden">
                 <div
                   className="flex transition-transform duration-500 ease-in-out gap-4"
@@ -95,7 +96,7 @@ export default function PortfolioSection() {
                   }}
                 >
                   {clientData.map((client) => (
-                    <div key={client.id} className="flex-shrink-0 w-1/2">
+                    <div key={client.id} className="flex-shrink-0" style={{ width: 'calc(50% - 8px)' }}>
                       <ClientCard client={client} />
                     </div>
                   ))}
@@ -126,7 +127,8 @@ export default function PortfolioSection() {
                 />
               </button>
             </div>
-            <div className="grid-custom gap-4 lg:hidden">
+            {/* Mobile/Tablet Grid */}
+            <div className="grid-custom gap-4 [&]:!block [&]:lg:!hidden">
               {clientData.map((client) => (
                 <div key={client.id} className="col-span-4 md:col-span-4">
                   <ClientCard client={client} />

@@ -37,7 +37,7 @@ export default function ScrollingBanner({
 
   return (
     <div
-      className={`${bgColor} border-t-[10px] ${borderColor} py-5 overflow-hidden`}
+      className={`${bgColor} border-t-[10px] ${borderColor} min-h-24 flex items-center overflow-hidden`}
     >
       <div
         className={`flex items-center ${gap} animate-scroll`}

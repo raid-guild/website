@@ -175,7 +175,7 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
     <header
       ref={headerRef}
       className={[
-        "sticky top-0 z-50 border-t-[10px] transition-colors duration-500 motion-reduce:transition-none",
+        "sticky top-0 z-50 border-t-[10px] border-b-2 border-scroll-100 transition-colors duration-500 motion-reduce:transition-none",
         theme.background,
         theme.borderAccent,
         theme.text,

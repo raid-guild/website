@@ -82,6 +82,7 @@ export const mercenaries: Mercenary[] = [
   {
     name: "Sasquatch",
     title: "BizDev",
+    link: "https://boucherbox.xyz/",
     imagePath: "/images/member-sasquatch.png",
     roleIcon: "/images/icon-og-learningnewthings.svg",
   },
@@ -175,6 +176,39 @@ export const mercenaries: Mercenary[] = [
     title: "FullStack Dev",
     imagePath: "/images/member-bitbeckers.png",
     roleIcon: "/images/icon-og-experimentation.svg",
+  },
+  {
+    name: "Spengrah",
+    title: "Smart Contracts",
+    link: "https://x.com/spengrah",
+    imagePath: "/images/member-spengrah.png",
+    roleIcon: "/images/icon-og-frontenddev.svg",
+  },
+  {
+    name: "Dekan",
+    title: "Summoner",
+    link: "https://x.com/DekanBro",
+    imagePath: "/images/member-dekan.png",
+    roleIcon: "/images/icon-og-manifesto.svg",
+  },
+  {
+    name: "Takekek",
+    title: "BizDev",
+    imagePath: "/images/member-takekek.png",
+    roleIcon: "/images/icon-og-marketing.svg",
+  },
+  {
+    name: "Aperion",
+    title: "Community",
+    imagePath: "/images/member-aperion.png",
+    roleIcon: "/images/icon-og-tipofthespear.svg",
+  },
+  {
+    name: "Penguin",
+    title: "FullStack Dev",
+    link: "https://x.com/c0mput3rxz",
+    imagePath: "/images/member-penguin.png",
+    roleIcon: "/images/icon-og-raidguild.svg",
   },
 ];
 

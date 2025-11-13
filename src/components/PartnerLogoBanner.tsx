@@ -49,14 +49,10 @@ export default function PartnerLogoBanner() {
   return (
     <div
       id="partner-logo-banner"
-      className="bg-foreground border-t-[10px] border-primary py-5"
+      className="bg-foreground border-t-[10px] border-primary min-h-24 flex items-center"
     >
       <div className="container-custom">
-        {/* 12-column grid: 92px columns, 16px gap, max-width 1280px */}
-        {/* Desktop (1280px): 12 columns → 6 slots (2 columns each) */}
-        {/* Tablet (768px): 6 columns → 6 slots (1 column each, 2 rows) */}
-        {/* Mobile (320px+): 3 columns → 6 slots (varies, multiple rows) */}
-        <div className="grid grid-cols-3 md:grid-cols-6 lg:grid-cols-12 gap-4 max-w-[1280px] mx-auto">
+        <div className="grid-custom gap-4">
           {logoSlots.map((slot, slotIndex) => (
             <div
               key={slotIndex}

@@ -29,15 +29,16 @@ function shuffleArray(array: Mercenary[]) {
 
 export default function MercenariesSection() {
   const [shuffledMercenaries, setShuffledMercenaries] =
-    useState<Mercenary[]>(mercenaries);
+    useState<Mercenary[]>([]);
 
   // Deterministic image selection based on 20-minute intervals (no flash, no hydration mismatch)
   const interval = Math.floor(Date.now() / (1000 * 60 * 20)); // 20 minutes
   const imageSrc = mercenariesImages[interval % mercenariesImages.length];
 
   useEffect(() => {
-    // Shuffle on client side only to avoid hydration mismatch
-    setShuffledMercenaries(shuffleArray(mercenaries));
+    // Shuffle on client side only to avoid hydration mismatch, limit to 24
+    const shuffled = shuffleArray(mercenaries);
+    setShuffledMercenaries(shuffled.slice(0, 24));
   }, []);
 
   return (
@@ -64,43 +65,40 @@ export default function MercenariesSection() {
               </p>
             </div>
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-2 ">
-              {shuffledMercenaries.map((mercenary) => (
-                <Tooltip key={mercenary.name}>
-                  <TooltipTrigger asChild>
-                    <div className="flex flex-col items-center gap-2 cursor-pointer group">
-                      <div className="relative w-[72px] h-[72px] rounded-md overflow-hidden border-2 border-scroll-100 group-hover:border-moloch-500 transition-colors bg-scroll-100">
-                        <Image
-                          src={mercenary.imagePath}
-                          alt={mercenary.name}
-                          fill
-                          className="object-cover"
-                          sizes="72px"
-                        />
+              {shuffledMercenaries.map((mercenary) => {
+                const link = mercenary.link || "https://x.com/RaidGuild";
+                return (
+                  <Tooltip key={mercenary.name}>
+                    <TooltipTrigger asChild>
+                      <Link
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex flex-col items-center gap-2 cursor-pointer group"
+                      >
+                        <div className="relative w-[72px] h-[72px] rounded-md overflow-hidden border-2 border-scroll-100 group-hover:border-moloch-500 transition-colors bg-scroll-100">
+                          <Image
+                            src={mercenary.imagePath}
+                            alt={mercenary.name}
+                            fill
+                            className="object-cover"
+                            sizes="72px"
+                          />
+                        </div>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="top"
+                      className="max-w-xs bg-moloch-800 p-5"
+                    >
+                      <div className="flex flex-col gap-1 text-code-md">
+                        <p className="font-semibold">{mercenary.name}</p>
+                        <p className="text-xs opacity-90">{mercenary.title}</p>
                       </div>
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent
-                    side="top"
-                    className="max-w-xs bg-moloch-800 p-5"
-                  >
-                    <div className="flex flex-col gap-1 text-code-md">
-                      <p className="font-semibold">{mercenary.name}</p>
-                      <p className="text-xs opacity-90">{mercenary.title}</p>
-                      {mercenary.link && (
-                        <Link
-                          href={mercenary.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="text-xs underline opacity-80 hover:opacity-100 mt-1"
-                          onClick={(e) => e.stopPropagation()}
-                        >
-                          View Profile
-                        </Link>
-                      )}
-                    </div>
-                  </TooltipContent>
-                </Tooltip>
-              ))}
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              })}
             </div>
             <Image
               src="/images/mercenaries-divider.svg"

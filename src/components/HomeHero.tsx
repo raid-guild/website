@@ -18,7 +18,7 @@ export default function HomeHero() {
 
   return (
     <section id="about" className="relative">
-      <div className="container-custom min-h-[843px]">
+      <div className="container-custom min-h-795px]">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-[60px] order-2 lg:order-1">
             <div className="flex flex-col gap-10">
@@ -73,10 +73,9 @@ export default function HomeHero() {
       </div>
 
       {/* Partner Logo Banner */}
-      <div className="container-custom mt-10 mb-2">
-        <p className="text-body-lg text-moloch text-left w-full">
-          RaidGuild friends, partners, clients, allies, spawned protocol
-          ecosystem
+      <div className="container-custom mt-10 mb-1">
+        <p className="text-body-lg text-moloch text-left w-full italic">
+          Partners, clients, and member-built DApps
         </p>
       </div>
       <PartnerLogoBanner />
