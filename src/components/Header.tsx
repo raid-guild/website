@@ -89,14 +89,19 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
 
   const allowDynamic = !staticAppearance;
 
-  const [initialTheme] = useState<HeaderTheme>(() => {
-    if (!allowDynamic) return "moloch-500";
+  const [initialTheme, setInitialTheme] = useState<HeaderTheme>("moloch-500");
+
+  useEffect(() => {
+    if (!allowDynamic) {
+      setInitialTheme("moloch-500");
+      return;
+    }
 
     const themes: HeaderTheme[] = ["moloch-500", "moloch-800", "scroll-700"];
     const now = Date.now();
     const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    return themes[seconds % themes.length];
-  });
+    setInitialTheme(themes[seconds % themes.length]);
+  }, [allowDynamic]);
 
   const { isDesktop, shrinkProgress } = useHeaderSize({
     headerRef,

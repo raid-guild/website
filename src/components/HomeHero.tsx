@@ -13,15 +13,17 @@ const homeImages = [
 ];
 
 export default function HomeHero() {
-  const [imageSrc] = useState(() => {
+  const [imageSrc, setImageSrc] = useState(homeImages[0]);
+
+  useEffect(() => {
     const now = Date.now();
     const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    return homeImages[seconds % homeImages.length];
-  });
+    setImageSrc(homeImages[seconds % homeImages.length]);
+  }, []);
 
   return (
     <section id="about" className="relative">
-      <div className="container-custom mb-9">
+      <div className="container-custom min-h-[843px]">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-[60px] order-2 lg:order-1">
             <div className="flex flex-col gap-10">

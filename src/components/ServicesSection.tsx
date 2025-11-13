@@ -13,27 +13,29 @@ const servicesImages = [
 ];
 
 export default function ServicesSection() {
-  const [imageSrc] = useState(() => {
+  const [imageSrc, setImageSrc] = useState(servicesImages[0]);
+
+  useEffect(() => {
     const now = Date.now();
     const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    return servicesImages[seconds % servicesImages.length];
-  });
+    setImageSrc(servicesImages[seconds % servicesImages.length]);
+  }, []);
 
   return (
-    <section id="services" className="relative pt-24 pb-44">
-      <div className="container-custom relative">
-        <div className="absolute inset-0 z-0 pointer-events-none -mt-24 -mb-44">
+    <section id="services" className="relative">
+      <div className="container-custom relative min-h-[843px]">
+        <div className="absolute bottom-0 right-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={imageSrc}
             alt="Services Background"
-            fill
-            className="object-contain"
-            style={{ objectPosition: 'top right' }}
+            width={632}
+            height={843}
+            className="h-auto object-contain object-bottom"
             priority={false}
           />
         </div>
-        <div className="relative z-10">
-        <div className="grid-custom gap-4">
+        <div className="relative z-10 pt-24 pb-44">
+          <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-[60px]">
             <h2 className="text-heading-lg text-moloch-500 mb-8">
               Arsenal of Expertise
@@ -56,7 +58,7 @@ export default function ServicesSection() {
               ))}
             </div>
           </div>
-        </div>
+          </div>
         </div>
       </div>
     </section>
