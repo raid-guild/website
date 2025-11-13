@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { clientData } from "@/lib/data/clients";
 
 const portfolioImages = [
@@ -48,13 +48,10 @@ function ClientCard({ client }: { client: Client }) {
 
 export default function PortfolioSection() {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [backgroundImageSrc, setBackgroundImageSrc] = useState(portfolioImages[0]);
 
-  useEffect(() => {
-    const now = Date.now();
-    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    setBackgroundImageSrc(portfolioImages[seconds % portfolioImages.length]);
-  }, []);
+  // Deterministic image selection based on 14-minute intervals (no flash, no hydration mismatch)
+  const interval = Math.floor(Date.now() / (1000 * 60 * 14)); // 14 minutes
+  const backgroundImageSrc = portfolioImages[interval % portfolioImages.length];
 
   const nextSlide = () => {
     setCurrentIndex((prev) => (prev + 1) % clientData.length);

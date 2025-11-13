@@ -2,7 +2,6 @@
 
 import { timelineIconNames, timelineItems } from "@/lib/data/content";
 import Image from "next/image";
-import { useState, useEffect } from "react";
 import TimelineAccordion from "./TimelineAccordion";
 import { Button } from "./ui/button";
 import { DISCORD_INVITE_URL } from "@/lib/data/constants";
@@ -16,13 +15,9 @@ const storyImages = [
 ];
 
 export default function OurStorySection() {
-  const [imageSrc, setImageSrc] = useState(storyImages[0]);
-
-  useEffect(() => {
-    const now = Date.now();
-    const seconds = Math.floor(now / 30000); // Changes every 30 seconds
-    setImageSrc(storyImages[seconds % storyImages.length]);
-  }, []);
+  // Deterministic image selection based on 18-minute intervals (no flash, no hydration mismatch)
+  const interval = Math.floor(Date.now() / (1000 * 60 * 18)); // 18 minutes
+  const imageSrc = storyImages[interval % storyImages.length];
   return (
     <section id="our-story" className="relative">
       <div className="container-custom relative min-h-[843px]">
