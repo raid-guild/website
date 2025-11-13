@@ -3,6 +3,7 @@ import { maziusDisplay, ebGaramond, ubuntuMono } from "@/lib/fonts";
 import "./globals.css";
 // import { ThemeProvider } from "next-themes";
 import { Providers } from "@/providers/providers";
+import Fathom from "@/components/Fathom";
 
 export const metadata: Metadata = {
   title: "Raid Guild",
@@ -19,13 +20,14 @@ export default function RootLayout({
       <body
         className={`${maziusDisplay.variable} ${ebGaramond.variable} ${ubuntuMono.variable} antialiased`}
       >
+        <Fathom />
         {/* <ThemeProvider
           attribute="class"
           defaultTheme="light"
           enableSystem
           disableTransitionOnChange
         > */}
-          <Providers>{children}</Providers>
+        <Providers>{children}</Providers>
         {/* </ThemeProvider> */}
       </body>
     </html>
