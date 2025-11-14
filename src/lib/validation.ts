@@ -19,7 +19,7 @@ export const hireUsFormSchema = z.object({
   description: z.string().min(10, {
     message: "Description is required.",
   }),
-  specsLink: z.url().optional(),
+  specsLink: z.string().url().optional().or(z.literal("")),
   budget: z.string().min(1, {
     message: "Please select a budget range.",
   }),
