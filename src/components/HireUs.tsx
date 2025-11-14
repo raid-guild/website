@@ -485,7 +485,7 @@ export default function HireUs() {
   );
 
   const ErrorState = () => (
-    <div className="space-y-4 p-6 border rounded-lg bg-scroll-100">
+    <div className="space-y-4 p-6 border rounded-md bg-scroll-100">
       <p className="text-moloch-500">{errorMessage}</p>
 
       {validationErrors.length > 0 && (
@@ -510,7 +510,7 @@ export default function HireUs() {
           setErrorMessage("");
           setValidationErrors([]);
         }}
-        className="bg-neutral-800 text-moloch-500 font-header text-lg uppercase tracking-wide mt-5 px-6 py-2 border-2 border-neutral-800 rounded-lg hover:bg-moloch-500 transition-colors"
+        className="bg-neutral-800 text-moloch-500 font-header text-lg uppercase tracking-wide mt-5 px-6 py-2 border-2 border-neutral-800 rounded-md hover:bg-moloch-500 transition-colors"
       >
         Try Again
       </button>

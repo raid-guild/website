@@ -30,6 +30,7 @@ function shuffleArray(array: Mercenary[]) {
 export default function MercenariesSection() {
   const [shuffledMercenaries, setShuffledMercenaries] =
     useState<Mercenary[]>([]);
+  const [openTooltipId, setOpenTooltipId] = useState<string | null>(null);
 
   // Deterministic image selection based on 20-minute intervals (no flash, no hydration mismatch)
   const interval = Math.floor(Date.now() / (1000 * 60 * 20)); // 20 minutes
@@ -67,16 +68,33 @@ export default function MercenariesSection() {
             <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-2 ">
               {shuffledMercenaries.map((mercenary) => {
                 const link = mercenary.link || "https://x.com/RaidGuild";
+                const isOpen = openTooltipId === mercenary.name;
+
+                const handleClick = (e: React.MouseEvent) => {
+                  // On mobile (touch devices), first click opens tooltip, second click follows link
+                  if (window.matchMedia("(hover: none)").matches) {
+                    if (!isOpen) {
+                      e.preventDefault();
+                      setOpenTooltipId(mercenary.name);
+                    }
+                    // If already open, let the link work normally
+                  }
+                };
+
                 return (
-                  <Tooltip key={mercenary.name}>
+                  <Tooltip key={mercenary.name} open={isOpen} onOpenChange={(open) => {
+                    if (!open) setOpenTooltipId(null);
+                    else setOpenTooltipId(mercenary.name);
+                  }}>
                     <TooltipTrigger asChild>
                       <Link
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="flex flex-col items-center gap-2 cursor-pointer group"
+                        onClick={handleClick}
                       >
-                        <div className="relative w-[72px] h-[72px] rounded-md overflow-hidden border-2 border-scroll-100 group-hover:border-moloch-500 transition-colors bg-scroll-100">
+                        <div className="relative w-[72px] h-[72px] rounded-md overflow-hidden border-2 border-scroll-100 bg-scroll-100">
                           <Image
                             src={mercenary.imagePath}
                             alt={mercenary.name}
@@ -89,11 +107,11 @@ export default function MercenariesSection() {
                     </TooltipTrigger>
                     <TooltipContent
                       side="top"
-                      className="max-w-xs bg-moloch-800 p-5"
+                      className="max-w-xs bg-moloch-800 p-2"
                     >
-                      <div className="flex flex-col gap-1 text-code-md">
-                        <p className="font-semibold">{mercenary.name}</p>
-                        <p className="text-xs opacity-90">{mercenary.title}</p>
+                      <div className="flex flex-col gap-1 text-body-md leading-none text-center">
+                        <p className="leading-none text-base">{mercenary.name}</p>
+                        <p className="text-sm leading-none">{mercenary.title}</p>
                       </div>
                     </TooltipContent>
                   </Tooltip>
