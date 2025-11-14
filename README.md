@@ -12,4 +12,4 @@ bun dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-v0.3
+v0.4
