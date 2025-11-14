@@ -18,14 +18,14 @@ function shuffleArray(array: Mercenary[]) {
 export const mercenaries: Mercenary[] = [
   {
     name: "Suede",
-    title: "UI/UX Designer",
+    title: "UI/UX Design",
     link: "https://linktr.ee/suede0619",
     imagePath: "/images/member-suede.png",
     roleIcon: "/images/icon-og-cartelculture.svg",
   },
   {
     name: "Sero",
-    title: "FrontEnd Dev",
+    title: "Frontend",
     link: "https://github.com/0xSero",
     imagePath: "/images/member-sero.png",
     roleIcon: "/images/icon-og-community.svg",
@@ -46,7 +46,7 @@ export const mercenaries: Mercenary[] = [
   },
   {
     name: "TheBeyondr",
-    title: "FrontEnd Dev",
+    title: "Frontend",
     link: "https://github.com/thebeyondr",
     imagePath: "/images/member-thebeyondr.png",
     roleIcon: "/images/icon-og-designsprints.svg",
@@ -60,7 +60,7 @@ export const mercenaries: Mercenary[] = [
   },
   {
     name: "Suns",
-    title: "Frontend Dev",
+    title: "Frontend",
     link: "https://github.com/sunsakis",
     imagePath: "/images/member-suns.png",
     roleIcon: "/images/icon-og-experimentation.svg",
@@ -88,7 +88,7 @@ export const mercenaries: Mercenary[] = [
   },
   {
     name: "Sayonara",
-    title: "Frontend Dev",
+    title: "Frontend",
     link: "https://github.com/wtfsayo",
     imagePath: "/images/member-sayonara.png",
     roleIcon: "/images/icon-og-manifesto.svg",
@@ -102,7 +102,7 @@ export const mercenaries: Mercenary[] = [
   },
   {
     name: "Vika",
-    title: "UX/UI Designer",
+    title: "UX/UI Design",
     link: "https://open.spotify.com/user/vvicos",
     imagePath: "/images/member-vika.png",
     roleIcon: "/images/icon-og-marketingdesign.svg",
@@ -116,26 +116,26 @@ export const mercenaries: Mercenary[] = [
   },
   {
     name: "Pupcakes",
-    title: "FullStack Dev",
+    title: "Fullstack",
     link: "https://github.com/Fluffy9",
     imagePath: "/images/member-pupcakes.png",
     roleIcon: "/images/icon-og-learningnewthings.svg",
   },
   {
     name: "Skuhl",
-    title: "FullStack Dev",
+    title: "Fullstack",
     imagePath: "/images/member-samkuhlman.png",
     roleIcon: "/images/icon-og-education.svg",
   },
   {
     name: "Georgeh",
-    title: "FullStack Dev",
+    title: "Fullstack",
     imagePath: "/images/member-georgeh.png",
     roleIcon: "/images/icon-og-tipofthespear.svg",
   },
   {
     name: "Jip",
-    title: "FrontEnd Dev",
+    title: "Frontend",
     imagePath: "/images/member-jip.png",
     roleIcon: "/images/icon-og-cartelculture.svg",
   },
@@ -160,7 +160,7 @@ export const mercenaries: Mercenary[] = [
   },
   {
     name: "Chiali",
-    title: "UX/UI Designer",
+    title: "UX/UI Design",
     link: "https://x.com/Chia_Tea",
     imagePath: "/images/member-chiali.png",
     roleIcon: "/images/icon-og-designsprints.svg",
@@ -173,7 +173,7 @@ export const mercenaries: Mercenary[] = [
   },
   {
     name: "Bitbeckers",
-    title: "FullStack Dev",
+    title: "Fullstack",
     imagePath: "/images/member-bitbeckers.png",
     roleIcon: "/images/icon-og-experimentation.svg",
   },
@@ -205,7 +205,7 @@ export const mercenaries: Mercenary[] = [
   },
   {
     name: "Penguin",
-    title: "FullStack Dev",
+    title: "Fullstack",
     link: "https://x.com/c0mput3rxz",
     imagePath: "/images/member-penguin.png",
     roleIcon: "/images/icon-og-raidguild.svg",

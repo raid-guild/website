@@ -119,14 +119,14 @@ export default function JoinUs() {
   );
 
   const ErrorState = () => (
-    <div className="space-y-4 p-6 border rounded-lg bg-scroll-500">
+    <div className="space-y-4 p-6 border rounded-md bg-scroll-500">
       <p className="text-moloch-500">{errorMessage}</p>
       <button
         onClick={() => {
           setSubmissionStatus("idle");
           setErrorMessage("");
         }}
-        className="bg-neutral-800 text-moloch-500 font-header text-lg uppercase tracking-wide mt-5 px-6 py-2 border-2 border-neutral-800 rounded-lg hover:bg-moloch-500 transition-colors"
+        className="bg-neutral-800 text-moloch-500 font-header text-lg uppercase tracking-wide mt-5 px-6 py-2 border-2 border-neutral-800 rounded-md hover:bg-moloch-500 transition-colors"
       >
         Try Again
       </button>

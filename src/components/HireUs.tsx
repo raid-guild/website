@@ -249,7 +249,7 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                       <RadioGroupItem value={option.value} id={option.value} />
                       <label
                         htmlFor={option.value}
-                        className="text-body-lg peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        className="text-body-md peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
                       >
                         {option.label}
                       </label>
@@ -337,7 +337,7 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                 hideClearAllButton={true}
                 hidePlaceholderWhenSelected={true}
                 emptyIndicator={
-                  <p className="text-center text-lg leading-10 text-gray-600 dark:text-gray-400">
+                  <p className="text-center text-body-md leading-10 text-gray-600 dark:text-gray-400">
                     no results found.
                   </p>
                 }
@@ -485,15 +485,15 @@ export default function HireUs() {
   );
 
   const ErrorState = () => (
-    <div className="space-y-4 p-6 border rounded-lg bg-scroll-100">
-      <p className="text-moloch-500">{errorMessage}</p>
+    <div className="space-y-4 p-6 border rounded-md bg-scroll-100">
+      <p className="text-body-md text-moloch-500">{errorMessage}</p>
 
       {validationErrors.length > 0 && (
-        <div className="mt-4 text-lg">
+        <div className="mt-4 text-body-md">
           <h4 className="font-medium text-moloch-800 mb-2">
             Please fix the following issues:
           </h4>
-          <ul className="list-disc list-inside space-y-1 text-base text-moloch-600">
+          <ul className="list-disc list-inside space-y-1 text-body-md text-moloch-600">
             {validationErrors.map((error, index) => (
               <li key={index}>
                 <span className="font-medium">{error.field}:</span>{" "}
@@ -510,7 +510,7 @@ export default function HireUs() {
           setErrorMessage("");
           setValidationErrors([]);
         }}
-        className="bg-neutral-800 text-moloch-500 font-header text-lg uppercase tracking-wide mt-5 px-6 py-2 border-2 border-neutral-800 rounded-lg hover:bg-moloch-500 transition-colors"
+        className="bg-neutral-800 text-moloch-500 font-header text-lg uppercase tracking-wide mt-5 px-6 py-2 border-2 border-neutral-800 rounded-md hover:bg-moloch-500 transition-colors"
       >
         Try Again
       </button>
@@ -565,7 +565,7 @@ export default function HireUs() {
             <h3 className="text-heading-lg font-bold text-moloch-500 mb-12">
               The Fires Have Been Lit!
             </h3>
-            <p className="text-center text-body-lg">
+            <p className="text-center text-body-md">
               Your request has been received. A member of the Guild will be in
               touch with you soon.
             </p>

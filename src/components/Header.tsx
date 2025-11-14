@@ -41,7 +41,7 @@ const THEME_CONFIG: Record<HeaderTheme, ThemeConfig> = {
     text: "text-scroll-100",
     navHover: "hover:bg-moloch-800",
     navActive: "bg-moloch-800",
-    navActiveText: "text-moloch-100",
+    navActiveText: "text-scroll-100",
     menuSurface: "bg-moloch-500",
     logoPath: "/images/logo-RG-moloch-800.svg",
   },
@@ -51,19 +51,19 @@ const THEME_CONFIG: Record<HeaderTheme, ThemeConfig> = {
     text: "text-scroll-100",
     navHover: "hover:bg-moloch-500",
     navActive: "bg-moloch-500",
-    navActiveText: "text-moloch-100",
+    navActiveText: "text-scroll-100",
     menuSurface: "bg-moloch-800/95",
     logoPath: "/images/logo-RG-moloch-500.svg",
   },
   "scroll-700": {
     background: "bg-scroll-700",
     borderAccent: "border-moloch-800",
-    text: "text-moloch-100",
+    text: "text-scroll-100",
     navHover: "hover:bg-moloch-800",
     navActive: "bg-moloch-800",
     navActiveText: "text-scroll-100",
     menuSurface: "bg-scroll-700",
-    logoPath: "/images/logo-RG-moloch-800.svg",
+    logoPath: "/images/logo-RG-scroll-100.svg",
   },
 };
 
@@ -135,6 +135,13 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
 
   const theme = THEME_CONFIG[currentTheme];
 
+  // For scroll-700 theme: use moloch-800 logo when not fully shrunk (shrinkProgress < 1), scroll-100 when fully thin (shrinkProgress === 1)
+  const logoPath = currentTheme === "scroll-700" && shrinkProgress !== 1
+    ? "/images/logo-RG-moloch-800.svg"
+    : theme.logoPath;
+
+  const themeWithDynamicLogo = { ...theme, logoPath };
+
   const mobileMenu = useMobileMenu({
     panelRef,
     triggerRef,
@@ -175,7 +182,7 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
     <header
       ref={headerRef}
       className={[
-        "sticky top-0 z-50 border-t-[10px] border-b-2 border-scroll-100 transition-colors duration-500 motion-reduce:transition-none",
+        "sticky top-0 z-50 border-t-[10px] border-b-2 border-b-scroll-100 transition-colors duration-500 motion-reduce:transition-none",
         theme.background,
         theme.borderAccent,
         theme.text,
@@ -184,7 +191,7 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
       <div className="container-custom">
         <div className="hidden lg:block">
           <HeaderDesktopAdaptive
-            theme={theme}
+            theme={themeWithDynamicLogo}
             activeAnchorId={activeAnchorId}
             onNavigate={handleNavigate}
             staticAppearance={staticAppearance}
@@ -194,7 +201,7 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
 
         <div className="lg:hidden">
           <HeaderMobile
-            theme={theme}
+            theme={themeWithDynamicLogo}
             isMenuOpen={mobileMenu.isOpen}
             panelId={panelId}
             onToggleMenu={mobileMenu.toggle}
@@ -484,7 +491,7 @@ function MobileMenuPanel({
     >
       <div
         className={[
-          "px-4 py-6 w-full max-w-[16rem] origin-top overflow-hidden rounded-b-lg text-display-md transition-all duration-300 motion-reduce:transition-none",
+          "px-4 py-6 w-full max-w-[16rem] origin-top overflow-hidden rounded-b-md text-display-md transition-all duration-300 motion-reduce:transition-none",
           theme.menuSurface,
           isOpen
             ? "mt-2 scale-y-100 opacity-100"
