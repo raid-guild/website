@@ -5,13 +5,15 @@ import { load, trackPageview } from "fathom-client";
 import { useEffect, Suspense } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
+const FATHOM_ID = "ASGWDEGI";
+
 function TrackPageView() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
 
   // Load the Fathom script on mount
   useEffect(() => {
-    load("MY_FATHOM_ID", {
+    load(FATHOM_ID, {
       auto: false,
     });
   }, []);
