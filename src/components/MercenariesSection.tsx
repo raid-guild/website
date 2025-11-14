@@ -110,7 +110,7 @@ export default function MercenariesSection() {
                       className="max-w-xs bg-moloch-800 p-2"
                     >
                       <div className="flex flex-col gap-1 text-body-md leading-none text-center">
-                        <p className="leading-none text-base">{mercenary.name}</p>
+                        <p className="leading-none text-base font-bold">{mercenary.name}</p>
                         <p className="text-sm leading-none">{mercenary.title}</p>
                       </div>
                     </TooltipContent>
