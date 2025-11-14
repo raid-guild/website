@@ -356,69 +356,6 @@ const MultipleSelector = React.forwardRef<
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [debouncedSearchTerm, groupBy, open, triggerSearchOnFocus]);
 
-    const CreatableItem = () => {
-      if (!creatable) return undefined;
-      if (
-        isOptionsExist(options, [{ value: inputValue, label: inputValue }]) ||
-        selected.find((s) => s.value === inputValue)
-      ) {
-        return undefined;
-      }
-
-      const Item = (
-        <CommandItem
-          value={inputValue}
-          className="cursor-pointer"
-          onMouseDown={(e: {
-            preventDefault: () => void;
-            stopPropagation: () => void;
-          }) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          onSelect={(value: string) => {
-            if (selected.length >= maxSelected) {
-              onMaxSelected?.(selected.length);
-              return;
-            }
-            setInputValue("");
-            const newOptions = [...selected, { value, label: value }];
-            setSelected(newOptions);
-            onChange?.(newOptions);
-          }}
-        >
-          {`Create "${inputValue}"`}
-        </CommandItem>
-      );
-
-      // For normal creatable
-      if (!onSearch && inputValue.length > 0) {
-        return Item;
-      }
-
-      // For async search creatable. avoid showing creatable item before loading at first.
-      if (onSearch && debouncedSearchTerm.length > 0 && !isLoading) {
-        return Item;
-      }
-
-      return undefined;
-    };
-
-    const EmptyItem = React.useCallback(() => {
-      if (!emptyIndicator) return undefined;
-
-      // For async search that showing emptyIndicator
-      if (onSearch && !creatable && Object.keys(options).length === 0) {
-        return (
-          <CommandItem value="-" disabled>
-            {emptyIndicator}
-          </CommandItem>
-        );
-      }
-
-      return <CommandEmpty>{emptyIndicator}</CommandEmpty>;
-    }, [creatable, emptyIndicator, onSearch, options]);
-
     const selectables = React.useMemo<GroupOption>(
       () => removePickedOption(options, selected),
       [options, selected]
@@ -460,7 +397,7 @@ const MultipleSelector = React.forwardRef<
       >
         <div
           className={cn(
-            "flex items-start justify-between rounded-md border border-input px-3 py-2 text-body-md ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
+            "flex items-start justify-between rounded-md border border-moloch-800 p-0.5 text-body-md ring-offset-background focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2",
             {
               "cursor-text": !disabled && selected.length !== 0,
             },
@@ -471,14 +408,15 @@ const MultipleSelector = React.forwardRef<
             inputRef?.current?.focus();
           }}
         >
-          <div className="relative flex flex-wrap gap-1">
+          <div className="relative flex flex-col w-full gap-0.5">
             {selected.map((option) => {
               return (
                 <Badge
                   key={option.value}
                   className={cn(
-                    "data-[disabled]:bg-muted-foreground data-[disabled]:text-muted data-[disabled]:hover:bg-muted-foreground",
-                    "data-[fixed]:bg-muted-foreground data-[fixed]:text-muted data-[fixed]:hover:bg-muted-foreground",
+                    "contact-multiselect-badge",
+                    "data-[disabled]:bg-muted-foreground data-[disabled]:text-muted",
+                    "data-[fixed]:bg-muted-foreground data-[fixed]:text-muted",
                     badgeClassName
                   )}
                   data-fixed={option.fixed}
@@ -502,45 +440,48 @@ const MultipleSelector = React.forwardRef<
                     }}
                     onClick={() => handleUnselect(option)}
                   >
-                    <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+                    <X className="h-3 w-3 text-scroll-100 hover:text-scroll-100/80" />
                   </button>
                 </Badge>
               );
             })}
             {/* Avoid having the "Search" Icon */}
-            <CommandPrimitive.Input
-              {...inputProps}
-              ref={inputRef}
-              value={inputValue}
-              disabled={disabled}
-              onValueChange={(value) => {
-                setInputValue(value);
-                inputProps?.onValueChange?.(value);
-              }}
-              onBlur={(event) => {
-                if (!onScrollbar) {
-                  setOpen(false);
+            {Object.keys(selectables).some(
+              (key) => selectables[key].length > 0
+            ) && (
+              <CommandPrimitive.Input
+                {...inputProps}
+                ref={inputRef}
+                value={inputValue}
+                disabled={disabled}
+                onValueChange={(value) => {
+                  setInputValue(value);
+                  inputProps?.onValueChange?.(value);
+                }}
+                onBlur={(event) => {
+                  if (!onScrollbar) {
+                    setOpen(false);
+                  }
+                  inputProps?.onBlur?.(event);
+                }}
+                onFocus={(event) => {
+                  setOpen(true);
+                  inputProps?.onFocus?.(event);
+                }}
+                placeholder={
+                  hidePlaceholderWhenSelected && selected.length !== 0
+                    ? ""
+                    : placeholder
                 }
-                inputProps?.onBlur?.(event);
-              }}
-              onFocus={(event) => {
-                setOpen(true);
-                inputProps?.onFocus?.(event);
-              }}
-              placeholder={
-                hidePlaceholderWhenSelected && selected.length !== 0
-                  ? ""
-                  : placeholder
-              }
-              className={cn(
-                "flex-1 self-baseline bg-transparent outline-none placeholder:text-muted-foreground",
-                {
-                  "w-full": hidePlaceholderWhenSelected,
-                  "ml-1": selected.length !== 0,
-                },
-                inputProps?.className
-              )}
-            />
+                className={cn(
+                  "flex-1 self-baseline bg-transparent outline-none placeholder:text-moloch-800/60 text-body-md font-body px-2 py-1",
+                  {
+                    "w-full": hidePlaceholderWhenSelected,
+                  },
+                  inputProps?.className
+                )}
+              />
+            )}
           </div>
           <button
             type="button"
@@ -571,75 +512,76 @@ const MultipleSelector = React.forwardRef<
           />
         </div>
         <div className="relative">
-          {open && (
-            <CommandList
-              className="absolute top-1 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in"
-              onMouseLeave={() => {
-                setOnScrollbar(false);
-              }}
-              onMouseEnter={() => {
-                setOnScrollbar(true);
-              }}
-              onMouseUp={() => {
-                inputRef?.current?.focus();
-              }}
-            >
-              {isLoading ? (
-                <>{loadingIndicator}</>
-              ) : (
-                <>
-                  {EmptyItem()}
-                  {CreatableItem()}
-                  {!selectFirstItem && (
-                    <CommandItem value="-" className="hidden" />
-                  )}
-                  {Object.entries(selectables).map(([key, dropdowns]) => (
-                    <CommandGroup
-                      key={key}
-                      heading={key}
-                      className="h-full overflow-auto"
-                    >
-                      <>
-                        {dropdowns.map((option) => {
-                          return (
-                            <CommandItem
-                              key={option.value}
-                              value={option.label}
-                              disabled={option.disable}
-                              onMouseDown={(e: {
-                                preventDefault: () => void;
-                                stopPropagation: () => void;
-                              }) => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                              }}
-                              onSelect={() => {
-                                if (selected.length >= maxSelected) {
-                                  onMaxSelected?.(selected.length);
-                                  return;
-                                }
-                                setInputValue("");
-                                const newOptions = [...selected, option];
-                                setSelected(newOptions);
-                                onChange?.(newOptions);
-                              }}
-                              className={cn(
-                                "cursor-pointer",
-                                option.disable &&
-                                  "cursor-default text-muted-foreground"
-                              )}
-                            >
-                              {option.label}
-                            </CommandItem>
-                          );
-                        })}
-                      </>
-                    </CommandGroup>
-                  ))}
-                </>
-              )}
-            </CommandList>
-          )}
+          {open &&
+            Object.keys(selectables).some(
+              (key) => selectables[key].length > 0
+            ) && (
+              <CommandList
+                className="absolute top-1 z-10 w-full rounded-md border bg-popover text-popover-foreground shadow-md outline-none animate-in"
+                onMouseLeave={() => {
+                  setOnScrollbar(false);
+                }}
+                onMouseEnter={() => {
+                  setOnScrollbar(true);
+                }}
+                onMouseUp={() => {
+                  inputRef?.current?.focus();
+                }}
+              >
+                {isLoading ? (
+                  <>{loadingIndicator}</>
+                ) : (
+                  <>
+                    {!selectFirstItem && (
+                      <CommandItem value="-" className="hidden" />
+                    )}
+                    {Object.entries(selectables).map(([key, dropdowns]) => (
+                      <CommandGroup
+                        key={key}
+                        heading={key}
+                        className="h-full overflow-auto"
+                      >
+                        <>
+                          {dropdowns.map((option) => {
+                            return (
+                              <CommandItem
+                                key={option.value}
+                                value={option.label}
+                                disabled={option.disable}
+                                onMouseDown={(e: {
+                                  preventDefault: () => void;
+                                  stopPropagation: () => void;
+                                }) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                }}
+                                onSelect={() => {
+                                  if (selected.length >= maxSelected) {
+                                    onMaxSelected?.(selected.length);
+                                    return;
+                                  }
+                                  setInputValue("");
+                                  const newOptions = [...selected, option];
+                                  setSelected(newOptions);
+                                  onChange?.(newOptions);
+                                }}
+                                className={cn(
+                                  "cursor-pointer",
+                                  option.disable &&
+                                    "cursor-default text-muted-foreground"
+                                )}
+                              >
+                                {option.label}
+                              </CommandItem>
+                            );
+                          })}
+                        </>
+                      </CommandGroup>
+                    ))}
+                  </>
+                )}
+              </CommandList>
+            )}
         </div>
       </Command>
     );

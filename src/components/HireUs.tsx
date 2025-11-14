@@ -20,7 +20,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
   RequiredFieldIndicator,
 } from "@/components/ui/form";
 import {
@@ -51,7 +50,7 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
   return (
     <div className="space-y-4">
       <div className="flex flex-row flex-wrap w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 w-full items-start">
           <FormField
             control={form.control}
             name="name"
@@ -63,7 +62,6 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
                 <FormControl>
                   <Input placeholder="What should we call you?" {...field} />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -82,7 +80,6 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
                     {...field}
                   />
                 </FormControl>
-                <FormMessage />
               </FormItem>
             )}
           />
@@ -99,12 +96,9 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
             <FormControl>
               <Textarea
                 placeholder="Describe your project involvement, please introduce yourself"
-                rows={4}
                 {...field}
               />
             </FormControl>
-
-            <FormMessage />
           </FormItem>
         )}
       />
@@ -119,7 +113,7 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
               <FormControl>
                 <Input
                   placeholder="What is your username?"
-                  className="rounded-r-none border-r-0"
+                  className="!rounded-r-none border-r-0"
                   {...field}
                 />
               </FormControl>
@@ -132,7 +126,7 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
                     defaultValue={dropdownField.value}
                   >
                     <FormControl>
-                      <SelectTrigger className="rounded-l-none w-32">
+                      <SelectTrigger className="!rounded-l-none w-32">
                         <SelectValue placeholder="Discord" />
                       </SelectTrigger>
                     </FormControl>
@@ -149,7 +143,6 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
                 )}
               />
             </div>
-            <FormMessage />
           </FormItem>
         )}
       />
@@ -176,7 +169,6 @@ const ProjectDetailsStep = ({ form, isActive }: StepProps) => {
                 {...field}
               />
             </FormControl>
-            <FormMessage />
           </FormItem>
         )}
       />
@@ -191,12 +183,9 @@ const ProjectDetailsStep = ({ form, isActive }: StepProps) => {
             <FormControl>
               <Textarea
                 placeholder="What can we build, scope, design or source for you?"
-                rows={7}
                 {...field}
               />
             </FormControl>
-
-            <FormMessage />
           </FormItem>
         )}
       />
@@ -215,7 +204,6 @@ const ProjectDetailsStep = ({ form, isActive }: StepProps) => {
               />
             </FormControl>
             {/* </div> */}
-            <FormMessage />
           </FormItem>
         )}
       />
@@ -228,7 +216,7 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
 
   return (
     <div className="space-y-4">
-      <div className="mb-10">
+      <div className="mb-4">
         <FormField
           control={form.control}
           name="projectPriority"
@@ -257,7 +245,6 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                   ))}
                 </RadioGroup>
               </FormControl>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -287,7 +274,6 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                   })}
                 </SelectContent>
               </Select>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -315,7 +301,6 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                   })}
                 </SelectContent>
               </Select>
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -342,7 +327,6 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                   </p>
                 }
               />
-              <FormMessage />
             </FormItem>
           )}
         />
@@ -510,7 +494,7 @@ export default function HireUs() {
           setErrorMessage("");
           setValidationErrors([]);
         }}
-        className="bg-neutral-800 text-moloch-500 font-header text-lg uppercase tracking-wide mt-5 px-6 py-2 border-2 border-neutral-800 rounded-md hover:bg-moloch-500 transition-colors"
+        className="contact-btn-active mt-5"
       >
         Try Again
       </button>
@@ -566,8 +550,7 @@ export default function HireUs() {
               The Fires Have Been Lit!
             </h3>
             <p className="text-center text-body-md">
-              Your request has been received. A member of the Guild will be in
-              touch with you soon.
+              Your quest has been received. A member of the Guild will be in touch with you shortly to discuss next steps.
             </p>
           </>
         ) : (

@@ -150,37 +150,31 @@ export function Wizard({
         </Card>
       )}
 
-      {/* Step Navigation */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center space-x-2">
-          {steps.map((step, index) => (
-            <React.Fragment key={step.id}>
-              <button
-                onClick={() => goToStep(index)}
-                className={cn(
-                  "flex items-center space-x-2 px-3 py-2 rounded-md text-sm font-medium transition-colors",
-                  index === currentStep
-                    ? "bg-moloch-500 text-white"
-                    : completedSteps.has(index)
-                    ? "bg-moloch-500 text-white hover:bg-scroll-400"
-                    : "bg-moloch-800 text-moloch-500 hover:bg-moloch-500 hover:text-moloch-800"
-                )}
-              >
-                {completedSteps.has(index) ? (
-                  <Check className="h-4 w-4" />
-                ) : (
-                  <span className="w-4 h-4 rounded-full border-2 border-current flex items-center justify-center text-xs">
-                    {index + 1}
-                  </span>
-                )}
-                <span className="hidden sm:inline">{step.title}</span>
-              </button>
-              {index < steps.length - 1 && (
-                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+      {/* Step Progress Indicators */}
+      <div className="flex items-center gap-4">
+        {steps.map((step, index) => (
+          <div
+            key={step.id}
+            className={cn(
+              "flex items-center gap-2 h-8 px-5 rounded-md font-medium pointer-events-none",
+              index === currentStep
+                ? "bg-moloch-500 text-scroll-100"
+                : "bg-moloch-800 text-scroll-100"
+            )}
+          >
+            <span
+              className={cn(
+                "w-4 h-4 rounded-sm flex items-center justify-center text-[12px] font-body font-bold leading-none",
+                index === currentStep
+                  ? "bg-scroll-100 text-moloch-500"
+                  : "bg-moloch-500 text-moloch-800"
               )}
-            </React.Fragment>
-          ))}
-        </div>
+            >
+              {index + 1}
+            </span>
+            <span className="hidden sm:inline text-body-md font-body">{step.title}</span>
+          </div>
+        ))}
       </div>
 
       {/* <Separator /> */}
@@ -203,39 +197,34 @@ export function Wizard({
       </div>
 
       {/* Navigation Buttons */}
-      <div className="flex items-center justify-end gap-8">
-        <Button
-          variant="moloch"
-          size="sm"
-          onClick={goToPreviousStep}
-          disabled={isFirstStep || !allowBackNavigation}
-          className="flex items-center space-x-2 text-moloch-500 font-body uppercase text-sm"
-        >
-          <ChevronLeft className="h-4 w-4" />
-          <span>Previous</span>
-        </Button>
-
-        <div className="flex items-center space-x-2">
-          {/* {!isLastStep && (
-            <Button
-              variant="ghost"
-              onClick={() => goToStep(currentStep + 1)}
-              disabled={!canProceed}
-            >
-              Skip
-            </Button>
-          )} */}
+      <div className="flex items-center justify-end gap-4">
+        {!isFirstStep && (
           <Button
-            onClick={goToNextStep}
-            disabled={isValidating || disableSubmit}
-            className="flex items-center space-x-2 text-scroll-100 font-body uppercase text-sm"
-            size="sm"
-            variant={isLastStep ? "moloch" : "primary"}
+            size={null}
+            onClick={goToPreviousStep}
+            disabled={!allowBackNavigation}
+            className="contact-btn-active"
           >
-            <span>{isLastStep ? "Complete" : "Next"}</span>
-            {!isLastStep && <ChevronRight className="h-4 w-4" />}
+            <ChevronLeft className="h-4 w-4" />
+            <span>Previous</span>
           </Button>
-        </div>
+        )}
+
+        <Button
+          onClick={goToNextStep}
+          disabled={isValidating || (isLastStep && disableSubmit)}
+          size={null}
+          className="contact-btn-active"
+        >
+          {isLastStep ? (
+            <span>Complete</span>
+          ) : (
+            <>
+              <span>Next</span>
+              <ChevronRight className="h-4 w-4" />
+            </>
+          )}
+        </Button>
       </div>
 
       {/* Step Summary */}
