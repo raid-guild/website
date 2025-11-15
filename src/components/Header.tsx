@@ -68,10 +68,8 @@ const THEME_CONFIG: Record<HeaderTheme, ThemeConfig> = {
 };
 
 const DESKTOP_BREAKPOINT = "(min-width: 1024px)";
-const DESKTOP_TALL_HEIGHT = 256;
 const DESKTOP_THIN_HEIGHT = 96;
 const MOBILE_HEADER_HEIGHT = 72;
-const NAV_HYSTERESIS = 40;
 
 type HeaderProps = {
   /**
@@ -92,7 +90,9 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
   // Deterministic theme selection based on 5-minute intervals (no flash, no hydration mismatch)
   const themes: HeaderTheme[] = ["moloch-500", "moloch-800", "scroll-700"];
   const interval = Math.floor(Date.now() / (1000 * 60 * 5)); // 5 minutes
-  const initialTheme = allowDynamic ? themes[interval % themes.length] : "moloch-500";
+  const initialTheme = allowDynamic
+    ? themes[interval % themes.length]
+    : "moloch-500";
 
   const { isDesktop, shrinkProgress } = useHeaderSize({
     headerRef,
@@ -136,9 +136,10 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
   const theme = THEME_CONFIG[currentTheme];
 
   // For scroll-700 theme: use moloch-800 logo when not fully shrunk (shrinkProgress < 1), scroll-100 when fully thin (shrinkProgress === 1)
-  const logoPath = currentTheme === "scroll-700" && shrinkProgress !== 1
-    ? "/images/logo-RG-moloch-800.svg"
-    : theme.logoPath;
+  const logoPath =
+    currentTheme === "scroll-700" && shrinkProgress !== 1
+      ? "/images/logo-RG-moloch-800.svg"
+      : theme.logoPath;
 
   const themeWithDynamicLogo = { ...theme, logoPath };
 
@@ -245,35 +246,35 @@ function HeaderDesktopAdaptive({
   const gap = 8 + (1 - shrinkProgress) * 2; // 8 -> 10
 
   // items-end (flex-end) when tall, items-center when thin
-  const alignItems = shrinkProgress < 0.5 ? 'flex-end' : 'center';
+  const alignItems = shrinkProgress < 0.5 ? "flex-end" : "center";
 
   return (
     <div
       style={{
         paddingTop: `${paddingTop}rem`,
         paddingBottom: `${paddingBottom}rem`,
-        transition: 'padding 300ms ease-out',
+        transition: "padding 300ms ease-out",
       }}
     >
       <div
         style={{
-          display: 'flex',
+          display: "flex",
           alignItems,
-          justifyContent: 'space-between',
+          justifyContent: "space-between",
           gap: `${gap * 0.25}rem`,
-          transition: 'gap 300ms ease-out, align-items 300ms ease-out',
+          transition: "gap 300ms ease-out, align-items 300ms ease-out",
         }}
       >
         <div
           style={{
             marginBottom: `${logoMarginBottom}px`,
-            transition: 'margin-bottom 300ms ease-out',
+            transition: "margin-bottom 300ms ease-out",
           }}
         >
           <div
             style={{
               height: `${logoHeight}px`,
-              transition: 'height 300ms ease-out',
+              transition: "height 300ms ease-out",
             }}
           >
             <Image
@@ -283,9 +284,9 @@ function HeaderDesktopAdaptive({
               height={166}
               priority
               style={{
-                width: 'auto',
-                height: '100%',
-                objectFit: 'contain',
+                width: "auto",
+                height: "100%",
+                objectFit: "contain",
               }}
             />
           </div>
@@ -630,7 +631,6 @@ type HeaderSizeState = {
 };
 
 function useHeaderSize({
-  headerRef,
   allowDynamic,
 }: UseHeaderSizeOptions): HeaderSizeState {
   const [isDesktop, setIsDesktop] = useState<boolean>(false);

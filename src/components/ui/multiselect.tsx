@@ -137,17 +137,6 @@ function removePickedOption(groupOption: GroupOption, picked: Option[]) {
   return cloneOption;
 }
 
-function isOptionsExist(groupOption: GroupOption, targetOption: Option[]) {
-  for (const [, value] of Object.entries(groupOption)) {
-    if (
-      value.some((option) => targetOption.find((p) => p.value === option.value))
-    ) {
-      return true;
-    }
-  }
-  return false;
-}
-
 /**
  * The `CommandEmpty` of shadcn/ui will cause the cmdk empty not rendering correctly.
  * So we create one and copy the `Empty` implementation from `cmdk`.
@@ -190,7 +179,6 @@ const MultipleSelector = React.forwardRef<
       onSearch,
       onSearchSync,
       loadingIndicator,
-      emptyIndicator,
       maxSelected = Number.MAX_SAFE_INTEGER,
       onMaxSelected,
       hidePlaceholderWhenSelected,
