@@ -43,7 +43,7 @@ export default function MercenariesSection() {
   }, []);
 
   return (
-    <section id="mercenaries" className="py-24">
+    <section id="mercenaries" className="py-12">
       <div className="container-custom relative min-h-[843px]">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6">
@@ -65,7 +65,7 @@ export default function MercenariesSection() {
                 Battle-tested talent. Uncompromising quality.
               </p>
             </div>
-            <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-8 gap-2 ">
+            <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 ">
               {shuffledMercenaries.map((mercenary) => {
                 const link = mercenary.link || "https://x.com/RaidGuild";
                 const isOpen = openTooltipId === mercenary.name;
@@ -123,19 +123,20 @@ export default function MercenariesSection() {
               alt="Divider"
               width={450}
               height={28}
+              className="hidden lg:block"
             />
             <div className="flex flex-col gap-8 w-full">
               <p className="text-body-lg text-moloch-800 text-center">
                 Have questions or ready to start a project? We&apos;re here to
                 help you achieve your goals and bring your vision to life.
               </p>
-              <div className="flex gap-4">
-                <Button variant="primary" className="flex-1">
+              <div className="flex flex-col md:flex-row gap-4">
+                <Button variant="primary" className="w-full md:flex-1">
                   <a href="#hire-us" className="text-label text-scoll-100">
                     HIRE US
                   </a>
                 </Button>
-                <Button variant="secondary" className="flex-1">
+                <Button variant="secondary" className="w-full md:flex-1">
                   <a href="#testimonials" className="text-label">
                     WHAT OTHERS SAY
                   </a>

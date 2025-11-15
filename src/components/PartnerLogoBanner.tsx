@@ -53,10 +53,16 @@ export default function PartnerLogoBanner() {
     >
       <div className="container-custom">
         <div className="grid-custom gap-4">
-          {logoSlots.map((slot, slotIndex) => (
+          {logoSlots.map((slot, slotIndex) => {
+            // For tablet: manual column positioning for 3 across (columns 1-2, 3-4, 5-6, then repeat)
+            const tabletColClass =
+              slotIndex % 3 === 0 ? 'md:col-start-1' :
+              slotIndex % 3 === 1 ? 'md:col-start-3' :
+              'md:col-start-5';
+            return (
             <div
               key={slotIndex}
-              className="col-span-1 md:col-span-1 lg:col-span-2 relative h-[60px] flex items-center justify-center"
+              className={`col-span-2 ${tabletColClass} md:col-span-2 lg:col-start-auto lg:col-span-2 relative h-[60px] flex items-center justify-center`}
             >
               {/* Each slot contains 3 logos stacked with absolute positioning */}
               {slot.map((logo, logoIndex) => {
@@ -88,7 +94,8 @@ export default function PartnerLogoBanner() {
                 );
               })}
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

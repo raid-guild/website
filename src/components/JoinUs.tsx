@@ -169,7 +169,7 @@ export default function JoinUs() {
             priority={false}
           />
         </div>
-        <div className="relative z-10 py-24">
+        <div className="relative z-10 py-12 lg:py-24">
           <div className="grid-custom gap-4">
             {/* Left Column - Header */}
             <div className="col-span-4 md:col-span-8 lg:col-span-6">

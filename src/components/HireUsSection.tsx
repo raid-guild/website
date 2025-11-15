@@ -16,7 +16,7 @@ export default function HireUsSection() {
   const interval = Math.floor(Date.now() / (1000 * 60 * 22)); // 22 minutes
   const imageSrc = hireUsImages[interval % hireUsImages.length];
   return (
-    <section id="hire-us" className="py-24">
+    <section id="hire-us" className="py-12">
       <div className="container-custom relative min-h-[843px]">
         <div className="grid-custom gap-4 flex items-start">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 mb-[60px] text-center lg:text-left">

@@ -4,7 +4,7 @@ export const clientData = [
     logo: "/images/logo-Pocket.svg",
     logoWidth: 234,
     title: "10x Increase in Token Value",
-    description: `Created the wrapped version of the $POKT token as well as the UniSwap pool, bridge and staking dApp. 10x price increase with the launch of this token. $7M was transferred over this bridge in 2024.`,
+    description: `Created the wrapped version of the $POKT token, and the UniSwap pool, bridge and staking dApp. 10x price increase with the launch of this token. $7M transferred over this bridge in 2024.`,
     tags: ["Cross-Chain Infra", "Token", "Dapp Dev"],
   },
   {
@@ -29,7 +29,7 @@ export const clientData = [
     logoWidth: 320,
     title: "Onchain Gameplay & Interactions",
     description: `Designed and built a fully on-chain RPG, integrating smart contract-powered quest systems, player-driven narratives, and decentralized inventory management to create a trustless game world.`,
-    tags: ["Game Dev", "Smart Contracts", "UI/UX"],
+    tags: ["Smart Contracts", "Game Dev", "UI/UX"],
   },
   {
     id: "gnosis",
