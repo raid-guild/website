@@ -237,7 +237,7 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                       <RadioGroupItem value={option.value} id={option.value} />
                       <label
                         htmlFor={option.value}
-                        className="text-body-md peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                        className="text-body-md peer-disabled:cursor-not-allowed peer-disabled:opacity-70 !leading-tight"
                       >
                         {option.label}
                       </label>
