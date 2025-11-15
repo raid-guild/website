@@ -21,7 +21,7 @@ export default function OurStorySection() {
   return (
     <section id="our-story" className="relative">
       <div className="container-custom relative min-h-[843px]">
-        <div className="absolute top-0 md:bottom-0 md:top-auto right-0 z-0 pointer-events-none max-w-[632px]">
+        <div className="absolute top-0 md:bottom-0 md:top-auto lg:top-0 lg:bottom-auto right-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={imageSrc}
             alt="Story Background"
@@ -53,7 +53,7 @@ export default function OurStorySection() {
           <div className="hidden lg:col-span-6 lg:flex lg:justify-center">
             {/* Background image now handled above */}
           </div>
-          <div className="hidden lg:block">
+          {/* <div className="hidden lg:block">
             <Image
               src="/images/mercenaries-divider.svg"
               alt="Decorative divider"
@@ -62,7 +62,7 @@ export default function OurStorySection() {
               className="mx-auto h-auto max-w-[320px]"
               style={{ width: 'auto', height: 'auto', maxWidth: '320px' }}
             />
-          </div>
+          </div> */}
           <div className="lg:col-span-12 pt-6 md:pt-12 lg:pt-12">
             <div className="w-full text-center">
               <h2 className="text-heading-lg text-moloch-500 mb-4">

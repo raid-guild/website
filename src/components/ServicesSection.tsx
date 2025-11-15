@@ -31,7 +31,7 @@ export default function ServicesSection() {
         </div>
         <div className="relative z-10 pt-[520px] pb-[60px] md:pt-24 md:pb-44 lg:pt-24 lg:pb-44">
           <div className="grid-custom gap-4">
-          <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-[60px]">
+          <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-6 lg:mb-12">
             <h2 className="text-heading-lg text-moloch-500 mb-8">
               Arsenal of Expertise
             </h2>
