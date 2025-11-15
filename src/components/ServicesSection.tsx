@@ -19,7 +19,7 @@ export default function ServicesSection() {
   return (
     <section id="services" className="relative">
       <div className="container-custom relative min-h-[843px]">
-        <div className="absolute bottom-0 right-0 z-0 pointer-events-none max-w-[632px]">
+        <div className="absolute top-0 md:bottom-0 md:top-auto right-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={imageSrc}
             alt="Services Background"
@@ -29,7 +29,7 @@ export default function ServicesSection() {
             priority={false}
           />
         </div>
-        <div className="relative z-10 pt-24 pb-44">
+        <div className="relative z-10 pt-[520px] pb-[60px] md:pt-24 md:pb-44 lg:pt-24 lg:pb-44">
           <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-[60px]">
             <h2 className="text-heading-lg text-moloch-500 mb-8">
@@ -41,7 +41,7 @@ export default function ServicesSection() {
             </p>
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-12">
-            <div className="grid-custom gap-14 lg:gap-4">
+            <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-16 lg:gap-4">
               {services.map((service, index) => (
                 <div key={index} className="col-span-4 md:col-span-4 lg:col-span-3">
                   <ServiceCard

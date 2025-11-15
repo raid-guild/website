@@ -66,7 +66,7 @@ export default function PortfolioSection() {
   return (
     <section id="case-studies" className="relative">
       <div className="container-custom relative min-h-[843px]">
-        <div className="absolute bottom-0 right-0 z-0 pointer-events-none max-w-[632px]">
+        <div className="absolute top-0 md:bottom-0 md:top-auto right-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={backgroundImageSrc}
             alt="Portfolio Background"
@@ -76,9 +76,9 @@ export default function PortfolioSection() {
             priority={false}
           />
         </div>
-        <div className="relative z-10 py-24">
+        <div className="relative z-10 pt-[520px] pb-12 md:py-12 lg:py-24">
           <div className="grid-custom gap-4">
-          <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-[60px]">
+          <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-[30px]">
             <h2 className="text-heading-lg mb-8">Completed Quests</h2>
             <p className="text-body-lg">
               Legendary campaigns executed with precision and proven results.
@@ -128,9 +128,9 @@ export default function PortfolioSection() {
               </button>
             </div>
             {/* Mobile/Tablet Grid */}
-            <div className="grid-custom gap-4 [&]:!block [&]:lg:!hidden">
+            <div className="grid grid-cols-4 md:grid-cols-8 gap-4 [&]:!grid [&]:lg:!hidden">
               {clientData.map((client) => (
-                <div key={client.id} className="col-span-4 md:col-span-4">
+                <div key={client.id} className="col-span-4">
                   <ClientCard client={client} />
                 </div>
               ))}

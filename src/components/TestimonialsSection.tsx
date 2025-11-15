@@ -17,7 +17,7 @@ export default function TestimonialsSection() {
   return (
     <section id="testimonials" className="relative">
       <div className="container-custom relative min-h-[843px]">
-        <div className="absolute top-0 left-0 z-0 pointer-events-none max-w-[632px]">
+        <div className="absolute top-0 md:bottom-0 md:top-auto left-0 md:right-0 md:left-auto z-0 pointer-events-none max-w-[632px]">
           <Image
             src={imageSrc}
             alt="Testimonials Background"
@@ -27,7 +27,7 @@ export default function TestimonialsSection() {
             priority={false}
           />
         </div>
-        <div className="relative z-10 py-24">
+        <div className="relative z-10 pt-[520px] pb-12 md:py-12 lg:py-24">
           <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-7 text-center lg:text-left mb-[60px]">
             <h2 className="text-heading-lg text-moloch-800 mb-8">

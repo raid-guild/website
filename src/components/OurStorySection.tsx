@@ -21,7 +21,7 @@ export default function OurStorySection() {
   return (
     <section id="our-story" className="relative">
       <div className="container-custom relative min-h-[843px]">
-        <div className="absolute top-0 right-0 z-0 pointer-events-none max-w-[632px]">
+        <div className="absolute top-0 md:bottom-0 md:top-auto right-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={imageSrc}
             alt="Story Background"
@@ -31,7 +31,7 @@ export default function OurStorySection() {
             priority={false}
           />
         </div>
-        <div className="relative z-10 py-24">
+        <div className="relative z-10 pt-[520px] pb-12 md:py-12 lg:py-24">
           <div className="flex flex-col gap-12 lg:grid lg:grid-cols-12 lg:gap-8">
           <div className="flex flex-col gap-8 lg:col-span-6">
             <div className="text-center lg:text-left">
@@ -53,7 +53,7 @@ export default function OurStorySection() {
           <div className="hidden lg:col-span-6 lg:flex lg:justify-center">
             {/* Background image now handled above */}
           </div>
-          <div className="lg:hidden">
+          <div className="hidden lg:block">
             <Image
               src="/images/mercenaries-divider.svg"
               alt="Decorative divider"
@@ -63,7 +63,7 @@ export default function OurStorySection() {
               style={{ width: 'auto', height: 'auto', maxWidth: '320px' }}
             />
           </div>
-          <div className="lg:col-span-12 pt-14">
+          <div className="lg:col-span-12 pt-6 md:pt-12 lg:pt-12">
             <div className="w-full text-center">
               <h2 className="text-heading-lg text-moloch-500 mb-4">
                 Join the Guild
@@ -73,13 +73,13 @@ export default function OurStorySection() {
                 gateway into Raid Guild—where the finest builders shape the
                 future of Web3.
               </p>
-              <div className="flex gap-4 justify-center">
-                <Button>
+              <div className="flex flex-col md:flex-row gap-4 md:justify-center">
+                <Button className="w-full md:w-auto">
                   <Link href="/join" className="text-label text-scoll-100">
                     APPLY TO A COHORT
                   </Link>
                 </Button>
-                <Button variant="secondary" className="text-label">
+                <Button variant="secondary" className="text-label w-full md:w-auto">
                   <a
                     href={DISCORD_INVITE_URL}
                     target="_blank"

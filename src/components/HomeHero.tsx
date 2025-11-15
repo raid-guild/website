@@ -45,13 +45,13 @@ export default function HomeHero() {
               width={300}
               height={36}
             />
-            <div className="flex gap-4 flex-wrap w-full">
-              <Button variant="primary" className="flex-1">
+            <div className="flex flex-col md:flex-row gap-4 w-full">
+              <Button variant="primary" className="w-full md:flex-1">
                 <a href="#hire-us" className="text-label text-scoll-100">
                   SUMMON A RAID
                 </a>
               </Button>
-              <Button variant="secondary" className="flex-1">
+              <Button variant="secondary" className="w-full md:flex-1">
                 <a href="#case-studies" className="text-label">
                   VIEW OUR WORK
                 </a>

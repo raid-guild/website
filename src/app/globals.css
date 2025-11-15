@@ -361,17 +361,10 @@
   /* Grid System Classes */
   .container-custom {
     width: 100%;
-    max-width: var(--container-width-mobile);
     margin-left: auto;
     margin-right: auto;
-  }
-
-  @media (min-width: 768px) {
-    .container-custom {
-      max-width: var(--container-width-tablet);
-      padding-left: var(--container-padding);
-      padding-right: var(--container-padding);
-    }
+    padding-left: var(--container-padding);
+    padding-right: var(--container-padding);
   }
 
   @media (min-width: 1024px) {
@@ -384,8 +377,8 @@
 
   .grid-custom {
     display: grid;
-    /* Mobile: 4 columns of 92px + 3 gaps of 16px = 416px total */
-    grid-template-columns: repeat(4, var(--grid-column-width));
+    /* Mobile: 4 flexible columns that shrink proportionally */
+    grid-template-columns: repeat(4, 1fr);
     gap: var(--grid-gap);
     margin-left: auto;
     margin-right: auto;

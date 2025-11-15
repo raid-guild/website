@@ -36,7 +36,7 @@ export default function TimelineAccordion({
             className="rounded-md overflow-hidden"
           >
             <AccordionTrigger className="bg-scroll-700 px-8 py-4 flex justify-between items-center hover:no-underline hover:bg-scroll-700 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md rounded-b-none [&>svg]:hidden">
-              <span className="text-heading-md text-scroll-100">
+              <span className="text-scroll-100 font-display font-bold text-[20px] md:text-[28px] lg:text-[36px] leading-[1.4] md:leading-[1.3] lg:leading-[1.2]">
                 {item.year} {item.title}
               </span>
               <Image
