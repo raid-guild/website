@@ -155,6 +155,20 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
       }
 
       const id = href.slice(1);
+
+      // "about" should always scroll to top
+      if (id === "about") {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+        if (typeof window.history?.replaceState === "function") {
+          window.history.replaceState(null, "", href);
+        }
+        mobileMenu.close();
+        return;
+      }
+
       const target = document.getElementById(id);
 
       if (!target) {
@@ -163,7 +177,10 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
 
       const targetTop = window.scrollY + target.getBoundingClientRect().top - 1;
       const offset = headerHeightRef.current ?? DESKTOP_THIN_HEIGHT;
-      const safeOffset = Math.max(offset - (isDesktop ? 16 : 12), 0);
+
+      // On mobile, add extra 240px offset to account for positioning
+      const mobileExtraOffset = !isDesktop ? 240 : 0;
+      const safeOffset = Math.max(offset - (isDesktop ? 16 : 12) + mobileExtraOffset, 0);
       const destination = Math.max(targetTop - safeOffset, 0);
 
       window.scrollTo({
@@ -265,11 +282,22 @@ function HeaderDesktopAdaptive({
           transition: "gap 300ms ease-out, align-items 300ms ease-out",
         }}
       >
-        <div
+        <button
+          onClick={() => {
+            window.scrollTo({
+              top: 0,
+              behavior: "smooth",
+            });
+          }}
           style={{
             marginBottom: `${logoMarginBottom}px`,
             transition: "margin-bottom 300ms ease-out",
+            background: "none",
+            border: "none",
+            padding: 0,
+            cursor: "pointer",
           }}
+          aria-label="Scroll to top"
         >
           <div
             style={{
@@ -290,7 +318,7 @@ function HeaderDesktopAdaptive({
               }}
             />
           </div>
-        </div>
+        </button>
         <NavLinks
           theme={theme}
           activeAnchorId={activeAnchorId}
@@ -416,14 +444,25 @@ function Logo({ variant, logoPath }: LogoProps) {
     variant === "tall" ? "h-[150px]" : variant === "thin" ? "h-12" : "h-10";
 
   return (
-    <Image
-      src={logoPath}
-      alt="Raid Guild Logo"
-      width={632}
-      height={166}
-      priority
-      className={[baseClasses, sizeClasses].join(" ")}
-    />
+    <button
+      onClick={() => {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }}
+      className="bg-transparent border-0 p-0 cursor-pointer"
+      aria-label="Scroll to top"
+    >
+      <Image
+        src={logoPath}
+        alt="Raid Guild Logo"
+        width={632}
+        height={166}
+        priority
+        className={[baseClasses, sizeClasses].join(" ")}
+      />
+    </button>
   );
 }
 
