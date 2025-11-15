@@ -116,13 +116,15 @@ export default function JoinUs() {
       <h3 className="text-2xl font-semibold text-scroll-400">
         Your Words Have Been Passed On.
       </h3>
-      <a
-        className="text-neutral-400 text-sm font-body hover:text-moloch-300 transition-colors"
-        href="https://discord.gg/raidguild"
-        target="_blank"
-      >
-        Look for the Tavern Keeper in Discord
-      </a>
+      <div className="pt-12">
+        <a
+          href="https://discord.gg/raidguild"
+          target="_blank"
+          className="contact-btn-active"
+        >
+          Look for the Tavern Keeper in Discord
+        </a>
+      </div>
     </div>
   );
 
@@ -146,10 +148,11 @@ export default function JoinUs() {
       <div className="text-center space-y-4">
         <div className="flex items-center justify-center animate-spin [animation-duration:7s]">
           <Image
-            src="/raid-hour-glass.svg"
-            alt="raid guild hourglass"
-            width="150"
-            height="150"
+            src="/images/Logomark.svg"
+            alt="Raid Guild"
+            width={169}
+            height={159}
+            className="flex-shrink-0"
           />
         </div>
       </div>
@@ -159,34 +162,25 @@ export default function JoinUs() {
   return (
     <section id="join-us" className="relative">
       <div className="container-custom relative min-h-[843px]">
-        <div className="absolute bottom-0 left-0 z-0 pointer-events-none max-w-[632px]">
+        <div className="absolute top-0 md:top-1/2 md:-translate-y-1/2 left-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={imageSrc}
             alt="Join Raid Guild"
             width={632}
             height={843}
-            className="h-auto object-contain object-bottom"
+            className="h-auto object-contain object-bottom md:object-center"
             priority={false}
           />
         </div>
-        <div className="relative z-10 py-12 lg:py-24">
-          <div className="grid-custom gap-4">
-            {/* Left Column - Header */}
-            <div className="col-span-4 md:col-span-8 lg:col-span-6">
-              <div className="w-full max-w-[632px] text-center">
-                <h2 className="text-heading-lg text-moloch-500 mb-8">
-                  Let's Build<br />Something Legendary?
-                </h2>
-              </div>
-            </div>
-
+        <div className="relative z-10 pt-[520px] pb-12 md:py-12 lg:py-24">
+          <div className="grid-custom gap-4 min-h-[850px]">
             {/* Right Column - Form */}
-            <div className="col-span-4 md:col-span-8 lg:col-span-6">
-              <div className="space-y-8">
+            <div className="col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-7">
+              <div className="space-y-8 max-w-[632px] ml-auto">
               {/* Header */}
-              <div>
+              <div className="text-center md:text-left">
                 <h3 className="text-heading-lg font-bold text-moloch-500 mb-8">
-                  Join Us
+                  Join Us! Let's Build Something Legendary Together
                 </h3>
                 {submissionStatus === "success" ? (
                   <p className="text-body-md">
@@ -208,7 +202,7 @@ export default function JoinUs() {
                 ) : isSubmitting ? (
                   <LoadingIndicator />
                 ) : (
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
                     <FormField
                       control={form.control}
                       name="name"
@@ -223,36 +217,38 @@ export default function JoinUs() {
                         </FormItem>
                       )}
                     />
-                    <FormField
-                      control={form.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            Email Address <RequiredFieldIndicator />
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="email"
-                              placeholder="Enter your email"
-                              {...field}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="discordHandle"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Discord Username</FormLabel>
-                          <FormControl>
-                            <Input placeholder="username#1234" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <FormField
+                        control={form.control}
+                        name="email"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              Email Address <RequiredFieldIndicator />
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="email"
+                                placeholder="Enter your email"
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                      <FormField
+                        control={form.control}
+                        name="discordHandle"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Discord Username</FormLabel>
+                            <FormControl>
+                              <Input placeholder="username#1234" {...field} />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
 
                     <FormField
                       control={form.control}
