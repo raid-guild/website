@@ -44,7 +44,7 @@ export default function MercenariesSection() {
 
   return (
     <section id="mercenaries" className="relative">
-      <div className="container-custom relative min-h-[843px]">
+      <div className="container-custom relative min-h-[953px]">
         <div className="grid-custom gap-4 py-12 lg:py-24">
           <div className="col-span-4 md:col-span-8 lg:col-span-6">
             <Image
@@ -69,16 +69,17 @@ export default function MercenariesSection() {
               {shuffledMercenaries.map((mercenary) => {
                 const link = mercenary.link || "https://x.com/RaidGuild";
                 const isOpen = openTooltipId === mercenary.name;
+                const isMobile = typeof window !== 'undefined' && window.matchMedia("(max-width: 1023px)").matches;
 
                 const handleClick = (e: React.MouseEvent) => {
-                  // On mobile (touch devices), first click opens tooltip, second click follows link
-                  if (window.matchMedia("(hover: none)").matches) {
+                  // On mobile and tablet (below lg breakpoint), first tap opens tooltip only
+                  if (window.matchMedia("(max-width: 1023px)").matches) {
+                    e.preventDefault();
                     if (!isOpen) {
-                      e.preventDefault();
                       setOpenTooltipId(mercenary.name);
                     }
-                    // If already open, let the link work normally
                   }
+                  // On desktop (lg and above), single click follows the link
                 };
 
                 return (
@@ -87,32 +88,56 @@ export default function MercenariesSection() {
                     else setOpenTooltipId(mercenary.name);
                   }}>
                     <TooltipTrigger asChild>
+                      <div className="flex flex-col items-center gap-2 cursor-pointer group">
+                        {isMobile ? (
+                          <button
+                            onClick={handleClick}
+                            className="relative w-[72px] h-[72px] rounded-md overflow-hidden border-2 border-scroll-100 bg-scroll-100"
+                          >
+                            <Image
+                              src={mercenary.imagePath}
+                              alt={mercenary.name}
+                              fill
+                              className="object-cover"
+                              sizes="72px"
+                            />
+                          </button>
+                        ) : (
+                          <Link
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="relative w-[72px] h-[72px] rounded-md overflow-hidden border-2 border-scroll-100 bg-scroll-100 block"
+                          >
+                            <Image
+                              src={mercenary.imagePath}
+                              alt={mercenary.name}
+                              fill
+                              className="object-cover"
+                              sizes="72px"
+                            />
+                          </Link>
+                        )}
+                      </div>
+                    </TooltipTrigger>
+                    <TooltipContent
+                      side="top"
+                      className="max-w-xs bg-moloch-800 p-0 lg:p-2"
+                    >
                       <Link
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex flex-col items-center gap-2 cursor-pointer group"
-                        onClick={handleClick}
+                        className="block p-3 lg:p-2 lg:pointer-events-none"
                       >
-                        <div className="relative w-[72px] h-[72px] rounded-md overflow-hidden border-2 border-scroll-100 bg-scroll-100">
-                          <Image
-                            src={mercenary.imagePath}
-                            alt={mercenary.name}
-                            fill
-                            className="object-cover"
-                            sizes="72px"
-                          />
+                        <div className="flex flex-col leading-none text-center">
+                          <p className="leading-none text-base font-bold mb-1">{mercenary.name}</p>
+                          <p className="text-sm leading-none mb-1">{mercenary.title}</p>
+                          <p className="text-sm text-scroll-100 hover:text-moloch-500 transition-colors lg:hidden mt-0.5 underline italic">
+                            Delve
+                          </p>
                         </div>
                       </Link>
-                    </TooltipTrigger>
-                    <TooltipContent
-                      side="top"
-                      className="max-w-xs bg-moloch-800 p-2"
-                    >
-                      <div className="flex flex-col gap-1 text-body-md leading-none text-center">
-                        <p className="leading-none text-base font-bold">{mercenary.name}</p>
-                        <p className="text-sm leading-none">{mercenary.title}</p>
-                      </div>
                     </TooltipContent>
                   </Tooltip>
                 );

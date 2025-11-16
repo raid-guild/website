@@ -20,7 +20,7 @@ export default function OurStorySection() {
   const imageSrc = storyImages[interval % storyImages.length];
   return (
     <section id="our-story" className="relative">
-      <div className="container-custom relative min-h-[843px]">
+      <div className="container-custom relative min-h-[953px]">
         <div className="absolute top-0 md:bottom-0 md:top-auto lg:top-0 lg:bottom-auto right-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={imageSrc}

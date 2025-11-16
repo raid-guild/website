@@ -35,22 +35,27 @@ export const timelineItems = [
   {
     year: "2020",
     title: "Expanding the Arsenal",
-    desc: "Raid Guild built SmartInvoice, a milestone-based escrow system for trustless payments for Web3 freelancers and DAOs.",
+    desc: "Raid Guild launched WrapETH, enabling one-click wrapping/unwrapping of ETH. Our first Public Goods project of many.",
   },
   {
     year: "2020",
     title: "Smart Escrow Launch",
-    desc: "The first cohort introduced a structured onboarding and new member education process.",
+    desc: "Raid Guild built SmartInvoice, a milestone-based escrow system for trustless payments for Web3 freelancers and DAOs.",
   },
   {
     year: "2021",
     title: "Strengthening the Guild",
-    desc: "The birth of $RAID token established an alignment mechanism for both clients and guild members.",
+    desc: "The first cohort introduced a structured onboarding and new member education process.",
   },
   {
     year: "2022",
     title: "Aligning Forces",
-    desc: "The fight against Moloch never ends. To stay ahead, we rebranded and refined our services. We remain committed to building public goods, strengthening DAOs and pushing Web3 into a permissionless future.",
+    desc: "The birth of $RAID token established an alignment mechanism for both clients and guild members.",
+  },
+  {
+    year: "2025",
+    title: "Sharpening Our Blades",
+    desc: "The fight against Moloch never ends. To stay ahead, we polished our brand and refined our services. We remain committed to building public goods, strengthening DAOs and pushing Web3 into a permissionless future.",
   },
 ];
 

@@ -65,7 +65,7 @@ export default function PortfolioSection() {
 
   return (
     <section id="case-studies" className="relative">
-      <div className="container-custom relative min-h-[843px]">
+      <div className="container-custom relative min-h-[953px]">
         <div className="absolute top-0 md:bottom-0 md:top-auto right-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={backgroundImageSrc}

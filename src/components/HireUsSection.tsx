@@ -17,7 +17,7 @@ export default function HireUsSection() {
   const imageSrc = hireUsImages[interval % hireUsImages.length];
   return (
     <section id="hire-us" className="py-12 lg:py-24">
-      <div className="container-custom relative min-h-[843px]">
+      <div className="container-custom relative min-h-[953px]">
         <div className="grid-custom gap-4 flex items-start">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 mb-6 lg:mb-12 text-center lg:text-left">
             <h2 className="text-heading-lg text-moloch-500 mb-8">
