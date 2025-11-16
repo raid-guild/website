@@ -157,7 +157,7 @@ export default function JoinUs() {
 
   return (
     <section id="join-us" className="relative">
-      <div className="container-custom relative min-h-[843px]">
+      <div className="container-custom relative min-h-[953px]">
         <div className="absolute top-0 md:top-1/2 md:-translate-y-1/2 left-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={imageSrc}

@@ -16,7 +16,7 @@ export default function TestimonialsSection() {
   const imageSrc = testimonialImages[interval % testimonialImages.length];
   return (
     <section id="testimonials" className="relative">
-      <div className="container-custom relative min-h-[843px]">
+      <div className="container-custom relative min-h-[953px]">
         <div className="absolute top-0 md:bottom-0 md:top-auto left-0 md:right-0 md:left-auto lg:left-0 lg:right-auto z-0 pointer-events-none max-w-[632px]">
           <Image
             src={imageSrc}
