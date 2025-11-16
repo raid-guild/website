@@ -177,148 +177,158 @@ export default function JoinUs() {
             {/* Right Column - Form */}
             <div className="col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-7">
               <div className="space-y-8 max-w-[632px] ml-auto">
-              {/* Header */}
-              <div className="text-center md:text-left">
-                <h3 className="text-heading-lg font-bold text-moloch-500 mb-8">
-                  Join Us! Let's Build Something Legendary Together
-                </h3>
-                {submissionStatus === "success" ? (
-                  <p className="text-body-md">
-                    Thank you for your interest in joining RaidGuild!
-                  </p>
-                ) : (
-                  <p className="text-body-lg font-body">
-                    Ready to embark on your journey and join the ranks? Share your tale with us—what epic skills await the Guild's discovery?
-                  </p>
-                )}
-              </div>
+                {/* Header */}
+                <div className="text-center md:text-left">
+                  <h3 className="text-heading-lg font-bold text-moloch-500 mb-8">
+                    Join Us! Let&apos;s Build Something Legendary Together
+                  </h3>
+                  {submissionStatus === "success" ? (
+                    <p className="text-body-md">
+                      Thank you for your interest in joining RaidGuild!
+                    </p>
+                  ) : (
+                    <p className="text-body-lg font-body">
+                      Ready to embark on your journey and join the ranks? Share
+                      your tale with us—what epic skills await the Guild&apos;s
+                      discovery?
+                    </p>
+                  )}
+                </div>
 
-              {/* Form */}
-              <Form {...form}>
-                {submissionStatus === "success" ? (
-                  <SuccessState />
-                ) : submissionStatus === "error" ? (
-                  <ErrorState />
-                ) : isSubmitting ? (
-                  <LoadingIndicator />
-                ) : (
-                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6" noValidate>
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            Name <RequiredFieldIndicator />
-                          </FormLabel>
-                          <FormControl>
-                            <Input placeholder="Enter your full name" {...field} />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4">
+                {/* Form */}
+                <Form {...form}>
+                  {submissionStatus === "success" ? (
+                    <SuccessState />
+                  ) : submissionStatus === "error" ? (
+                    <ErrorState />
+                  ) : isSubmitting ? (
+                    <LoadingIndicator />
+                  ) : (
+                    <form
+                      onSubmit={form.handleSubmit(onSubmit)}
+                      className="space-y-6"
+                      noValidate
+                    >
                       <FormField
                         control={form.control}
-                        name="email"
+                        name="name"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              Email Address <RequiredFieldIndicator />
+                              Name <RequiredFieldIndicator />
                             </FormLabel>
                             <FormControl>
                               <Input
-                                type="email"
-                                placeholder="Enter your email"
+                                placeholder="Enter your full name"
                                 {...field}
                               />
                             </FormControl>
                           </FormItem>
                         )}
                       />
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4">
+                        <FormField
+                          control={form.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>
+                                Email Address <RequiredFieldIndicator />
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="email"
+                                  placeholder="Enter your email"
+                                  {...field}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="discordHandle"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Discord Username</FormLabel>
+                              <FormControl>
+                                <Input placeholder="username#1234" {...field} />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
                       <FormField
                         control={form.control}
-                        name="discordHandle"
+                        name="introduction"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Discord Username</FormLabel>
+                            <FormLabel>
+                              Introduce Yourself <RequiredFieldIndicator />
+                            </FormLabel>
                             <FormControl>
-                              <Input placeholder="username#1234" {...field} />
+                              <Textarea
+                                placeholder="Tell us about yourself, your skills, and why you want to join Raid Guild..."
+                                {...field}
+                              />
                             </FormControl>
                           </FormItem>
                         )}
                       />
-                    </div>
 
-                    <FormField
-                      control={form.control}
-                      name="introduction"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            Introduce Yourself <RequiredFieldIndicator />
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Tell us about yourself, your skills, and why you want to join Raid Guild..."
-                              {...field}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name="showcaseComments"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              Work You&apos;re Proud Of{" "}
+                              <RequiredFieldIndicator />
+                            </FormLabel>
+                            <FormControl>
+                              <Textarea
+                                placeholder="Tell us about a project, portfolio, or piece of work you're particularly proud of."
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="showcaseComments"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            Work You&apos;re Proud Of <RequiredFieldIndicator />
-                          </FormLabel>
-                          <FormControl>
-                            <Textarea
-                              placeholder="Tell us about a project, portfolio, or piece of work you're particularly proud of."
-                              {...field}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
+                      <FormField
+                        control={form.control}
+                        name="showcaseUrl"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              Link to Your Work <RequiredFieldIndicator />
+                            </FormLabel>
+                            <FormControl>
+                              <Input
+                                type="url"
+                                placeholder="https://github.com/username, https://portfolio.com, https://linkedin.com/in/username, etc."
+                                {...field}
+                              />
+                            </FormControl>
+                          </FormItem>
+                        )}
+                      />
 
-                    <FormField
-                      control={form.control}
-                      name="showcaseUrl"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>
-                            Link to Your Work <RequiredFieldIndicator />
-                          </FormLabel>
-                          <FormControl>
-                            <Input
-                              type="url"
-                              placeholder="https://github.com/username, https://portfolio.com, https://linkedin.com/in/username, etc."
-                              {...field}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-
-                    <div className="pt-6">
-                      <button
-                        type="submit"
-                        disabled={isSubmitting}
-                        className="contact-btn-active"
-                      >
-                        {isSubmitting ? "Submitting..." : "Begin My Quest"}
-                      </button>
-                    </div>
-                  </form>
-                )}
-              </Form>
+                      <div className="pt-6">
+                        <button
+                          type="submit"
+                          disabled={isSubmitting}
+                          className="contact-btn-active"
+                        >
+                          {isSubmitting ? "Submitting..." : "Begin My Quest"}
+                        </button>
+                      </div>
+                    </form>
+                  )}
+                </Form>
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
