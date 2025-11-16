@@ -62,17 +62,12 @@ export default function JoinUs() {
     setErrorMessage("");
 
     try {
-      // Transform form data to API format using the centralized function
       const applicationData = transformApplicationDataToApiFormat(data);
-
-      // For now, we'll need a token. You might want to get this from your auth system
-      const token = "your-auth-token-here"; // Replace with actual token logic
 
       const response = await fetch("/api/applications", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ applicationData }),
       });
@@ -105,17 +100,18 @@ export default function JoinUs() {
   // Feedback components
   const SuccessState = () => (
     <div className="text-center space-y-4 p-8">
-      <div className="flex items-center justify-center">
-        <Image
-          src="/raid-cup-fire-success.svg"
-          alt="raid guild success"
-          width="150"
-          height="150"
-        />
-      </div>
-      <h3 className="text-2xl font-semibold text-scroll-400">
+      <h3 className="text-2xl font-semibold text-moloch-500">
         Your Words Have Been Passed On.
       </h3>
+      <div className="flex items-center justify-center">
+        <Image
+          src="/images/Logomark.svg"
+          alt="Raid Guild"
+          width={169}
+          height={159}
+          className="flex-shrink-0"
+        />
+      </div>
       <div className="pt-12">
         <a
           href="https://discord.gg/raidguild"
