@@ -133,7 +133,7 @@ export default function MercenariesSection() {
                         <div className="flex flex-col leading-none text-center">
                           <p className="leading-none text-base font-bold mb-1">{mercenary.name}</p>
                           <p className="text-sm leading-none mb-1">{mercenary.title}</p>
-                          <p className="text-sm text-scroll-100 hover:text-moloch-500 transition-colors lg:hidden mt-0.5 underline">
+                          <p className="text-sm text-scroll-100 hover:text-moloch-500 transition-colors lg:hidden mt-0.5 underline italic">
                             Delve
                           </p>
                         </div>
