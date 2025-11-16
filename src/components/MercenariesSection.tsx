@@ -122,13 +122,13 @@ export default function MercenariesSection() {
                     </TooltipTrigger>
                     <TooltipContent
                       side="top"
-                      className="max-w-xs bg-moloch-800 p-0 lg:p-3"
+                      className="max-w-xs bg-moloch-800 p-0 lg:p-2"
                     >
                       <Link
                         href={link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="block p-3 lg:pointer-events-none"
+                        className="block p-3 lg:p-2 lg:pointer-events-none"
                       >
                         <div className="flex flex-col leading-none text-center">
                           <p className="leading-none text-base font-bold mb-1">{mercenary.name}</p>
