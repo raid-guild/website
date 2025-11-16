@@ -401,14 +401,10 @@ export default function HireUs() {
     const consultData = transformFormDataToApiFormat(formData);
 
     try {
-      // For now, we'll need a token. You might want to get this from your auth system
-      const token = "your-auth-token-here"; // Replace with actual token logic
-
       const response = await fetch("/api/consultations", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ consultData }),
       });
@@ -550,7 +546,8 @@ export default function HireUs() {
               The Fires Have Been Lit!
             </h3>
             <p className="text-center text-body-md">
-              Your quest has been received. A member of the Guild will be in touch with you shortly to discuss next steps.
+              Your quest has been received. A member of the Guild will be in
+              touch with you shortly to discuss next steps.
             </p>
           </>
         ) : (
