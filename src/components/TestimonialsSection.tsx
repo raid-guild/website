@@ -4,10 +4,10 @@ import { testimonials } from "@/lib/data/content";
 import Image from "next/image";
 
 const testimonialImages = [
-  "/images/testimonial-image-1-bw.png",
-  "/images/testimonial-image-1-c.png",
-  "/images/testimonial-image-2-bw.png",
-  "/images/testimonial-image-2-c.png",
+  "/images/testimonial-image-1-bw.webp",
+  "/images/testimonial-image-1-c.webp",
+  "/images/testimonial-image-2-bw.webp",
+  "/images/testimonial-image-2-c.webp",
 ];
 
 export default function TestimonialsSection() {

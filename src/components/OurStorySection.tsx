@@ -8,10 +8,10 @@ import { DISCORD_INVITE_URL } from "@/lib/data/constants";
 import Link from "next/link";
 
 const storyImages = [
-  "/images/story-image-1-bw.png",
-  "/images/story-image-1-c.png",
-  "/images/story-image-2-bw.png",
-  "/images/story-image-2-c.png",
+  "/images/story-image-1-bw.webp",
+  "/images/story-image-1-c.webp",
+  "/images/story-image-2-bw.webp",
+  "/images/story-image-2-c.webp",
 ];
 
 export default function OurStorySection() {
