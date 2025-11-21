@@ -5,10 +5,10 @@ import PartnerLogoBanner from "./PartnerLogoBanner";
 import { Button } from "./ui/button";
 
 const homeImages = [
-  "/images/home-image-1-bw.png",
-  "/images/home-image-1-c.png",
-  "/images/home-image-2-bw.png",
-  "/images/home-image-2-c.png",
+  "/images/home-image-1-bw.webp",
+  "/images/home-image-1-c.webp",
+  "/images/home-image-2-bw.webp",
+  "/images/home-image-2-c.webp",
 ];
 
 export default function HomeHero() {

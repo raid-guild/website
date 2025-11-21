@@ -22,10 +22,10 @@ import {
 import Image from "next/image";
 
 const joinUsImages = [
-  "/images/join-image-1-bw.png",
-  "/images/join-image-1-c.png",
-  "/images/join-image-2-bw.png",
-  "/images/join-image-2-c.png",
+  "/images/join-image-1-bw.webp",
+  "/images/join-image-1-c.webp",
+  "/images/join-image-2-bw.webp",
+  "/images/join-image-2-c.webp",
 ];
 
 export default function JoinUs() {

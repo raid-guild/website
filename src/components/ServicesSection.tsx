@@ -5,10 +5,10 @@ import ServiceCard from "./ServiceCard";
 import { services } from "@/lib/data/content";
 
 const servicesImages = [
-  "/images/services-image-1-bw.png",
-  "/images/services-image-1-c.png",
-  "/images/services-image-2-bw.png",
-  "/images/services-image-2-c.png",
+  "/images/services-image-1-bw.webp",
+  "/images/services-image-1-c.webp",
+  "/images/services-image-2-bw.webp",
+  "/images/services-image-2-c.webp",
 ];
 
 export default function ServicesSection() {
