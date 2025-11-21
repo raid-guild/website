@@ -5,10 +5,10 @@ import { useState } from "react";
 import { clientData } from "@/lib/data/clients";
 
 const portfolioImages = [
-  "/images/portfolio-image-1-bw.png",
-  "/images/portfolio-image-1-c.png",
-  "/images/portfolio-image-2-bw.png",
-  "/images/portfolio-image-2-c.png",
+  "/images/portfolio-image-1-bw.webp",
+  "/images/portfolio-image-1-c.webp",
+  "/images/portfolio-image-2-bw.webp",
+  "/images/portfolio-image-2-c.webp",
 ];
 
 type Client = (typeof clientData)[number];

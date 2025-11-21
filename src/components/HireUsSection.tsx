@@ -5,10 +5,10 @@ import { hireUsSteps } from "@/lib/data/content";
 import HireUs from "./HireUs";
 
 const hireUsImages = [
-  "/images/hire-image-1-bw.png",
-  "/images/hire-image-1-c.png",
-  "/images/hire-image-2-bw.png",
-  "/images/hire-image-2-c.png",
+  "/images/hire-image-1-bw.webp",
+  "/images/hire-image-1-c.webp",
+  "/images/hire-image-2-bw.webp",
+  "/images/hire-image-2-c.webp",
 ];
 
 export default function HireUsSection() {

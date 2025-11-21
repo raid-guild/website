@@ -13,6 +13,8 @@ import OurStoryBanner from "@/components/OurStorySectionBanner";
 import ServicesBanner from "@/components/ServicesBanner";
 import MercenariesBanner from "@/components/MercenariesBanner";
 
+export const dynamic = 'force-dynamic';
+
 export default function Home() {
   return (
     <div className="min-h-screen bg-background">

@@ -12,10 +12,10 @@ import { Button } from "./ui/button";
 import { mercenaries, type Mercenary } from "@/lib/data/members";
 
 const mercenariesImages = [
-  "/images/mercenaries-image-1-bw.png",
-  "/images/mercenaries-image-1-c.png",
-  "/images/mercenaries-image-2-bw.png",
-  "/images/mercenaries-image-2-c.png",
+  "/images/mercenaries-image-1-bw.webp",
+  "/images/mercenaries-image-1-c.webp",
+  "/images/mercenaries-image-2-bw.webp",
+  "/images/mercenaries-image-2-c.webp",
 ];
 
 function shuffleArray(array: Mercenary[]) {
