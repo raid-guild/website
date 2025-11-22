@@ -18,6 +18,9 @@ const mercenariesImages = [
   "/images/mercenaries-image-2-c.webp",
 ];
 
+const DESKTOP_BREAKPOINT = "(min-width: 1024px)";
+const DESKTOP_THIN_HEIGHT = 96;
+
 function shuffleArray(array: Mercenary[]) {
   const arr = [...array];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -31,6 +34,7 @@ export default function MercenariesSection() {
   const [shuffledMercenaries, setShuffledMercenaries] =
     useState<Mercenary[]>([]);
   const [openTooltipId, setOpenTooltipId] = useState<string | null>(null);
+  const [isDesktop, setIsDesktop] = useState<boolean>(false);
 
   // Deterministic image selection based on 20-minute intervals (no flash, no hydration mismatch)
   const interval = Math.floor(Date.now() / (1000 * 60 * 20)); // 20 minutes
@@ -41,6 +45,41 @@ export default function MercenariesSection() {
     const shuffled = shuffleArray(mercenaries);
     setShuffledMercenaries(shuffled.slice(0, 24));
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia(DESKTOP_BREAKPOINT);
+    setIsDesktop(mediaQuery.matches);
+
+    const listener = (event: MediaQueryListEvent) => setIsDesktop(event.matches);
+    mediaQuery.addEventListener("change", listener);
+
+    return () => mediaQuery.removeEventListener("change", listener);
+  }, []);
+
+  const handleNavigate = (href: string) => {
+    if (typeof window === "undefined" || !href.startsWith("#")) return;
+
+    const id = href.slice(1);
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    const targetTop = window.scrollY + target.getBoundingClientRect().top - 1;
+    const offset = DESKTOP_THIN_HEIGHT;
+    const mobileExtraOffset = !isDesktop ? 240 : 0;
+    const safeOffset = Math.max(offset - (isDesktop ? 16 : 12) + mobileExtraOffset, 0);
+    const destination = Math.max(targetTop - safeOffset, 0);
+
+    window.scrollTo({
+      top: destination,
+      behavior: "smooth",
+    });
+
+    if (typeof window.history?.replaceState === "function") {
+      window.history.replaceState(null, "", href);
+    }
+  };
 
   return (
     <section id="mercenaries" className="relative">
@@ -156,15 +195,25 @@ export default function MercenariesSection() {
                 help you achieve your goals and bring your vision to life.
               </p>
               <div className="flex flex-col md:flex-row gap-4">
-                <Button variant="primary" className="w-full md:flex-1">
-                  <a href="#hire-us" className="text-label text-scoll-100">
-                    HIRE US
-                  </a>
+                <Button
+                  variant="primary"
+                  className="w-full md:flex-1"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigate("#hire-us");
+                  }}
+                >
+                  <span className="text-label text-scoll-100">HIRE US</span>
                 </Button>
-                <Button variant="secondary" className="w-full md:flex-1">
-                  <a href="#testimonials" className="text-label">
-                    WHAT OTHERS SAY
-                  </a>
+                <Button
+                  variant="secondary"
+                  className="w-full md:flex-1"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigate("#testimonials");
+                  }}
+                >
+                  <span className="text-label">WHAT OTHERS SAY</span>
                 </Button>
               </div>
             </div>
