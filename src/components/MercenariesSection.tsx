@@ -20,6 +20,7 @@ const mercenariesImages = [
 
 const DESKTOP_BREAKPOINT = "(min-width: 1024px)";
 const DESKTOP_THIN_HEIGHT = 96;
+const MOBILE_HEADER_HEIGHT = 72;
 
 function shuffleArray(array: Mercenary[]) {
   const arr = [...array];
@@ -66,9 +67,11 @@ export default function MercenariesSection() {
     if (!target) return;
 
     const targetTop = window.scrollY + target.getBoundingClientRect().top - 1;
-    const offset = DESKTOP_THIN_HEIGHT;
-    const mobileExtraOffset = !isDesktop ? 240 : 0;
-    const safeOffset = Math.max(offset - (isDesktop ? 16 : 12) + mobileExtraOffset, 0);
+
+    // Mobile: simple offset (72 - 12 = 60px)
+    // Desktop: simple offset (96 - 16 = 80px)
+    const offset = !isDesktop ? MOBILE_HEADER_HEIGHT : DESKTOP_THIN_HEIGHT;
+    const safeOffset = Math.max(offset - (isDesktop ? 16 : 12), 0);
     const destination = Math.max(targetTop - safeOffset, 0);
 
     window.scrollTo({
