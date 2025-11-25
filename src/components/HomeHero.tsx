@@ -44,9 +44,16 @@ export default function HomeHero() {
 
     const targetTop = window.scrollY + target.getBoundingClientRect().top - 1;
 
-    // Mobile: simple offset (72 - 12 = 60px)
-    // Desktop: simple offset (96 - 16 = 80px)
-    const offset = !isDesktop ? MOBILE_HEADER_HEIGHT : DESKTOP_THIN_HEIGHT;
+    let offset;
+    if (!isDesktop) {
+      // Mobile: simple offset (72 - 12 = 60px)
+      offset = MOBILE_HEADER_HEIGHT;
+    } else {
+      // Desktop: At scroll 0-20: offset = 96 + 100 = 196px, At scroll 21+: offset = 96px
+      const headerShrinkAdjustment = window.scrollY <= 20 ? 100 : 0;
+      offset = DESKTOP_THIN_HEIGHT + headerShrinkAdjustment;
+    }
+
     const safeOffset = Math.max(offset - (isDesktop ? 16 : 12), 0);
     const destination = Math.max(targetTop - safeOffset, 0);
 
