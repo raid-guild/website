@@ -20,6 +20,7 @@ export interface WizardStep {
   description?: string;
   component: React.ReactNode;
   validation?: () => boolean | Promise<boolean>;
+  onStepComplete?: () => void;
 }
 
 interface StepComponentProps {
@@ -65,6 +66,7 @@ export function Wizard({
         const isValid = await currentStepData.validation();
         if (isValid) {
           setCompletedSteps((prev) => new Set([...prev, currentStep]));
+          if (currentStepData.onStepComplete) currentStepData.onStepComplete();
         } else {
           setCompletedSteps((prev) => {
             const newSet = new Set([...prev]);
@@ -172,7 +174,9 @@ export function Wizard({
             >
               {index + 1}
             </span>
-            <span className="hidden sm:inline text-body-md font-body">{step.title}</span>
+            <span className="hidden sm:inline text-body-md font-body">
+              {step.title}
+            </span>
           </div>
         ))}
       </div>

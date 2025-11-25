@@ -112,6 +112,7 @@ export default function HomeHero() {
               <Button
                 variant="secondary"
                 className="w-full md:flex-1"
+                data-click="case-studies-hero"
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavigate("#case-studies");
