@@ -224,6 +224,7 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
             panelId={panelId}
             onToggleMenu={mobileMenu.toggle}
             triggerRef={triggerRef}
+            staticAppearance={staticAppearance}
           />
           <MobileMenuPanel
             theme={theme}
@@ -282,43 +283,75 @@ function HeaderDesktopAdaptive({
           transition: "gap 300ms ease-out, align-items 300ms ease-out",
         }}
       >
-        <button
-          onClick={() => {
-            window.scrollTo({
-              top: 0,
-              behavior: "smooth",
-            });
-          }}
-          style={{
-            marginBottom: `${logoMarginBottom}px`,
-            transition: "margin-bottom 300ms ease-out",
-            background: "none",
-            border: "none",
-            padding: 0,
-            cursor: "pointer",
-          }}
-          aria-label="Scroll to top"
-        >
-          <div
+{staticAppearance ? (
+          <Link
+            href="/"
             style={{
-              height: `${logoHeight}px`,
-              transition: "height 300ms ease-out",
+              marginBottom: `${logoMarginBottom}px`,
+              transition: "margin-bottom 300ms ease-out",
+              display: "block",
             }}
+            aria-label="Go to home"
           >
-            <Image
-              src={theme.logoPath}
-              alt="Raid Guild Logo"
-              width={632}
-              height={166}
-              priority
+            <div
               style={{
-                width: "auto",
-                height: "100%",
-                objectFit: "contain",
+                height: `${logoHeight}px`,
+                transition: "height 300ms ease-out",
               }}
-            />
-          </div>
-        </button>
+            >
+              <Image
+                src={theme.logoPath}
+                alt="Raid Guild Logo"
+                width={632}
+                height={166}
+                priority
+                style={{
+                  width: "auto",
+                  height: "100%",
+                  objectFit: "contain",
+                }}
+              />
+            </div>
+          </Link>
+        ) : (
+          <button
+            onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: "smooth",
+              });
+            }}
+            style={{
+              marginBottom: `${logoMarginBottom}px`,
+              transition: "margin-bottom 300ms ease-out",
+              background: "none",
+              border: "none",
+              padding: 0,
+              cursor: "pointer",
+            }}
+            aria-label="Scroll to top"
+          >
+            <div
+              style={{
+                height: `${logoHeight}px`,
+                transition: "height 300ms ease-out",
+              }}
+            >
+              <Image
+                src={theme.logoPath}
+                alt="Raid Guild Logo"
+                width={632}
+                height={166}
+                priority
+                style={{
+                  width: "auto",
+                  height: "100%",
+                  objectFit: "contain",
+                }}
+              />
+            </div>
+          </button>
+        )}
         <NavLinks
           theme={theme}
           activeAnchorId={activeAnchorId}
@@ -337,6 +370,7 @@ type HeaderMobileProps = {
   panelId: string;
   onToggleMenu: () => void;
   triggerRef: RefObject<HTMLButtonElement | null>;
+  staticAppearance: boolean;
 };
 
 function HeaderMobile({
@@ -345,10 +379,11 @@ function HeaderMobile({
   panelId,
   onToggleMenu,
   triggerRef,
+  staticAppearance,
 }: HeaderMobileProps) {
   return (
     <div className="flex items-center justify-between gap-4 py-4">
-      <Logo variant="mobile" logoPath={theme.logoPath} />
+      <Logo variant="mobile" logoPath={theme.logoPath} staticAppearance={staticAppearance} />
       <MenuButton
         ref={triggerRef}
         isOpen={isMenuOpen}
@@ -434,14 +469,30 @@ function NavLinks({
 type LogoProps = {
   variant: "tall" | "thin" | "mobile";
   logoPath: string;
+  staticAppearance?: boolean;
 };
 
-function Logo({ variant, logoPath }: LogoProps) {
+function Logo({ variant, logoPath, staticAppearance = false }: LogoProps) {
   const baseClasses =
     "w-auto transition-all duration-300 motion-reduce:transition-none";
 
   const sizeClasses =
     variant === "tall" ? "h-[150px]" : variant === "thin" ? "h-12" : "h-10";
+
+  if (staticAppearance) {
+    return (
+      <Link href="/" aria-label="Go to home">
+        <Image
+          src={logoPath}
+          alt="Raid Guild Logo"
+          width={632}
+          height={166}
+          priority
+          className={[baseClasses, sizeClasses].join(" ")}
+        />
+      </Link>
+    );
+  }
 
   return (
     <button

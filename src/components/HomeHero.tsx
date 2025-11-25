@@ -3,6 +3,7 @@
 import Image from "next/image";
 import PartnerLogoBanner from "./PartnerLogoBanner";
 import { Button } from "./ui/button";
+import { useState, useEffect } from "react";
 
 const homeImages = [
   "/images/home-image-1-bw.webp",
@@ -11,10 +12,53 @@ const homeImages = [
   "/images/home-image-2-c.webp",
 ];
 
+const DESKTOP_BREAKPOINT = "(min-width: 1024px)";
+const DESKTOP_THIN_HEIGHT = 96;
+const MOBILE_HEADER_HEIGHT = 72;
+
 export default function HomeHero() {
   // Deterministic image selection based on 10-minute intervals (no flash, no hydration mismatch)
   const interval = Math.floor(Date.now() / (1000 * 60 * 10)); // 10 minutes
   const imageSrc = homeImages[interval % homeImages.length];
+
+  const [isDesktop, setIsDesktop] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const mediaQuery = window.matchMedia(DESKTOP_BREAKPOINT);
+    setIsDesktop(mediaQuery.matches);
+
+    const listener = (event: MediaQueryListEvent) => setIsDesktop(event.matches);
+    mediaQuery.addEventListener("change", listener);
+
+    return () => mediaQuery.removeEventListener("change", listener);
+  }, []);
+
+  const handleNavigate = (href: string) => {
+    if (typeof window === "undefined" || !href.startsWith("#")) return;
+
+    const id = href.slice(1);
+    const target = document.getElementById(id);
+    if (!target) return;
+
+    const targetTop = window.scrollY + target.getBoundingClientRect().top - 1;
+
+    // Mobile: simple offset (72 - 12 = 60px)
+    // Desktop: simple offset (96 - 16 = 80px)
+    const offset = !isDesktop ? MOBILE_HEADER_HEIGHT : DESKTOP_THIN_HEIGHT;
+    const safeOffset = Math.max(offset - (isDesktop ? 16 : 12), 0);
+    const destination = Math.max(targetTop - safeOffset, 0);
+
+    window.scrollTo({
+      top: destination,
+      behavior: "smooth",
+    });
+
+    if (typeof window.history?.replaceState === "function") {
+      window.history.replaceState(null, "", href);
+    }
+  };
 
   return (
     <section id="about" className="relative">
@@ -46,15 +90,25 @@ export default function HomeHero() {
               height={36}
             />
             <div className="flex flex-col md:flex-row gap-4 w-full">
-              <Button variant="primary" className="w-full md:flex-1">
-                <a href="#hire-us" className="text-label text-scoll-100">
-                  SUMMON A RAID
-                </a>
+              <Button
+                variant="primary"
+                className="w-full md:flex-1"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigate("#hire-us");
+                }}
+              >
+                <span className="text-label text-scoll-100">SUMMON A RAID</span>
               </Button>
-              <Button variant="secondary" className="w-full md:flex-1">
-                <a href="#case-studies" className="text-label">
-                  VIEW OUR WORK
-                </a>
+              <Button
+                variant="secondary"
+                className="w-full md:flex-1"
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavigate("#case-studies");
+                }}
+              >
+                <span className="text-label">VIEW OUR WORK</span>
               </Button>
             </div>
           </div>
