@@ -4,6 +4,7 @@ import "./globals.css";
 // import { ThemeProvider } from "next-themes";
 import { Providers } from "@/providers/providers";
 import Fathom from "@/components/Fathom";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 
 export const metadata: Metadata = {
   title: "Raid Guild",
@@ -21,6 +22,7 @@ export default function RootLayout({
         className={`${maziusDisplay.variable} ${ebGaramond.variable} ${ubuntuMono.variable} antialiased`}
       >
         <Fathom />
+        <GoogleAnalytics />
         {/* <ThemeProvider
           attribute="class"
           defaultTheme="light"
