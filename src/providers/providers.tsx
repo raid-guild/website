@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { trackEvent } from "fathom-client";
 
 interface Drip {
   id: number;
@@ -155,7 +156,7 @@ function useLegacy() {
   const [typedKeys, setTypedKeys] = useState("");
   const sequenceRef = useRef<string[]>([]);
   const triggerWord = "witch";
-  const pattern = ["potion", "ball", "candle"];
+  const pattern = ["potion", "potion", "potion"];
 
   useEffect(() => {
     let timeout: NodeJS.Timeout;
@@ -180,6 +181,7 @@ function useLegacy() {
       // Check if the trigger word was typed
       if (newTyped.includes(triggerWord.toLowerCase())) {
         setIsTriggered(true);
+        trackEvent("witch");
         setTypedKeys("");
 
         // Wait for animation to complete before routing
@@ -202,6 +204,7 @@ function useLegacy() {
 
       if (sequenceRef.current.join(",") === pattern.join(",")) {
         setIsTriggered(true);
+        trackEvent("witch");
         sequenceRef.current = [];
 
         setTimeout(() => {
