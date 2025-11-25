@@ -66,7 +66,6 @@ export function Wizard({
         const isValid = await currentStepData.validation();
         if (isValid) {
           setCompletedSteps((prev) => new Set([...prev, currentStep]));
-          if (currentStepData.onStepComplete) currentStepData.onStepComplete();
         } else {
           setCompletedSteps((prev) => {
             const newSet = new Set([...prev]);
@@ -99,6 +98,7 @@ export function Wizard({
           if (isLastStep) {
             onComplete?.({});
           } else {
+            currentStepData.onStepComplete?.();
             goToStep(currentStep + 1);
           }
         }
