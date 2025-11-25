@@ -176,11 +176,18 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
       }
 
       const targetTop = window.scrollY + target.getBoundingClientRect().top - 1;
-      const offset = headerHeightRef.current ?? DESKTOP_THIN_HEIGHT;
 
-      // On mobile, add extra 240px offset to account for positioning
-      const mobileExtraOffset = !isDesktop ? 240 : 0;
-      const safeOffset = Math.max(offset - (isDesktop ? 16 : 12) + mobileExtraOffset, 0);
+      let offset;
+      if (!isDesktop) {
+        // Mobile: use actual header height (72px)
+        offset = headerHeightRef.current ?? DESKTOP_THIN_HEIGHT;
+      } else {
+        // Desktop: At scroll 0-20: offset = 96 + 100 = 196px, At scroll 21+: offset = 96px
+        const headerShrinkAdjustment = window.scrollY <= 20 ? 100 : 0;
+        offset = DESKTOP_THIN_HEIGHT + headerShrinkAdjustment;
+      }
+
+      const safeOffset = Math.max(offset - (isDesktop ? 16 : 12), 0);
       const destination = Math.max(targetTop - safeOffset, 0);
 
       window.scrollTo({
