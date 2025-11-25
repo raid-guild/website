@@ -32,8 +32,9 @@ function shuffleArray(array: Mercenary[]) {
 }
 
 export default function MercenariesSection() {
-  const [shuffledMercenaries, setShuffledMercenaries] =
-    useState<Mercenary[]>([]);
+  const [shuffledMercenaries, setShuffledMercenaries] = useState<Mercenary[]>(
+    []
+  );
   const [openTooltipId, setOpenTooltipId] = useState<string | null>(null);
   const [isDesktop, setIsDesktop] = useState<boolean>(false);
 
@@ -53,7 +54,8 @@ export default function MercenariesSection() {
     const mediaQuery = window.matchMedia(DESKTOP_BREAKPOINT);
     setIsDesktop(mediaQuery.matches);
 
-    const listener = (event: MediaQueryListEvent) => setIsDesktop(event.matches);
+    const listener = (event: MediaQueryListEvent) =>
+      setIsDesktop(event.matches);
     mediaQuery.addEventListener("change", listener);
 
     return () => mediaQuery.removeEventListener("change", listener);
@@ -95,7 +97,7 @@ export default function MercenariesSection() {
               width={632}
               height={632}
               className="w-full max-w-[632px] h-auto mx-auto"
-              style={{ width: '100%', height: 'auto', maxWidth: '632px' }}
+              style={{ width: "100%", height: "auto", maxWidth: "632px" }}
               sizes="(min-width: 1024px) 632px, 100vw"
             />
           </div>
@@ -111,7 +113,9 @@ export default function MercenariesSection() {
               {shuffledMercenaries.map((mercenary) => {
                 const link = mercenary.link || "https://x.com/RaidGuild";
                 const isOpen = openTooltipId === mercenary.name;
-                const isMobile = typeof window !== 'undefined' && window.matchMedia("(max-width: 1023px)").matches;
+                const isMobile =
+                  typeof window !== "undefined" &&
+                  window.matchMedia("(max-width: 1023px)").matches;
 
                 const handleClick = (e: React.MouseEvent) => {
                   // On mobile and tablet (below lg breakpoint), first tap opens tooltip only
@@ -125,10 +129,14 @@ export default function MercenariesSection() {
                 };
 
                 return (
-                  <Tooltip key={mercenary.name} open={isOpen} onOpenChange={(open) => {
-                    if (!open) setOpenTooltipId(null);
-                    else setOpenTooltipId(mercenary.name);
-                  }}>
+                  <Tooltip
+                    key={mercenary.name}
+                    open={isOpen}
+                    onOpenChange={(open) => {
+                      if (!open) setOpenTooltipId(null);
+                      else setOpenTooltipId(mercenary.name);
+                    }}
+                  >
                     <TooltipTrigger asChild>
                       <div className="flex flex-col items-center gap-2 cursor-pointer group">
                         {isMobile ? (
@@ -173,8 +181,12 @@ export default function MercenariesSection() {
                         className="block p-3 lg:p-2 lg:pointer-events-none"
                       >
                         <div className="flex flex-col leading-none text-center">
-                          <p className="leading-none text-base font-bold mb-1">{mercenary.name}</p>
-                          <p className="text-sm leading-none mb-1">{mercenary.title}</p>
+                          <p className="leading-none text-base font-bold mb-1">
+                            {mercenary.name}
+                          </p>
+                          <p className="text-sm leading-none mb-1">
+                            {mercenary.title}
+                          </p>
                           <p className="text-sm text-scroll-100 hover:text-moloch-500 transition-colors lg:hidden mt-0.5 underline italic">
                             Delve
                           </p>
@@ -201,6 +213,7 @@ export default function MercenariesSection() {
                 <Button
                   variant="primary"
                   className="w-full md:flex-1"
+                  data-click="hire-us-mercenaries"
                   onClick={(e) => {
                     e.preventDefault();
                     handleNavigate("#hire-us");
@@ -211,6 +224,7 @@ export default function MercenariesSection() {
                 <Button
                   variant="secondary"
                   className="w-full md:flex-1"
+                  data-click="testimonials-mercenaries"
                   onClick={(e) => {
                     e.preventDefault();
                     handleNavigate("#testimonials");

@@ -33,27 +33,27 @@ export default function OurStorySection() {
         </div>
         <div className="relative z-10 pt-[520px] pb-12 md:py-12 lg:py-24">
           <div className="flex flex-col gap-12 lg:grid lg:grid-cols-12 lg:gap-8">
-          <div className="flex flex-col gap-8 lg:col-span-6">
-            <div className="text-center lg:text-left">
-              <h2 className="text-heading-lg text-moloch-500 mb-8">
-                Our Story
-              </h2>
-              <p className="text-body-lg">
-                From rebels to builders of the sovereign internet, RaidGuild was
-                born in the fires of decentralization to slay Moloch and create
-                tools and systems that return power to the people.
-              </p>
+            <div className="flex flex-col gap-8 lg:col-span-6">
+              <div className="text-center lg:text-left">
+                <h2 className="text-heading-lg text-moloch-500 mb-8">
+                  Our Story
+                </h2>
+                <p className="text-body-lg">
+                  From rebels to builders of the sovereign internet, RaidGuild
+                  was born in the fires of decentralization to slay Moloch and
+                  create tools and systems that return power to the people.
+                </p>
+              </div>
+              <TimelineAccordion
+                items={timelineItems}
+                iconNames={timelineIconNames}
+                startIndex={0}
+              />
             </div>
-            <TimelineAccordion
-              items={timelineItems}
-              iconNames={timelineIconNames}
-              startIndex={0}
-            />
-          </div>
-          <div className="hidden lg:col-span-6 lg:flex lg:justify-center">
-            {/* Background image now handled above */}
-          </div>
-          {/* <div className="hidden lg:block">
+            <div className="hidden lg:col-span-6 lg:flex lg:justify-center">
+              {/* Background image now handled above */}
+            </div>
+            {/* <div className="hidden lg:block">
             <Image
               src="/images/mercenaries-divider.svg"
               alt="Decorative divider"
@@ -63,35 +63,42 @@ export default function OurStorySection() {
               style={{ width: 'auto', height: 'auto', maxWidth: '320px' }}
             />
           </div> */}
-          <div className="lg:col-span-12 pt-6 md:pt-12 lg:pt-12">
-            <div className="w-full text-center">
-              <h2 className="text-heading-lg text-moloch-500 mb-4">
-                Join the Guild
-              </h2>
-              <p className="text-body-lg mb-8">
-                Ready to join the ranks? Our Cohort Onboarding Program is the
-                gateway into Raid Guild—where the finest builders shape the
-                future of Web3.
-              </p>
-              <div className="flex flex-col md:flex-row gap-4 md:justify-center">
-                <Button className="w-full md:w-auto">
-                  <Link href="/join" className="text-label text-scoll-100">
-                    APPLY TO A COHORT
-                  </Link>
-                </Button>
-                <Button variant="secondary" className="text-label w-full md:w-auto">
-                  <a
-                    href={DISCORD_INVITE_URL}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-label"
+            <div className="lg:col-span-12 pt-6 md:pt-12 lg:pt-12">
+              <div className="w-full text-center">
+                <h2 className="text-heading-lg text-moloch-500 mb-4">
+                  Join the Guild
+                </h2>
+                <p className="text-body-lg mb-8">
+                  Ready to join the ranks? Our Cohort Onboarding Program is the
+                  gateway into Raid Guild—where the finest builders shape the
+                  future of Web3.
+                </p>
+                <div className="flex flex-col md:flex-row gap-4 md:justify-center">
+                  <Button
+                    className="w-full md:w-auto"
+                    data-click="join-our-story"
                   >
-                    JOIN DISCORD
-                  </a>
-                </Button>
+                    <Link href="/join" className="text-label text-scoll-100">
+                      APPLY TO A COHORT
+                    </Link>
+                  </Button>
+                  <Button
+                    variant="secondary"
+                    className="text-label w-full md:w-auto"
+                    data-click="join-discord"
+                  >
+                    <a
+                      href={DISCORD_INVITE_URL}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-label"
+                    >
+                      JOIN DISCORD
+                    </a>
+                  </Button>
+                </div>
               </div>
             </div>
-          </div>
           </div>
         </div>
       </div>

@@ -32,18 +32,15 @@ function TrackPageView() {
 
   // Set up link listeners
   useEffect(() => {
-    console.log("yolo");
     if (!isLoaded) return;
 
-    // window.addEventListener("load", () => {
     document.querySelectorAll("[data-click]").forEach((item) => {
       item.addEventListener("click", () => {
         const tag = item.getAttribute("data-click");
         console.log("tag", tag);
-        trackEvent(`link: ${tag}}`);
+        trackEvent(`link: ${tag}`);
       });
     });
-    // });
   }, [isLoaded]);
 
   return null;

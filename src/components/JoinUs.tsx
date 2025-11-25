@@ -20,6 +20,7 @@ import {
   transformApplicationDataToApiFormat,
 } from "@/lib/validation";
 import Image from "next/image";
+import { trackEvent } from "fathom-client";
 
 const joinUsImages = [
   "/images/join-image-1-bw.webp",
@@ -77,6 +78,9 @@ export default function JoinUs() {
       if (response.ok) {
         console.log("Application submitted successfully:", result);
         setSubmissionStatus("success");
+
+        //tracking
+        trackEvent("join-us-submission");
         // Reset form after successful submission
         form.reset();
       } else {
