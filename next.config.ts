@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/deck",
-        destination: "/raid_guild.pdf",
+        destination: "/files/raid_guild.pdf",
         permanent: false, // true if you want a 308 permanent redirect
       },
     ];
