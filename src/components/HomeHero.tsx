@@ -107,7 +107,7 @@ export default function HomeHero() {
                   handleNavigate("#hire-us");
                 }}
               >
-                <span className="text-label text-scoll-100">SUMMON A RAID</span>
+                <span className="text-label text-scoll-100">HIRE US</span>
               </Button>
               <Button
                 variant="secondary"
