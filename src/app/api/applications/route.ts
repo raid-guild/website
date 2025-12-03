@@ -36,12 +36,12 @@ export async function POST(request: NextRequest) {
       request.headers.get("authorization")?.replace("Bearer ", "") ||
       body.token;
 
-    if (!token) {
-      return NextResponse.json(
-        { error: "Authentication token required" },
-        { status: 401 }
-      );
-    }
+    // if (!token) {
+    //   return NextResponse.json(
+    //     { error: "Authentication token required" },
+    //     { status: 401 }
+    //   );
+    // }
 
     // Create GraphQL client with token
     const gqlClient = client({ token });
