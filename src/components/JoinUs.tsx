@@ -37,7 +37,7 @@ export default function JoinUs() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState<
     "idle" | "success" | "error"
-  >("success");
+  >("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
 
   const form = useForm<JoinUsFormData>({
