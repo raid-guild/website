@@ -38,6 +38,7 @@ import {
 import Image from "next/image";
 import MultipleSelector from "./ui/multiselect";
 import { DISCORD_INVITE_URL } from "@/lib/data/constants";
+import { trackEvent } from "fathom-client";
 
 interface StepProps {
   form: ReturnType<typeof useForm<HireUsFormData>>;
@@ -397,6 +398,9 @@ export default function HireUs() {
     setErrorMessage("");
     setValidationErrors([]);
 
+    //tracking
+    trackEvent("hire-us-submission");
+
     // Transform form data to API format using the centralized function
     const consultData = transformFormDataToApiFormat(formData);
 
@@ -414,6 +418,9 @@ export default function HireUs() {
       if (response.ok) {
         console.log("Consultation submitted successfully:", result);
         setSubmissionStatus("success");
+
+        //tracking
+        trackEvent("hire-us-submission");
         // Reset form after successful submission
         form.reset();
       } else {
@@ -520,6 +527,7 @@ export default function HireUs() {
       // description: "Tell us about yourself",
       component: <PersonalInfoStep form={form} />,
       validation: validatePersonalInfo,
+      onStepComplete: () => trackEvent("hire-us-step-1"),
     },
     {
       id: "project-description",
@@ -527,6 +535,7 @@ export default function HireUs() {
       // description: "Describe your project requirements",
       component: <ProjectDetailsStep form={form} />,
       validation: validateProjectDetails,
+      onStepComplete: () => trackEvent("hire-us-step-2"),
     },
     {
       id: "requirements",

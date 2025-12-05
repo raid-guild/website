@@ -29,7 +29,8 @@ export default function HomeHero() {
     const mediaQuery = window.matchMedia(DESKTOP_BREAKPOINT);
     setIsDesktop(mediaQuery.matches);
 
-    const listener = (event: MediaQueryListEvent) => setIsDesktop(event.matches);
+    const listener = (event: MediaQueryListEvent) =>
+      setIsDesktop(event.matches);
     mediaQuery.addEventListener("change", listener);
 
     return () => mediaQuery.removeEventListener("change", listener);
@@ -100,16 +101,18 @@ export default function HomeHero() {
               <Button
                 variant="primary"
                 className="w-full md:flex-1"
+                data-click="hire-us-hero"
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavigate("#hire-us");
                 }}
               >
-                <span className="text-label text-scoll-100">SUMMON A RAID</span>
+                <span className="text-label text-scoll-100">HIRE US</span>
               </Button>
               <Button
                 variant="secondary"
                 className="w-full md:flex-1"
+                data-click="case-studies-hero"
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavigate("#case-studies");
@@ -126,7 +129,7 @@ export default function HomeHero() {
               width={632}
               height={632}
               className="w-full max-w-[632px] h-auto mx-auto"
-              style={{ width: '100%', height: 'auto', maxWidth: '632px' }}
+              style={{ width: "100%", height: "auto", maxWidth: "632px" }}
               sizes="(min-width: 1024px) 632px, 100vw"
             />
           </div>

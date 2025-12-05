@@ -290,7 +290,7 @@ function HeaderDesktopAdaptive({
           transition: "gap 300ms ease-out, align-items 300ms ease-out",
         }}
       >
-{staticAppearance ? (
+        {staticAppearance ? (
           <Link
             href="/"
             style={{
@@ -299,6 +299,7 @@ function HeaderDesktopAdaptive({
               display: "block",
             }}
             aria-label="Go to home"
+            data-click="home-header"
           >
             <div
               style={{
@@ -337,6 +338,7 @@ function HeaderDesktopAdaptive({
               cursor: "pointer",
             }}
             aria-label="Scroll to top"
+            data-click="home-header"
           >
             <div
               style={{
@@ -390,7 +392,11 @@ function HeaderMobile({
 }: HeaderMobileProps) {
   return (
     <div className="flex items-center justify-between gap-4 py-4">
-      <Logo variant="mobile" logoPath={theme.logoPath} staticAppearance={staticAppearance} />
+      <Logo
+        variant="mobile"
+        logoPath={theme.logoPath}
+        staticAppearance={staticAppearance}
+      />
       <MenuButton
         ref={triggerRef}
         isOpen={isMenuOpen}
@@ -441,6 +447,7 @@ function NavLinks({
                 isActive ? theme.navActive : "",
                 isActive ? theme.navActiveText : "",
               ].join(" ")}
+              data-click={`${id}-header`}
             >
               {" "}
               {label}
@@ -463,6 +470,7 @@ function NavLinks({
                 isActive ? theme.navActive : "",
                 isActive ? theme.navActiveText : "",
               ].join(" ")}
+              data-click={`${id}-header`}
             >
               {label}
             </a>
@@ -496,6 +504,7 @@ function Logo({ variant, logoPath, staticAppearance = false }: LogoProps) {
           height={166}
           priority
           className={[baseClasses, sizeClasses].join(" ")}
+          data-click="home-header"
         />
       </Link>
     );
@@ -511,6 +520,7 @@ function Logo({ variant, logoPath, staticAppearance = false }: LogoProps) {
       }}
       className="bg-transparent border-0 p-0 cursor-pointer"
       aria-label="Scroll to top"
+      data-click="home-header"
     >
       <Image
         src={logoPath}

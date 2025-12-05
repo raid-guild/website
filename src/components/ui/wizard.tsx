@@ -20,6 +20,7 @@ export interface WizardStep {
   description?: string;
   component: React.ReactNode;
   validation?: () => boolean | Promise<boolean>;
+  onStepComplete?: () => void;
 }
 
 interface StepComponentProps {
@@ -97,6 +98,7 @@ export function Wizard({
           if (isLastStep) {
             onComplete?.({});
           } else {
+            currentStepData.onStepComplete?.();
             goToStep(currentStep + 1);
           }
         }
@@ -172,7 +174,9 @@ export function Wizard({
             >
               {index + 1}
             </span>
-            <span className="hidden sm:inline text-body-md font-body">{step.title}</span>
+            <span className="hidden sm:inline text-body-md font-body">
+              {step.title}
+            </span>
           </div>
         ))}
       </div>

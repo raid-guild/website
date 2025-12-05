@@ -1,8 +1,8 @@
 // Fathom.tsx
 "use client";
 
-import { load, trackPageview } from "fathom-client";
-import { useEffect, Suspense } from "react";
+import { load, trackEvent, trackPageview } from "fathom-client";
+import { useEffect, Suspense, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 
 const FATHOM_ID = "ASGWDEGI";
@@ -10,12 +10,14 @@ const FATHOM_ID = "ASGWDEGI";
 function TrackPageView() {
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [isLoaded, setIsLoaded] = useState(false);
 
   // Load the Fathom script on mount
   useEffect(() => {
     load(FATHOM_ID, {
       auto: false,
     });
+    setIsLoaded(true);
   }, []);
 
   // Record a pageview when route changes
@@ -27,6 +29,19 @@ function TrackPageView() {
       referrer: document.referrer,
     });
   }, [pathname, searchParams]);
+
+  // Set up link listeners
+  useEffect(() => {
+    if (!isLoaded) return;
+
+    document.querySelectorAll("[data-click]").forEach((item) => {
+      item.addEventListener("click", () => {
+        const tag = item.getAttribute("data-click");
+        console.log("tag", tag);
+        trackEvent(`link: ${tag}`);
+      });
+    });
+  }, [isLoaded]);
 
   return null;
 }
