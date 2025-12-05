@@ -20,6 +20,7 @@ import {
   transformApplicationDataToApiFormat,
 } from "@/lib/validation";
 import Image from "next/image";
+import { trackEvent } from "fathom-client";
 
 const joinUsImages = [
   "/images/join-image-1-bw.webp",
@@ -77,6 +78,9 @@ export default function JoinUs() {
       if (response.ok) {
         console.log("Application submitted successfully:", result);
         setSubmissionStatus("success");
+
+        //tracking
+        trackEvent("join-us-submission");
         // Reset form after successful submission
         form.reset();
       } else {
@@ -100,7 +104,7 @@ export default function JoinUs() {
   // Feedback components
   const SuccessState = () => (
     <div className="text-center space-y-4 p-8">
-      <h3 className="text-2xl font-semibold text-moloch-500">
+      <h3 className="font-body text-3xl font-bold text-moloch-500">
         Your Words Have Been Passed On.
       </h3>
       <div className="flex items-center justify-center">
@@ -112,11 +116,11 @@ export default function JoinUs() {
           className="flex-shrink-0"
         />
       </div>
-      <div className="pt-12">
+      <div className="pt-12 w-full">
         <a
           href="https://discord.gg/raidguild"
           target="_blank"
-          className="contact-btn-active"
+          className="text-body-lg text-moloch-500 hover:text-moloch-800"
         >
           Look for the Tavern Keeper in Discord
         </a>
