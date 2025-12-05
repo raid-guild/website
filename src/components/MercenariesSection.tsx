@@ -106,7 +106,8 @@ export default function MercenariesSection() {
               <h2 className="text-heading-lg mb-8">Meet Your Mercenaries</h2>
               <p className="text-body-lg text-moloch-800">
                 Elite operators with specialized expertise and proven chops.
-                Battle-tested talent. Uncompromising quality.
+                Battle-tested talent. Uncompromising quality.{" "}
+                <span className="hidden lg:inline italic">Click to delve deeper.</span>
               </p>
             </div>
             <div className="grid grid-cols-4 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2 ">
