@@ -193,7 +193,7 @@ export const mercenaries: Mercenary[] = [
   },
   {
     name: "Takekek",
-    title: "BizDev",
+    title: "Ops",
     imagePath: "/images/member-takekek.png",
     roleIcon: "/images/icon-og-marketing.svg",
   },
