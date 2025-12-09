@@ -124,6 +124,7 @@ export const mercenaries: Mercenary[] = [
   {
     name: "Skuhl",
     title: "Fullstack",
+    link: "https://peachtycoon.com",
     imagePath: "/images/member-samkuhlman.png",
     roleIcon: "/images/icon-og-education.svg",
   },
