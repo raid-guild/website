@@ -210,6 +210,14 @@ export const mercenaries: Mercenary[] = [
     imagePath: "/images/member-penguin.png",
     roleIcon: "/images/icon-og-raidguild.svg",
   },
+    {
+    name: "Shawky",
+    title: "Fullstack",
+    link: "https://github.com/sshmm",
+    imagePath: "/images/member-shawky.png",
+    roleIcon: "/images/icon-og-marketingdesign.svg",
+  },
+
 ];
 
 export const shuffledMercenaries = shuffleArray(mercenaries);
