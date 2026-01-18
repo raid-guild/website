@@ -7,7 +7,7 @@ import Fathom from "@/components/Fathom";
 
 export const metadata: Metadata = {
   title: "Raid Guild",
-  description: "We are slaying Moloch, one web3 build at a time.",
+  description: "Elite Raiders Conquering the Web3 Realm. Legendary design, development, and consulting. ",
 };
 
 export default function RootLayout({
