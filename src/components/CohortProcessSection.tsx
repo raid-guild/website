@@ -97,177 +97,184 @@ export default function CohortProcessSection() {
   const imageSrc = processImages[interval % processImages.length];
 
   return (
-    <section id="cohort-process" className="relative bg-moloch-800">
-      <div className="container-custom relative min-h-[953px]">
-        {/* Image on the left side */}
-        <div className="absolute top-0 md:bottom-0 md:top-auto lg:top-0 lg:bottom-auto left-0 z-0 pointer-events-none max-w-[632px]">
-          <Image
-            src={imageSrc}
-            alt="Process Background"
-            width={632}
-            height={843}
-            className="object-contain object-bottom"
-            priority={false}
-          />
+    <section id="cohort-process" className="relative bg-moloch-500">
+      {/* Section 1: Image Left, Title Right */}
+      <div className="container-custom py-12 lg:py-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          {/* Left: Image */}
+          <div className="flex justify-center lg:justify-start">
+            <Image
+              src={imageSrc}
+              alt="Process"
+              width={632}
+              height={843}
+              className="w-full max-w-[632px] h-auto"
+              priority={false}
+            />
+          </div>
+
+          {/* Right: Title and subtitle */}
+          <div className="flex flex-col justify-center text-center lg:text-left">
+            <h2 className="text-heading-lg text-scroll-100 mb-8">
+              Your Path to Membership
+            </h2>
+            <p className="text-body-lg text-scroll-200">
+              From the tavern to the citadel—a structured journey where you
+              prove yourself through completed work, not promises.
+            </p>
+          </div>
         </div>
+      </div>
 
-        <div className="relative z-10 pt-[520px] pb-12 md:py-12 lg:py-24">
-          <div className="flex flex-col gap-12 lg:grid lg:grid-cols-12 lg:gap-8">
-            {/* Empty column for image spacing on left */}
-            <div className="hidden lg:col-span-6 lg:flex lg:justify-center"></div>
+      {/* Section 2: Week 1 Accordion Left, Journey Accordion Right */}
+      <div className="bg-scroll-700">
+        <div className="container-custom py-12 lg:py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Left: Week 1 Accordion */}
+            <div>
+              <h3 className="text-heading-md text-scroll-100 mb-4">
+                Week 1: Assembly
+              </h3>
+              <p className="text-body-lg text-scroll-200 mb-6">
+                Daily sessions. Meet your crew. Forge your path.
+              </p>
+              <Accordion type="single" collapsible className="w-full space-y-2">
+                {weekOneItems.map((item, idx) => (
+                  <AccordionItem
+                    key={idx}
+                    value={`week1-${idx}`}
+                    className="rounded-md overflow-hidden"
+                  >
+                    <AccordionTrigger className="bg-moloch-800 px-8 py-4 flex justify-between items-center hover:no-underline hover:bg-moloch-800 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md rounded-b-none [&>svg]:hidden">
+                      <span className="text-scroll-100 font-display font-bold text-[24px] leading-[1.4]">
+                        {item.title}
+                      </span>
+                      <Image
+                        src={`/images/icon-og-${weekOneIconNames[idx]}.svg`}
+                        alt={item.title}
+                        width={36}
+                        height={36}
+                        className="w-9 h-9"
+                        style={{ width: "36px", height: "36px" }}
+                      />
+                    </AccordionTrigger>
+                    {item.desc && (
+                      <AccordionContent className="bg-scroll-100 px-8 py-5 pt-5 pb-5 border-2 border-moloch-800 rounded-md rounded-t-none">
+                        <p className="text-body-lg text-moloch-800 whitespace-pre-line">
+                          {item.desc}
+                        </p>
+                      </AccordionContent>
+                    )}
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
 
-            {/* Accordions on the right */}
-            <div className="flex flex-col gap-8 lg:col-span-6">
-              <div className="text-center lg:text-left">
-                <h2 className="text-heading-lg text-scroll-100 mb-8">
-                  Your Path to Membership
-                </h2>
-                <p className="text-body-lg text-scroll-200">
-                  From the tavern to the citadel—a structured journey where you
-                  prove yourself through completed work, not promises.
-                </p>
-              </div>
+            {/* Right: Journey Accordion */}
+            <div>
+              <h3 className="text-heading-md text-scroll-100 mb-4">
+                Your Journey Forward
+              </h3>
+              <p className="text-body-lg text-scroll-200 mb-6">
+                Prove your worth. Earn your place.
+              </p>
+              <Accordion type="single" collapsible className="w-full space-y-2">
+                {journeyItems.map((item, idx) => (
+                  <AccordionItem
+                    key={idx}
+                    value={`journey-${idx}`}
+                    className="rounded-md overflow-hidden"
+                  >
+                    <AccordionTrigger className="bg-moloch-800 px-8 py-4 flex justify-between items-center hover:no-underline hover:bg-moloch-800 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md rounded-b-none [&>svg]:hidden">
+                      <span className="text-scroll-100 font-display font-bold text-[24px] leading-[1.4]">
+                        {item.title}
+                      </span>
+                      <Image
+                        src={`/images/icon-og-${journeyIconNames[idx]}.svg`}
+                        alt={item.title}
+                        width={36}
+                        height={36}
+                        className="w-9 h-9"
+                        style={{ width: "36px", height: "36px" }}
+                      />
+                    </AccordionTrigger>
+                    {item.desc && (
+                      <AccordionContent className="bg-scroll-100 px-8 py-5 pt-5 pb-5 border-2 border-moloch-800 rounded-md rounded-t-none">
+                        <p className="text-body-lg text-moloch-800 whitespace-pre-line">
+                          {item.desc}
+                        </p>
+                      </AccordionContent>
+                    )}
+                  </AccordionItem>
+                ))}
+              </Accordion>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              {/* First accordion set - Week 1 */}
+      {/* Section 3: What to Expect - Two Columns */}
+      <div className="bg-moloch-800 py-12 lg:py-24">
+        <div className="container-custom">
+          <h2 className="text-heading-lg text-scroll-100 mb-8 text-left">
+            What to Expect
+          </h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+            {/* Left column */}
+            <div className="flex flex-col gap-6">
               <div>
-                <h3 className="text-heading-sm text-scroll-100 mb-4">
-                  Week 1: Assembly
+                <h3 className="text-heading-sm text-scroll-100 mb-2">
+                  Timeline
                 </h3>
-                <p className="text-body-md text-scroll-200 mb-4">
-                  Daily sessions. Meet your crew. Forge your path.
+                <p className="text-body-lg text-scroll-200">
+                  Cohorts launch on the{" "}
+                  <strong>first Monday of each month</strong>. Applications
+                  reviewed on a rolling basis.
                 </p>
-                <Accordion type="single" collapsible className="w-full space-y-2">
-                  {weekOneItems.map((item, idx) => (
-                    <AccordionItem
-                      key={idx}
-                      value={`week1-${idx}`}
-                      className="rounded-md overflow-hidden"
-                    >
-                      <AccordionTrigger className="bg-scroll-700 px-8 py-4 flex justify-between items-center hover:no-underline hover:bg-scroll-700 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md rounded-b-none [&>svg]:hidden">
-                        <span className="text-scroll-100 font-display font-bold text-[20px] md:text-[28px] lg:text-[36px] leading-[1.4] md:leading-[1.3] lg:leading-[1.2]">
-                          {item.title}
-                        </span>
-                        <Image
-                          src={`/images/icon-og-${weekOneIconNames[idx]}.svg`}
-                          alt={item.title}
-                          width={36}
-                          height={36}
-                          className="w-9 h-9"
-                          style={{ width: "36px", height: "36px" }}
-                        />
-                      </AccordionTrigger>
-                      {item.desc && (
-                        <AccordionContent className="bg-scroll-100 px-8 py-5 pt-5 pb-5 border-2 border-scroll-700 rounded-md rounded-t-none">
-                          <p className="text-body-lg text-moloch-800 whitespace-pre-line">
-                            {item.desc}
-                          </p>
-                        </AccordionContent>
-                      )}
-                    </AccordionItem>
-                  ))}
-                </Accordion>
               </div>
-
-              {/* Second accordion set - Journey */}
-              <div className="mt-8">
-                <Accordion type="single" collapsible className="w-full space-y-2">
-                  {journeyItems.map((item, idx) => (
-                    <AccordionItem
-                      key={idx}
-                      value={`journey-${idx}`}
-                      className="rounded-md overflow-hidden"
-                    >
-                      <AccordionTrigger className="bg-scroll-700 px-8 py-4 flex justify-between items-center hover:no-underline hover:bg-scroll-700 focus-visible:ring-0 focus-visible:ring-offset-0 rounded-md rounded-b-none [&>svg]:hidden">
-                        <span className="text-scroll-100 font-display font-bold text-[20px] md:text-[28px] lg:text-[36px] leading-[1.4] md:leading-[1.3] lg:leading-[1.2]">
-                          {item.title}
-                        </span>
-                        <Image
-                          src={`/images/icon-og-${journeyIconNames[idx]}.svg`}
-                          alt={item.title}
-                          width={36}
-                          height={36}
-                          className="w-9 h-9"
-                          style={{ width: "36px", height: "36px" }}
-                        />
-                      </AccordionTrigger>
-                      {item.desc && (
-                        <AccordionContent className="bg-scroll-100 px-8 py-5 pt-5 pb-5 border-2 border-scroll-700 rounded-md rounded-t-none">
-                          <p className="text-body-lg text-moloch-800 whitespace-pre-line">
-                            {item.desc}
-                          </p>
-                        </AccordionContent>
-                      )}
-                    </AccordionItem>
-                  ))}
-                </Accordion>
+              <div>
+                <h3 className="text-heading-sm text-scroll-100 mb-2">
+                  Time Commitment
+                </h3>
+                <ul className="text-body-lg text-scroll-200 space-y-1">
+                  <li>
+                    <strong>Week 1</strong>: Daily sessions, 1-2 hours each
+                  </li>
+                  <li>
+                    <strong>Weeks 2-4</strong>: 10-20 hours per week on your
+                    mission
+                  </li>
+                  <li>
+                    <strong>Demo Day</strong>: 2-3 hours
+                  </li>
+                  <li>
+                    <strong>After</strong>: Flexible based on your availability
+                  </li>
+                </ul>
               </div>
             </div>
 
-            {/* Two column section below */}
-            <div className="lg:col-span-12 pt-6 md:pt-12 lg:pt-12">
-              <h2 className="text-heading-lg text-scroll-100 mb-8 text-center">
-                What to Expect
-              </h2>
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-                {/* Left column */}
-                <div className="flex flex-col gap-6">
-                  <div>
-                    <h3 className="text-heading-sm text-scroll-100 mb-2">
-                      Timeline
-                    </h3>
-                    <p className="text-body-md text-scroll-200">
-                      Cohorts launch on the{" "}
-                      <strong>first Monday of each month</strong>. Applications
-                      reviewed on a rolling basis.
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-heading-sm text-scroll-100 mb-2">
-                      Time Commitment
-                    </h3>
-                    <ul className="text-body-md text-scroll-200 space-y-1">
-                      <li>
-                        <strong>Week 1</strong>: Daily sessions, 1-2 hours each
-                      </li>
-                      <li>
-                        <strong>Weeks 2-4</strong>: 10-20 hours per week on
-                        your mission
-                      </li>
-                      <li>
-                        <strong>Demo Day</strong>: 2-3 hours
-                      </li>
-                      <li>
-                        <strong>After</strong>: Flexible based on your
-                        availability
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Right column */}
-                <div className="flex flex-col gap-6">
-                  <div>
-                    <h3 className="text-heading-sm text-scroll-100 mb-2">
-                      What This Demands
-                    </h3>
-                    <p className="text-body-md text-scroll-200">
-                      No coin required upfront, but the cohort demands
-                      dedication—your time, focus, and follow-through. This is
-                      your opportunity to prove yourself alongside talented
-                      builders.
-                    </p>
-                  </div>
-                  <div>
-                    <h3 className="text-heading-sm text-scroll-100 mb-2">
-                      After You Apply
-                    </h3>
-                    <p className="text-body-md text-scroll-200">
-                      Strong applications receive word within 5-7 days. If
-                      accepted, you&apos;ll receive your cohort invitation,
-                      Discord access, and kickoff details.
-                    </p>
-                  </div>
-                </div>
+            {/* Right column */}
+            <div className="flex flex-col gap-6">
+              <div>
+                <h3 className="text-heading-sm text-scroll-100 mb-2">
+                  What This Demands
+                </h3>
+                <p className="text-body-lg text-scroll-200">
+                  No coin required upfront, but the cohort demands
+                  dedication—your time, focus, and follow-through. This is your
+                  opportunity to prove yourself alongside talented builders.
+                </p>
+              </div>
+              <div>
+                <h3 className="text-heading-sm text-scroll-100 mb-2">
+                  After You Apply
+                </h3>
+                <p className="text-body-lg text-scroll-200">
+                  Strong applications receive word within 5-7 days. If accepted,
+                  you&apos;ll receive your cohort invitation, Discord access,
+                  and kickoff details.
+                </p>
               </div>
             </div>
           </div>

@@ -68,7 +68,7 @@ export default function CohortHero() {
   };
 
   return (
-    <section id="cohort-hero" className="relative bg-scroll-700">
+    <section id="cohort-hero" className="relative bg-moloch-800">
       <div className="container-custom min-h-[795px]">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-[60px] order-2 lg:order-1">
