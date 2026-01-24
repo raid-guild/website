@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import SkillsBannerAlt from "./SkillsBannerAlt";
 
 const arsenalImages = [
   "/images/arsenal-image-1-bw.webp",
@@ -90,14 +91,14 @@ export default function CohortValueSection() {
   return (
     <section id="cohort-value">
       {/* Section 1: Why Join the Guild? */}
-      <div className="bg-moloch-500 py-12 lg:py-24">
+      <div className="bg-scroll-100 py-12 lg:py-24">
         <div className="container-custom">
           <div className="grid-custom gap-4">
             <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-6 lg:mb-12">
-              <h2 className="text-heading-lg text-scroll-100 mb-8">
+              <h2 className="text-heading-lg text-moloch-800 mb-8">
                 Why Join the Guild?
               </h2>
-              <p className="text-body-lg text-scroll-200">
+              <p className="text-body-lg text-moloch-700">
                 We offer a fellowship forged in battle. Discover why builders
                 across the realm choose to sharpen their blades and forge their
                 legend with RaidGuild.
@@ -161,6 +162,9 @@ export default function CohortValueSection() {
           </div>
         </div>
       </div>
+
+      {/* Skills Banner */}
+      <SkillsBannerAlt />
 
       {/* Section 2: Who Should Answer the Call */}
       <div className="bg-scroll-700 py-12 lg:py-24">

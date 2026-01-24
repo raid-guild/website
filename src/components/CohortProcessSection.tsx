@@ -7,6 +7,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import SkillsBanner from "./SkillsBanner";
 
 const processImages = [
   "/images/process-image-1-bw.webp",
@@ -147,16 +148,19 @@ export default function CohortProcessSection() {
         </div>
       </div>
 
+      {/* Skills Banner */}
+      <SkillsBanner />
+
       {/* Section 2: Week 1 Accordion Left, Journey Accordion Right */}
-      <div className="bg-scroll-700">
+      <div className="bg-scroll-100">
         <div className="container-custom py-12 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Left: Week 1 Accordion */}
             <div>
-              <h3 className="text-heading-md text-scroll-100 mb-4">
+              <h3 className="text-heading-md text-moloch-800 mb-4">
                 Week 1: Assembly
               </h3>
-              <p className="text-body-lg text-scroll-200 mb-6">
+              <p className="text-body-lg text-moloch-700 mb-6">
                 Daily sessions. Meet your crew. Forge your path.
               </p>
               <Accordion type="single" collapsible className="w-full space-y-2">
@@ -193,10 +197,10 @@ export default function CohortProcessSection() {
 
             {/* Right: Journey Accordion */}
             <div>
-              <h3 className="text-heading-md text-scroll-100 mb-4">
+              <h3 className="text-heading-md text-moloch-800 mb-4">
                 Your Journey Forward
               </h3>
-              <p className="text-body-lg text-scroll-200 mb-6">
+              <p className="text-body-lg text-moloch-700 mb-6">
                 Prove your worth. Earn your place.
               </p>
               <Accordion type="single" collapsible className="w-full space-y-2">
