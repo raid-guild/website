@@ -170,8 +170,22 @@ export default function CohortValueSection() {
       <div id="cohort-call" className="bg-scroll-700 py-12 lg:py-24">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
-            {/* Left: Content */}
-            <div className="flex flex-col justify-center order-2 lg:order-1">
+            {/* Left: Image */}
+            <div className="flex justify-center lg:justify-start order-1 lg:order-1">
+              <Image
+                src={arsenalImageSrc}
+                alt="Arsenal"
+                width={632}
+                height={843}
+                className="w-full max-w-[632px] h-auto object-contain"
+                style={{ width: "100%", height: "auto", maxWidth: "632px" }}
+                sizes="(min-width: 1024px) 632px, 100vw"
+                priority={false}
+              />
+            </div>
+
+            {/* Right: Content */}
+            <div className="flex flex-col justify-center order-2 lg:order-2">
               <h2 className="text-heading-lg text-scroll-100 mb-8">
                 Who Should Answer the Call?
               </h2>
@@ -240,20 +254,6 @@ export default function CohortValueSection() {
                   in async realms? If yes, you&apos;re ready to raid.
                 </p>
               </div>
-            </div>
-
-            {/* Right: Image */}
-            <div className="flex justify-center lg:justify-end order-1 lg:order-2">
-              <Image
-                src={arsenalImageSrc}
-                alt="Arsenal"
-                width={632}
-                height={843}
-                className="w-full max-w-[632px] h-auto object-contain"
-                style={{ width: "100%", height: "auto", maxWidth: "632px" }}
-                sizes="(min-width: 1024px) 632px, 100vw"
-                priority={false}
-              />
             </div>
           </div>
         </div>

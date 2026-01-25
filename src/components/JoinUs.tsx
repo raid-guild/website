@@ -162,7 +162,7 @@ export default function JoinUs() {
   return (
     <section id="join-us" className="relative">
       <div className="container-custom relative min-h-[953px]">
-        <div className="absolute top-0 md:top-1/2 md:-translate-y-1/2 left-0 z-0 pointer-events-none max-w-[632px]">
+        <div className="absolute top-0 md:top-1/2 md:-translate-y-1/2 right-0 z-0 pointer-events-none max-w-[632px]">
           <Image
             src={imageSrc}
             alt="Join Raid Guild"
@@ -174,9 +174,9 @@ export default function JoinUs() {
         </div>
         <div className="relative z-10 pt-[520px] pb-12 md:py-12 lg:py-24">
           <div className="grid-custom gap-4 min-h-[850px]">
-            {/* Right Column - Form */}
-            <div className="col-span-4 md:col-span-8 lg:col-span-6 lg:col-start-7">
-              <div className="space-y-8 max-w-[632px] ml-auto">
+            {/* Left Column - Form */}
+            <div className="col-span-4 md:col-span-8 lg:col-span-6">
+              <div className="space-y-8 max-w-[632px] mr-auto">
                 {/* Header */}
                 <div className="text-center md:text-left">
                   <h3 className="text-heading-lg font-bold text-moloch-500 mb-8">
