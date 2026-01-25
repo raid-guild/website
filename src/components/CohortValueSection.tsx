@@ -226,6 +226,14 @@ export default function CohortValueSection() {
                   We&apos;re not teaching fundamentals—show us deeds you&apos;re
                   proud of.
                 </p>
+                <div className="flex justify-center lg:justify-start mt-8">
+                  <Image
+                    src="/images/cohort-who-divider.svg"
+                    alt="Divider"
+                    width={300}
+                    height={24}
+                  />
+                </div>
               </div>
 
               {/* The Guild Code */}

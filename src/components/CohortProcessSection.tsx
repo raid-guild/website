@@ -145,6 +145,14 @@ export default function CohortProcessSection() {
               Below you&apos;ll find the complete roadmap—from your first day in
               the tavern through Demo Day and beyond. Your legend starts here.
             </p>
+            <div className="flex justify-center lg:justify-start mt-8">
+              <Image
+                src="/images/cohort-path-divider.svg"
+                alt="Divider"
+                width={300}
+                height={73}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -283,6 +291,14 @@ export default function CohortProcessSection() {
                       availability
                     </li>
                   </ul>
+                  <div className="flex justify-center lg:justify-start mt-8">
+                    <Image
+                      src="/images/cohort-what-divider.svg"
+                      alt="Divider"
+                      width={300}
+                      height={24}
+                    />
+                  </div>
                 </div>
                 <div>
                   <h3 className="text-heading-sm text-scroll-100 mb-2">
