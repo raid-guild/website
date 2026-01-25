@@ -87,14 +87,14 @@ export default function JoinUs() {
         console.error("Failed to submit application:", result);
         setSubmissionStatus("error");
         setErrorMessage(
-          result.error || "Failed to submit application. Please try again."
+          result.error || "Failed to submit application. Please try again.",
         );
       }
     } catch (error) {
       console.error("Error submitting application:", error);
       setSubmissionStatus("error");
       setErrorMessage(
-        "Network error. Please check your connection and try again."
+        "Network error. Please check your connection and try again.",
       );
     } finally {
       setIsSubmitting(false);

@@ -153,7 +153,7 @@ export default function CohortProcessSection() {
       <SkillsBanner />
 
       {/* Section 2: Week 1 Accordion Left, Journey Accordion Right */}
-      <div className="bg-scroll-100">
+      <div id="cohort-assembly" className="bg-scroll-100">
         <div className="container-custom py-12 lg:py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Left: Week 1 Accordion */}
@@ -243,7 +243,7 @@ export default function CohortProcessSection() {
       <CohortProcessBanner />
 
       {/* Section 3: What to Expect - Copy Left, Image Right */}
-      <div className="bg-moloch-800 py-12 lg:py-24">
+      <div id="cohort-expect" className="bg-moloch-800 py-12 lg:py-24">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Left: Copy */}

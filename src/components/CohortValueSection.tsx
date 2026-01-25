@@ -167,7 +167,7 @@ export default function CohortValueSection() {
       <SkillsBannerAlt />
 
       {/* Section 2: Who Should Answer the Call */}
-      <div className="bg-scroll-700 py-12 lg:py-24">
+      <div id="cohort-call" className="bg-scroll-700 py-12 lg:py-24">
         <div className="container-custom">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
             {/* Left: Content */}
