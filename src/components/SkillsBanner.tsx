@@ -27,9 +27,9 @@ export default function SkillsBanner() {
   return (
     <ScrollingBanner
       items={traits}
-      bgColor="bg-scroll-700"
+      bgColor="bg-moloch-500"
       textColor="text-scroll-100"
-      borderColor="border-moloch-800"
+      borderColor="border-scroll-100"
       gap="gap-10"
       scrollDuration={80}
     />

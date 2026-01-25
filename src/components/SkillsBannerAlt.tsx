@@ -27,8 +27,8 @@ export default function SkillsBannerAlt() {
   return (
     <ScrollingBanner
       items={skills}
-      bgColor="bg-moloch-500"
-      textColor="text-moloch-800"
+      bgColor="bg-scroll-100"
+      textColor="text-scroll-700"
       borderColor="border-scroll-700"
       gap="gap-10"
       scrollDuration={80}

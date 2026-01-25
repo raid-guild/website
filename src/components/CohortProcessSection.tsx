@@ -8,6 +8,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import SkillsBanner from "./SkillsBanner";
+import CohortProcessBanner from "./CohortProcessBanner";
 
 const processImages = [
   "/images/process-image-1-bw.webp",
@@ -237,6 +238,9 @@ export default function CohortProcessSection() {
           </div>
         </div>
       </div>
+
+      {/* Process Banner */}
+      <CohortProcessBanner />
 
       {/* Section 3: What to Expect - Copy Left, Image Right */}
       <div className="bg-moloch-800 py-12 lg:py-24">
