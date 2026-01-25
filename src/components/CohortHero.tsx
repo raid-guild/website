@@ -94,7 +94,7 @@ export default function CohortHero() {
               width={300}
               height={36}
             />
-            <div className="flex flex-col md:flex-row gap-4 w-full">
+            <div className="flex flex-col md:flex-row gap-4 w-full pb-12 lg:pb-0">
               <Button
                 variant="primary"
                 className="w-full md:flex-1 cohort-btn-apply"
