@@ -89,7 +89,7 @@ export default function CohortHero() {
               </p>
             </div>
             <Image
-              src="/images/home-divider.svg"
+              src="/images/cohort-hero-divider.svg"
               alt="Divider"
               width={300}
               height={36}
