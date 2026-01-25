@@ -71,15 +71,28 @@ const DESKTOP_BREAKPOINT = "(min-width: 1024px)";
 const DESKTOP_THIN_HEIGHT = 96;
 const MOBILE_HEADER_HEIGHT = 72;
 
+type ThemeAnchor = {
+  id: string;
+  theme: HeaderTheme;
+};
+
 type HeaderProps = {
   /**
    * When enabled, use the thin header and moloch-500 theme for all viewports.
    * Intended for secondary routes that opt out of dynamic transitions.
    */
   staticAppearance?: boolean;
+  /**
+   * Optional custom theme anchors for section-based theme transitions.
+   * If not provided, uses default main page anchors.
+   */
+  themeAnchors?: ThemeAnchor[];
 };
 
-export default function Header({ staticAppearance = false }: HeaderProps) {
+export default function Header({
+  staticAppearance = false,
+  themeAnchors: customThemeAnchors,
+}: HeaderProps) {
   const headerRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -110,18 +123,19 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
   const navAnchorIds = useMemo(
     () =>
       NAV_ITEMS.map((item) =>
-        item.anchor.startsWith("#") ? item.anchor.slice(1) : null
+        item.anchor.startsWith("#") ? item.anchor.slice(1) : null,
       ).filter((value): value is string => Boolean(value)),
-    []
+    [],
   );
 
   const themeAnchors = useMemo(
-    () => [
-      { id: "services", theme: "moloch-800" as HeaderTheme },
-      { id: "case-studies", theme: "scroll-700" as HeaderTheme },
-      { id: "hire-us", theme: "moloch-500" as HeaderTheme },
-    ],
-    []
+    () =>
+      customThemeAnchors || [
+        { id: "services", theme: "moloch-800" as HeaderTheme },
+        { id: "case-studies", theme: "scroll-700" as HeaderTheme },
+        { id: "hire-us", theme: "moloch-500" as HeaderTheme },
+      ],
+    [customThemeAnchors],
   );
 
   const { currentTheme, activeAnchorId } = useHeaderTheme({
@@ -200,7 +214,7 @@ export default function Header({ staticAppearance = false }: HeaderProps) {
       }
       mobileMenu.close();
     },
-    [isDesktop, mobileMenu]
+    [isDesktop, mobileMenu],
   );
 
   return (
@@ -544,7 +558,7 @@ type MenuButtonProps = {
 const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(
   function MenuButtonComponent(
     { isOpen, ariaControls, theme, onToggle }: MenuButtonProps,
-    ref
+    ref,
   ) {
     return (
       <button
@@ -567,7 +581,7 @@ const MenuButton = forwardRef<HTMLButtonElement, MenuButtonProps>(
         )}
       </button>
     );
-  }
+  },
 );
 
 type MobileMenuPanelProps = {
@@ -877,8 +891,8 @@ function useMobileMenu({
     const focusableElements = panel
       ? Array.from(
           panel.querySelectorAll<HTMLElement>(
-            'a[href], button, [tabindex]:not([tabindex="-1"])'
-          )
+            'a[href], button, [tabindex]:not([tabindex="-1"])',
+          ),
         ).filter((element) => !element.hasAttribute("disabled"))
       : [];
 
