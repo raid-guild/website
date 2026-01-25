@@ -91,7 +91,7 @@ export default function CohortValueSection() {
   return (
     <section id="cohort-value">
       {/* Section 1: Why Join the Guild? */}
-      <div className="bg-scroll-100 py-12 lg:py-24">
+      <div id="cohort-why" className="bg-scroll-100 py-12 lg:py-24">
         <div className="container-custom">
           <div className="grid-custom gap-4">
             <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-6 lg:mb-12">

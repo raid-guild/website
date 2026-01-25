@@ -112,7 +112,7 @@ export default function CohortProcessSection() {
   return (
     <section id="cohort-process" className="relative bg-moloch-500">
       {/* Section 1: Image Left, Title Right */}
-      <div className="container-custom py-12 lg:py-24">
+      <div id="cohort-path" className="container-custom py-12 lg:py-24">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           {/* Left: Image */}
           <div className="flex justify-center lg:justify-start">

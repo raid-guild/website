@@ -19,6 +19,7 @@ type HeaderTheme = "moloch-500" | "moloch-800" | "scroll-700";
 type ThemeConfig = {
   background: string;
   borderAccent: string;
+  borderBottomTall: string;
   text: string;
   navHover: string;
   navActive: string;
@@ -38,32 +39,35 @@ const THEME_CONFIG: Record<HeaderTheme, ThemeConfig> = {
   "moloch-500": {
     background: "bg-moloch-500",
     borderAccent: "border-scroll-700",
+    borderBottomTall: "border-b-moloch-500",
     text: "text-scroll-100",
     navHover: "hover:bg-moloch-800",
     navActive: "bg-moloch-800",
     navActiveText: "text-scroll-100",
     menuSurface: "bg-moloch-500",
-    logoPath: "/images/logo-RG-scroll-100.svg", // CHANGED: cream logo on orange background
+    logoPath: "/images/logo-RG-cohort-scroll-100.svg", // CHANGED: cream logo on orange background
   },
   "moloch-800": {
     background: "bg-moloch-800",
     borderAccent: "border-moloch-500",
+    borderBottomTall: "border-b-moloch-800",
     text: "text-scroll-100",
     navHover: "hover:bg-moloch-500",
     navActive: "bg-moloch-500",
     navActiveText: "text-scroll-100",
     menuSurface: "bg-moloch-800/95",
-    logoPath: "/images/logo-RG-moloch-500.svg", // NO CHANGE: orange logo on brown background
+    logoPath: "/images/logo-RG-cohort-moloch-500.svg", // NO CHANGE: orange logo on brown background
   },
   "scroll-700": {
     background: "bg-scroll-700",
     borderAccent: "border-moloch-800",
+    borderBottomTall: "border-b-scroll-700",
     text: "text-scroll-100",
     navHover: "hover:bg-moloch-800",
     navActive: "bg-moloch-800",
     navActiveText: "text-scroll-100",
     menuSurface: "bg-scroll-700",
-    logoPath: "/images/logo-RG-scroll-100.svg", // CHANGED: cream logo on green background
+    logoPath: "/images/logo-RG-cohort-scroll-100.svg", // CHANGED: cream logo on green background
   },
 };
 
@@ -133,6 +137,12 @@ export default function HeaderJoin() {
   const logoPath = theme.logoPath;
   const themeWithDynamicLogo = { ...theme, logoPath };
 
+  // Dynamic border bottom color based on shrink progress
+  // When tall (shrinkProgress < 1), border matches background (invisible)
+  // When fully shrunk (shrinkProgress = 1), border is scroll-100 (visible)
+  const borderBottomColor =
+    shrinkProgress === 1 ? "border-b-scroll-100" : theme.borderBottomTall;
+
   const mobileMenu = useMobileMenu({
     panelRef,
     triggerRef,
@@ -193,10 +203,11 @@ export default function HeaderJoin() {
     <header
       ref={headerRef}
       className={[
-        "sticky top-0 z-50 border-t-[10px] border-b-2 border-b-scroll-100 transition-colors duration-500 motion-reduce:transition-none",
+        "sticky top-0 z-50 border-t-[10px] border-b-2 transition-colors duration-500 motion-reduce:transition-none",
         theme.background,
         theme.borderAccent,
         theme.text,
+        borderBottomColor,
       ].join(" ")}
     >
       <div className="container-custom">
@@ -605,7 +616,11 @@ function useHeaderTheme({
           continue;
         }
 
-        if (scrollPosition >= element.offsetTop - 4) {
+        // Use getBoundingClientRect to get absolute position from document top
+        // offsetTop can be relative to positioned parent, causing incorrect calculations
+        const elementTop = element.getBoundingClientRect().top + window.scrollY;
+
+        if (scrollPosition >= elementTop - 4) {
           nextTheme = theme;
         }
       }
