@@ -60,11 +60,11 @@ function ValueCard({ item }: { item: ValueItem }) {
         <p className="text-body-lg text-scroll-100 mb-4 flex-grow">
           {item.description}
         </p>
-        <div className="border-l-4 border-scroll-500 pl-4">
-          <p className="text-body-lg text-scroll-200 italic mb-3">
+        <div className="border-l-4 border-scroll-100 pl-4">
+          <p className="text-body-lg text-scroll-150 italic mb-3">
             &ldquo;{item.testimonial}&rdquo;
           </p>
-          <p className="text-body-md text-scroll-300">
+          <p className="text-body-md text-scroll-100">
             — {item.author}, {item.role}
           </p>
         </div>
@@ -181,7 +181,7 @@ export default function CohortValueSection() {
                 <h3 className="text-heading-md text-scroll-100 mb-4">
                   The Arsenal We Seek
                 </h3>
-                <div className="text-body-lg text-scroll-200 space-y-2">
+                <div className="text-body-lg text-scroll-150 space-y-2">
                   <p>
                     <strong>Development Wizards:</strong> Frontend, Backend,
                     Smart Contracts, DevOps
@@ -207,7 +207,7 @@ export default function CohortValueSection() {
                     Data Science, Analytics
                   </p>
                 </div>
-                <p className="text-body-lg text-scroll-200 mt-4">
+                <p className="text-body-lg text-scroll-150 mt-4">
                   <strong>Experience Level:</strong> Intermediate or higher.
                   We&apos;re not teaching fundamentals—show us deeds you&apos;re
                   proud of.
@@ -219,7 +219,7 @@ export default function CohortValueSection() {
                 <h3 className="text-heading-md text-scroll-100 mb-4">
                   The Guild Code
                 </h3>
-                <p className="text-body-lg text-scroll-200">
+                <p className="text-body-lg text-scroll-150">
                   <strong>Honor your word. Deliver on your oath.</strong>{" "}
                   You&apos;re a fit if you take ownership and create solutions,
                   communicate with honesty and transparency, stand by your
@@ -233,7 +233,7 @@ export default function CohortValueSection() {
                 <h3 className="text-heading-md text-scroll-100 mb-4">
                   Self-Assessment
                 </h3>
-                <p className="text-body-lg text-scroll-200">
+                <p className="text-body-lg text-scroll-150">
                   Can you commit 10-20 hours per week to the campaign? Do you
                   have victories that showcase your skills? Are you ready to be
                   judged by your deeds? Do you thrive charting your own course

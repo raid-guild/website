@@ -78,13 +78,13 @@ export default function CohortHero() {
                 <br />
                 EARN YOUR SEAT.
               </h1>
-              <p className="text-heading-sm text-scroll-200 text-center">
+              <p className="text-heading-sm text-scroll-150 text-center">
                 RaidGuild&apos;s monthly cohort is a 4-week proving ground where
                 you embark on real projects, train with battle-tested builders,
                 and claim your place in the premier design and dev collective of
                 the decentralized realm.
               </p>
-              <p className="text-body-lg text-scroll-200 text-center">
+              <p className="text-body-lg text-scroll-150 text-center">
                 Cohorts launch on the first Monday of each month. Limited seats.
               </p>
             </div>
@@ -97,18 +97,18 @@ export default function CohortHero() {
             <div className="flex flex-col md:flex-row gap-4 w-full">
               <Button
                 variant="primary"
-                className="w-full md:flex-1"
+                className="w-full md:flex-1 cohort-btn-apply"
                 data-click="apply-cohort-hero"
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavigate("#join-us");
                 }}
               >
-                <span className="text-label text-scoll-100">APPLY NOW</span>
+                <span className="text-label">APPLY NOW</span>
               </Button>
               <Button
                 variant="secondary"
-                className="w-full md:flex-1"
+                className="w-full md:flex-1 cohort-btn-learn"
                 data-click="learn-more-cohort-hero"
                 onClick={(e) => {
                   e.preventDefault();

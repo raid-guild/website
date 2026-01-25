@@ -131,17 +131,17 @@ export default function CohortProcessSection() {
             <h2 className="text-heading-lg text-scroll-100 mb-8">
               Your Path to Membership
             </h2>
-            <p className="text-body-lg text-scroll-200 mb-4">
+            <p className="text-body-lg text-scroll-150 mb-4">
               From the tavern to the citadel—a structured journey where you
               prove yourself through completed work, not promises.
             </p>
-            <p className="text-body-lg text-scroll-200 mb-4">
+            <p className="text-body-lg text-scroll-150 mb-4">
               Over four weeks, you&apos;ll join forces with fellow adventurers,
               tackle real missions, and demonstrate your craft to
               battle-hardened guild members. Each step brings you closer to
               earning your seat at the table.
             </p>
-            <p className="text-body-lg text-scroll-200">
+            <p className="text-body-lg text-scroll-150">
               Below you&apos;ll find the complete roadmap—from your first day in
               the tavern through Demo Day and beyond. Your legend starts here.
             </p>
@@ -257,7 +257,7 @@ export default function CohortProcessSection() {
                   <h3 className="text-heading-sm text-scroll-100 mb-2">
                     Timeline
                   </h3>
-                  <p className="text-body-lg text-scroll-200">
+                  <p className="text-body-lg text-scroll-150">
                     Cohorts launch on the{" "}
                     <strong>first Monday of each month</strong>. Applications
                     reviewed on a rolling basis.
@@ -267,7 +267,7 @@ export default function CohortProcessSection() {
                   <h3 className="text-heading-sm text-scroll-100 mb-2">
                     Time Commitment
                   </h3>
-                  <ul className="text-body-lg text-scroll-200 space-y-1">
+                  <ul className="text-body-lg text-scroll-150 space-y-1">
                     <li>
                       <strong>Week 1</strong>: Daily sessions, 1-2 hours each
                     </li>
@@ -288,7 +288,7 @@ export default function CohortProcessSection() {
                   <h3 className="text-heading-sm text-scroll-100 mb-2">
                     What This Demands
                   </h3>
-                  <p className="text-body-lg text-scroll-200">
+                  <p className="text-body-lg text-scroll-150">
                     No coin required upfront, but the cohort demands
                     dedication—your time, focus, and follow-through. This is
                     your opportunity to prove yourself alongside talented
@@ -299,7 +299,7 @@ export default function CohortProcessSection() {
                   <h3 className="text-heading-sm text-scroll-100 mb-2">
                     After You Apply
                   </h3>
-                  <p className="text-body-lg text-scroll-200">
+                  <p className="text-body-lg text-scroll-150">
                     Strong applications receive word within 5-7 days. If
                     accepted, you&apos;ll receive your cohort invitation,
                     Discord access, and kickoff details.
