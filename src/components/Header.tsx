@@ -442,7 +442,7 @@ function NavLinks({
       className={[
         "flex items-center transition-all duration-200 motion-reduce:transition-none",
         variant === "desktop"
-          ? "flex-wrap justify-end text-sm uppercase tracking-[0.1em] gap-5"
+          ? "flex-wrap justify-end text-sm uppercase tracking-[0.1em] gap-1"
           : "flex-col items-stretch gap-3 text-base font-semibold uppercase tracking-[0.25em]",
       ].join(" ")}
     >
@@ -456,7 +456,7 @@ function NavLinks({
               key={href}
               href={href}
               className={[
-                "text-label-md rounded-md px-8 py-1 text-center transition-colors duration-200 motion-reduce:transition-none",
+                "text-label-md rounded-md px-5 py-1 text-center transition-colors duration-200 motion-reduce:transition-none",
                 theme.navHover,
                 isActive ? theme.navActive : "",
                 isActive ? theme.navActiveText : "",
@@ -479,7 +479,7 @@ function NavLinks({
                 }
               }}
               className={[
-                "text-label-md rounded-md px-8 py-1 text-center transition-colors duration-200 motion-reduce:transition-none",
+                "text-label-md rounded-md px-5 py-1 text-center transition-colors duration-200 motion-reduce:transition-none",
                 theme.navHover,
                 isActive ? theme.navActive : "",
                 isActive ? theme.navActiveText : "",
