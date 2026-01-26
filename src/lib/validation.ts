@@ -87,22 +87,8 @@ export const consultationApiSchema = z.object({
 
 // Join Us form schema
 export const joinUsFormSchema = z.object({
-  name: z.string().min(2, {
-    message: "Name is required.",
-  }),
   email: z.email({
     message: "Please enter a valid email address.",
-  }),
-  discordHandle: z.string().optional(),
-  showcaseComments: z.string().min(10, {
-    message:
-      "Please describe the work you're proud of (at least 10 characters).",
-  }),
-  showcaseUrl: z.url({
-    message: "Please enter a valid URL for your work.",
-  }),
-  introduction: z.string().min(10, {
-    message: "Please provide a brief introduction (at least 10 characters).",
   }),
 });
 
@@ -188,26 +174,3 @@ export const transformFormDataToApiFormat = (formData: HireUsFormData) => {
 };
 
 // Helper function to transform application form data to API format
-export const transformApplicationDataToApiFormat = (
-  formData: JoinUsFormData
-) => {
-  return {
-    contact_info: {
-      data: {
-        email: formData.email,
-        discord: formData.discordHandle,
-      },
-    },
-    name: formData.name,
-    introduction: formData.introduction,
-    comments: formData.showcaseComments,
-    links: {
-      data: [
-        {
-          type: "OTHER",
-          link: formData.showcaseUrl,
-        },
-      ],
-    },
-  };
-};

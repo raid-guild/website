@@ -1,5 +1,9 @@
 import JoinUs from "./JoinUs";
 
-export default function JoinUsSection() {
-  return <JoinUs />;
+type JoinUsSectionProps = {
+  referral?: string;
+};
+
+export default function JoinUsSection({ referral }: JoinUsSectionProps) {
+  return <JoinUs referral={referral} />;
 }
