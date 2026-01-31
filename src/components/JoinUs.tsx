@@ -21,6 +21,7 @@ import {
 } from "@/lib/validation";
 import Image from "next/image";
 import { trackEvent } from "fathom-client";
+import { DISCORD_INVITE_URL } from "@/lib/data/constants";
 
 const joinUsImages = [
   "/images/join-image-1-bw.webp",
@@ -118,7 +119,7 @@ export default function JoinUs() {
       </div>
       <div className="pt-12 w-full">
         <a
-          href="https://discord.gg/raidguild"
+          href={DISCORD_INVITE_URL}
           target="_blank"
           className="text-body-lg text-moloch-500 hover:text-moloch-800"
         >
