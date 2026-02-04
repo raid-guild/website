@@ -86,7 +86,7 @@ export default function CohortHero() {
             />
             <div className="flex flex-col gap-4 w-full">
               <h2 className="text-heading-md text-scroll-100 text-center">
-                Apply for the next cohort
+                Pledge now, or venture forth for the full tale.
               </h2>
               {submissionStatus === "success" ? (
                 <p className="text-body-lg text-scroll-100 text-center">
