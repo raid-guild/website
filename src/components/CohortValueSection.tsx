@@ -56,16 +56,13 @@ function ValueCard({ item }: { item: ValueItem }) {
           {item.title}
         </h3>
       </div>
-      <div className="bg-moloch-800 p-6 border-t-2 border-scroll-100 flex flex-col min-h-[280px]">
+      <div className="bg-moloch-800 p-6 border-t-2 border-scroll-100 flex flex-col min-h-[200px]">
         <p className="text-body-lg text-scroll-100 mb-4 flex-grow">
           {item.description}
         </p>
         <div className="border-l-4 border-scroll-100 pl-4">
-          <p className="text-body-lg text-scroll-150 italic mb-3">
+          <p className="text-body-lg text-scroll-150 italic">
             &ldquo;{item.testimonial}&rdquo;
-          </p>
-          <p className="text-body-md text-scroll-100">
-            — {item.author}, {item.role}
           </p>
         </div>
       </div>
@@ -247,19 +244,6 @@ export default function CohortValueSection() {
                   communicate with honesty and transparency, stand by your
                   commitments, lift your allies through collaboration, and care
                   deeply about the quality of your craft.
-                </p>
-              </div>
-
-              {/* Self-Assessment */}
-              <div>
-                <h3 className="text-heading-md text-scroll-100 mb-4">
-                  Self-Assessment
-                </h3>
-                <p className="text-body-lg text-scroll-150">
-                  Can you commit 10-20 hours per week to the campaign? Do you
-                  have victories that showcase your skills? Are you ready to be
-                  judged by your deeds? Do you thrive charting your own course
-                  in async realms? If yes, you&apos;re ready to raid.
                 </p>
               </div>
             </div>
