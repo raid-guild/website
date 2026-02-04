@@ -69,11 +69,11 @@ export default function CohortHero() {
 
   return (
     <section id="cohort-hero" className="relative bg-moloch-800">
-      <div className="container-custom min-h-[795px]">
+      <div className="container-custom py-12 lg:py-24 lg:pt-48">
         <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-[60px] order-2 lg:order-1">
             <div className="flex flex-col gap-10">
-              <h1 className="text-heading-lg text-scroll-100 text-center lg:pt-44 pt-12">
+              <h1 className="text-heading-lg text-scroll-100 text-center">
                 FORGE YOUR PATH.
                 <br />
                 EARN YOUR SEAT.
@@ -94,7 +94,7 @@ export default function CohortHero() {
               width={300}
               height={36}
             />
-            <div className="flex flex-col md:flex-row gap-4 w-full pb-12 lg:pb-0">
+            <div className="flex flex-col md:flex-row gap-4 w-full">
               <Button
                 variant="primary"
                 className="w-full md:flex-1 cohort-btn-apply"
@@ -119,7 +119,7 @@ export default function CohortHero() {
               </Button>
             </div>
           </div>
-          <div className="col-span-4 md:col-span-8 lg:col-span-6 order-1 lg:order-2 lg:pt-32 pt-12">
+          <div className="col-span-4 md:col-span-8 lg:col-span-6 order-1 lg:order-2">
             <Image
               src={imageSrc}
               alt="Cohort Hero"
