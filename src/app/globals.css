@@ -534,17 +534,105 @@
     }
 
     /* Contact Form Input Styles */
-    .contact-form-input {
+    .contact-form-input,
+    .contact-form-input-scroll-100 {
         height: 40px;
         border-radius: 0.375rem;
-        border-color: var(--moloch-800);
+        border: 1px solid var(--moloch-800);
+        background-color: var(--scroll-100);
+        color: var(--moloch-800);
         font-size: var(--font-size-body-base);
         font-family: var(--font-body);
         font-weight: 400;
     }
 
-    .contact-form-input::placeholder {
+    .contact-form-input::placeholder,
+    .contact-form-input-scroll-100::placeholder {
         color: rgb(from var(--moloch-800) r g b / 0.6);
+    }
+
+    .contact-form-label-scroll-100 {
+        font-size: var(--font-size-body-base);
+        font-family: var(--font-body);
+        font-weight: 400;
+        display: block;
+        min-height: 24px;
+        color: var(--moloch-800);
+    }
+
+    /* Input on moloch-500 background */
+    .contact-form-input-moloch-500 {
+        height: 40px;
+        border-radius: 0.375rem;
+        border: 1px solid var(--moloch-800);
+        background-color: var(--moloch-500);
+        color: var(--scroll-100);
+        font-size: var(--font-size-body-base);
+        font-family: var(--font-body);
+        font-weight: 400;
+    }
+
+    .contact-form-input-moloch-500::placeholder {
+        color: rgb(from var(--scroll-100) r g b / 0.6);
+    }
+
+    .contact-form-label-moloch-500 {
+        font-size: var(--font-size-body-base);
+        font-family: var(--font-body);
+        font-weight: 400;
+        display: block;
+        min-height: 24px;
+        color: var(--scroll-100);
+    }
+
+    /* Input on moloch-800 background */
+    .contact-form-input-moloch-800 {
+        height: 40px;
+        border-radius: 0.375rem;
+        border: 1px solid var(--scroll-100);
+        background-color: var(--moloch-800);
+        color: var(--scroll-100);
+        font-size: var(--font-size-body-base);
+        font-family: var(--font-body);
+        font-weight: 400;
+    }
+
+    .contact-form-input-moloch-800::placeholder {
+        color: rgb(from var(--scroll-100) r g b / 0.6);
+    }
+
+    .contact-form-label-moloch-800 {
+        font-size: var(--font-size-body-base);
+        font-family: var(--font-body);
+        font-weight: 400;
+        display: block;
+        min-height: 24px;
+        color: var(--scroll-100);
+    }
+
+    /* Input on scroll-700 background */
+    .contact-form-input-scroll-700 {
+        height: 40px;
+        border-radius: 0.375rem;
+        border: 1px solid var(--scroll-100);
+        background-color: var(--scroll-700);
+        color: var(--scroll-100);
+        font-size: var(--font-size-body-base);
+        font-family: var(--font-body);
+        font-weight: 400;
+    }
+
+    .contact-form-input-scroll-700::placeholder {
+        color: rgb(from var(--scroll-100) r g b / 0.6);
+    }
+
+    .contact-form-label-scroll-700 {
+        font-size: var(--font-size-body-base);
+        font-family: var(--font-body);
+        font-weight: 400;
+        display: block;
+        min-height: 24px;
+        color: var(--scroll-100);
     }
 
     .contact-form-textarea {

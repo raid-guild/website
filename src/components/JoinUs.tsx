@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -14,14 +13,10 @@ import {
   FormLabel,
   RequiredFieldIndicator,
 } from "@/components/ui/form";
-import {
-  joinUsFormSchema,
-  type JoinUsFormData,
-  transformApplicationDataToApiFormat,
-} from "@/lib/validation";
+import { joinUsFormSchema, type JoinUsFormData } from "@/lib/validation";
 import Image from "next/image";
 import { trackEvent } from "fathom-client";
-import { DISCORD_INVITE_URL } from "@/lib/data/constants";
+import { Button } from "./ui/button";
 
 const joinUsImages = [
   "/images/join-image-1-bw.webp",
@@ -30,7 +25,11 @@ const joinUsImages = [
   "/images/join-image-2-c.webp",
 ];
 
-export default function JoinUs() {
+type JoinUsProps = {
+  referral?: string;
+};
+
+export default function JoinUs({ referral }: JoinUsProps) {
   // Deterministic image selection based on 8-minute intervals (no flash, no hydration mismatch)
   const interval = Math.floor(Date.now() / (1000 * 60 * 8)); // 8 minutes
   const imageSrc = joinUsImages[interval % joinUsImages.length];
@@ -40,23 +39,17 @@ export default function JoinUs() {
     "idle" | "success" | "error"
   >("idle");
   const [errorMessage, setErrorMessage] = useState<string>("");
-
   const form = useForm<JoinUsFormData>({
     resolver: zodResolver(joinUsFormSchema),
     defaultValues: {
-      name: "",
       email: "",
-      discordHandle: "",
-      showcaseComments: "",
-      showcaseUrl: "",
-      introduction: "",
     },
   });
 
   const onSubmit = async (data: JoinUsFormData) => {
     if (isSubmitting) return; // Prevent multiple submissions
 
-    console.log("Join Us form submitted:", data);
+    console.log("Join Us email submitted:", data);
 
     // Reset states
     setIsSubmitting(true);
@@ -64,20 +57,21 @@ export default function JoinUs() {
     setErrorMessage("");
 
     try {
-      const applicationData = transformApplicationDataToApiFormat(data);
-
-      const response = await fetch("/api/applications", {
+      const response = await fetch("/api/email-referrals", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ applicationData }),
+        body: JSON.stringify({
+          email: data.email,
+          ...(referral ? { referral } : {}),
+        }),
       });
 
       const result = await response.json();
 
       if (response.ok) {
-        console.log("Application submitted successfully:", result);
+        console.log("Email referral submitted successfully:", result);
         setSubmissionStatus("success");
 
         //tracking
@@ -85,11 +79,9 @@ export default function JoinUs() {
         // Reset form after successful submission
         form.reset();
       } else {
-        console.error("Failed to submit application:", result);
+        console.error("Failed to submit email referral:", result);
         setSubmissionStatus("error");
-        setErrorMessage(
-          result.error || "Failed to submit application. Please try again.",
-        );
+        setErrorMessage(result.error || "Failed to submit. Please try again.");
       }
     } catch (error) {
       console.error("Error submitting application:", error);
@@ -106,7 +98,7 @@ export default function JoinUs() {
   const SuccessState = () => (
     <div className="text-center space-y-4 p-8">
       <h3 className="font-body text-3xl font-bold text-moloch-500">
-        Your Words Have Been Passed On.
+        You&apos;re On The List.
       </h3>
       <div className="flex items-center justify-center">
         <Image
@@ -117,15 +109,9 @@ export default function JoinUs() {
           className="flex-shrink-0"
         />
       </div>
-      <div className="pt-12 w-full">
-        <a
-          href={DISCORD_INVITE_URL}
-          target="_blank"
-          className="text-body-lg text-moloch-500 hover:text-moloch-800"
-        >
-          Look for the Tavern Keeper in Discord
-        </a>
-      </div>
+      <p className="text-body-lg text-moloch-500">
+        Watch your inbox for next steps.
+      </p>
     </div>
   );
 
@@ -185,13 +171,11 @@ export default function JoinUs() {
                   </h3>
                   {submissionStatus === "success" ? (
                     <p className="text-body-md">
-                      Thank you for your interest in joining RaidGuild!
+                      Thanks for joining the cohort updates.
                     </p>
                   ) : (
                     <p className="text-body-lg font-body">
-                      Ready to embark on your journey and join the ranks? Share
-                      your tale with us—what epic skills await the Guild&apos;s
-                      discovery?
+                      Drop your email to start the onboarding journey.
                     </p>
                   )}
                 </div>
@@ -212,118 +196,32 @@ export default function JoinUs() {
                     >
                       <FormField
                         control={form.control}
-                        name="name"
+                        name="email"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>
-                              Name <RequiredFieldIndicator />
+                              Email Address <RequiredFieldIndicator />
                             </FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Enter your full name"
+                                type="email"
+                                placeholder="you@domain.com"
                                 {...field}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-4">
-                        <FormField
-                          control={form.control}
-                          name="email"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>
-                                Email Address <RequiredFieldIndicator />
-                              </FormLabel>
-                              <FormControl>
-                                <Input
-                                  type="email"
-                                  placeholder="Enter your email"
-                                  {...field}
-                                />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                        <FormField
-                          control={form.control}
-                          name="discordHandle"
-                          render={({ field }) => (
-                            <FormItem>
-                              <FormLabel>Discord Username</FormLabel>
-                              <FormControl>
-                                <Input placeholder="username#1234" {...field} />
-                              </FormControl>
-                            </FormItem>
-                          )}
-                        />
-                      </div>
-
-                      <FormField
-                        control={form.control}
-                        name="introduction"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>
-                              Introduce Yourself <RequiredFieldIndicator />
-                            </FormLabel>
-                            <FormControl>
-                              <Textarea
-                                placeholder="Tell us about yourself, your skills, and why you want to join Raid Guild..."
-                                {...field}
+                                className="contact-form-input-scroll-100 w-full lg:w-4/5"
                               />
                             </FormControl>
                           </FormItem>
                         )}
                       />
 
-                      <FormField
-                        control={form.control}
-                        name="showcaseComments"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>
-                              Work You&apos;re Proud Of{" "}
-                              <RequiredFieldIndicator />
-                            </FormLabel>
-                            <FormControl>
-                              <Textarea
-                                placeholder="Tell us about a project, portfolio, or piece of work you're particularly proud of."
-                                {...field}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <FormField
-                        control={form.control}
-                        name="showcaseUrl"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>
-                              Link to Your Work <RequiredFieldIndicator />
-                            </FormLabel>
-                            <FormControl>
-                              <Input
-                                type="url"
-                                placeholder="https://github.com/username, https://portfolio.com, https://linkedin.com/in/username, etc."
-                                {...field}
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <div className="pt-6">
-                        <button
+                      <div className="pt-3">
+                        <Button
                           type="submit"
                           disabled={isSubmitting}
                           className="contact-btn-active"
                         >
                           {isSubmitting ? "Submitting..." : "Begin My Quest"}
-                        </button>
+                        </Button>
                       </div>
                     </form>
                   )}
