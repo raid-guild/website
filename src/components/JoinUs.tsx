@@ -16,6 +16,7 @@ import {
 import { joinUsFormSchema, type JoinUsFormData } from "@/lib/validation";
 import Image from "next/image";
 import { trackEvent } from "fathom-client";
+import { Button } from "./ui/button";
 
 const joinUsImages = [
   "/images/join-image-1-bw.webp",
@@ -206,20 +207,21 @@ export default function JoinUs({ referral }: JoinUsProps) {
                                 type="email"
                                 placeholder="you@domain.com"
                                 {...field}
+                                className="contact-form-input-scroll-100 w-full lg:w-4/5"
                               />
                             </FormControl>
                           </FormItem>
                         )}
                       />
 
-                      <div className="pt-6">
-                        <button
+                      <div className="pt-3">
+                        <Button
                           type="submit"
                           disabled={isSubmitting}
                           className="contact-btn-active"
                         >
                           {isSubmitting ? "Submitting..." : "Begin My Quest"}
-                        </button>
+                        </Button>
                       </div>
                     </form>
                   )}
