@@ -160,7 +160,7 @@ export default function JoinUs({ referral }: JoinUsProps) {
           />
         </div>
         <div className="relative z-10 pt-[520px] pb-12 md:py-12 lg:py-24">
-          <div className="grid-custom gap-4 min-h-[850px]">
+          <div className="grid-custom gap-4 min-h-[850px] items-center">
             {/* Left Column - Form */}
             <div className="col-span-4 md:col-span-8 lg:col-span-6">
               <div className="space-y-8 max-w-[632px] mr-auto">
@@ -174,9 +174,21 @@ export default function JoinUs({ referral }: JoinUsProps) {
                       Thanks for joining the cohort updates.
                     </p>
                   ) : (
-                    <p className="text-body-lg font-body">
-                      Drop your email to start the onboarding journey.
-                    </p>
+                    <div className="space-y-4">
+                      <p className="text-body-lg font-body">
+                        Can you commit 10-20 hours per week to the campaign? Do
+                        you have victories that showcase your skills? Are you
+                        ready to be judged by your deeds? Do you thrive charting
+                        your own course in async realms? If yes, you&apos;re
+                        ready to raid.
+                      </p>
+                      <p className="text-body-lg font-body">
+                        Embark on your journey and join the ranks? Enter your
+                        email below and we&apos;ll send you the full
+                        application, cohort details, and everything you need to
+                        get started.
+                      </p>
+                    </div>
                   )}
                 </div>
 
@@ -199,9 +211,7 @@ export default function JoinUs({ referral }: JoinUsProps) {
                         name="email"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>
-                              Email Address <RequiredFieldIndicator />
-                            </FormLabel>
+                            <FormLabel>Enter your email address</FormLabel>
                             <FormControl>
                               <Input
                                 type="email"
