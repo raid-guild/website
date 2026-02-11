@@ -166,9 +166,9 @@ export default function CohortValueSection() {
       {/* Section 2: Who Should Answer the Call */}
       <div id="cohort-call" className="bg-scroll-700 py-12 lg:py-24">
         <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
             {/* Left: Image */}
-            <div className="flex justify-center lg:justify-start order-1 lg:order-1">
+            <div className="flex justify-center lg:justify-start items-center order-1 lg:order-1">
               <Image
                 src={arsenalImageSrc}
                 alt="Arsenal"
