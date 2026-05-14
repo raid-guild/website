@@ -92,39 +92,10 @@ export const joinUsFormSchema = z.object({
   }),
 });
 
-// Server-side validation schema for the API
-export const applicationApiSchema = z.object({
-  applicationData: z.object({
-    contact_info: z.object({
-      data: z.object({
-        email: z.email("Valid email is required"),
-        discord: z.string().optional(),
-        github: z.string().optional(),
-      }),
-    }),
-    name: z.string().min(3, "Project name must be at least 3 characters"),
-    introduction: z
-      .string()
-      .min(10, "Introduction must be at least 10 characters"),
-    comments: z
-      .string()
-      .min(10, "Showcase description must be at least 10 characters"),
-    links: z.object({
-      data: z.array(
-        z.object({
-          type: z.string(),
-          link: z.url("Valid url is required"),
-        })
-      ),
-    }),
-  }),
-});
-
 // Type exports for use in components
 export type HireUsFormData = z.infer<typeof hireUsFormSchema>;
 export type JoinUsFormData = z.infer<typeof joinUsFormSchema>;
 export type ConsultationApiData = z.infer<typeof consultationApiSchema>;
-export type ApplicationApiData = z.infer<typeof applicationApiSchema>;
 
 // Helper function to transform form data to API format
 export const transformFormDataToApiFormat = (formData: HireUsFormData) => {
