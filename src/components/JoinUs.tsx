@@ -11,12 +11,12 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  RequiredFieldIndicator,
 } from "@/components/ui/form";
 import { joinUsFormSchema, type JoinUsFormData } from "@/lib/validation";
 import Image from "next/image";
 import { trackEvent } from "fathom-client";
 import { Button } from "./ui/button";
+import { analyticsEvents, trackAnalyticsEvent } from "@/lib/analytics";
 
 const joinUsImages = [
   "/images/join-image-1-bw.webp",
@@ -55,6 +55,9 @@ export default function JoinUs({ referral }: JoinUsProps) {
     setIsSubmitting(true);
     setSubmissionStatus("idle");
     setErrorMessage("");
+    trackAnalyticsEvent(analyticsEvents.joinSignupAttempt, {
+      hasReferral: Boolean(referral),
+    });
 
     try {
       const response = await fetch("/api/email-referrals", {
@@ -76,12 +79,19 @@ export default function JoinUs({ referral }: JoinUsProps) {
 
         //tracking
         trackEvent("join-us-submission");
+        trackAnalyticsEvent(analyticsEvents.joinSignupSuccess, {
+          hasReferral: Boolean(referral),
+        });
         // Reset form after successful submission
         form.reset();
       } else {
         console.error("Failed to submit email referral:", result);
         setSubmissionStatus("error");
         setErrorMessage(result.error || "Failed to submit. Please try again.");
+        trackAnalyticsEvent(analyticsEvents.joinSignupError, {
+          hasReferral: Boolean(referral),
+          reason: "server_error",
+        });
       }
     } catch (error) {
       console.error("Error submitting application:", error);
@@ -89,6 +99,10 @@ export default function JoinUs({ referral }: JoinUsProps) {
       setErrorMessage(
         "Network error. Please check your connection and try again.",
       );
+      trackAnalyticsEvent(analyticsEvents.joinSignupError, {
+        hasReferral: Boolean(referral),
+        reason: "network",
+      });
     } finally {
       setIsSubmitting(false);
     }
