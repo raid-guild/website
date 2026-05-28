@@ -39,6 +39,7 @@ import Image from "next/image";
 import MultipleSelector from "./ui/multiselect";
 import { DISCORD_INVITE_URL } from "@/lib/data/constants";
 import { trackEvent } from "fathom-client";
+import { analyticsEvents, trackAnalyticsEvent } from "@/lib/analytics";
 
 interface StepProps {
   form: ReturnType<typeof useForm<HireUsFormData>>;
@@ -346,6 +347,8 @@ export default function HireUs() {
   const [validationErrors, setValidationErrors] = useState<
     Array<{ field: string; message: string }>
   >([]);
+  const formRef = React.useRef<HTMLDivElement>(null);
+  const hasTrackedFormView = React.useRef(false);
 
   const form = useForm<HireUsFormData>({
     resolver: zodResolver(hireUsFormSchema),
@@ -365,14 +368,45 @@ export default function HireUs() {
     },
   });
 
+  React.useEffect(() => {
+    if (!formRef.current || hasTrackedFormView.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || hasTrackedFormView.current) return;
+
+        hasTrackedFormView.current = true;
+        trackAnalyticsEvent(analyticsEvents.hireFormViewed);
+        observer.disconnect();
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(formRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
   // Validation functions for each step
   const validatePersonalInfo = async () => {
     const result = await form.trigger(["name", "email", "bio"]);
+    if (!result) {
+      trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+        reason: "validation",
+        step: "contact_info",
+      });
+    }
     return result;
   };
 
   const validateProjectDetails = async () => {
     const result = await form.trigger(["projectName", "description"]);
+    if (!result) {
+      trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+        reason: "validation",
+        step: "project_details",
+      });
+    }
     return result;
   };
 
@@ -383,6 +417,12 @@ export default function HireUs() {
       "services",
       "projectPriority",
     ]);
+    if (!result) {
+      trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+        reason: "validation",
+        step: "requirements",
+      });
+    }
     return result;
   };
 
@@ -391,6 +431,7 @@ export default function HireUs() {
 
     const formData = form.getValues();
     console.log("Wizard completed:", formData);
+    const servicesCount = formData.services?.length ?? 0;
 
     // Reset states
     setIsSubmitting(true);
@@ -400,6 +441,10 @@ export default function HireUs() {
 
     //tracking
     trackEvent("hire-us-submission");
+    trackAnalyticsEvent(analyticsEvents.hireFormSubmitAttempt, {
+      budget: formData.budget,
+      servicesCount,
+    });
 
     // Transform form data to API format using the centralized function
     const consultData = transformFormDataToApiFormat(formData);
@@ -421,6 +466,10 @@ export default function HireUs() {
 
         //tracking
         trackEvent("hire-us-submission");
+        trackAnalyticsEvent(analyticsEvents.hireFormSubmitSuccess, {
+          budget: formData.budget,
+          servicesCount,
+        });
         // Reset form after successful submission
         form.reset();
       } else {
@@ -428,14 +477,26 @@ export default function HireUs() {
         setSubmissionStatus("error");
 
         // Handle validation errors
-        if (result.details && Array.isArray(result.details)) {
+        if (
+          response.status === 400 &&
+          result.details &&
+          Array.isArray(result.details)
+        ) {
           console.error("Validation errors:", result.details);
           setValidationErrors(result.details);
           setErrorMessage("Please fix the validation errors below.");
+          trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+            reason: "server_validation",
+            step: "submit",
+          });
         } else {
           setErrorMessage(
             result.error || "Failed to submit consultation. Please try again."
           );
+          trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+            reason: "server_error",
+            step: "submit",
+          });
         }
       }
     } catch (error) {
@@ -444,6 +505,10 @@ export default function HireUs() {
       setErrorMessage(
         "Network error. Please check your connection and try again."
       );
+      trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+        reason: "network",
+        step: "submit",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -527,7 +592,13 @@ export default function HireUs() {
       // description: "Tell us about yourself",
       component: <PersonalInfoStep form={form} />,
       validation: validatePersonalInfo,
-      onStepComplete: () => trackEvent("hire-us-step-1"),
+      onStepComplete: () => {
+        trackEvent("hire-us-step-1");
+        trackAnalyticsEvent(analyticsEvents.hireFormStepCompleted, {
+          step: "contact_info",
+          stepNumber: 1,
+        });
+      },
     },
     {
       id: "project-description",
@@ -535,7 +606,13 @@ export default function HireUs() {
       // description: "Describe your project requirements",
       component: <ProjectDetailsStep form={form} />,
       validation: validateProjectDetails,
-      onStepComplete: () => trackEvent("hire-us-step-2"),
+      onStepComplete: () => {
+        trackEvent("hire-us-step-2");
+        trackAnalyticsEvent(analyticsEvents.hireFormStepCompleted, {
+          step: "project_details",
+          stepNumber: 2,
+        });
+      },
     },
     {
       id: "requirements",
@@ -567,7 +644,7 @@ export default function HireUs() {
       </div>
 
       {/* Wizard */}
-      <div className="space-y-4">
+      <div className="space-y-4" ref={formRef}>
         <Form {...form}>
           {submissionStatus === "success" ? (
             <SuccessState />

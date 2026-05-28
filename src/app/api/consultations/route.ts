@@ -4,6 +4,10 @@ import {
   consultationApiSchema,
   type ConsultationApiData,
 } from "@/lib/validation";
+import {
+  serverAnalyticsEvents,
+  trackServerAnalyticsEvent,
+} from "@/lib/server-analytics";
 import { z } from "zod";
 
 export const runtime = "nodejs";
@@ -215,6 +219,15 @@ export async function POST(request: NextRequest) {
         message: issue.message,
       }));
 
+      void trackServerAnalyticsEvent(
+        serverAnalyticsEvents.consultationSubmitFailed,
+        {
+          reason: "validation",
+          service: "api",
+        },
+        request
+      );
+
       return NextResponse.json(
         {
           success: false,
@@ -253,6 +266,15 @@ export async function POST(request: NextRequest) {
         }))
       );
 
+      void trackServerAnalyticsEvent(
+        serverAnalyticsEvents.consultationSubmitFailed,
+        {
+          reason: "notification",
+          service: failedNotifications.map(({ service }) => service).join(","),
+        },
+        request
+      );
+
       return NextResponse.json(
         {
           success: false,
@@ -265,6 +287,15 @@ export async function POST(request: NextRequest) {
         { status: 500 }
       );
     }
+
+    void trackServerAnalyticsEvent(
+      serverAnalyticsEvents.consultationSubmitted,
+      {
+        budget: summary.budget,
+        servicesCount: summary.services.length,
+      },
+      request
+    );
 
     return NextResponse.json(
       {
@@ -280,6 +311,15 @@ export async function POST(request: NextRequest) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     console.error("Error submitting consultation:", error);
+
+    void trackServerAnalyticsEvent(
+      serverAnalyticsEvents.consultationSubmitFailed,
+      {
+        reason: "exception",
+        service: "api",
+      },
+      request
+    );
 
     return NextResponse.json(
       {
