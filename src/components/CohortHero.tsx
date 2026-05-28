@@ -3,8 +3,8 @@
 import Image from "next/image";
 import { useState } from "react";
 import { Input } from "./ui/input";
-import { trackEvent } from "fathom-client";
 import { Button } from "./ui/button";
+import { analyticsEvents, trackAnalyticsEvent } from "@/lib/analytics";
 
 const cohortImages = [
   "/images/cohort-image-1-bw.webp",
@@ -53,7 +53,9 @@ export default function CohortHero({ referral }: JoinUsProps) {
 
       if (response.ok) {
         setSubmissionStatus("success");
-        trackEvent("cohort-hero-email-signup");
+        trackAnalyticsEvent(analyticsEvents.cohortHeroEmailSignup, {
+          hasReferral: Boolean(referral),
+        });
         setEmail("");
       } else {
         setSubmissionStatus("error");

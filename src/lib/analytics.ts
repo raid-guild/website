@@ -14,6 +14,8 @@ export const analyticsEvents = {
   joinSignupAttempt: "Join Signup Attempt",
   joinSignupSuccess: "Join Signup Success",
   joinSignupError: "Join Signup Error",
+  cohortHeroEmailSignup: "Cohort Hero Email Signup",
+  witchTriggered: "Witch Triggered",
 } as const;
 
 export function trackAnalyticsEvent(
@@ -28,4 +30,3 @@ export function trackAnalyticsEvent(
     }
   }
 }
-

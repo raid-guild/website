@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { trackEvent } from "fathom-client";
+import { analyticsEvents, trackAnalyticsEvent } from "@/lib/analytics";
 
 interface Drip {
   id: number;
@@ -181,7 +181,9 @@ function useLegacy() {
       // Check if the trigger word was typed
       if (newTyped.includes(triggerWord.toLowerCase())) {
         setIsTriggered(true);
-        trackEvent("witch");
+        trackAnalyticsEvent(analyticsEvents.witchTriggered, {
+          method: "keyboard",
+        });
         setTypedKeys("");
 
         // Wait for animation to complete before routing
@@ -204,7 +206,9 @@ function useLegacy() {
 
       if (sequenceRef.current.join(",") === pattern.join(",")) {
         setIsTriggered(true);
-        trackEvent("witch");
+        trackAnalyticsEvent(analyticsEvents.witchTriggered, {
+          method: "click_pattern",
+        });
         sequenceRef.current = [];
 
         setTimeout(() => {

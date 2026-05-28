@@ -3,7 +3,6 @@ import { maziusDisplay, ebGaramond, ubuntuMono } from "@/lib/fonts";
 import "./globals.css";
 // import { ThemeProvider } from "next-themes";
 import { Providers } from "@/providers/providers";
-import Fathom from "@/components/Fathom";
 import VercelAnalytics from "@/components/VercelAnalytics";
 
 export const metadata: Metadata = {
@@ -21,7 +20,6 @@ export default function RootLayout({
       <body
         className={`${maziusDisplay.variable} ${ebGaramond.variable} ${ubuntuMono.variable} antialiased`}
       >
-        <Fathom />
         <VercelAnalytics />
         {/* <ThemeProvider
           attribute="class"
