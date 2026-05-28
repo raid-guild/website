@@ -22,6 +22,7 @@ import {
   FormLabel,
   FormMessage,
   RequiredFieldIndicator,
+  useFormField,
 } from "@/components/ui/form";
 import {
   BUDGET_OPTIONS,
@@ -37,7 +38,7 @@ import {
   transformFormDataToApiFormat,
 } from "@/lib/validation";
 import Image from "next/image";
-import MultipleSelector from "./ui/multiselect";
+import MultipleSelector, { type Option } from "./ui/multiselect";
 import { DISCORD_INVITE_URL } from "@/lib/data/constants";
 import { trackEvent } from "fathom-client";
 import { analyticsEvents, trackAnalyticsEvent } from "@/lib/analytics";
@@ -220,6 +221,37 @@ const ProjectDetailsStep = ({ form, isActive }: StepProps) => {
   );
 };
 
+const ServicesSelector = ({
+  onChange,
+}: {
+  onChange: (options: Option[]) => void;
+}) => {
+  const { error, formItemId, formDescriptionId, formMessageId } =
+    useFormField();
+
+  return (
+    <MultipleSelector
+      onChange={onChange}
+      options={SERVICES_OPTIONS}
+      placeholder="Select"
+      hideClearAllButton={true}
+      hidePlaceholderWhenSelected={true}
+      inputProps={{
+        id: formItemId,
+        "aria-invalid": !!error,
+        "aria-describedby": !error
+          ? formDescriptionId
+          : `${formDescriptionId} ${formMessageId}`,
+      }}
+      emptyIndicator={
+        <p className="text-center text-body-md leading-10 text-gray-600 dark:text-gray-400">
+          no results found.
+        </p>
+      }
+    />
+  );
+};
+
 const RequirementsStep = ({ form, isActive }: StepProps) => {
   if (!isActive) return null;
 
@@ -326,18 +358,7 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
               <FormLabel>
                 Services Needed <RequiredFieldIndicator />
               </FormLabel>
-              <MultipleSelector
-                onChange={field.onChange}
-                options={SERVICES_OPTIONS}
-                placeholder="Select"
-                hideClearAllButton={true}
-                hidePlaceholderWhenSelected={true}
-                emptyIndicator={
-                  <p className="text-center text-body-md leading-10 text-gray-600 dark:text-gray-400">
-                    no results found.
-                  </p>
-                }
-              />
+              <ServicesSelector onChange={field.onChange} />
               <FormMessage />
             </FormItem>
           )}
