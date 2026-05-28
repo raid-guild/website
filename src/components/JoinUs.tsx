@@ -11,6 +11,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { joinUsFormSchema, type JoinUsFormData } from "@/lib/validation";
 import Image from "next/image";
@@ -234,6 +235,7 @@ export default function JoinUs({ referral }: JoinUsProps) {
                                 className="contact-form-input-scroll-100 w-full lg:w-4/5"
                               />
                             </FormControl>
+                            <FormMessage />
                           </FormItem>
                         )}
                       />

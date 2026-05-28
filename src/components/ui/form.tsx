@@ -106,7 +106,6 @@ function FormLabel({
       {...props}
     >
       {children}
-      {error && <span className="text-moloch-500"> (required)</span>}
     </Label>
   );
 }

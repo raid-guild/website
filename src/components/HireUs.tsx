@@ -20,6 +20,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
   RequiredFieldIndicator,
 } from "@/components/ui/form";
 import {
@@ -64,6 +65,7 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
                 <FormControl>
                   <Input placeholder="What should we call you?" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -82,6 +84,7 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -101,6 +104,7 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
                 {...field}
               />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -171,6 +175,7 @@ const ProjectDetailsStep = ({ form, isActive }: StepProps) => {
                 {...field}
               />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -188,6 +193,7 @@ const ProjectDetailsStep = ({ form, isActive }: StepProps) => {
                 {...field}
               />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -205,6 +211,7 @@ const ProjectDetailsStep = ({ form, isActive }: StepProps) => {
                 {...field}
               />
             </FormControl>
+            <FormMessage />
             {/* </div> */}
           </FormItem>
         )}
@@ -276,6 +283,7 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                   })}
                 </SelectContent>
               </Select>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -303,6 +311,7 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                   })}
                 </SelectContent>
               </Select>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -329,6 +338,7 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                   </p>
                 }
               />
+              <FormMessage />
             </FormItem>
           )}
         />
