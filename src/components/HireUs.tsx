@@ -40,7 +40,6 @@ import {
 import Image from "next/image";
 import MultipleSelector, { type Option } from "./ui/multiselect";
 import { DISCORD_INVITE_URL } from "@/lib/data/constants";
-import { trackEvent } from "fathom-client";
 import { analyticsEvents, trackAnalyticsEvent } from "@/lib/analytics";
 
 interface StepProps {
@@ -471,7 +470,6 @@ export default function HireUs() {
     setValidationErrors([]);
 
     //tracking
-    trackEvent("hire-us-submission");
     trackAnalyticsEvent(analyticsEvents.hireFormSubmitAttempt, {
       budget: formData.budget,
       servicesCount,
@@ -496,7 +494,6 @@ export default function HireUs() {
         setSubmissionStatus("success");
 
         //tracking
-        trackEvent("hire-us-submission");
         trackAnalyticsEvent(analyticsEvents.hireFormSubmitSuccess, {
           budget: formData.budget,
           servicesCount,
@@ -624,7 +621,6 @@ export default function HireUs() {
       component: <PersonalInfoStep form={form} />,
       validation: validatePersonalInfo,
       onStepComplete: () => {
-        trackEvent("hire-us-step-1");
         trackAnalyticsEvent(analyticsEvents.hireFormStepCompleted, {
           step: "contact_info",
           stepNumber: 1,
@@ -638,7 +634,6 @@ export default function HireUs() {
       component: <ProjectDetailsStep form={form} />,
       validation: validateProjectDetails,
       onStepComplete: () => {
-        trackEvent("hire-us-step-2");
         trackAnalyticsEvent(analyticsEvents.hireFormStepCompleted, {
           step: "project_details",
           stepNumber: 2,

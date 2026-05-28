@@ -15,7 +15,6 @@ import {
 } from "@/components/ui/form";
 import { joinUsFormSchema, type JoinUsFormData } from "@/lib/validation";
 import Image from "next/image";
-import { trackEvent } from "fathom-client";
 import { Button } from "./ui/button";
 import { analyticsEvents, trackAnalyticsEvent } from "@/lib/analytics";
 
@@ -79,7 +78,6 @@ export default function JoinUs({ referral }: JoinUsProps) {
         setSubmissionStatus("success");
 
         //tracking
-        trackEvent("join-us-submission");
         trackAnalyticsEvent(analyticsEvents.joinSignupSuccess, {
           hasReferral: Boolean(referral),
         });
