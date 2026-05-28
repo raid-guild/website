@@ -219,7 +219,7 @@ export async function POST(request: NextRequest) {
         message: issue.message,
       }));
 
-      await trackServerAnalyticsEvent(
+      void trackServerAnalyticsEvent(
         serverAnalyticsEvents.consultationSubmitFailed,
         {
           reason: "validation",
@@ -266,7 +266,7 @@ export async function POST(request: NextRequest) {
         }))
       );
 
-      await trackServerAnalyticsEvent(
+      void trackServerAnalyticsEvent(
         serverAnalyticsEvents.consultationSubmitFailed,
         {
           reason: "notification",
@@ -288,7 +288,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    await trackServerAnalyticsEvent(
+    void trackServerAnalyticsEvent(
       serverAnalyticsEvents.consultationSubmitted,
       {
         budget: summary.budget,
@@ -312,7 +312,7 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error("Error submitting consultation:", error);
 
-    await trackServerAnalyticsEvent(
+    void trackServerAnalyticsEvent(
       serverAnalyticsEvents.consultationSubmitFailed,
       {
         reason: "exception",
