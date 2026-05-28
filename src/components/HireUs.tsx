@@ -477,7 +477,11 @@ export default function HireUs() {
         setSubmissionStatus("error");
 
         // Handle validation errors
-        if (result.details && Array.isArray(result.details)) {
+        if (
+          response.status === 400 &&
+          result.details &&
+          Array.isArray(result.details)
+        ) {
           console.error("Validation errors:", result.details);
           setValidationErrors(result.details);
           setErrorMessage("Please fix the validation errors below.");
