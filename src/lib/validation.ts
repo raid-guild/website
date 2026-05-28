@@ -17,7 +17,7 @@ export const hireUsFormSchema = z.object({
     message: "Project name is required.",
   }),
   description: z.string().min(10, {
-    message: "Description is required.",
+    message: "Please describe how we can help in at least 10 characters.",
   }),
   specsLink: z.string().url().optional().or(z.literal("")),
   budget: z.string().min(1, {
