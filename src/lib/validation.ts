@@ -92,9 +92,22 @@ export const joinUsFormSchema = z.object({
   }),
 });
 
+export const contactFormSchema = z.object({
+  email: z.email({
+    message: "Please enter a valid email address.",
+  }),
+  automationNeeds: z.string().min(10, {
+    message: "Please describe your automation needs in at least 10 characters.",
+  }),
+});
+
+export const contactApiSchema = contactFormSchema;
+
 // Type exports for use in components
 export type HireUsFormData = z.infer<typeof hireUsFormSchema>;
 export type JoinUsFormData = z.infer<typeof joinUsFormSchema>;
+export type ContactFormData = z.infer<typeof contactFormSchema>;
+export type ContactApiData = z.infer<typeof contactApiSchema>;
 export type ConsultationApiData = z.infer<typeof consultationApiSchema>;
 
 // Helper function to transform form data to API format
