@@ -13,6 +13,8 @@ const ANALYTICS_HEADER_ALLOWLIST = [
 export const serverAnalyticsEvents = {
   consultationSubmitted: "Consultation Submitted",
   consultationSubmitFailed: "Consultation Submit Failed",
+  contactSubmitted: "Contact Submitted",
+  contactSubmitFailed: "Contact Submit Failed",
 } as const;
 
 function getAnalyticsHeaders(request: Request) {
