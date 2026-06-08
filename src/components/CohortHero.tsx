@@ -56,7 +56,11 @@ export default function CohortHero() {
                 Pledge now, or venture forth for the full tale.
               </h2>
               <div className="flex justify-center">
-                <Button asChild className="contact-btn-active">
+                <Button
+                  asChild
+                  size="lg"
+                  className="cohort-btn-apply font-body font-bold uppercase tracking-[var(--letter-spacing-body-sm)]"
+                >
                   <a href={PORTAL_JOIN_URL} onClick={trackPortalJoinClick}>
                     Begin My Quest
                   </a>

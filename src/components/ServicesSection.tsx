@@ -1,7 +1,9 @@
 "use client";
 
 import Image from "next/image";
+import { ExternalLink } from "lucide-react";
 import ServiceCard from "./ServiceCard";
+import { Button } from "./ui/button";
 import { services } from "@/lib/data/content";
 
 const servicesImages = [
@@ -31,29 +33,56 @@ export default function ServicesSection() {
         </div>
         <div className="relative z-10 pt-[520px] pb-[60px] md:pt-24 md:pb-44 lg:pt-24 lg:pb-44">
           <div className="grid-custom gap-4">
-          <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-6 lg:mb-12">
-            <h2 className="text-heading-lg text-moloch-500 mb-8">
-              Arsenal of Expertise
-            </h2>
-            <p className="text-body-lg">
-              Epic skills wielded by Web3 warriors. Precision tools for
-              decentralized dominance. Mastery unmatched
-            </p>
-          </div>
-          <div className="col-span-4 md:col-span-8 lg:col-span-12">
-            <div className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-16 lg:gap-4">
-              {services.map((service, index) => (
-                <div key={index} className="col-span-4 md:col-span-4 lg:col-span-3">
-                  <ServiceCard
-                    title={service.title}
-                    bodyText={service.bodyText}
-                    iconSrc={service.iconSrc}
-                    iconAlt={service.iconAlt}
-                  />
-                </div>
-              ))}
+            <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center lg:text-left mb-6 lg:mb-12">
+              <h2 className="text-heading-lg text-moloch-500 mb-8">
+                Arsenal of Expertise
+              </h2>
+              <p className="text-body-lg">
+                Epic skills wielded by Web3 warriors. Precision tools for
+                decentralized dominance. Mastery unmatched
+              </p>
+
+              <p className="text-label-md text-moloch-500 mt-5 mb-3">
+                Looking for AI Solutions?
+              </p>
+              <p className="text-body-lg mb-3">
+                Forward Deployed AI Mercenaries. Intelligence embedded where the
+                work gets done.
+              </p>
+
+              <Button
+                asChild
+                variant="primary"
+                className="w-full md:w-auto"
+                data-click="services-raidguild-ai"
+                rightIcon={<ExternalLink aria-hidden="true" />}
+              >
+                <a
+                  href="https://www.raidguild.ai/"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  <span className="text-label text-scroll-100">
+                    EXPLORE AI SOLUTIONS
+                  </span>
+                </a>
+              </Button>
             </div>
-          </div>
+
+            <div className="col-span-4 md:col-span-8 lg:col-span-12">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-16 lg:gap-4">
+                {services.map((service, index) => (
+                  <div key={index}>
+                    <ServiceCard
+                      title={service.title}
+                      bodyText={service.bodyText}
+                      iconSrc={service.iconSrc}
+                      iconAlt={service.iconAlt}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </div>

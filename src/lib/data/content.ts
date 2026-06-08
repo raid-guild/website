@@ -77,6 +77,13 @@ export const services = [
     iconAlt: "Wizard",
   },
   {
+    title: "AI Solutions & Automation",
+    bodyText:
+      "RaidGuild AI embeds builders and operators into your stack to design, ship, and maintain practical AI workflows.",
+    iconSrc: "/images/icon-8bit-sorcerer.svg",
+    iconAlt: "8-bit sorcerer",
+  },
+  {
     title: "Product & System Design",
     bodyText:
       "We build intuitive user experiences and workflow-optimized dApps. Making Web3 accessible, from DAO tooling to token systems.",
