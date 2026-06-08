@@ -14,7 +14,7 @@ export default function ServiceCard({
   iconAlt,
 }: ServiceCardProps) {
   return (
-    <div className="relative bg-moloch-800 p-8 flex flex-col items-center gap-5 rounded-md overflow-visible min-h-[460px]">
+    <div className="relative bg-moloch-800 p-8 flex h-full flex-col items-center gap-5 rounded-md overflow-visible min-h-[360px] md:min-h-[420px] lg:min-h-[460px]">
       {/* Grid pattern overlay */}
       <div
         className="absolute inset-0 opacity-20 rounded-md"
@@ -28,7 +28,7 @@ export default function ServiceCard({
       />
 
       <div className="relative z-10 flex flex-col items-center gap-5 w-full flex-1">
-        <div className="flex items-start justify-center w-full">
+        <div className="flex items-start justify-center w-full lg:min-h-[110px]">
           <h3 className="text-heading-md text-scroll-100 text-center">
             {title}
           </h3>

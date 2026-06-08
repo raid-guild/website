@@ -64,7 +64,11 @@ export default function JoinUs() {
                 </div>
 
                 <div className="pt-3">
-                  <Button asChild className="contact-btn-active">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="cohort-btn-apply font-body font-bold uppercase tracking-[var(--letter-spacing-body-sm)]"
+                  >
                     <a href={PORTAL_JOIN_URL} onClick={trackPortalJoinClick}>
                       Begin My Quest
                     </a>
