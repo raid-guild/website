@@ -19,6 +19,8 @@ export default function CohortHero() {
 
   const trackPortalJoinClick = () => {
     trackAnalyticsEvent(analyticsEvents.ctaClick, {
+      cta_id: "begin-my-quest-cohort-hero",
+      label: "Begin My Quest",
       location: "cohort_hero",
       destination: "portal_join",
     });

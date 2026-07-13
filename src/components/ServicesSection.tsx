@@ -55,6 +55,8 @@ export default function ServicesSection() {
                 variant="primary"
                 className="w-full md:w-auto"
                 data-click="services-raidguild-ai"
+                data-click-location="services_section"
+                data-click-destination="https://www.raidguild.ai/"
                 rightIcon={<ExternalLink aria-hidden="true" />}
               >
                 <a

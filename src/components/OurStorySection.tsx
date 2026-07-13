@@ -77,6 +77,8 @@ export default function OurStorySection() {
                   <Button
                     className="w-full md:w-auto"
                     data-click="join-our-story"
+                    data-click-location="our_story_section"
+                    data-click-destination="/join"
                   >
                     <Link href="/join" className="text-label text-scoll-100">
                       APPLY TO A COHORT
@@ -86,6 +88,8 @@ export default function OurStorySection() {
                     variant="secondary"
                     className="text-label w-full md:w-auto"
                     data-click="join-discord"
+                    data-click-location="our_story_section"
+                    data-click-destination={DISCORD_INVITE_URL}
                   >
                     <a
                       href={DISCORD_INVITE_URL}
