@@ -102,6 +102,8 @@ export default function HomeHero() {
                 variant="primary"
                 className="w-full md:flex-1"
                 data-click="hire-us-hero"
+                data-click-location="home_hero"
+                data-click-destination="#hire-us"
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavigate("#hire-us");
@@ -113,6 +115,8 @@ export default function HomeHero() {
                 variant="secondary"
                 className="w-full md:flex-1"
                 data-click="case-studies-hero"
+                data-click-location="home_hero"
+                data-click-destination="#case-studies"
                 onClick={(e) => {
                   e.preventDefault();
                   handleNavigate("#case-studies");

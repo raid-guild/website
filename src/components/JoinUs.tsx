@@ -19,6 +19,8 @@ export default function JoinUs() {
 
   const trackPortalJoinClick = () => {
     trackAnalyticsEvent(analyticsEvents.ctaClick, {
+      cta_id: "begin-my-quest-join-us",
+      label: "Begin My Quest",
       location: "join_us_section",
       destination: "portal_join",
     });

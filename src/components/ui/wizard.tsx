@@ -96,6 +96,7 @@ export function Wizard({
           setCompletedSteps((prev) => new Set([...prev, currentStep]));
 
           if (isLastStep) {
+            currentStepData.onStepComplete?.();
             onComplete?.({});
           } else {
             currentStepData.onStepComplete?.();

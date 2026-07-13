@@ -422,7 +422,8 @@ export default function HireUs() {
     const result = await form.trigger(["name", "email", "bio"]);
     if (!result) {
       trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
-        reason: "validation",
+        error_type: "validation",
+        error_category: "client",
         step: "contact_info",
       });
     }
@@ -433,7 +434,8 @@ export default function HireUs() {
     const result = await form.trigger(["projectName", "description"]);
     if (!result) {
       trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
-        reason: "validation",
+        error_type: "validation",
+        error_category: "client",
         step: "project_details",
       });
     }
@@ -449,7 +451,8 @@ export default function HireUs() {
     ]);
     if (!result) {
       trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
-        reason: "validation",
+        error_type: "validation",
+        error_category: "client",
         step: "requirements",
       });
     }
@@ -471,8 +474,7 @@ export default function HireUs() {
 
     //tracking
     trackAnalyticsEvent(analyticsEvents.hireFormSubmitAttempt, {
-      budget: formData.budget,
-      servicesCount,
+      services_count: servicesCount,
     });
 
     // Transform form data to API format using the centralized function
@@ -495,8 +497,7 @@ export default function HireUs() {
 
         //tracking
         trackAnalyticsEvent(analyticsEvents.hireFormSubmitSuccess, {
-          budget: formData.budget,
-          servicesCount,
+          services_count: servicesCount,
         });
         // Reset form after successful submission
         form.reset();
@@ -514,7 +515,8 @@ export default function HireUs() {
           setValidationErrors(result.details);
           setErrorMessage("Please fix the validation errors below.");
           trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
-            reason: "server_validation",
+            error_type: "server_validation",
+            error_category: "server",
             step: "submit",
           });
         } else {
@@ -522,7 +524,8 @@ export default function HireUs() {
             result.error || "Failed to submit consultation. Please try again."
           );
           trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
-            reason: "server_error",
+            error_type: "server_error",
+            error_category: "server",
             step: "submit",
           });
         }
@@ -534,7 +537,8 @@ export default function HireUs() {
         "Network error. Please check your connection and try again."
       );
       trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
-        reason: "network",
+        error_type: "network",
+        error_category: "network",
         step: "submit",
       });
     } finally {
@@ -623,7 +627,8 @@ export default function HireUs() {
       onStepComplete: () => {
         trackAnalyticsEvent(analyticsEvents.hireFormStepCompleted, {
           step: "contact_info",
-          stepNumber: 1,
+          step_id: "contact_info",
+          step_number: 1,
         });
       },
     },
@@ -636,7 +641,8 @@ export default function HireUs() {
       onStepComplete: () => {
         trackAnalyticsEvent(analyticsEvents.hireFormStepCompleted, {
           step: "project_details",
-          stepNumber: 2,
+          step_id: "project_details",
+          step_number: 2,
         });
       },
     },
@@ -646,6 +652,13 @@ export default function HireUs() {
       // description: "Specific requirements and timeline details",
       component: <RequirementsStep form={form} />,
       validation: validateRequirements,
+      onStepComplete: () => {
+        trackAnalyticsEvent(analyticsEvents.hireFormStepCompleted, {
+          step: "requirements",
+          step_id: "requirements",
+          step_number: 3,
+        });
+      },
     },
   ];
 

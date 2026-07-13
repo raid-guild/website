@@ -215,6 +215,8 @@ export default function MercenariesSection() {
                   variant="primary"
                   className="w-full md:flex-1"
                   data-click="hire-us-mercenaries"
+                  data-click-location="mercenaries_section"
+                  data-click-destination="#hire-us"
                   onClick={(e) => {
                     e.preventDefault();
                     handleNavigate("#hire-us");
@@ -226,6 +228,8 @@ export default function MercenariesSection() {
                   variant="secondary"
                   className="w-full md:flex-1"
                   data-click="testimonials-mercenaries"
+                  data-click-location="mercenaries_section"
+                  data-click-destination="#testimonials"
                   onClick={(e) => {
                     e.preventDefault();
                     handleNavigate("#testimonials");
