@@ -72,8 +72,9 @@ export default function PortfolioSection() {
             alt="Portfolio Background"
             width={632}
             height={843}
-            className="h-auto object-contain object-bottom"
-            priority={false}
+            className="object-contain object-bottom"
+            style={{ width: "632px", height: "843px" }}
+            priority
           />
         </div>
         <div className="relative z-10 pt-[520px] pb-12 md:py-12 lg:py-24">
