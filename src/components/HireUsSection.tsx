@@ -37,7 +37,7 @@ export default function HireUsSection() {
               alt="Hire Us"
               width={632}
               height={241}
-              className="flex-shrink-0"
+              className="shrink-0"
             />
           </div>
         </div>
