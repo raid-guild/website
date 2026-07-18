@@ -4,7 +4,7 @@ export const clientData = [
     logo: "/images/logo-daohaus.svg",
     logoWidth: 150,
     title: "Automated Protocol Maintenance",
-    description: `Helped DAOhaus turn a mature protocol maintenance surface into a clearer foundation for AI-assisted operations, with modernized app structure, stronger maintainer docs, cleaner support paths, and human-governed automation workflows.`,
+    description: `Helped DAOhaus turn a mature protocol maintenance surface into a clearer foundation for AI-assisted operations, with modernized structure, stronger docs, cleaner support, and human-governed automation.`,
     tags: ["AI Workflows", "Protocol Maintenance"],
   },
   {

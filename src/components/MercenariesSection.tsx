@@ -103,6 +103,7 @@ export default function MercenariesSection() {
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-6 flex flex-col items-center gap-[60px]">
             <div className="text-center">
+              <p className="text-label-sm text-neutral-600 mb-2">The team</p>
               <h2 className="text-heading-lg mb-8">Meet Your Mercenaries</h2>
               <p className="text-body-lg text-moloch-800">
                 Elite operators with specialized expertise and proven chops.

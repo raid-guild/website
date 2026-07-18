@@ -82,13 +82,26 @@ export default function HomeHero() {
               <p className="text-heading-sm text-moloch-800 text-center">
                 RaidGuild is a decentralized collective of mercenaries
                 <br />
-                ready to slay your web3 product demons
+                ready to slay your web3 product demons,{" "}
+                <a
+                  href="#our-story"
+                  className="underline hover:text-moloch-500 transition-colors"
+                  data-click="since-2019-hero"
+                  data-click-location="home_hero"
+                  data-click-destination="#our-story"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigate("#our-story");
+                  }}
+                >
+                  since 2019
+                </a>
               </p>
               <p className="text-body-lg text-moloch-800 text-center">
-                We&apos;re a battle-tested squad for full-stack development —
+                We&apos;re a battle-tested squad for full-stack development:
                 smart contracts,
                 <br />
-                dApps, DAO tooling, and public goods – built for real impact
+                dApps, DAO tooling, and public goods, built for real impact
               </p>
             </div>
             <Image

@@ -20,6 +20,7 @@ export default function HireUsSection() {
       <div className="container-custom relative min-h-[953px]">
         <div className="grid-custom gap-4 flex items-start">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 mb-6 lg:mb-12 text-center lg:text-left">
+            <p className="text-label-sm text-neutral-600 mb-2">Hire Us</p>
             <h2 className="text-heading-lg text-moloch-500 mb-8">
               Ready to Build Something Legendary?
             </h2>
@@ -36,7 +37,7 @@ export default function HireUsSection() {
               alt="Hire Us"
               width={632}
               height={241}
-              className="flex-shrink-0"
+              className="shrink-0"
             />
           </div>
         </div>
