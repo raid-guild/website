@@ -70,7 +70,7 @@ export default function OurStorySection() {
                 </h2>
                 <p className="text-body-lg mb-8">
                   Ready to join the ranks? Our Cohort Onboarding Program is the
-                  gateway into Raid Guild—where the finest builders shape the
+                  gateway into Raid Guild, where the finest builders shape the
                   future of Web3.
                 </p>
                 <div className="flex flex-col md:flex-row gap-4 md:justify-center">
