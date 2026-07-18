@@ -79,6 +79,7 @@ export default function PortfolioSection() {
         <div className="relative z-10 pt-[520px] pb-12 md:py-12 lg:py-24">
           <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-6 lg:mb-12">
+            <p className="text-label-sm text-neutral-600 mb-2">Case studies</p>
             <h2 className="text-heading-lg mb-8">Completed Quests</h2>
             <p className="text-body-lg">
               Legendary campaigns executed with precision and proven results.

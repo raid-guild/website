@@ -20,7 +20,9 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
   RequiredFieldIndicator,
+  useFormField,
 } from "@/components/ui/form";
 import {
   BUDGET_OPTIONS,
@@ -36,9 +38,9 @@ import {
   transformFormDataToApiFormat,
 } from "@/lib/validation";
 import Image from "next/image";
-import MultipleSelector from "./ui/multiselect";
+import MultipleSelector, { type Option } from "./ui/multiselect";
 import { DISCORD_INVITE_URL } from "@/lib/data/constants";
-import { trackEvent } from "fathom-client";
+import { analyticsEvents, trackAnalyticsEvent } from "@/lib/analytics";
 
 interface StepProps {
   form: ReturnType<typeof useForm<HireUsFormData>>;
@@ -63,6 +65,7 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
                 <FormControl>
                   <Input placeholder="What should we call you?" {...field} />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -81,6 +84,7 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
                     {...field}
                   />
                 </FormControl>
+                <FormMessage />
               </FormItem>
             )}
           />
@@ -100,6 +104,7 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
                 {...field}
               />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -170,6 +175,7 @@ const ProjectDetailsStep = ({ form, isActive }: StepProps) => {
                 {...field}
               />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -187,6 +193,7 @@ const ProjectDetailsStep = ({ form, isActive }: StepProps) => {
                 {...field}
               />
             </FormControl>
+            <FormMessage />
           </FormItem>
         )}
       />
@@ -204,11 +211,43 @@ const ProjectDetailsStep = ({ form, isActive }: StepProps) => {
                 {...field}
               />
             </FormControl>
+            <FormMessage />
             {/* </div> */}
           </FormItem>
         )}
       />
     </div>
+  );
+};
+
+const ServicesSelector = ({
+  onChange,
+}: {
+  onChange: (options: Option[]) => void;
+}) => {
+  const { error, formItemId, formDescriptionId, formMessageId } =
+    useFormField();
+
+  return (
+    <MultipleSelector
+      onChange={onChange}
+      options={SERVICES_OPTIONS}
+      placeholder="Select"
+      hideClearAllButton={true}
+      hidePlaceholderWhenSelected={true}
+      inputProps={{
+        id: formItemId,
+        "aria-invalid": !!error,
+        "aria-describedby": !error
+          ? formDescriptionId
+          : `${formDescriptionId} ${formMessageId}`,
+      }}
+      emptyIndicator={
+        <p className="text-center text-body-md leading-10 text-gray-600 dark:text-gray-400">
+          no results found.
+        </p>
+      }
+    />
   );
 };
 
@@ -275,6 +314,7 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                   })}
                 </SelectContent>
               </Select>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -302,6 +342,7 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
                   })}
                 </SelectContent>
               </Select>
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -316,18 +357,8 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
               <FormLabel>
                 Services Needed <RequiredFieldIndicator />
               </FormLabel>
-              <MultipleSelector
-                onChange={field.onChange}
-                options={SERVICES_OPTIONS}
-                placeholder="Select"
-                hideClearAllButton={true}
-                hidePlaceholderWhenSelected={true}
-                emptyIndicator={
-                  <p className="text-center text-body-md leading-10 text-gray-600 dark:text-gray-400">
-                    no results found.
-                  </p>
-                }
-              />
+              <ServicesSelector onChange={field.onChange} />
+              <FormMessage />
             </FormItem>
           )}
         />
@@ -346,6 +377,8 @@ export default function HireUs() {
   const [validationErrors, setValidationErrors] = useState<
     Array<{ field: string; message: string }>
   >([]);
+  const formRef = React.useRef<HTMLDivElement>(null);
+  const hasTrackedFormView = React.useRef(false);
 
   const form = useForm<HireUsFormData>({
     resolver: zodResolver(hireUsFormSchema),
@@ -365,14 +398,47 @@ export default function HireUs() {
     },
   });
 
+  React.useEffect(() => {
+    if (!formRef.current || hasTrackedFormView.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting || hasTrackedFormView.current) return;
+
+        hasTrackedFormView.current = true;
+        trackAnalyticsEvent(analyticsEvents.hireFormViewed);
+        observer.disconnect();
+      },
+      { threshold: 0.35 }
+    );
+
+    observer.observe(formRef.current);
+
+    return () => observer.disconnect();
+  }, []);
+
   // Validation functions for each step
   const validatePersonalInfo = async () => {
     const result = await form.trigger(["name", "email", "bio"]);
+    if (!result) {
+      trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+        error_type: "validation",
+        error_category: "client",
+        step: "contact_info",
+      });
+    }
     return result;
   };
 
   const validateProjectDetails = async () => {
     const result = await form.trigger(["projectName", "description"]);
+    if (!result) {
+      trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+        error_type: "validation",
+        error_category: "client",
+        step: "project_details",
+      });
+    }
     return result;
   };
 
@@ -383,6 +449,13 @@ export default function HireUs() {
       "services",
       "projectPriority",
     ]);
+    if (!result) {
+      trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+        error_type: "validation",
+        error_category: "client",
+        step: "requirements",
+      });
+    }
     return result;
   };
 
@@ -391,6 +464,7 @@ export default function HireUs() {
 
     const formData = form.getValues();
     console.log("Wizard completed:", formData);
+    const servicesCount = formData.services?.length ?? 0;
 
     // Reset states
     setIsSubmitting(true);
@@ -399,7 +473,9 @@ export default function HireUs() {
     setValidationErrors([]);
 
     //tracking
-    trackEvent("hire-us-submission");
+    trackAnalyticsEvent(analyticsEvents.hireFormSubmitAttempt, {
+      services_count: servicesCount,
+    });
 
     // Transform form data to API format using the centralized function
     const consultData = transformFormDataToApiFormat(formData);
@@ -420,7 +496,9 @@ export default function HireUs() {
         setSubmissionStatus("success");
 
         //tracking
-        trackEvent("hire-us-submission");
+        trackAnalyticsEvent(analyticsEvents.hireFormSubmitSuccess, {
+          services_count: servicesCount,
+        });
         // Reset form after successful submission
         form.reset();
       } else {
@@ -428,14 +506,28 @@ export default function HireUs() {
         setSubmissionStatus("error");
 
         // Handle validation errors
-        if (result.details && Array.isArray(result.details)) {
+        if (
+          response.status === 400 &&
+          result.details &&
+          Array.isArray(result.details)
+        ) {
           console.error("Validation errors:", result.details);
           setValidationErrors(result.details);
           setErrorMessage("Please fix the validation errors below.");
+          trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+            error_type: "server_validation",
+            error_category: "server",
+            step: "submit",
+          });
         } else {
           setErrorMessage(
             result.error || "Failed to submit consultation. Please try again."
           );
+          trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+            error_type: "server_error",
+            error_category: "server",
+            step: "submit",
+          });
         }
       }
     } catch (error) {
@@ -444,6 +536,11 @@ export default function HireUs() {
       setErrorMessage(
         "Network error. Please check your connection and try again."
       );
+      trackAnalyticsEvent(analyticsEvents.hireFormSubmitError, {
+        error_type: "network",
+        error_category: "network",
+        step: "submit",
+      });
     } finally {
       setIsSubmitting(false);
     }
@@ -527,7 +624,13 @@ export default function HireUs() {
       // description: "Tell us about yourself",
       component: <PersonalInfoStep form={form} />,
       validation: validatePersonalInfo,
-      onStepComplete: () => trackEvent("hire-us-step-1"),
+      onStepComplete: () => {
+        trackAnalyticsEvent(analyticsEvents.hireFormStepCompleted, {
+          step: "contact_info",
+          step_id: "contact_info",
+          step_number: 1,
+        });
+      },
     },
     {
       id: "project-description",
@@ -535,7 +638,13 @@ export default function HireUs() {
       // description: "Describe your project requirements",
       component: <ProjectDetailsStep form={form} />,
       validation: validateProjectDetails,
-      onStepComplete: () => trackEvent("hire-us-step-2"),
+      onStepComplete: () => {
+        trackAnalyticsEvent(analyticsEvents.hireFormStepCompleted, {
+          step: "project_details",
+          step_id: "project_details",
+          step_number: 2,
+        });
+      },
     },
     {
       id: "requirements",
@@ -543,6 +652,13 @@ export default function HireUs() {
       // description: "Specific requirements and timeline details",
       component: <RequirementsStep form={form} />,
       validation: validateRequirements,
+      onStepComplete: () => {
+        trackAnalyticsEvent(analyticsEvents.hireFormStepCompleted, {
+          step: "requirements",
+          step_id: "requirements",
+          step_number: 3,
+        });
+      },
     },
   ];
 
@@ -567,7 +683,7 @@ export default function HireUs() {
       </div>
 
       {/* Wizard */}
-      <div className="space-y-4">
+      <div className="space-y-4" ref={formRef}>
         <Form {...form}>
           {submissionStatus === "success" ? (
             <SuccessState />

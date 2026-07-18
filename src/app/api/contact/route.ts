@@ -1,36 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import sgMail from "@sendgrid/mail";
-import {
-  consultationApiSchema,
-  type ConsultationApiData,
-} from "@/lib/validation";
+import { z } from "zod";
+import { contactApiSchema, type ContactApiData } from "@/lib/validation";
 import {
   serverAnalyticsEvents,
   trackServerAnalyticsEvent,
 } from "@/lib/server-analytics";
-import { z } from "zod";
 
 export const runtime = "nodejs";
 
-type ConsultationData = ConsultationApiData["consultData"];
-
-type ConsultationSummary = {
-  contactName: string;
-  email: string;
-  bio: string;
-  discord?: string;
-  telegram?: string;
-  projectName: string;
-  description: string;
-  specsLink?: string;
-  specsKey: string;
-  budget: string;
-  timeline: string;
-  priority: string;
-  services: string[];
-};
-
 const DISCORD_MESSAGE_LIMIT = 2000;
+const CONTACT_SOURCE = "workflow-automation-contact";
+
+type ContactSummary = ContactApiData & {
+  source: typeof CONTACT_SOURCE;
+};
 
 const getEnv = (key: string) => {
   const value = process.env[key];
@@ -56,100 +40,39 @@ const escapeHtml = (value: string) =>
     .replaceAll('"', "&quot;")
     .replaceAll("'", "&#39;");
 
-const stripTimelinePrefix = (value: string) =>
-  value.replace(/^Timeline:\s*/i, "").replace(/\.$/, "");
+const createSummary = (contactData: ContactApiData): ContactSummary => ({
+  ...contactData,
+  source: CONTACT_SOURCE,
+});
 
-const createSummary = (consultData: ConsultationData): ConsultationSummary => {
-  const contact = consultData.consultations_contacts.data.contact.data;
-  const contactInfo = contact.contact_info.data;
-
-  return {
-    contactName: contact.name,
-    email: contactInfo.email,
-    bio: contact.bio,
-    discord: contactInfo.discord || undefined,
-    telegram: contactInfo.telegram || undefined,
-    projectName: consultData.name,
-    description: consultData.description,
-    specsLink: consultData.link || undefined,
-    specsKey: consultData.specs_key,
-    budget: consultData.budget_key,
-    timeline: stripTimelinePrefix(consultData.additional_info),
-    priority: consultData.delivery_priorities_key,
-    services: consultData.consultations_services_required.data.map(
-      (service) => service.guild_service_key
-    ),
-  };
-};
-
-const formatDiscordMessage = (summary: ConsultationSummary) => {
-  const altContact = [
-    summary.discord ? `Discord: ${summary.discord}` : null,
-    summary.telegram ? `Telegram: ${summary.telegram}` : null,
-  ]
-    .filter(Boolean)
-    .join("\n");
-
+const formatDiscordMessage = (summary: ContactSummary) => {
   const sections = [
-    "**New consultation request**",
-    `**Project:** ${summary.projectName}`,
-    `**Contact:** ${summary.contactName}`,
+    "**New automation contact request**",
+    `**Source:** ${summary.source}`,
     `**Email:** ${summary.email}`,
-    altContact,
-    `**Budget:** ${summary.budget}`,
-    `**Timeline:** ${summary.timeline}`,
-    `**Priority:** ${summary.priority}`,
-    `**Services:** ${summary.services.join(", ")}`,
-    `**Specs:** ${summary.specsLink || summary.specsKey}`,
-    `**Bio:**\n${summary.bio}`,
-    `**Description:**\n${summary.description}`,
-  ].filter(Boolean);
+    `**Automation needs:**\n${summary.automationNeeds}`,
+  ];
 
   return truncate(sections.join("\n\n"), DISCORD_MESSAGE_LIMIT);
 };
 
-const formatEmail = (summary: ConsultationSummary) => {
-  const fields = [
-    ["Project", summary.projectName],
-    ["Contact", summary.contactName],
-    ["Email", summary.email],
-    ["Discord", summary.discord],
-    ["Telegram", summary.telegram],
-    ["Budget", summary.budget],
-    ["Timeline", summary.timeline],
-    ["Priority", summary.priority],
-    ["Services", summary.services.join(", ")],
-    ["Specs", summary.specsLink || summary.specsKey],
-  ].filter(([, value]) => value);
-
+const formatEmail = (summary: ContactSummary) => {
   const text = [
-    "New consultation request",
+    "New automation contact request",
     "",
-    ...fields.map(([label, value]) => `${label}: ${value}`),
+    `Source: ${summary.source}`,
+    `Email: ${summary.email}`,
     "",
-    "Bio:",
-    summary.bio,
-    "",
-    "Description:",
-    summary.description,
+    "Automation needs:",
+    summary.automationNeeds,
   ].join("\n");
 
-  const htmlFields = fields
-    .map(
-      ([label, value]) =>
-        `<p><strong>${escapeHtml(label || "")}:</strong> ${escapeHtml(
-          value || ""
-        )}</p>`
-    )
-    .join("");
-
   const html = `
-    <h1>New consultation request</h1>
-    ${htmlFields}
-    <h2>Bio</h2>
-    <p>${escapeHtml(summary.bio).replaceAll("\n", "<br />")}</p>
-    <h2>Description</h2>
-    <p>${escapeHtml(summary.description).replaceAll("\n", "<br />")}</p>
+    <h1>New automation contact request</h1>
+    <p><strong>Source:</strong> ${escapeHtml(summary.source)}</p>
+    <p><strong>Email:</strong> ${escapeHtml(summary.email)}</p>
+    <h2>Automation needs</h2>
+    <p>${escapeHtml(summary.automationNeeds).replaceAll("\n", "<br />")}</p>
   `;
 
   return { text, html };
@@ -180,7 +103,7 @@ const sendDiscordMessage = async (content: string) => {
   }
 };
 
-const sendConsultationEmail = async (summary: ConsultationSummary) => {
+const sendContactEmail = async (summary: ContactSummary) => {
   const apiKey = getEnv("SENDGRID_API_KEY");
   const from = getEnv("SENDGRID_FROM_EMAIL");
   const recipients = getEnv("SENDGRID_TO_EMAILS")
@@ -200,7 +123,7 @@ const sendConsultationEmail = async (summary: ConsultationSummary) => {
     to: recipients,
     from,
     replyTo: summary.email,
-    subject: `New consultation request: ${summary.projectName}`,
+    subject: "New automation contact request",
     text,
     html,
   });
@@ -209,9 +132,7 @@ const sendConsultationEmail = async (summary: ConsultationSummary) => {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-
-    // Validate the request body structure
-    const validationResult = consultationApiSchema.safeParse(body);
+    const validationResult = contactApiSchema.safeParse(body);
 
     if (!validationResult.success) {
       const errors = validationResult.error.issues.map((issue: z.ZodIssue) => ({
@@ -220,7 +141,7 @@ export async function POST(request: NextRequest) {
       }));
 
       void trackServerAnalyticsEvent(
-        serverAnalyticsEvents.consultationSubmitFailed,
+        serverAnalyticsEvents.contactSubmitFailed,
         {
           reason: "validation",
           service: "api",
@@ -238,13 +159,11 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { consultData } = validationResult.data;
-    const summary = createSummary(consultData);
+    const summary = createSummary(validationResult.data);
     const discordMessage = formatDiscordMessage(summary);
-
     const notificationResults = await Promise.allSettled([
       sendDiscordMessage(discordMessage),
-      sendConsultationEmail(summary),
+      sendContactEmail(summary),
     ]);
 
     const failedNotifications = notificationResults
@@ -256,7 +175,7 @@ export async function POST(request: NextRequest) {
 
     if (failedNotifications.length > 0) {
       console.error(
-        "Consultation notification failures:",
+        "Contact notification failures:",
         failedNotifications.map(({ result, service }) => ({
           service,
           reason:
@@ -267,7 +186,7 @@ export async function POST(request: NextRequest) {
       );
 
       void trackServerAnalyticsEvent(
-        serverAnalyticsEvents.consultationSubmitFailed,
+        serverAnalyticsEvents.contactSubmitFailed,
         {
           reason: "notification",
           service: failedNotifications.map(({ service }) => service).join(","),
@@ -278,7 +197,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(
         {
           success: false,
-          error: "Failed to submit consultation",
+          error: "Failed to submit contact request",
           details: failedNotifications.map(({ service }) => ({
             service,
             message: "Notification failed",
@@ -289,10 +208,9 @@ export async function POST(request: NextRequest) {
     }
 
     void trackServerAnalyticsEvent(
-      serverAnalyticsEvents.consultationSubmitted,
+      serverAnalyticsEvents.contactSubmitted,
       {
-        budget: summary.budget,
-        servicesCount: summary.services.length,
+        source: CONTACT_SOURCE,
       },
       request
     );
@@ -304,16 +222,15 @@ export async function POST(request: NextRequest) {
           discord: true,
           email: true,
         },
-        message: "Consultation submitted successfully",
+        message: "Contact request submitted successfully",
       },
       { status: 200 }
     );
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    console.error("Error submitting consultation:", error);
+  } catch (error) {
+    console.error("Error submitting contact request:", error);
 
     void trackServerAnalyticsEvent(
-      serverAnalyticsEvents.consultationSubmitFailed,
+      serverAnalyticsEvents.contactSubmitFailed,
       {
         reason: "exception",
         service: "api",
@@ -324,8 +241,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         success: false,
-        error: error.message || "Failed to submit consultation",
-        details: error.response?.errors || undefined,
+        error:
+          error instanceof Error
+            ? error.message
+            : "Failed to submit contact request",
       },
       { status: 500 }
     );

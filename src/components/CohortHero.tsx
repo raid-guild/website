@@ -1,10 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
-import { Input } from "./ui/input";
-import { trackEvent } from "fathom-client";
 import { Button } from "./ui/button";
+import { analyticsEvents, trackAnalyticsEvent } from "@/lib/analytics";
+import { PORTAL_JOIN_URL } from "@/lib/data/constants";
 
 const cohortImages = [
   "/images/cohort-image-1-bw.webp",
@@ -13,58 +12,18 @@ const cohortImages = [
   "/images/cohort-image-2-c.webp",
 ];
 
-type JoinUsProps = {
-  referral?: string;
-};
-
-export default function CohortHero({ referral }: JoinUsProps) {
+export default function CohortHero() {
   // Deterministic image selection based on 10-minute intervals (no flash, no hydration mismatch)
   const interval = Math.floor(Date.now() / (1000 * 60 * 10)); // 10 minutes
   const imageSrc = cohortImages[interval % cohortImages.length];
 
-  const [email, setEmail] = useState("");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionStatus, setSubmissionStatus] = useState<
-    "idle" | "success" | "error"
-  >("idle");
-  const [errorMessage, setErrorMessage] = useState("");
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (isSubmitting || !email) return;
-
-    setIsSubmitting(true);
-    setSubmissionStatus("idle");
-    setErrorMessage("");
-
-    try {
-      const response = await fetch("/api/email-referrals", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: email,
-          ...(referral ? { referral } : {}),
-        }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        setSubmissionStatus("success");
-        trackEvent("cohort-hero-email-signup");
-        setEmail("");
-      } else {
-        setSubmissionStatus("error");
-        setErrorMessage(result.error || "Failed to submit. Please try again.");
-      }
-    } catch {
-      setSubmissionStatus("error");
-      setErrorMessage("Network error. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
+  const trackPortalJoinClick = () => {
+    trackAnalyticsEvent(analyticsEvents.ctaClick, {
+      cta_id: "begin-my-quest-cohort-hero",
+      label: "Begin My Quest",
+      location: "cohort_hero",
+      destination: "portal_join",
+    });
   };
 
   return (
@@ -98,44 +57,17 @@ export default function CohortHero({ referral }: JoinUsProps) {
               <h2 className="text-heading-md text-scroll-100 text-center">
                 Pledge now, or venture forth for the full tale.
               </h2>
-              {submissionStatus === "success" ? (
-                <p className="text-body-lg text-scroll-100 text-center">
-                  Check your inbox for next steps.
-                </p>
-              ) : (
-                <form
-                  onSubmit={handleSubmit}
-                  className="flex flex-col gap-4 w-full lg:w-4/5 mx-auto"
+              <div className="flex justify-center">
+                <Button
+                  asChild
+                  size="lg"
+                  className="cohort-btn-apply font-body font-bold uppercase tracking-[var(--letter-spacing-body-sm)]"
                 >
-                  <div className="flex flex-col gap-2">
-                    <label
-                      htmlFor="hero-email"
-                      className="contact-form-label-moloch-800"
-                    >
-                      Enter your email address
-                    </label>
-                    <Input
-                      id="hero-email"
-                      type="email"
-                      placeholder="you@example.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                      className="contact-form-input-moloch-800 w-full"
-                    />
-                  </div>
-                  {submissionStatus === "error" && (
-                    <p className="text-body-md text-red-400">{errorMessage}</p>
-                  )}
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="contact-btn-active"
-                  >
-                    {isSubmitting ? "Submitting..." : "Begin My Quest"}
-                  </Button>
-                </form>
-              )}
+                  <a href={PORTAL_JOIN_URL} onClick={trackPortalJoinClick}>
+                    Begin My Quest
+                  </a>
+                </Button>
+              </div>
             </div>
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-6 order-1 lg:order-2">

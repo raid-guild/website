@@ -32,6 +32,7 @@ const NAV_ITEMS: Array<{ label: string; href: string; anchor: string }> = [
   { label: "Services", href: "/#services", anchor: "#services" },
   { label: "Case Studies", href: "/#case-studies", anchor: "#case-studies" },
   { label: "Hire Us", href: "/#hire-us", anchor: "#hire-us" },
+  { label: "Join", href: "/#our-story", anchor: "#our-story" },
 ];
 
 const THEME_CONFIG: Record<HeaderTheme, ThemeConfig> = {

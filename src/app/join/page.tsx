@@ -1,5 +1,3 @@
-import HeaderJoin from "@/components/HeaderJoin";
-
 import Footer from "@/components/Footer";
 import CohortHero from "@/components/CohortHero";
 import CohortHeroBanner from "@/components/CohortHeroBanner";
@@ -7,18 +5,10 @@ import CohortProcessSection from "@/components/CohortProcessSection";
 import CohortValueBanner from "@/components/CohortValueBanner";
 import CohortValueSection from "@/components/CohortValueSection";
 import CohortJoinBanner from "@/components/CohortJoinBanner";
+import HeaderJoin from "@/components/HeaderJoin";
 import JoinUsSection from "@/components/JoinUsSection";
 
-type JoinPageProps = {
-  searchParams?: {
-    ref?: string;
-    referral?: string;
-  };
-};
-
-export default function Home({ searchParams }: JoinPageProps) {
-  const referral = searchParams?.referral ?? searchParams?.ref;
-
+export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <HeaderJoin />
@@ -35,7 +25,7 @@ export default function Home({ searchParams }: JoinPageProps) {
 
       <CohortJoinBanner />
 
-      <JoinUsSection referral={referral} />
+      <JoinUsSection />
 
       <Footer />
     </div>

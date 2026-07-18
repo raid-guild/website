@@ -1,22 +1,9 @@
 "use client";
 
-import * as React from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { Input } from "@/components/ui/input";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  RequiredFieldIndicator,
-} from "@/components/ui/form";
-import { joinUsFormSchema, type JoinUsFormData } from "@/lib/validation";
 import Image from "next/image";
-import { trackEvent } from "fathom-client";
 import { Button } from "./ui/button";
+import { analyticsEvents, trackAnalyticsEvent } from "@/lib/analytics";
+import { PORTAL_JOIN_URL } from "@/lib/data/constants";
 
 const joinUsImages = [
   "/images/join-image-1-bw.webp",
@@ -25,126 +12,19 @@ const joinUsImages = [
   "/images/join-image-2-c.webp",
 ];
 
-type JoinUsProps = {
-  referral?: string;
-};
-
-export default function JoinUs({ referral }: JoinUsProps) {
+export default function JoinUs() {
   // Deterministic image selection based on 8-minute intervals (no flash, no hydration mismatch)
   const interval = Math.floor(Date.now() / (1000 * 60 * 8)); // 8 minutes
   const imageSrc = joinUsImages[interval % joinUsImages.length];
-  // State management for user feedback
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submissionStatus, setSubmissionStatus] = useState<
-    "idle" | "success" | "error"
-  >("idle");
-  const [errorMessage, setErrorMessage] = useState<string>("");
-  const form = useForm<JoinUsFormData>({
-    resolver: zodResolver(joinUsFormSchema),
-    defaultValues: {
-      email: "",
-    },
-  });
 
-  const onSubmit = async (data: JoinUsFormData) => {
-    if (isSubmitting) return; // Prevent multiple submissions
-
-    console.log("Join Us email submitted:", data);
-
-    // Reset states
-    setIsSubmitting(true);
-    setSubmissionStatus("idle");
-    setErrorMessage("");
-
-    try {
-      const response = await fetch("/api/email-referrals", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          email: data.email,
-          ...(referral ? { referral } : {}),
-        }),
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        console.log("Email referral submitted successfully:", result);
-        setSubmissionStatus("success");
-
-        //tracking
-        trackEvent("join-us-submission");
-        // Reset form after successful submission
-        form.reset();
-      } else {
-        console.error("Failed to submit email referral:", result);
-        setSubmissionStatus("error");
-        setErrorMessage(result.error || "Failed to submit. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error submitting application:", error);
-      setSubmissionStatus("error");
-      setErrorMessage(
-        "Network error. Please check your connection and try again.",
-      );
-    } finally {
-      setIsSubmitting(false);
-    }
+  const trackPortalJoinClick = () => {
+    trackAnalyticsEvent(analyticsEvents.ctaClick, {
+      cta_id: "begin-my-quest-join-us",
+      label: "Begin My Quest",
+      location: "join_us_section",
+      destination: "portal_join",
+    });
   };
-
-  // Feedback components
-  const SuccessState = () => (
-    <div className="text-center space-y-4 p-8">
-      <h3 className="font-body text-3xl font-bold text-moloch-500">
-        You&apos;re On The List.
-      </h3>
-      <div className="flex items-center justify-center">
-        <Image
-          src="/images/Logomark.svg"
-          alt="Raid Guild"
-          width={169}
-          height={159}
-          className="flex-shrink-0"
-        />
-      </div>
-      <p className="text-body-lg text-moloch-500">
-        Watch your inbox for next steps.
-      </p>
-    </div>
-  );
-
-  const ErrorState = () => (
-    <div className="space-y-4 p-6 border rounded-md bg-scroll-100">
-      <p className="text-body-md text-moloch-500">{errorMessage}</p>
-      <button
-        onClick={() => {
-          setSubmissionStatus("idle");
-          setErrorMessage("");
-        }}
-        className="contact-btn-active mt-5"
-      >
-        Try Again
-      </button>
-    </div>
-  );
-
-  const LoadingIndicator = () => (
-    <div className="flex items-center justify-center p-8">
-      <div className="text-center space-y-4">
-        <div className="flex items-center justify-center animate-spin [animation-duration:7s]">
-          <Image
-            src="/images/Logomark.svg"
-            alt="Raid Guild"
-            width={169}
-            height={159}
-            className="flex-shrink-0"
-          />
-        </div>
-      </div>
-    </div>
-  );
 
   return (
     <section id="join-us" className="relative">
@@ -169,73 +49,33 @@ export default function JoinUs({ referral }: JoinUsProps) {
                   <h3 className="text-heading-lg font-bold text-moloch-500 mb-8">
                     Join Us! Let&apos;s Build Something Legendary Together
                   </h3>
-                  {submissionStatus === "success" ? (
-                    <p className="text-body-md">
-                      Thanks for joining the cohort updates.
+                  <div className="space-y-4">
+                    <p className="text-body-lg font-body">
+                      Can you commit 10-20 hours per week to the campaign? Do
+                      you have victories that showcase your skills? Are you
+                      ready to be judged by your deeds? Do you thrive charting
+                      your own course in async realms? If yes, you&apos;re ready
+                      to raid.
                     </p>
-                  ) : (
-                    <div className="space-y-4">
-                      <p className="text-body-lg font-body">
-                        Can you commit 10-20 hours per week to the campaign? Do
-                        you have victories that showcase your skills? Are you
-                        ready to be judged by your deeds? Do you thrive charting
-                        your own course in async realms? If yes, you&apos;re
-                        ready to raid.
-                      </p>
-                      <p className="text-body-lg font-body">
-                        Embark on your journey and join the ranks? Enter your
-                        email below and we&apos;ll send you the full
-                        application, cohort details, and everything you need to
-                        get started.
-                      </p>
-                    </div>
-                  )}
+                    <p className="text-body-lg font-body">
+                      Embark on your journey through the RaidGuild Portal to see
+                      the full application, cohort details, and everything you
+                      need to get started.
+                    </p>
+                  </div>
                 </div>
 
-                {/* Form */}
-                <Form {...form}>
-                  {submissionStatus === "success" ? (
-                    <SuccessState />
-                  ) : submissionStatus === "error" ? (
-                    <ErrorState />
-                  ) : isSubmitting ? (
-                    <LoadingIndicator />
-                  ) : (
-                    <form
-                      onSubmit={form.handleSubmit(onSubmit)}
-                      className="space-y-6"
-                      noValidate
-                    >
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Enter your email address</FormLabel>
-                            <FormControl>
-                              <Input
-                                type="email"
-                                placeholder="you@domain.com"
-                                {...field}
-                                className="contact-form-input-scroll-100 w-full lg:w-4/5"
-                              />
-                            </FormControl>
-                          </FormItem>
-                        )}
-                      />
-
-                      <div className="pt-3">
-                        <Button
-                          type="submit"
-                          disabled={isSubmitting}
-                          className="contact-btn-active"
-                        >
-                          {isSubmitting ? "Submitting..." : "Begin My Quest"}
-                        </Button>
-                      </div>
-                    </form>
-                  )}
-                </Form>
+                <div className="pt-3">
+                  <Button
+                    asChild
+                    size="lg"
+                    className="cohort-btn-apply font-body font-bold uppercase tracking-[var(--letter-spacing-body-sm)]"
+                  >
+                    <a href={PORTAL_JOIN_URL} onClick={trackPortalJoinClick}>
+                      Begin My Quest
+                    </a>
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
