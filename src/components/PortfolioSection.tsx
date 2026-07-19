@@ -28,7 +28,7 @@ function ClientCard({ client }: { client: Client }) {
       </div>
       <div className="bg-scroll-700 p-12 border-t-2 border-moloch-500 flex flex-col min-h-[340px]">
         <h3 className="text-heading-md text-scroll-100 mb-4">{client.title}</h3>
-        <p className="text-body-lg text-scroll-100 mb-8 flex-grow">
+        <p className="text-body-lg text-scroll-100 mb-8 grow">
           {client.description}
         </p>
         <div className="flex gap-2.5 flex-wrap">
@@ -80,7 +80,7 @@ export default function PortfolioSection() {
         <div className="relative z-10 pt-[520px] pb-12 md:py-12 lg:py-24">
           <div className="grid-custom gap-4">
           <div className="col-span-4 md:col-span-8 lg:col-span-6 text-center mb-6 lg:mb-12">
-            <p className="text-label-sm text-neutral-600 mb-2">Case studies</p>
+            <p className="text-label-sm text-neutral-600 mb-2 mt-10 md:mt-0">Case studies</p>
             <h2 className="text-heading-lg mb-8">Completed Quests</h2>
             <p className="text-body-lg">
               Legendary campaigns executed with precision and proven results.
@@ -89,7 +89,7 @@ export default function PortfolioSection() {
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-12">
             {/* Desktop Carousel */}
-            <div className="relative hidden lg:block [&]:!hidden [&]:lg:!block">
+            <div className="relative hidden lg:block">
               <div className="overflow-hidden">
                 <div
                   className="flex transition-transform duration-500 ease-in-out gap-4"
@@ -98,7 +98,7 @@ export default function PortfolioSection() {
                   }}
                 >
                   {clientData.map((client) => (
-                    <div key={client.id} className="flex-shrink-0" style={{ width: 'calc(50% - 8px)' }}>
+                    <div key={client.id} className="shrink-0" style={{ width: 'calc(50% - 8px)' }}>
                       <ClientCard client={client} />
                     </div>
                   ))}
@@ -130,7 +130,7 @@ export default function PortfolioSection() {
               </button>
             </div>
             {/* Mobile/Tablet Grid */}
-            <div className="grid grid-cols-4 md:grid-cols-8 gap-4 [&]:!grid [&]:lg:!hidden">
+            <div className="grid grid-cols-4 md:grid-cols-8 gap-4 lg:hidden">
               {clientData.map((client) => (
                 <div key={client.id} className="col-span-4">
                   <ClientCard client={client} />
