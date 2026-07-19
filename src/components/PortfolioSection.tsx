@@ -73,7 +73,7 @@ export default function PortfolioSection() {
             width={632}
             height={843}
             className="object-contain object-bottom"
-            style={{ width: "632px", height: "843px" }}
+            style={{ width: "632px", height: "auto" }}
             priority
           />
         </div>
