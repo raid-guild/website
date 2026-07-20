@@ -80,7 +80,7 @@ export default function HomeHero() {
                 ONE RAID AT A TIME
               </h1>
               <p className="text-heading-sm text-moloch-800 text-center">
-                RaidGuild is a decentralized collective of mercenaries
+                RaidGuild is the OG decentralized collective of mercenaries
                 <br />
                 ready to slay your web3 product demons,{" "}
                 <a
