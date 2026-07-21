@@ -18,7 +18,7 @@ export const metadata: Metadata = {
     title: "Join a RaidGuild Cohort — 4-Week Web3 Proving Ground",
     description:
       "A free monthly cohort for intermediate+ developers, designers, and operators. Build a real Web3 project with experienced guild members.",
-    url: "https://www.raidguild.org/join",
+    url: "/join",
     type: "website",
   },
 };
