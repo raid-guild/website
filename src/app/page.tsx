@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Header from "@/components/Header";
 import HomeHero from "@/components/HomeHero";
 import ServicesSection from "@/components/ServicesSection";
@@ -12,6 +13,10 @@ import Footer from "@/components/Footer";
 import OurStoryBanner from "@/components/OurStorySectionBanner";
 import ServicesBanner from "@/components/ServicesBanner";
 import MercenariesBanner from "@/components/MercenariesBanner";
+
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export const dynamic = 'force-dynamic';
 

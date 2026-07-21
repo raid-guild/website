@@ -13,7 +13,6 @@ export const metadata: Metadata = {
   },
   description:
     "A builder-owned collective shipping smart contracts, dApps, AI systems, and DAO tooling since 2019. Clients include Gitcoin, Gnosis, Pocket Network, and Unlock Protocol.",
-  alternates: { canonical: "/" },
   openGraph: {
     siteName: "RaidGuild",
     type: "website",
