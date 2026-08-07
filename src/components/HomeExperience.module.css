@@ -98,6 +98,37 @@
 .stat { align-items: center; display: flex; gap: 15px; margin: 0; }
 .stat strong { color: var(--coral); font-family: var(--font-display), serif; font-size: 68px; font-weight: 400; line-height: .8; }
 .stat span { font-size: 8px; letter-spacing: .12em; line-height: 1.6; text-transform: uppercase; }
+.guildRoster { grid-column: 1 / -1; margin-top: clamp(110px, 12vw, 180px); min-width: 0; }
+.rosterHeading { align-items: end; border-top: 1px solid rgba(16,45,44,.3); display: flex; justify-content: space-between; padding-top: 28px; }
+.rosterHeading .sectionLabel { margin-bottom: 20px; }
+.rosterHeading h3 { font-family: var(--font-display), serif; font-size: clamp(44px, 5vw, 72px); font-weight: 500; letter-spacing: -.045em; line-height: .9; margin: 0; }
+.rosterHeading > p { font-family: var(--font-body), serif; font-size: 16px; line-height: 1.45; margin: 0; max-width: 390px; }
+.stewardTrack { display: grid; grid-template-columns: repeat(5, minmax(190px, 1fr)); margin-top: 55px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: thin; }
+.stewardCard { border-bottom: 1px solid rgba(16,45,44,.35); border-left: 1px solid rgba(16,45,44,.35); color: inherit; display: block; min-width: 190px; padding: 18px; text-decoration: none; transition: background .25s, color .25s, transform .25s; }
+.stewardCard:last-child { border-right: 1px solid rgba(16,45,44,.35); }
+.stewardCard:hover { background: var(--deep); color: var(--paper); transform: translateY(-8px); }
+.stewardTop { display: flex; font-size: 8px; justify-content: space-between; letter-spacing: .15em; }
+.stewardTop i { font-size: 16px; font-style: normal; }
+.stewardPortrait { aspect-ratio: 1; background: var(--sky); border-radius: 50%; margin: 26px auto; max-width: 150px; overflow: hidden; position: relative; }
+.stewardPortrait::after { border: 1px solid rgba(16,45,44,.25); border-radius: 50%; content: ""; inset: 8px; pointer-events: none; position: absolute; }
+.stewardPortrait img { filter: saturate(.75) contrast(1.04); object-fit: cover; }
+.stewardPortrait > span { align-items: center; color: var(--coral); display: flex; font-family: var(--font-display), serif; font-size: 54px; height: 100%; justify-content: center; letter-spacing: -.05em; }
+.stewardCard > p { color: var(--coral); font-size: 7px; letter-spacing: .15em; margin: 0 0 8px; text-transform: uppercase; }
+.stewardCard h4 { font-family: var(--font-display), serif; font-size: 30px; font-weight: 500; line-height: 1; margin: 0 0 10px; }
+.stewardCard > small { font-size: 7px; letter-spacing: .12em; opacity: .65; }
+.memberMarquee { border-bottom: 1px solid rgba(16,45,44,.3); margin-top: 68px; overflow-x: auto; padding: 16px 0; scrollbar-width: none; }
+.memberMarquee::-webkit-scrollbar { display: none; }
+.memberRail { animation: memberDrift 68s linear infinite; display: flex; gap: 14px; width: max-content; }
+.memberMarquee:hover .memberRail { animation-play-state: paused; }
+.memberRail > a, .memberRail > div { align-items: center; border: 1px solid rgba(16,45,44,.28); color: inherit; display: flex; flex: 0 0 auto; gap: 11px; min-width: 190px; padding: 7px 12px 7px 7px; text-decoration: none; transition: background .2s, color .2s; }
+.memberRail > a:hover { background: var(--coral); border-color: var(--coral); color: var(--paper); }
+.memberRail img { background: var(--sky); border-radius: 50%; filter: saturate(.65); height: 48px; object-fit: cover; width: 48px; }
+.memberRail span { display: flex; flex-direction: column; min-width: 95px; }
+.memberRail strong { font-family: var(--font-display), serif; font-size: 17px; font-weight: 500; line-height: 1; }
+.memberRail small { font-size: 7px; letter-spacing: .1em; margin-top: 5px; opacity: .65; text-transform: uppercase; }
+.memberRail i { font-size: 13px; font-style: normal; margin-left: auto; }
+.rosterFootnote { font-size: 7px; letter-spacing: .15em; margin: 12px 0 0; opacity: .58; }
+@keyframes memberDrift { to { transform: translateX(calc(-50% - 7px)); } }
 
 .practice { background: var(--deep); color: var(--paper); padding: clamp(100px, 12vw, 180px) clamp(24px, 6vw, 96px); }
 .practiceHeading { align-items: end; display: grid; gap: 30px; grid-template-columns: 1fr auto; margin: 0 auto 80px; max-width: 1300px; }
@@ -176,6 +207,8 @@
   .menuButton span:last-child { top: 21px; }
   .prologue { grid-template-columns: 1fr; }
   .prologueMark { margin-bottom: 80px; }
+  .rosterHeading { align-items: start; flex-direction: column; gap: 25px; }
+  .stewardTrack { grid-template-columns: repeat(5, 220px); }
   .disciplineGrid { grid-template-columns: 1fr; }
   .discipline { border-bottom: 1px solid rgba(239,233,215,.22); min-height: 480px; }
   .practiceHeading, .fieldIntro { grid-template-columns: 1fr; }
@@ -204,6 +237,9 @@
   .prologue { padding-left: 22px; padding-right: 22px; }
   .prologue h2, .practice h2, .fieldIntro h2, .contact h2 { font-size: 54px; }
   .prologueBody { grid-template-columns: 1fr; }
+  .guildRoster { margin-top: 100px; }
+  .rosterHeading h3 { font-size: 46px; }
+  .stewardTrack { margin-right: -22px; padding-right: 22px; }
   .practice { padding-left: 0; padding-right: 0; }
   .practiceHeading { padding: 0 22px; }
   .disciplineGrid { border-left: 0; }

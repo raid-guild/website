@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import { mercenaries } from "@/lib/data/members";
 import styles from "./HomeExperience.module.css";
 
 const disciplines = [
@@ -79,6 +80,46 @@ const fieldNotes = [
     crew: "05",
   },
 ];
+
+const stewards = [
+  {
+    name: "Louchi",
+    role: "Brand Steward",
+    href: "https://estudioblanco.org",
+    project: "ESTUDIO BLANCO",
+    initials: "LO",
+  },
+  {
+    name: "Dekan",
+    role: "Knowledge Steward",
+    href: "https://x.com/DekanBro",
+    project: "KNOWLEDGE SYSTEMS",
+    image: "/images/member-dekan.png",
+  },
+  {
+    name: "ECWireless",
+    role: "Infrastructure Steward",
+    href: "https://github.com/ECWireless",
+    project: "GITHUB / ECWIRELESS",
+    image: "/images/member-ecwireless.png",
+  },
+  {
+    name: "Tae",
+    role: "Sync Steward",
+    project: "PROFILE FORTHCOMING",
+    initials: "TA",
+  },
+  {
+    name: "Pupcakes",
+    role: "Participation Steward",
+    href: "https://github.com/Fluffy9",
+    project: "GITHUB / FLUFFY9",
+    image: "/images/member-pupcakes.png",
+  },
+];
+
+const stewardNames = new Set(stewards.map((steward) => steward.name.toLowerCase()));
+const guildMembers = mercenaries.filter((member) => !stewardNames.has(member.name.toLowerCase()));
 
 function Sigil() {
   return (
@@ -305,6 +346,63 @@ export default function HomeExperience() {
             </p>
             <p className={styles.stat}><strong>70+</strong><span>raids shipped<br />across the frontier</span></p>
           </div>
+        </div>
+        <div className={styles.guildRoster}>
+          <div className={styles.rosterHeading}>
+            <div>
+              <p className={styles.sectionLabel}>[ CURRENT STEWARDS ]</p>
+              <h3>Keepers of the signal.</h3>
+            </div>
+            <p>Five active stewards hold the guild&apos;s shared context, rituals, infrastructure, and public voice.</p>
+          </div>
+
+          <div className={styles.stewardTrack}>
+            {stewards.map((steward, index) => {
+              const card = (
+                <>
+                  <div className={styles.stewardTop}>
+                    <span>ST—{String(index + 1).padStart(2, "0")}</span>
+                    <i>{steward.href ? "↗" : "·"}</i>
+                  </div>
+                  <div className={styles.stewardPortrait}>
+                    {steward.image ? (
+                      <Image src={steward.image} alt="" fill sizes="180px" />
+                    ) : (
+                      <span>{steward.initials}</span>
+                    )}
+                  </div>
+                  <p>{steward.role}</p>
+                  <h4>{steward.name}</h4>
+                  <small>{steward.project}</small>
+                </>
+              );
+
+              return steward.href ? (
+                <a className={styles.stewardCard} href={steward.href} target="_blank" rel="noreferrer" key={steward.name}>{card}</a>
+              ) : (
+                <div className={styles.stewardCard} key={steward.name}>{card}</div>
+              );
+            })}
+          </div>
+
+          <div className={styles.memberMarquee}>
+            <div className={styles.memberRail}>
+              {[...guildMembers, ...guildMembers].map((member, index) => {
+                const content = (
+                  <>
+                    <Image src={member.imagePath} alt="" width={58} height={58} />
+                    <span><strong>{member.name}</strong><small>{member.title}</small></span>
+                  </>
+                );
+                return member.link ? (
+                  <a href={member.link} target="_blank" rel="noreferrer" key={`${member.name}-${index}`}>{content}<i>↗</i></a>
+                ) : (
+                  <div key={`${member.name}-${index}`}>{content}</div>
+                );
+              })}
+            </div>
+          </div>
+          <p className={styles.rosterFootnote}>DRAG TO EXPLORE · HOVER TO HOLD THE TRANSMISSION · SELECT A MEMBER TO FOLLOW THEIR WORK</p>
         </div>
       </section>
 
