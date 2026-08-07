@@ -121,15 +121,23 @@
 .fieldIntro { display: grid; grid-template-columns: 1fr 300px; margin: 0 auto 85px; max-width: 1300px; position: relative; }
 .fieldIntro .sectionLabel { grid-column: 1 / -1; }
 .fieldIntro > p:last-child { align-self: end; font-family: var(--font-body), serif; font-size: 18px; line-height: 1.45; margin: 0 0 6px; }
-.featuredMission { background: var(--paper); display: grid; grid-template-columns: 1.1fr .9fr; margin: 0 auto; max-width: 1300px; min-height: 720px; position: relative; }
-.missionArt { min-height: 720px; overflow: hidden; position: relative; }
+.fieldControls { align-items: center; display: flex; justify-content: space-between; margin: 0 auto 24px; max-width: 1300px; position: relative; }
+.fieldControls p { font-size: 9px; letter-spacing: .15em; margin: 0; }
+.fieldControls p strong { color: var(--coral); font-family: var(--font-display), serif; font-size: 30px; font-weight: 400; }
+.fieldControls > div { display: flex; gap: 8px; }
+.fieldControls button { align-items: center; background: transparent; border: 1px solid rgba(16,45,44,.45); border-radius: 50%; color: var(--ink); cursor: pointer; display: flex; font-size: 20px; height: 48px; justify-content: center; transition: background .2s, color .2s, transform .2s; width: 48px; }
+.fieldControls button:hover { background: var(--ink); color: var(--paper); transform: scale(1.06); }
+.fieldTrack { display: flex; gap: clamp(16px, 2vw, 32px); margin-right: clamp(-96px, -6vw, -24px); overflow-x: auto; overscroll-behavior-inline: contain; padding: 0 clamp(24px, 6vw, 96px) 24px 0; position: relative; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
+.fieldTrack::-webkit-scrollbar { display: none; }
+.featuredMission { background: var(--paper); display: grid; flex: 0 0 min(1120px, 82vw); grid-template-columns: 1.05fr .95fr; min-height: 680px; position: relative; scroll-snap-align: start; }
+.missionArt { min-height: 680px; overflow: hidden; position: relative; }
 .missionImage { object-fit: cover; transition: transform .8s cubic-bezier(.2,.8,.2,1); }
 .featuredMission:hover .missionImage { transform: scale(1.035); }
 .artBadge { background: var(--acid); font-size: 8px; left: 24px; letter-spacing: .15em; padding: 10px 12px; position: absolute; top: 24px; }
 .missionCopy { display: flex; flex-direction: column; padding: clamp(42px, 5vw, 78px); }
 .missionNumber { font-size: 9px; letter-spacing: .16em; margin-left: auto; }
 .missionType { color: var(--coral); font-size: 8px; font-weight: 700; letter-spacing: .14em; margin: auto 0 18px; }
-.missionCopy h3 { font-family: var(--font-display), serif; font-size: clamp(48px, 5vw, 78px); font-weight: 500; letter-spacing: -.05em; line-height: .82; margin: 0 0 30px; }
+.missionCopy h3 { font-family: var(--font-display), serif; font-size: clamp(44px, 4.6vw, 70px); font-weight: 500; letter-spacing: -.05em; line-height: .86; margin: 0 0 30px; }
 .missionCopy > p:not(.missionType) { font-family: var(--font-body), serif; font-size: 18px; line-height: 1.45; margin: 0 0 36px; }
 .missionCopy > a { border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 9px; justify-content: space-between; letter-spacing: .14em; padding-bottom: 12px; text-decoration: none; text-transform: uppercase; }
 .missionCopy > a span { font-size: 16px; transition: transform .2s; }
@@ -202,6 +210,9 @@
   .discipline { border-right: 0; padding-left: 30px; padding-right: 30px; }
   .fieldNotes { padding-left: 0; padding-right: 0; }
   .fieldIntro { padding: 0 22px; }
+  .fieldControls { padding: 0 22px; }
+  .fieldTrack { gap: 14px; margin-right: 0; padding: 0 22px 20px; }
+  .featuredMission { flex-basis: 88vw; }
   .missionArt { min-height: 560px; }
   .missionCopy { min-height: 560px; padding: 36px 28px; }
   .creed blockquote { font-size: 55px; }

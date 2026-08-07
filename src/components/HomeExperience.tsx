@@ -25,6 +25,61 @@ const disciplines = [
   },
 ];
 
+const fieldNotes = [
+  {
+    issue: "07",
+    code: "RG—24.071",
+    image: "/images/neo/sky-citadel.png",
+    alt: "A cloaked traveler looks toward a floating coral citadel",
+    type: "PROTOCOL DESIGN · PRODUCT · ENGINEERING",
+    title: "Infrastructure for new worlds.",
+    abstract:
+      "How we turned complex coordination into an interface that feels inevitable—clear enough for day one, powerful enough for what comes next.",
+    status: "LIVE",
+    sector: "ONCHAIN",
+    crew: "08",
+  },
+  {
+    issue: "08",
+    code: "RG—25.014",
+    image: "/images/neo/field-protocol-garden.png",
+    alt: "A guild cartographer studies a living network city",
+    type: "SYSTEMS · IDENTITY · PROTOCOL",
+    title: "Gardens, not platforms.",
+    abstract:
+      "A field study in designing protocols that grow through participation: legible incentives, composable paths, and room for the unexpected.",
+    status: "ARCHIVED",
+    sector: "NETWORKS",
+    crew: "06",
+  },
+  {
+    issue: "09",
+    code: "RG—25.033",
+    image: "/images/neo/field-signal-commons.png",
+    alt: "A floating civic commons above the clouds",
+    type: "GOVERNANCE · RESEARCH · EXPERIENCE",
+    title: "A commons in the clouds.",
+    abstract:
+      "What changes when governance feels like a place? Notes on making collective decisions spatial, social, and unmistakably human.",
+    status: "TRANSMITTING",
+    sector: "COMMUNITIES",
+    crew: "11",
+  },
+  {
+    issue: "10",
+    code: "RG—26.002",
+    image: "/images/neo/field-autonomous-treasury.png",
+    alt: "Two engineers inspect a monumental autonomous treasury",
+    type: "TREASURY · AUTOMATION · AI",
+    title: "The machine that stewards itself.",
+    abstract:
+      "Inside an autonomous treasury: observable agents, bounded authority, and financial infrastructure designed to earn trust over time.",
+    status: "CLASSIFIED",
+    sector: "AUTONOMY",
+    crew: "05",
+  },
+];
+
 function Sigil() {
   return (
     <span className={styles.sigil} aria-hidden="true">
@@ -35,8 +90,27 @@ function Sigil() {
 
 export default function HomeExperience() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [activeField, setActiveField] = useState(0);
   const heroRef = useRef<HTMLElement>(null);
+  const fieldTrackRef = useRef<HTMLDivElement>(null);
   const horizontalPanRef = useRef(0);
+
+  const scrollFields = (direction: number) => {
+    const track = fieldTrackRef.current;
+    if (!track) return;
+    track.scrollBy({ left: direction * track.clientWidth * 0.78, behavior: "smooth" });
+  };
+
+  const updateActiveField = () => {
+    const track = fieldTrackRef.current;
+    if (!track) return;
+    const cards = Array.from(track.children) as HTMLElement[];
+    const closest = cards.reduce((best, card, index) =>
+      Math.abs(card.offsetLeft - track.scrollLeft) < Math.abs(cards[best].offsetLeft - track.scrollLeft)
+        ? index
+        : best, 0);
+    setActiveField(closest);
+  };
 
   useEffect(() => {
     const root = document.documentElement;
@@ -263,30 +337,42 @@ export default function HomeExperience() {
           <p>Artifacts, protocols, and communities built with people brave enough to go first.</p>
         </div>
 
-        <article className={styles.featuredMission}>
-          <div className={styles.missionArt}>
-            <Image
-              src="/images/neo/sky-citadel.png"
-              alt="A cloaked traveler looks toward a floating coral citadel"
-              fill
-              sizes="(max-width: 800px) 100vw, 52vw"
-              className={styles.missionImage}
-            />
-            <span className={styles.artBadge}>FIELD NOTE / 07</span>
+        <div className={styles.fieldControls}>
+          <p><strong>{String(activeField + 1).padStart(2, "0")}</strong> / {String(fieldNotes.length).padStart(2, "0")}</p>
+          <div>
+            <button type="button" onClick={() => scrollFields(-1)} aria-label="Previous field note">←</button>
+            <button type="button" onClick={() => scrollFields(1)} aria-label="Next field note">→</button>
           </div>
-          <div className={styles.missionCopy}>
-            <span className={styles.missionNumber}>RG—24.071</span>
-            <p className={styles.missionType}>PROTOCOL DESIGN · PRODUCT · ENGINEERING</p>
-            <h3>Infrastructure<br />for new worlds.</h3>
-            <p>We helped a protocol turn complex coordination into an interface that feels inevitable—clear enough for day one, powerful enough for what comes next.</p>
-            <a href="#contact">Read the field note <span>↗</span></a>
-            <dl>
-              <div><dt>STATUS</dt><dd>LIVE</dd></div>
-              <div><dt>SECTOR</dt><dd>ONCHAIN</dd></div>
-              <div><dt>CREW</dt><dd>08</dd></div>
-            </dl>
-          </div>
-        </article>
+        </div>
+
+        <div className={styles.fieldTrack} ref={fieldTrackRef} onScroll={updateActiveField}>
+          {fieldNotes.map((note) => (
+            <article className={styles.featuredMission} key={note.code}>
+              <div className={styles.missionArt}>
+                <Image
+                  src={note.image}
+                  alt={note.alt}
+                  fill
+                  sizes="(max-width: 800px) 88vw, 48vw"
+                  className={styles.missionImage}
+                />
+                <span className={styles.artBadge}>FIELD NOTE / {note.issue}</span>
+              </div>
+              <div className={styles.missionCopy}>
+                <span className={styles.missionNumber}>{note.code}</span>
+                <p className={styles.missionType}>{note.type}</p>
+                <h3>{note.title}</h3>
+                <p>{note.abstract}</p>
+                <a href="#contact">Portal dispatch <span>↗</span></a>
+                <dl>
+                  <div><dt>STATUS</dt><dd>{note.status}</dd></div>
+                  <div><dt>SECTOR</dt><dd>{note.sector}</dd></div>
+                  <div><dt>CREW</dt><dd>{note.crew}</dd></div>
+                </dl>
+              </div>
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className={styles.creed}>
