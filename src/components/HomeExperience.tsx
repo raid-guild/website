@@ -104,10 +104,10 @@ const stewards = [
     image: "/images/member-ecwireless.png",
   },
   {
-    name: "Tae",
+    name: "Takekek",
     role: "Sync Steward",
     project: "PROFILE FORTHCOMING",
-    initials: "TA",
+    image: "/images/member-takekek.png",
   },
   {
     name: "Pupcakes",
