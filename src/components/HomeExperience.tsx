@@ -164,10 +164,10 @@ export default function HomeExperience() {
       root.style.setProperty("--neo-pointer-x", x.toFixed(3));
       root.style.setProperty("--neo-pointer-y", y.toFixed(3));
       root.style.setProperty("--neo-sky-x", `${(x * 10).toFixed(1)}px`);
-      root.style.setProperty("--neo-land-x", `${(x * -22).toFixed(1)}px`);
+      root.style.setProperty("--neo-land-x", `${(x * -10).toFixed(1)}px`);
       root.style.setProperty("--neo-fore-left-x", `${(-120 - leftReveal * 115).toFixed(1)}px`);
       root.style.setProperty("--neo-fore-right-x", `${(90 + rightReveal * 110).toFixed(1)}px`);
-      root.style.setProperty("--neo-title-x", `${(x * 18).toFixed(1)}px`);
+      root.style.setProperty("--neo-title-x", `${(x * 8).toFixed(1)}px`);
     };
 
     window.addEventListener("pointermove", updatePointer, { passive: true });
@@ -186,10 +186,10 @@ export default function HomeExperience() {
       horizontalPanRef.current = Math.min(1, Math.max(-1, horizontalPanRef.current + event.deltaX * 0.0018));
       const pan = horizontalPanRef.current;
       const root = document.documentElement;
-      root.style.setProperty("--neo-track-title-x", `${(pan * 150).toFixed(1)}px`);
-      root.style.setProperty("--neo-track-land-x", `${(pan * -72).toFixed(1)}px`);
-      root.style.setProperty("--neo-track-sky-x", `${(pan * -28).toFixed(1)}px`);
-      root.style.setProperty("--neo-track-fore-x", `${(pan * 14).toFixed(1)}px`);
+      root.style.setProperty("--neo-track-title-x", `${(pan * 72).toFixed(1)}px`);
+      root.style.setProperty("--neo-track-land-x", `${(pan * -34).toFixed(1)}px`);
+      root.style.setProperty("--neo-track-sky-x", `${(pan * -14).toFixed(1)}px`);
+      root.style.setProperty("--neo-track-fore-x", `${(pan * 6).toFixed(1)}px`);
       root.style.setProperty("--neo-pan-progress", Math.abs(pan).toFixed(3));
     };
 

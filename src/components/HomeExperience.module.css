@@ -47,7 +47,7 @@
 .moonLarge { height: 25vw; max-height: 400px; max-width: 400px; right: 7%; top: 7%; width: 25vw; }
 .moonSmall { height: 5vw; min-height: 48px; min-width: 48px; right: 31%; top: 13%; width: 5vw; }
 .orbitLine { border-bottom-color: transparent !important; border-left-color: transparent !important; height: 52vw; right: -7%; top: -19%; transform: rotate(22deg); width: 52vw; }
-.heroArt { inset: -6% -3% -10%; position: absolute; transform: scale(1.075) translate3d(var(--neo-land-x, 0), var(--neo-land-y, 0), 0) translateX(var(--neo-track-land-x, 0)); transition: transform .22s cubic-bezier(.2,.7,.2,1); z-index: 1; }
+.heroArt { inset: -1.5%; position: absolute; transform: scale(1.018) translate3d(var(--neo-land-x, 0), var(--neo-land-y, 0), 0) translateX(var(--neo-track-land-x, 0)); transition: transform .22s cubic-bezier(.2,.7,.2,1); z-index: 1; }
 .heroImage { object-fit: cover; object-position: center 48%; }
 .heroWash { background: linear-gradient(90deg, rgba(5, 34, 34, .88) 0%, rgba(5, 34, 34, .43) 31%, rgba(5, 34, 34, .02) 65%), linear-gradient(0deg, rgba(5,27,28,.72), transparent 34%, rgba(2, 25, 27, .26)); inset: 0; position: absolute; z-index: 2; }
 .heroWash::after { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E"); content: ""; inset: 0; mix-blend-mode: soft-light; opacity: .35; pointer-events: none; position: absolute; }
