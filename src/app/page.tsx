@@ -1,11 +1,38 @@
 import type { Metadata } from "next";
 import HomeExperience from "@/components/HomeExperience";
 
+const publicAssetOrigin = process.env.RAILWAY_PUBLIC_DOMAIN
+  ? `https://${process.env.RAILWAY_PUBLIC_DOMAIN}`
+  : "https://www.raidguild.org";
+
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
   title: "RaidGuild — Venture Beyond",
   description:
     "A builder-owned collective designing and shipping ambitious onchain products.",
+  openGraph: {
+    type: "website",
+    url: "https://www.raidguild.org",
+    siteName: "RaidGuild",
+    title: "RaidGuild — Venture Beyond",
+    description:
+      "A builder-owned collective turning ambitious ideas into digital worlds worth inhabiting.",
+    images: [
+      {
+        url: `${publicAssetOrigin}/opengraph-image.png`,
+        width: 1733,
+        height: 908,
+        alt: "Two RaidGuild travelers overlooking a coral citadel in an alien landscape",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "RaidGuild — Venture Beyond",
+    description:
+      "A builder-owned collective turning ambitious ideas into digital worlds worth inhabiting.",
+    images: [`${publicAssetOrigin}/opengraph-image.png`],
+  },
 };
 
 export const dynamic = "force-dynamic";
