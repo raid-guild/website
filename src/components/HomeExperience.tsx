@@ -129,12 +129,189 @@ function Sigil() {
   );
 }
 
+type PortalOverlayProps = {
+  open: boolean;
+  closing: boolean;
+  onClose: () => void;
+  onEnter: () => void;
+};
+
+function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+
+    const previousOverflow = document.body.style.overflow;
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") onClose();
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [open, onClose]);
+
+  useEffect(() => {
+    if (!open) return;
+    const canvas = canvasRef.current;
+    const context = canvas?.getContext("2d");
+    if (!canvas || !context) return;
+
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const compact = window.innerWidth < 700;
+    const particleCount = reducedMotion ? 130 : compact ? 360 : 720;
+    const palette = ["238,60,120", "109,230,223", "239,233,215", "215,227,77"];
+    const pointer = { x: 0, y: 0 };
+    let width = 0;
+    let height = 0;
+    let pixelRatio = 1;
+    let frame = 0;
+    let lastTime = performance.now();
+
+    const particles = Array.from({ length: particleCount }, (_, index) => ({
+      angle: Math.random() * Math.PI * 2,
+      lane: Math.pow(Math.random(), 1.7),
+      drift: (Math.random() - 0.5) * 0.2,
+      speed: (0.18 + Math.random() * 0.52) * (Math.random() > 0.12 ? 1 : -0.55),
+      size: 0.45 + Math.random() * 1.8,
+      color: palette[index % palette.length],
+      phase: Math.random() * Math.PI * 2,
+      flicker: 0.4 + Math.random() * 0.6,
+    }));
+
+    const resize = () => {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+      canvas.width = Math.floor(width * pixelRatio);
+      canvas.height = Math.floor(height * pixelRatio);
+      canvas.style.width = `${width}px`;
+      canvas.style.height = `${height}px`;
+      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+    };
+
+    const trackPointer = (event: PointerEvent) => {
+      pointer.x = event.clientX / width - 0.5;
+      pointer.y = event.clientY / height - 0.5;
+    };
+
+    const render = (time: number) => {
+      const delta = Math.min((time - lastTime) / 1000, 0.04);
+      lastTime = time;
+      context.globalCompositeOperation = "source-over";
+      context.fillStyle = reducedMotion ? "rgba(4, 22, 24, 1)" : "rgba(4, 22, 24, .19)";
+      context.fillRect(0, 0, width, height);
+
+      const centerX = width * (compact ? 0.5 : 0.66) + pointer.x * 18;
+      const centerY = height * (compact ? 0.43 : 0.5) + pointer.y * 12;
+      const radiusX = Math.min(width * (compact ? 0.34 : 0.2), 330);
+      const radiusY = Math.min(height * (compact ? 0.29 : 0.38), 410);
+      const elapsed = time * 0.001;
+
+      context.globalCompositeOperation = "lighter";
+      particles.forEach((particle) => {
+        particle.angle += particle.speed * delta * (reducedMotion ? 0.08 : 1);
+        const turbulence = Math.sin(elapsed * 1.7 + particle.phase) * (5 + particle.lane * 18);
+        const laneRadius = 0.78 + particle.lane * 0.38;
+        const depth = (Math.sin(particle.angle) + 1) / 2;
+        const x = centerX + Math.cos(particle.angle) * (radiusX * laneRadius + turbulence) + particle.drift * radiusX;
+        const y = centerY + Math.sin(particle.angle) * (radiusY * laneRadius) + Math.cos(elapsed + particle.phase) * 7;
+        const stretch = 3 + depth * 13 + particle.lane * 5;
+        const size = particle.size * (0.55 + depth * 1.3);
+        const alpha = (0.18 + depth * 0.72) * particle.flicker;
+
+        context.beginPath();
+        context.moveTo(x - Math.cos(particle.angle) * stretch, y - Math.sin(particle.angle) * stretch * 1.7);
+        context.lineTo(x, y);
+        context.strokeStyle = `rgba(${particle.color},${alpha * 0.7})`;
+        context.lineWidth = Math.max(0.4, size * 0.7);
+        context.stroke();
+
+        context.beginPath();
+        context.arc(x, y, size, 0, Math.PI * 2);
+        context.fillStyle = `rgba(${particle.color},${alpha})`;
+        context.shadowColor = `rgba(${particle.color},.75)`;
+        context.shadowBlur = 4 + size * 4;
+        context.fill();
+      });
+      context.shadowBlur = 0;
+      frame = window.requestAnimationFrame(render);
+    };
+
+    resize();
+    context.fillStyle = "#041618";
+    context.fillRect(0, 0, width, height);
+    window.addEventListener("resize", resize);
+    window.addEventListener("pointermove", trackPointer, { passive: true });
+    frame = window.requestAnimationFrame(render);
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("resize", resize);
+      window.removeEventListener("pointermove", trackPointer);
+    };
+  }, [open]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className={`${styles.portalOverlay} ${closing ? styles.portalClosing : ""}`}
+      role="dialog"
+      aria-modal="true"
+      aria-label="RaidGuild transit portal"
+    >
+      <canvas className={styles.portalCanvas} ref={canvasRef} aria-hidden="true" />
+      <div className={styles.portalAtmosphere} aria-hidden="true" />
+      <div className={styles.portalMachine} aria-hidden="true">
+        <div className={styles.portalHalo} />
+        <div className={styles.portalThreshold}><Sigil /></div>
+      </div>
+      <button className={styles.portalClose} type="button" onClick={onClose} aria-label="Close portal">
+        <span>CLOSE</span> ×
+      </button>
+      <div className={styles.portalReadout} aria-hidden="true">
+        <span>RG—TRANSIT / 001</span>
+        <span>STABILITY 98.7%</span>
+      </div>
+      <div className={styles.portalMessage}>
+        <p><span /> Transit window open</p>
+        <h2>CROSS THE<br /><em>THRESHOLD.</em></h2>
+        <button type="button" onClick={onEnter}>
+          <span>Enter the portal</span><i>↗</i>
+        </button>
+      </div>
+      <p className={styles.portalCoordinates}>39°44′N / 104°59′W<br />DESTINATION: UNMAPPED</p>
+    </div>
+  );
+}
+
 export default function HomeExperience() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeField, setActiveField] = useState(0);
+  const [portalOpen, setPortalOpen] = useState(false);
+  const [portalClosing, setPortalClosing] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const fieldTrackRef = useRef<HTMLDivElement>(null);
   const horizontalPanRef = useRef(0);
+  const portalTimerRef = useRef<number | null>(null);
+
+  const dismissPortal = (enter = false) => {
+    if (portalClosing) return;
+    setPortalClosing(true);
+    portalTimerRef.current = window.setTimeout(() => {
+      setPortalOpen(false);
+      setPortalClosing(false);
+      if (enter) document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
+    }, enter ? 920 : 620);
+  };
+
+  useEffect(() => () => {
+    if (portalTimerRef.current) window.clearTimeout(portalTimerRef.current);
+  }, []);
 
   const scrollFields = (direction: number) => {
     const track = fieldTrackRef.current;
@@ -246,7 +423,17 @@ export default function HomeExperience() {
           <a href="#practice" onClick={() => setMenuOpen(false)}>Our craft</a>
           <a href="#work" onClick={() => setMenuOpen(false)}>Field notes</a>
           <a href="#guild" onClick={() => setMenuOpen(false)}>The guild</a>
-          <a className={styles.navCta} href="#contact" onClick={() => setMenuOpen(false)}>Open a portal ↗</a>
+          <a
+            className={styles.navCta}
+            href="#contact"
+            onClick={(event) => {
+              event.preventDefault();
+              setMenuOpen(false);
+              setPortalOpen(true);
+            }}
+          >
+            Open a portal ↗
+          </a>
         </nav>
 
         <button
@@ -506,6 +693,13 @@ export default function HomeExperience() {
         </div>
         <small>© 2019—2026 RAIDGUILD · EARTH &amp; ELSEWHERE</small>
       </footer>
+
+      <PortalOverlay
+        open={portalOpen}
+        closing={portalClosing}
+        onClose={() => dismissPortal(false)}
+        onEnter={() => dismissPortal(true)}
+      />
     </main>
   );
 }
