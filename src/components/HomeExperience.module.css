@@ -21,7 +21,7 @@
   height: 96px;
   justify-content: space-between;
   left: 0;
-  padding: 0 clamp(24px, 4vw, 72px);
+  padding: 0 clamp(240px, 14vw, 290px) 0 clamp(24px, 4vw, 72px);
   position: absolute;
   right: 0;
   top: 0;
@@ -36,9 +36,21 @@
 .nav a { color: inherit; font-size: 11px; font-weight: 700; letter-spacing: .12em; position: relative; text-decoration: none; text-shadow: 0 1px 10px rgba(0,0,0,.45); text-transform: uppercase; }
 .nav > a:not(.navCta)::after { background: currentColor; bottom: -5px; content: ""; height: 1px; left: 0; position: absolute; transform: scaleX(0); transform-origin: right; transition: transform .25s ease; width: 100%; }
 .nav > a:hover::after { transform: scaleX(1); transform-origin: left; }
-.navCta { background: rgba(239,233,215,.08); border: 1px solid rgba(239, 233, 215, .8); border-radius: 100px; padding: 13px 18px; transition: background .2s, color .2s; }
-.navCta:hover { background: var(--paper); color: var(--ink); }
 .menuButton { display: none; }
+
+.portalTrigger { align-items: center; animation: portalAttention 6s 2s ease-in-out infinite; backdrop-filter: blur(14px) saturate(1.15); background: rgba(5,34,34,.86); border: 1px solid rgba(239,233,215,.35); border-radius: 100px; box-shadow: 0 10px 35px rgba(2,18,20,.22); color: var(--paper); cursor: pointer; display: flex; font-family: var(--font-mono), monospace; gap: 12px; padding: 7px 17px 7px 7px; position: fixed; right: clamp(24px, 4vw, 72px); top: 20px; transition: background .25s, border-color .25s, transform .25s; -webkit-backdrop-filter: blur(14px) saturate(1.15); z-index: 30; }
+.portalTrigger:hover { animation-play-state: paused; background: var(--paper); border-color: var(--paper); color: var(--ink); transform: translateY(-3px); }
+.portalTriggerMark { display: block; position: relative; }
+.portalTriggerMark .sigil { color: var(--coral); height: 48px; margin: 0; width: 48px; }
+.portalTriggerMark .swordMark { height: 30px; width: 33px; }
+.portalTriggerMark > i { animation: triggerOrbit 3.8s linear infinite; border: 1px solid var(--coral); border-bottom-color: transparent; border-radius: 50%; inset: -3px; pointer-events: none; position: absolute; }
+.portalTriggerCopy { align-items: center; display: grid; font-size: 9px; font-weight: 700; gap: 3px 10px; grid-template-columns: auto auto; letter-spacing: .15em; text-align: left; white-space: nowrap; }
+.portalTriggerCopy small { font-size: 6px; font-weight: 400; grid-column: 1 / -1; letter-spacing: .2em; opacity: .55; }
+.portalTriggerCopy > i { color: var(--coral); font-size: 14px; font-style: normal; grid-column: 2; grid-row: 2; transition: transform .25s; }
+.portalTrigger:hover .portalTriggerCopy > i { transform: translate(3px, -3px); }
+
+@keyframes triggerOrbit { to { transform: rotate(360deg); } }
+@keyframes portalAttention { 0%, 68%, 100% { box-shadow: 0 10px 35px rgba(2,18,20,.22); transform: translateY(0); } 73% { box-shadow: 0 10px 35px rgba(2,18,20,.22), 0 0 0 0 rgba(238,60,120,.3); transform: translateY(-2px); } 82% { box-shadow: 0 10px 35px rgba(2,18,20,.22), 0 0 0 12px rgba(238,60,120,0); transform: translateY(0); } }
 
 .hero { background: var(--deep); color: var(--paper); height: max(1060px, 140svh); min-height: 1060px; position: relative; }
 .heroStage { height: 100svh; min-height: 760px; overflow: hidden; position: sticky; top: 0; }
@@ -300,14 +312,14 @@
 @keyframes portalDeparture { 0%, 45% { background: #041618; opacity: 1; } 78% { background: var(--paper); opacity: 1; } 100% { background: var(--paper); opacity: 0; } }
 
 @media (max-width: 900px) {
-  .header { height: 78px; }
+  .header { height: 78px; padding-left: 24px; padding-right: 24px; }
   .nav { align-items: flex-start; backdrop-filter: none; background: var(--deep); border: 0; border-radius: 0; box-shadow: none; flex-direction: column; inset: 0; justify-content: center; opacity: 0; padding: 90px 30px; pointer-events: none; position: fixed; transform: translateY(-15px); transition: opacity .25s, transform .25s; -webkit-backdrop-filter: none; }
   .nav a { font-family: var(--font-display), serif; font-size: 42px; letter-spacing: -.03em; text-transform: none; }
-  .navCta { border: 0; padding: 0; }
   .navOpen { opacity: 1; pointer-events: auto; transform: translateY(0); }
   .menuButton { background: none; border: 0; display: block; height: 36px; padding: 0; position: relative; width: 36px; z-index: 2; }
   .menuButton span { background: var(--paper); height: 1px; left: 6px; position: absolute; top: 15px; width: 24px; }
   .menuButton span:last-child { top: 21px; }
+  .portalTrigger { bottom: 18px; right: 18px; top: auto; }
   .prologue { grid-template-columns: 1fr; }
   .prologueMark { margin-bottom: 80px; }
   .rosterHeading { align-items: start; flex-direction: column; gap: 25px; }

@@ -467,17 +467,6 @@ export default function HomeExperience() {
           <a href="#practice" onClick={() => setMenuOpen(false)}>Our craft</a>
           <a href="#work" onClick={() => setMenuOpen(false)}>Field notes</a>
           <a href="#guild" onClick={() => setMenuOpen(false)}>The guild</a>
-          <a
-            className={styles.navCta}
-            href="#contact"
-            onClick={(event) => {
-              event.preventDefault();
-              setMenuOpen(false);
-              openPortal();
-            }}
-          >
-            Open a portal ↗
-          </a>
         </nav>
 
         <button
@@ -493,6 +482,10 @@ export default function HomeExperience() {
       </header>
 
       <section className={styles.hero} id="top" ref={heroRef}>
+        <button className={styles.portalTrigger} type="button" onClick={openPortal}>
+          <span className={styles.portalTriggerMark}><Sigil /><i /></span>
+          <span className={styles.portalTriggerCopy}><small>TRANSIT READY</small>OPEN A PORTAL <i>↗</i></span>
+        </button>
         <div className={styles.heroStage}>
           <div className={styles.heroCelestial} aria-hidden="true">
             <span className={styles.moonLarge} />
