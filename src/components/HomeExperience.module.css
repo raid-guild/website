@@ -47,11 +47,10 @@
 .moonLarge { height: 25vw; max-height: 400px; max-width: 400px; right: 7%; top: 7%; width: 25vw; }
 .moonSmall { height: 5vw; min-height: 48px; min-width: 48px; right: 31%; top: 13%; width: 5vw; }
 .orbitLine { border-bottom-color: transparent !important; border-left-color: transparent !important; height: 52vw; right: -7%; top: -19%; transform: rotate(22deg); width: 52vw; }
-.heroArt { inset: -1.5%; position: absolute; transform: scale(1.018) translate3d(var(--neo-land-x, 0), var(--neo-land-y, 0), 0) translateX(var(--neo-track-land-x, 0)); transition: transform .22s cubic-bezier(.2,.7,.2,1); z-index: 1; }
-.heroImage { object-fit: cover; object-position: center 48%; }
+.heroArt { inset: 0; position: absolute; z-index: 1; }
+.heroImage { object-fit: cover; object-position: calc(48% + var(--neo-land-x, 0px) + var(--neo-track-land-x, 0px)) 58%; transition: object-position .22s cubic-bezier(.2,.7,.2,1); }
 .heroWash { background: linear-gradient(90deg, rgba(5, 34, 34, .88) 0%, rgba(5, 34, 34, .43) 31%, rgba(5, 34, 34, .02) 65%), linear-gradient(0deg, rgba(5,27,28,.72), transparent 34%, rgba(2, 25, 27, .26)); inset: 0; position: absolute; z-index: 2; }
 .heroWash::after { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E"); content: ""; inset: 0; mix-blend-mode: soft-light; opacity: .35; pointer-events: none; position: absolute; }
-.coordinates { font-size: 9px; left: clamp(24px, 4vw, 72px); letter-spacing: .16em; line-height: 1.7; opacity: var(--neo-coord-opacity, .7); position: absolute; top: 132px; transform: translateY(var(--neo-coord-y, 0)); z-index: 4; }
 .heroCopy { bottom: clamp(252px, 28vh, 320px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(var(--neo-title-x, 0), var(--neo-copy-y, 0), 0) translateX(var(--neo-track-title-x, 0)); transition: transform .3s cubic-bezier(.2,.7,.2,1); width: min(820px, 80vw); z-index: 4; }
 .heroSupplement { bottom: clamp(74px, 9vh, 104px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(0, var(--neo-copy-y, 0), 0); width: min(540px, 75vw); z-index: 7; }
 .eyebrow { align-items: center; display: flex; font-size: 10px; font-weight: 700; letter-spacing: .19em; margin: 0 0 20px; text-transform: uppercase; }
@@ -67,15 +66,11 @@
 .heroIndex strong { font-family: var(--font-display), serif; font-size: 44px; font-weight: 400; grid-row: span 2; line-height: 1; margin-left: 15px; }
 .heroIndex small { font-size: 7px; letter-spacing: .16em; opacity: .55; }
 .heroForeground { inset: -2% -3% -8%; pointer-events: none; position: absolute; transform-origin: center 58%; transition: transform .18s cubic-bezier(.2,.7,.2,1); z-index: 6; }
-.heroForegroundLeft { clip-path: inset(0 50% 0 0); transform: scale(.94) translate3d(var(--neo-fore-left-x, -178px), var(--neo-fore-y, 0), 0) translateX(var(--neo-track-fore-x, 0)); }
-.heroForegroundRight { clip-path: inset(0 0 0 50%); transform: scale(.94) translate3d(var(--neo-fore-right-x, 145px), var(--neo-fore-y, 0), 0) translateX(var(--neo-track-fore-x, 0)); }
+.heroForegroundLeft { clip-path: inset(0 50% 0 0); transform: scale(1) translateX(calc(var(--neo-fore-left-x, -188px) + var(--neo-track-fore-x, 0px))); }
+.heroForegroundRight { clip-path: inset(0 0 0 50%); transform: scale(1) translateX(calc(var(--neo-fore-right-x, 155px) + var(--neo-track-fore-x, 0px))); }
 .foregroundImage { object-fit: cover; object-position: 48% 58%; }
-.depthMeter { align-items: center; bottom: 36px; display: flex; font-size: 7px; gap: 10px; left: 50%; letter-spacing: .15em; opacity: var(--neo-meter-opacity, .65); position: absolute; transform: translateX(-50%); z-index: 7; }
-.depthMeter i { background: rgba(239,233,215,.3); display: block; height: 1px; overflow: hidden; position: relative; width: 100px; }
-.depthMeter i::after { background: var(--coral); content: ""; inset: 0; position: absolute; transform: scaleX(var(--neo-pan-progress, 0)); transform-origin: left; }
-.depthMeter small { font-size: inherit; }
 
-.signalBar { background: var(--coral); color: var(--paper); overflow: hidden; padding: 14px 0 13px; transform: rotate(-.6deg) scale(1.01); transform-origin: center; }
+.signalBar { background: var(--coral); color: var(--paper); overflow: hidden; padding: 14px 0 13px; }
 .signalBar div { align-items: center; animation: signal 28s linear infinite; display: flex; gap: 30px; width: max-content; }
 .signalBar span { font-size: 10px; font-weight: 700; letter-spacing: .16em; white-space: nowrap; }
 .signalBar i { font-style: normal; }
@@ -102,7 +97,11 @@
 .rosterHeading { align-items: end; border-top: 1px solid rgba(16,45,44,.3); display: flex; justify-content: space-between; padding-top: 28px; }
 .rosterHeading .sectionLabel { margin-bottom: 20px; }
 .rosterHeading h3 { font-family: var(--font-display), serif; font-size: clamp(44px, 5vw, 72px); font-weight: 500; letter-spacing: -.045em; line-height: .9; margin: 0; }
-.rosterHeading > p { font-family: var(--font-body), serif; font-size: 16px; line-height: 1.45; margin: 0; max-width: 390px; }
+.rosterAside { max-width: 390px; }
+.rosterAside p { font-family: var(--font-body), serif; font-size: 16px; line-height: 1.45; margin: 0; }
+.rosterAside a { align-items: center; border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 23px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; }
+.rosterAside a span { font-size: 15px; transition: transform .2s; }
+.rosterAside a:hover span { transform: translate(3px, -3px); }
 .stewardTrack { display: grid; grid-template-columns: repeat(5, minmax(190px, 1fr)); margin-top: 55px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: thin; }
 .stewardCard { border-bottom: 1px solid rgba(16,45,44,.35); border-left: 1px solid rgba(16,45,44,.35); color: inherit; display: block; min-width: 190px; padding: 18px; text-decoration: none; transition: background .25s, color .25s, transform .25s; }
 .stewardCard:last-child { border-right: 1px solid rgba(16,45,44,.35); }
@@ -133,7 +132,12 @@
 .practice { background: var(--deep); color: var(--paper); padding: clamp(100px, 12vw, 180px) clamp(24px, 6vw, 96px); }
 .practiceHeading { align-items: end; display: grid; gap: 30px; grid-template-columns: 1fr auto; margin: 0 auto 80px; max-width: 1300px; }
 .practiceHeading .sectionLabel { grid-column: 1 / -1; }
-.practiceHeading > p:last-child { font-family: var(--font-body), serif; font-size: 18px; line-height: 1.4; margin: 0; max-width: 250px; }
+.practiceAside, .fieldAside { align-self: end; }
+.practiceAside p, .fieldAside p { font-family: var(--font-body), serif; font-size: 18px; line-height: 1.4; margin: 0; max-width: 280px; }
+.practiceAside a, .fieldAside a { align-items: center; border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 26px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; width: min(100%, 280px); }
+.practiceAside a span, .fieldAside a span { font-size: 15px; transition: transform .2s; }
+.practiceAside a:hover span { transform: translate(3px, 3px); }
+.fieldAside a:hover span { transform: translate(3px, -3px); }
 .disciplineGrid { border-left: 1px solid rgba(239,233,215,.22); display: grid; grid-template-columns: repeat(3, 1fr); margin: 0 auto; max-width: 1300px; }
 .discipline { border-right: 1px solid rgba(239,233,215,.22); min-height: 560px; padding: 28px clamp(24px, 3vw, 46px) 40px; position: relative; transition: background .3s, color .3s, transform .3s; }
 .discipline:hover { background: var(--sky); color: var(--ink); transform: translateY(-10px); }
@@ -151,7 +155,7 @@
 .fieldNotes::before { background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(16,45,44,.08) 25%); content: ""; inset: 0; pointer-events: none; position: absolute; }
 .fieldIntro { display: grid; grid-template-columns: 1fr 300px; margin: 0 auto 85px; max-width: 1300px; position: relative; }
 .fieldIntro .sectionLabel { grid-column: 1 / -1; }
-.fieldIntro > p:last-child { align-self: end; font-family: var(--font-body), serif; font-size: 18px; line-height: 1.45; margin: 0 0 6px; }
+.fieldAside p { line-height: 1.45; max-width: 300px; }
 .fieldControls { align-items: center; display: flex; justify-content: space-between; margin: 0 auto 24px; max-width: 1300px; position: relative; }
 .fieldControls p { font-size: 9px; letter-spacing: .15em; margin: 0; }
 .fieldControls p strong { color: var(--coral); font-family: var(--font-display), serif; font-size: 30px; font-weight: 400; }
@@ -185,10 +189,30 @@
 .creedFooter .sigil { height: 48px; margin: 0; width: 48px; }
 .creedFooter .swordMark { height: 31px; width: 34px; }
 
-.contact { align-items: end; background: var(--paper); display: flex; justify-content: space-between; padding: clamp(100px, 12vw, 180px) clamp(24px, 7vw, 110px); }
-.portalLink { align-items: center; border: 1px solid var(--ink); border-radius: 50%; color: inherit; display: flex; flex: 0 0 auto; flex-direction: column; font-size: 9px; height: 220px; justify-content: center; letter-spacing: .13em; margin-left: 40px; text-decoration: none; text-transform: uppercase; transition: background .25s, color .25s, transform .25s; width: 220px; }
-.portalLink i { font-size: 38px; font-style: normal; margin-top: 18px; }
-.portalLink:hover { background: var(--ink); color: var(--paper); transform: rotate(5deg); }
+.contact { align-items: start; background: var(--paper); display: grid; gap: clamp(60px, 8vw, 130px); grid-template-columns: minmax(340px, .82fr) minmax(540px, 1fr); padding: clamp(100px, 12vw, 180px) clamp(24px, 7vw, 110px); }
+.contactIntro { position: sticky; top: 70px; }
+.contactDek { font-family: var(--font-body), serif; font-size: clamp(18px, 1.6vw, 23px); line-height: 1.45; margin: 42px 0 0; max-width: 590px; }
+.contactProtocol { border-top: 1px solid rgba(16,45,44,.3); display: grid; grid-template-columns: repeat(3, 1fr); margin: 70px 0 0; padding-top: 18px; }
+.contactProtocol div { border-left: 1px solid rgba(16,45,44,.25); padding-left: 12px; }
+.contactProtocol dt { font-size: 7px; letter-spacing: .16em; opacity: .55; }
+.contactProtocol dd { font-family: var(--font-display), serif; font-size: 16px; margin: 7px 0 0; }
+.contactProtocol dd span { animation: signalBlink 1.2s steps(2) infinite; background: var(--coral); border-radius: 50%; display: inline-block; height: 6px; margin-right: 5px; width: 6px; }
+.contactFormShell { background: var(--deep); box-shadow: 20px 20px 0 var(--sky); color: var(--paper); min-width: 0; padding: clamp(34px, 4vw, 62px); }
+.formCoordinates { border-bottom: 1px solid rgba(239,233,215,.2); display: flex; font-size: 7px; justify-content: space-between; letter-spacing: .17em; margin-bottom: 44px; padding-bottom: 18px; }
+.contactFormShell :global(.text-heading-lg) { color: var(--paper) !important; font-family: var(--font-display), serif !important; font-size: clamp(42px, 4vw, 62px) !important; font-weight: 400 !important; letter-spacing: -.04em; line-height: .9 !important; margin-bottom: 42px !important; }
+.contactFormShell :global(.text-heading-md) { color: var(--coral); font-family: var(--font-display), serif; font-size: clamp(28px, 2.4vw, 38px); letter-spacing: -.025em; }
+.contactFormShell :global(.contact-form-label) { color: var(--paper); font-family: var(--font-mono), monospace; font-size: 8px; letter-spacing: .13em; min-height: 20px; text-transform: uppercase; }
+.contactFormShell :global(.contact-form-input), .contactFormShell :global(.contact-form-textarea), .contactFormShell :global(.contact-form-select) { background: transparent !important; border: 0 !important; border-bottom: 1px solid rgba(239,233,215,.38) !important; border-radius: 0 !important; box-shadow: none !important; color: var(--paper) !important; font-family: var(--font-body), serif !important; font-size: 17px !important; height: 48px; padding-left: 0 !important; padding-right: 0 !important; }
+.contactFormShell :global(.contact-form-textarea) { min-height: 115px; padding-top: 12px !important; resize: vertical; }
+.contactFormShell :global(.contact-form-input)::placeholder, .contactFormShell :global(.contact-form-textarea)::placeholder { color: rgba(239,233,215,.42) !important; }
+.contactFormShell :global(.contact-btn-active) { background: var(--coral) !important; border: 0; border-radius: 100px !important; color: var(--paper) !important; font-family: var(--font-mono), monospace !important; font-size: 9px !important; height: 50px !important; letter-spacing: .13em !important; padding: 0 24px !important; transition: background .2s, color .2s, transform .2s !important; width: auto !important; }
+.contactFormShell :global(.contact-btn-active):hover { background: var(--paper) !important; color: var(--ink) !important; transform: translateY(-2px); }
+.contactFormShell :global(.hire-us-wizard) > div:first-child { border-bottom: 1px solid rgba(239,233,215,.2); gap: 8px; margin-bottom: 34px; padding-bottom: 24px; }
+.contactFormShell :global(.hire-us-wizard) > div:first-child > div { background: transparent !important; border: 1px solid rgba(239,233,215,.32); border-radius: 100px !important; color: var(--paper) !important; font-family: var(--font-mono), monospace; font-size: 8px; padding-left: 10px; padding-right: 13px; }
+.contactFormShell :global(.hire-us-wizard) > div:first-child > div > span:first-child { background: var(--coral) !important; color: var(--paper) !important; }
+.contactFormShell :global([role="radiogroup"]) { flex-wrap: wrap; }
+.contactFormShell :global(button[role="combobox"]) { background: transparent; border-color: rgba(239,233,215,.38); color: var(--paper); }
+.contactFormShell :global(.contact-multiselect-badge) { background: var(--coral); }
 
 .footer { align-items: start; background: var(--deep); color: var(--paper); display: grid; gap: 50px; grid-template-columns: 1fr 1fr 1fr; padding: 70px clamp(24px, 5vw, 80px) 30px; }
 .footer > p { font-family: var(--font-display), serif; font-size: 22px; line-height: 1.15; margin: 0; }
@@ -196,12 +220,23 @@
 .socials a { color: inherit; font-size: 9px; letter-spacing: .13em; text-decoration: none; }
 .footer small { border-top: 1px solid rgba(239,233,215,.2); font-size: 7px; grid-column: 1 / -1; letter-spacing: .14em; opacity: .6; padding-top: 25px; }
 
+.siteGlitching > .header, .siteGlitching > .hero { animation: realityGlitch 3.4s steps(1, end) both; transform-origin: center; will-change: filter, transform; }
+.siteGlitching::after { animation: glitchBands 3.4s steps(2, end) both; background: repeating-linear-gradient(0deg, transparent 0 8px, rgba(109,230,223,.12) 9px, transparent 10px 17px, rgba(238,60,120,.1) 18px, transparent 19px 26px); content: ""; inset: 0; mix-blend-mode: screen; pointer-events: none; position: fixed; z-index: 99; }
+
 .portalOverlay { background: #041618; color: var(--paper); inset: 0; isolation: isolate; overflow: hidden; position: fixed; z-index: 100; }
-.portalOverlay::before { animation: portalReveal .8s cubic-bezier(.16,.76,.18,1) both; background: radial-gradient(ellipse at 66% 50%, rgba(238,60,120,.14), transparent 28%), radial-gradient(ellipse at 66% 50%, transparent 10%, rgba(4,22,24,.2) 38%, rgba(2,12,14,.86) 88%); content: ""; inset: 0; pointer-events: none; position: absolute; z-index: 2; }
+.portalOverlay::before { animation: portalReveal .8s cubic-bezier(.16,.76,.18,1) both; background: radial-gradient(ellipse at 59% 49%, rgba(238,60,120,.13), transparent 22%), radial-gradient(ellipse at 82% 49%, rgba(109,230,223,.12), transparent 22%), radial-gradient(ellipse at 71% 49%, transparent 10%, rgba(4,22,24,.2) 42%, rgba(2,12,14,.86) 88%); content: ""; inset: 0; pointer-events: none; position: absolute; z-index: 2; }
 .portalOverlay::after { background-image: linear-gradient(rgba(239,233,215,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(239,233,215,.025) 1px, transparent 1px); background-size: 52px 52px; content: ""; inset: 0; -webkit-mask-image: radial-gradient(ellipse at 66% 50%, transparent 12%, #000 72%); mask-image: radial-gradient(ellipse at 66% 50%, transparent 12%, #000 72%); opacity: .5; pointer-events: none; position: absolute; z-index: 2; }
 .portalCanvas { inset: 0; position: absolute; z-index: 1; }
+.portalForming { animation: portalWorldForm 3.4s linear both; }
+.portalForming::before { animation: portalVignetteForm 3.4s ease-in both; }
+.portalForming::after { animation: gridForm 3.4s ease-in both; }
+.portalForming .portalAtmosphere { animation: atmosphereTurn 28s linear infinite, atmosphereIgnite 3.4s ease-in both; }
+.portalForming .portalReadout, .portalForming .portalCoordinates { opacity: 0; }
 .portalAtmosphere { animation: atmosphereTurn 28s linear infinite; background: conic-gradient(from 30deg at 66% 50%, transparent 0 14%, rgba(109,230,223,.045) 18%, transparent 23% 44%, rgba(238,60,120,.055) 50%, transparent 57% 78%, rgba(239,233,215,.035) 84%, transparent 91%); inset: -8%; opacity: .75; pointer-events: none; position: absolute; transform: translateZ(0); z-index: 2; }
-.portalMachine { animation: machineArrive 1.15s cubic-bezier(.16,.8,.22,1) both; height: min(76vh, 760px); left: 66%; pointer-events: none; position: absolute; top: 50%; transform: translate(-50%, -50%); width: min(40vw, 540px); z-index: 3; }
+.portalMachine { animation: machineArrive 3.2s cubic-bezier(.16,.8,.22,1) both; background: transparent; border: 0; color: var(--paper); cursor: pointer; font-family: inherit; height: min(65vh, 650px); padding: 0; position: absolute; top: 49%; transform: translate(-50%, -50%); width: min(22vw, 300px); z-index: 3; }
+.portalMachine:disabled { cursor: default; }
+.portalHire { left: 59%; --portal-accent: var(--coral); }
+.portalJoin { left: 82%; --portal-accent: #6de6df; }
 .portalMachine::before, .portalMachine::after { border: 1px solid rgba(109,230,223,.42); border-radius: 50%; content: ""; inset: -3%; position: absolute; }
 .portalMachine::before { animation: rimSkew 7s ease-in-out infinite alternate; border-color: rgba(109,230,223,.45) transparent rgba(238,60,120,.6); transform: rotate(5deg) scaleX(.94); }
 .portalMachine::after { animation: rimSkew 5s ease-in-out -2s infinite alternate-reverse; border-color: rgba(238,60,120,.65) rgba(239,233,215,.16) transparent; inset: 3%; transform: rotate(-4deg) scaleX(1.06); }
@@ -213,15 +248,27 @@
 .portalThreshold::after { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); content: ""; inset: 0; mix-blend-mode: soft-light; opacity: .18; position: absolute; }
 .portalThreshold .sigil { color: var(--paper); height: 96px; margin: 0; opacity: .9; width: 96px; }
 .portalThreshold .swordMark { height: 62px; width: 68px; }
+.portalJoin::before { border-color: rgba(109,230,223,.75) transparent rgba(215,227,77,.55); }
+.portalJoin::after { border-color: rgba(215,227,77,.5) rgba(239,233,215,.16) transparent; }
+.portalJoin .portalHalo { background: radial-gradient(ellipse, rgba(215,227,77,.07) 0 20%, rgba(109,230,223,.14) 36%, transparent 68%); border-color: rgba(109,230,223,.7); box-shadow: inset 0 0 34px rgba(109,230,223,.25), 0 0 25px rgba(109,230,223,.22), 0 0 70px rgba(215,227,77,.1); }
+.portalJoin .portalThreshold { background: radial-gradient(ellipse, rgba(109,230,223,.2), rgba(5,28,30,.95) 48%, rgba(2,15,17,.98) 72%); border-color: rgba(109,230,223,.55); box-shadow: inset 0 0 100px rgba(0,0,0,.85), inset 0 0 34px rgba(109,230,223,.25); }
+.portalChoiceLabel { bottom: -54px; color: var(--portal-accent); display: flex; flex-direction: column; font-family: var(--font-display), serif; font-size: clamp(18px, 1.6vw, 26px); left: 0; letter-spacing: -.01em; line-height: 1; opacity: 0; position: absolute; right: 0; text-align: center; transition: letter-spacing .25s, color .25s; }
+.portalChoiceLabel small { color: var(--paper); font-family: var(--font-mono), monospace; font-size: 7px; letter-spacing: .17em; margin-bottom: 8px; opacity: .55; }
+.portalChoiceLabel i { font-size: 14px; font-style: normal; position: absolute; right: 8%; top: 18px; }
+.portalMachine:not(:disabled) .portalChoiceLabel { animation: choiceArrive .65s ease both; opacity: 1; }
+.portalMachine:not(:disabled):hover .portalChoiceLabel { letter-spacing: .035em; }
+.portalMachine:not(:disabled):hover .portalHalo { border-color: var(--portal-accent); opacity: 1; }
 .portalClose { align-items: center; background: transparent; border: 0; color: inherit; cursor: pointer; display: flex; font-family: inherit; font-size: 24px; gap: 13px; letter-spacing: .18em; padding: 18px; position: absolute; right: clamp(14px, 3vw, 50px); top: clamp(14px, 3vw, 42px); z-index: 6; }
 .portalClose span { font-size: 8px; }
 .portalReadout { display: flex; font-size: 7px; justify-content: space-between; left: clamp(24px, 4vw, 68px); letter-spacing: .18em; opacity: .58; position: absolute; right: clamp(24px, 4vw, 68px); top: clamp(30px, 4vw, 58px); z-index: 5; }
 .portalReadout span:last-child { margin-right: 116px; }
+.portalBreach { animation: breachSignal 3.4s steps(2, end) both; bottom: clamp(26px, 4vw, 54px); font-size: 8px; left: 50%; letter-spacing: .22em; margin: 0; position: absolute; transform: translateX(-50%); white-space: nowrap; z-index: 5; }
 .portalMessage { animation: portalCopyIn .95s .25s cubic-bezier(.2,.7,.2,1) both; left: clamp(28px, 6vw, 100px); position: absolute; top: 50%; transform: translateY(-50%); width: min(48vw, 720px); z-index: 5; }
 .portalMessage > p { align-items: center; display: flex; font-size: 9px; font-weight: 700; letter-spacing: .19em; margin: 0 0 28px; text-transform: uppercase; }
 .portalMessage > p span { animation: signalBlink 1s steps(2) infinite; background: var(--coral); border-radius: 50%; box-shadow: 0 0 14px var(--coral); height: 7px; margin-right: 13px; width: 7px; }
 .portalMessage h2 { font-family: var(--font-display), serif; font-size: clamp(64px, 8.1vw, 132px); font-weight: 500; letter-spacing: -.07em; line-height: .7; margin: 0; text-shadow: 0 7px 45px rgba(0,0,0,.55); }
 .portalMessage h2 em { color: var(--coral); font-weight: 400; }
+.portalMessage > small { display: block; font-size: 7px; letter-spacing: .18em; margin-top: 34px; opacity: .58; }
 .portalMessage button { align-items: center; background: rgba(4,22,24,.55); border: 1px solid rgba(239,233,215,.7); border-radius: 100px; color: var(--paper); cursor: pointer; display: flex; font-family: inherit; font-size: 9px; font-weight: 700; gap: 28px; letter-spacing: .17em; margin-top: 54px; padding: 9px 9px 9px 24px; text-transform: uppercase; transition: background .25s, border-color .25s, transform .25s; }
 .portalMessage button i { align-items: center; background: var(--coral); border-radius: 50%; display: flex; font-size: 18px; font-style: normal; height: 46px; justify-content: center; transition: transform .25s; width: 46px; }
 .portalMessage button:hover { background: var(--paper); border-color: var(--paper); color: var(--ink); transform: translateX(6px); }
@@ -229,10 +276,16 @@
 .portalCoordinates { bottom: clamp(24px, 4vw, 54px); font-size: 7px; left: clamp(28px, 6vw, 100px); letter-spacing: .18em; line-height: 1.8; margin: 0; opacity: .5; position: absolute; z-index: 5; }
 .portalClosing { animation: portalDeparture .92s cubic-bezier(.68,0,.3,1) forwards; pointer-events: none; }
 .portalClosing .portalMachine { animation: machineDeparture .92s cubic-bezier(.68,0,.3,1) forwards; }
-.portalClosing .portalMessage, .portalClosing .portalReadout, .portalClosing .portalCoordinates, .portalClosing .portalClose { animation: copyDeparture .35s ease forwards; }
+.portalClosing .portalMessage, .portalClosing .portalBreach, .portalClosing .portalReadout, .portalClosing .portalCoordinates, .portalClosing .portalClose { animation: copyDeparture .35s ease forwards; }
 
 @keyframes portalReveal { from { opacity: 0; transform: scale(1.08); } to { opacity: 1; transform: scale(1); } }
-@keyframes machineArrive { from { opacity: 0; transform: translate(-50%, -50%) scale(.25) rotate(-16deg); } to { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); } }
+@keyframes portalWorldForm { 0%, 38% { background: rgba(4,22,24,0); } 56% { background: rgba(4,22,24,.12); } 72% { background: rgba(4,22,24,.48); } 88% { background: rgba(4,22,24,.88); } 100% { background: #041618; } }
+@keyframes portalVignetteForm { 0%, 30% { opacity: 0; } 55% { opacity: .18; } 76% { opacity: .62; } 100% { opacity: 1; } }
+@keyframes gridForm { 0%, 56% { opacity: 0; } 100% { opacity: .5; } }
+@keyframes atmosphereIgnite { 0%, 38% { opacity: 0; } 100% { opacity: .75; } }
+@keyframes realityGlitch { 0%, 8%, 14%, 22%, 31%, 42%, 53%, 66%, 78%, 88%, 100% { filter: none; transform: none; } 9% { filter: contrast(1.35) saturate(1.4) drop-shadow(7px 0 rgba(238,60,120,.7)) drop-shadow(-7px 0 rgba(109,230,223,.7)); transform: translateX(-5px) skewX(.5deg); } 23% { filter: contrast(1.6) hue-rotate(18deg) drop-shadow(-11px 0 rgba(238,60,120,.75)); transform: translate(8px, -2px); } 43%, 45% { filter: contrast(1.8) saturate(1.6) drop-shadow(14px 0 rgba(109,230,223,.75)); transform: translateX(-10px) scaleY(1.006); } 67% { filter: contrast(1.65) hue-rotate(-12deg) drop-shadow(9px 0 rgba(238,60,120,.8)); transform: translate(7px, 3px) skewX(-.7deg); } 79%, 81% { filter: contrast(2) saturate(.5) drop-shadow(-15px 0 rgba(109,230,223,.9)); transform: translateX(-12px) scale(1.008); } 89%, 94% { filter: contrast(1.8) saturate(1.8) drop-shadow(11px 0 rgba(238,60,120,.8)); transform: translateX(8px); } }
+@keyframes glitchBands { 0%, 7%, 14%, 21%, 32%, 44%, 57%, 69%, 82%, 94%, 100% { opacity: 0; transform: none; } 8%, 13% { clip-path: inset(18% 0 67%); opacity: .9; transform: translateX(13px); } 22%, 31% { clip-path: inset(54% 0 31%); opacity: .65; transform: translateX(-18px); } 45%, 56% { clip-path: inset(31% 0 52%); opacity: .8; transform: translateX(22px); } 70%, 81% { clip-path: inset(72% 0 12%); opacity: .75; transform: translateX(-25px); } 83%, 93% { clip-path: inset(8% 0 76%); opacity: .9; transform: translateX(18px); } }
+@keyframes machineArrive { 0% { opacity: 0; transform: translate(-50%, -50%) scale(.04) rotate(-24deg); } 20% { opacity: .15; transform: translate(-50%, -50%) scale(.08) rotate(-20deg); } 48% { opacity: .5; transform: translate(-50%, -50%) scale(.38) rotate(-10deg); } 76% { opacity: .92; transform: translate(-50%, -50%) scale(.96) rotate(2deg); } 89% { transform: translate(-50%, -50%) scale(1.04) rotate(-1deg); } 100% { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); } }
 @keyframes atmosphereTurn { to { transform: rotate(360deg); } }
 @keyframes rimSkew { to { transform: rotate(12deg) scaleX(1.06); } }
 @keyframes haloPulse { 50% { opacity: .72; transform: scale(1.025); } }
@@ -240,6 +293,8 @@
 @keyframes thresholdBreathe { 50% { opacity: .86; transform: scale(.975); } }
 @keyframes portalCopyIn { from { opacity: 0; transform: translate(-60px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
 @keyframes signalBlink { 50% { opacity: .35; } }
+@keyframes choiceArrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes breachSignal { 0%, 8%, 13%, 22%, 31%, 44% { opacity: 0; } 9%, 12%, 23%, 30%, 45%, 88% { opacity: .8; } 100% { opacity: 0; } }
 @keyframes copyDeparture { to { opacity: 0; transform: translateX(-50px); } }
 @keyframes machineDeparture { 35% { opacity: 1; transform: translate(-50%, -50%) scale(.9); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(2.9); } }
 @keyframes portalDeparture { 0%, 45% { background: #041618; opacity: 1; } 78% { background: var(--paper); opacity: 1; } 100% { background: var(--paper); opacity: 0; } }
@@ -260,18 +315,23 @@
   .disciplineGrid { grid-template-columns: 1fr; }
   .discipline { border-bottom: 1px solid rgba(239,233,215,.22); min-height: 480px; }
   .practiceHeading, .fieldIntro { grid-template-columns: 1fr; }
-  .practiceHeading > p:last-child, .fieldIntro > p:last-child { margin-top: 30px; }
+  .practiceAside, .fieldAside { margin-top: 30px; }
   .featuredMission { grid-template-columns: 1fr; }
   .missionArt { min-height: 660px; }
   .missionCopy { min-height: 620px; }
-  .contact { align-items: flex-start; flex-direction: column; }
-  .portalLink { margin: 70px 0 0 auto; }
-  .portalMachine { height: min(62vh, 590px); left: 50%; top: 40%; width: min(72vw, 400px); }
-  .portalOverlay::before { background: radial-gradient(ellipse at 50% 40%, rgba(238,60,120,.16), transparent 28%), radial-gradient(ellipse at 50% 40%, transparent 10%, rgba(4,22,24,.25) 44%, rgba(2,12,14,.9) 88%); }
+  .contact { grid-template-columns: 1fr; }
+  .contactIntro { position: static; }
+  .contactFormShell { margin-top: 15px; }
+  .portalMachine { height: min(42vh, 390px); top: 32%; width: min(31vw, 245px); }
+  .portalHire { left: 30%; }
+  .portalJoin { left: 70%; }
+  .portalOverlay::before { background: radial-gradient(ellipse at 30% 32%, rgba(238,60,120,.16), transparent 22%), radial-gradient(ellipse at 70% 32%, rgba(109,230,223,.15), transparent 22%), radial-gradient(ellipse at 50% 38%, transparent 10%, rgba(4,22,24,.25) 48%, rgba(2,12,14,.9) 88%); }
   .portalOverlay::after { -webkit-mask-image: radial-gradient(ellipse at 50% 40%, transparent 12%, #000 72%); mask-image: radial-gradient(ellipse at 50% 40%, transparent 12%, #000 72%); }
-  .portalMessage { bottom: 7vh; left: 24px; top: auto; transform: none; width: calc(100% - 48px); }
+  .portalMessage { bottom: 4vh; left: 24px; top: auto; transform: none; width: calc(100% - 48px); }
   .portalMessage > p { margin-bottom: 13px; }
   .portalMessage h2 { font-size: clamp(52px, 15vw, 92px); line-height: .72; }
+  .portalChoiceLabel { bottom: -46px; font-size: clamp(14px, 3vw, 20px); }
+  .portalChoiceLabel i { display: none; }
   .portalMessage button { margin-top: 24px; }
   .portalCoordinates { display: none; }
   .portalReadout { left: 24px; right: 24px; }
@@ -284,10 +344,9 @@
   .heroStage { min-height: 680px; }
   .heroImage { object-position: 56% center; }
   .heroForeground { inset: -1% -23% -8%; }
-  .heroForegroundLeft { transform: scale(.96) translate3d(var(--neo-fore-left-x, -150px), var(--neo-fore-y, 0), 0); }
-  .heroForegroundRight { transform: scale(.96) translate3d(var(--neo-fore-right-x, 110px), var(--neo-fore-y, 0), 0); }
+  .heroForegroundLeft { transform: scale(1.03) translateX(var(--neo-fore-left-x, -150px)); }
+  .heroForegroundRight { transform: scale(1.03) translateX(var(--neo-fore-right-x, 110px)); }
   .heroWash { background: linear-gradient(90deg, rgba(5,34,34,.82), rgba(5,34,34,.22)), linear-gradient(0deg, rgba(5,27,28,.8), transparent 55%); }
-  .coordinates { display: none; }
   .heroCopy { bottom: 265px; left: 22px; width: calc(100% - 44px); }
   .heroSupplement { bottom: 72px; left: 22px; width: calc(100% - 44px); }
   .hero h1 { font-size: clamp(70px, 23vw, 105px); line-height: .72; }
@@ -314,14 +373,19 @@
   .creedFooter { gap: 12px; }
   .creedFooter span { max-width: 90px; }
   .contact { padding-left: 22px; padding-right: 22px; }
-  .portalLink { height: 180px; width: 180px; }
+  .contactProtocol { grid-template-columns: 1fr; }
+  .contactProtocol div { border-bottom: 1px solid rgba(16,45,44,.2); padding: 14px 0; }
+  .contactFormShell { box-shadow: 10px 10px 0 var(--sky); margin-right: 10px; padding: 28px 20px; }
+  .formCoordinates span:last-child { display: none; }
+  .contactFormShell :global(.hire-us-wizard) > div:first-child { align-items: stretch; flex-direction: column; }
+  .contactFormShell :global(.hire-us-wizard) > div:first-child > div { justify-content: flex-start; }
   .footer { grid-template-columns: 1fr; }
   .socials { justify-self: start; }
   .footer small { grid-column: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .heroArt, .heroForeground, .heroCelestial, .heroCopy, .heroSupplement, .coordinates, .heroIndex, .signalBar div, .orbit::after { animation: none; transform: none; transition: none; }
+  .heroArt, .heroForeground, .heroCelestial, .heroCopy, .heroSupplement, .heroIndex, .signalBar div, .orbit::after { animation: none; transform: none; transition: none; }
   .missionImage { transition: none; }
   .portalAtmosphere, .portalMachine::before, .portalMachine::after, .portalHalo, .portalHalo::before, .portalThreshold, .portalThreshold::after, .portalMessage > p span { animation: none; }
 }

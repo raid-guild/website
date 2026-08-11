@@ -693,6 +693,7 @@ export default function HireUs() {
             <LoadingIndicator />
           ) : (
             <Wizard
+              className="hire-us-wizard"
               steps={wizardSteps}
               onComplete={handleWizardComplete}
               showProgress={false}

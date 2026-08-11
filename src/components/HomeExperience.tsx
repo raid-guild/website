@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import HireUs from "@/components/HireUs";
 import { mercenaries } from "@/lib/data/members";
 import styles from "./HomeExperience.module.css";
 
@@ -131,12 +132,14 @@ function Sigil() {
 
 type PortalOverlayProps = {
   open: boolean;
+  forming: boolean;
   closing: boolean;
   onClose: () => void;
   onEnter: () => void;
+  onJoin: () => void;
 };
 
-function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) {
+function PortalOverlay({ open, forming, closing, onClose, onEnter, onJoin }: PortalOverlayProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -162,7 +165,7 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
     if (!canvas || !context) return;
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const compact = window.innerWidth < 700;
+    const compact = window.innerWidth < 900;
     const particleCount = reducedMotion ? 80 : compact ? 190 : 260;
     const palette = ["238,60,120", "109,230,223", "239,233,215", "215,227,77"];
     const pointer = { x: 0, y: 0 };
@@ -171,16 +174,21 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
     let renderScale = 1;
     let frame = 0;
     let lastTime = performance.now();
+    const startTime = lastTime;
 
-    const particles = Array.from({ length: particleCount }, (_, index) => ({
-      angle: Math.random() * Math.PI * 2,
-      lane: Math.pow(Math.random(), 1.7),
-      drift: (Math.random() - 0.5) * 0.2,
-      speed: (0.18 + Math.random() * 0.52) * (Math.random() > 0.12 ? 1 : -0.55),
-      size: 0.45 + Math.random() * 1.8,
-      colorIndex: index % palette.length,
-      phase: Math.random() * Math.PI * 2,
-    }));
+    const particles = Array.from({ length: particleCount }, (_, index) => {
+      const lane = Math.pow(Math.random(), 1.55);
+      return {
+        angle: lane * Math.PI * 9 + (Math.random() - 0.5) * 0.8,
+        lane,
+        drift: (Math.random() - 0.5) * 0.2,
+        speed: (0.22 + Math.random() * 0.58) * (Math.random() > 0.08 ? 1 : -0.45),
+        size: 0.45 + Math.random() * 1.8,
+        portalIndex: index % 2,
+        colorIndex: index % 2 === 0 ? (index % 4 === 0 ? 0 : 2) : (index % 4 === 1 ? 1 : 3),
+        phase: Math.random() * Math.PI * 2,
+      };
+    });
 
     const resize = () => {
       width = window.innerWidth;
@@ -202,14 +210,14 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
       const delta = Math.min((time - lastTime) / 1000, 0.04);
       lastTime = time;
       context.globalCompositeOperation = "source-over";
-      context.fillStyle = reducedMotion ? "rgba(4, 22, 24, 1)" : "rgba(4, 22, 24, .19)";
-      context.fillRect(0, 0, width, height);
+      context.clearRect(0, 0, width, height);
 
-      const centerX = width * (compact ? 0.5 : 0.66) + pointer.x * 18;
-      const centerY = height * (compact ? 0.43 : 0.5) + pointer.y * 12;
-      const radiusX = Math.min(width * (compact ? 0.34 : 0.2), 330);
-      const radiusY = Math.min(height * (compact ? 0.29 : 0.38), 410);
+      const centerY = height * (compact ? 0.32 : 0.49) + pointer.y * 12;
+      const radiusX = Math.min(width * (compact ? 0.14 : 0.105), 175);
+      const radiusY = Math.min(height * (compact ? 0.19 : 0.31), 330);
       const elapsed = time * 0.001;
+      const bootProgress = Math.min(1, Math.max(0, (time - startTime - 180) / 3150));
+      const bootEase = 1 - Math.pow(1 - bootProgress, 3);
 
       const batches = palette.map(() => Array.from({ length: 3 }, () => ({
         dots: new Path2D(),
@@ -217,12 +225,14 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
       })));
 
       particles.forEach((particle) => {
-        particle.angle += particle.speed * delta * (reducedMotion ? 0.08 : 1);
+        particle.angle += particle.speed * delta * (reducedMotion ? 0.08 : 0.12 + bootEase * 0.88);
         const turbulence = Math.sin(elapsed * 1.7 + particle.phase) * (5 + particle.lane * 18);
         const laneRadius = 0.78 + particle.lane * 0.38;
         const depth = (Math.sin(particle.angle) + 1) / 2;
-        const x = centerX + Math.cos(particle.angle) * (radiusX * laneRadius + turbulence) + particle.drift * radiusX;
-        const y = centerY + Math.sin(particle.angle) * (radiusY * laneRadius) + Math.cos(elapsed + particle.phase) * 7;
+        const centerX = width * (compact ? (particle.portalIndex === 0 ? 0.29 : 0.71) : (particle.portalIndex === 0 ? 0.59 : 0.82)) + pointer.x * (particle.portalIndex === 0 ? 14 : -14);
+        const ignitionScale = 0.08 + bootEase * 0.92;
+        const x = centerX + Math.cos(particle.angle) * (radiusX * laneRadius + turbulence) * ignitionScale + particle.drift * radiusX * ignitionScale;
+        const y = centerY + Math.sin(particle.angle) * (radiusY * laneRadius) * ignitionScale + Math.cos(elapsed + particle.phase) * 7 * bootEase;
         const stretch = 3 + depth * 13 + particle.lane * 5;
         const size = particle.size * (0.55 + depth * 1.15);
         const depthBucket = Math.min(2, Math.floor(depth * 3));
@@ -237,7 +247,7 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
       context.globalCompositeOperation = "lighter";
       batches.forEach((depthBatches, colorIndex) => {
         depthBatches.forEach((batch, depthBucket) => {
-          const depthAlpha = (0.22 + depthBucket * 0.23);
+          const depthAlpha = (0.22 + depthBucket * 0.23) * bootEase;
           context.strokeStyle = `rgba(${palette[colorIndex]},${depthAlpha * 0.72})`;
           context.lineWidth = 0.55 + depthBucket * 0.35;
           context.stroke(batch.trails);
@@ -249,8 +259,6 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
     };
 
     resize();
-    context.fillStyle = "#041618";
-    context.fillRect(0, 0, width, height);
     window.addEventListener("resize", resize);
     window.addEventListener("pointermove", trackPointer, { passive: true });
     frame = window.requestAnimationFrame(render);
@@ -265,17 +273,35 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
 
   return (
     <div
-      className={`${styles.portalOverlay} ${closing ? styles.portalClosing : ""}`}
+      className={`${styles.portalOverlay} ${forming ? styles.portalForming : ""} ${closing ? styles.portalClosing : ""}`}
       role="dialog"
       aria-modal="true"
       aria-label="RaidGuild transit portal"
     >
       <canvas className={styles.portalCanvas} ref={canvasRef} aria-hidden="true" />
       <div className={styles.portalAtmosphere} aria-hidden="true" />
-      <div className={styles.portalMachine} aria-hidden="true">
-        <div className={styles.portalHalo} />
-        <div className={styles.portalThreshold}><Sigil /></div>
-      </div>
+      <button
+        className={`${styles.portalMachine} ${styles.portalHire}`}
+        type="button"
+        onClick={onEnter}
+        disabled={forming}
+        aria-label="Hire RaidGuild"
+      >
+        <span className={styles.portalHalo} />
+        <span className={styles.portalThreshold}><Sigil /></span>
+        <span className={styles.portalChoiceLabel}><small>01 / COMMISSION</small>HIRE THE GUILD <i>↗</i></span>
+      </button>
+      <button
+        className={`${styles.portalMachine} ${styles.portalJoin}`}
+        type="button"
+        onClick={onJoin}
+        disabled={forming}
+        aria-label="Join RaidGuild in a new tab"
+      >
+        <span className={styles.portalHalo} />
+        <span className={styles.portalThreshold}><Sigil /></span>
+        <span className={styles.portalChoiceLabel}><small>02 / PARTICIPATE</small>JOIN THE GUILD <i>↗</i></span>
+      </button>
       <button className={styles.portalClose} type="button" onClick={onClose} aria-label="Close portal">
         <span>CLOSE</span> ×
       </button>
@@ -283,13 +309,14 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
         <span>RG—TRANSIT / 001</span>
         <span>STABILITY 98.7%</span>
       </div>
-      <div className={styles.portalMessage}>
-        <p><span /> Transit window open</p>
-        <h2>CROSS THE<br /><em>THRESHOLD.</em></h2>
-        <button type="button" onClick={onEnter}>
-          <span>Enter the portal</span><i>↗</i>
-        </button>
-      </div>
+      {forming && <p className={styles.portalBreach}>[ SPATIAL BREACH DETECTED ]</p>}
+      {!forming && (
+        <div className={styles.portalMessage}>
+          <p><span /> Two transit windows open</p>
+          <h2>CHOOSE YOUR<br /><em>PORTAL.</em></h2>
+          <small>COMMISSION A RAID OR ENTER THE GUILD</small>
+        </div>
+      )}
       <p className={styles.portalCoordinates}>39°44′N / 104°59′W<br />DESTINATION: UNMAPPED</p>
     </div>
   );
@@ -299,14 +326,25 @@ export default function HomeExperience() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeField, setActiveField] = useState(0);
   const [portalOpen, setPortalOpen] = useState(false);
+  const [portalForming, setPortalForming] = useState(false);
   const [portalClosing, setPortalClosing] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const fieldTrackRef = useRef<HTMLDivElement>(null);
   const horizontalPanRef = useRef(0);
   const portalTimerRef = useRef<number | null>(null);
+  const portalFormTimerRef = useRef<number | null>(null);
+
+  const openPortal = () => {
+    if (portalFormTimerRef.current) window.clearTimeout(portalFormTimerRef.current);
+    setPortalOpen(true);
+    setPortalForming(true);
+    portalFormTimerRef.current = window.setTimeout(() => setPortalForming(false), 3400);
+  };
 
   const dismissPortal = (enter = false) => {
     if (portalClosing) return;
+    if (portalFormTimerRef.current) window.clearTimeout(portalFormTimerRef.current);
+    setPortalForming(false);
     setPortalClosing(true);
     portalTimerRef.current = window.setTimeout(() => {
       setPortalOpen(false);
@@ -315,8 +353,14 @@ export default function HomeExperience() {
     }, enter ? 920 : 620);
   };
 
+  const joinGuild = () => {
+    window.open("https://portal.raidguild.org", "_blank", "noopener,noreferrer");
+    dismissPortal(false);
+  };
+
   useEffect(() => () => {
     if (portalTimerRef.current) window.clearTimeout(portalTimerRef.current);
+    if (portalFormTimerRef.current) window.clearTimeout(portalFormTimerRef.current);
   }, []);
 
   const scrollFields = (direction: number) => {
@@ -373,7 +417,6 @@ export default function HomeExperience() {
       root.style.setProperty("--neo-track-land-x", `${(pan * -34).toFixed(1)}px`);
       root.style.setProperty("--neo-track-sky-x", `${(pan * -14).toFixed(1)}px`);
       root.style.setProperty("--neo-track-fore-x", `${(pan * 6).toFixed(1)}px`);
-      root.style.setProperty("--neo-pan-progress", Math.abs(pan).toFixed(3));
     };
 
     window.addEventListener("wheel", updateHorizontalPan, { passive: false });
@@ -393,15 +436,10 @@ export default function HomeExperience() {
           const root = document.documentElement;
           root.style.setProperty("--neo-progress", progress.toFixed(3));
           root.style.setProperty("--neo-sky-y", `${(distance * 0.035).toFixed(1)}px`);
-          root.style.setProperty("--neo-land-y", `${(distance * 0.12).toFixed(1)}px`);
           root.style.setProperty("--neo-copy-y", `${(distance * -0.3).toFixed(1)}px`);
           root.style.setProperty("--neo-meta-y", `${(distance * -0.18).toFixed(1)}px`);
-          root.style.setProperty("--neo-coord-y", `${(distance * 0.22).toFixed(1)}px`);
-          root.style.setProperty("--neo-fore-y", `${(distance * -0.3).toFixed(1)}px`);
-          root.style.setProperty("--neo-copy-opacity", (1 - progress * 0.72).toFixed(3));
-          root.style.setProperty("--neo-meta-opacity", (1 - progress).toFixed(3));
-          root.style.setProperty("--neo-coord-opacity", (0.7 - progress * 0.7).toFixed(3));
-          root.style.setProperty("--neo-meter-opacity", (0.65 - progress * 0.5).toFixed(3));
+      root.style.setProperty("--neo-copy-opacity", (1 - progress * 0.72).toFixed(3));
+      root.style.setProperty("--neo-meta-opacity", (1 - progress).toFixed(3));
         }
         frame = 0;
       });
@@ -418,7 +456,7 @@ export default function HomeExperience() {
   }, []);
 
   return (
-    <main className={styles.site}>
+    <main className={`${styles.site} ${portalForming ? styles.siteGlitching : ""}`}>
       <header className={styles.header}>
         <a className={styles.brand} href="#top" aria-label="RaidGuild home">
           <Sigil />
@@ -435,7 +473,7 @@ export default function HomeExperience() {
             onClick={(event) => {
               event.preventDefault();
               setMenuOpen(false);
-              setPortalOpen(true);
+              openPortal();
             }}
           >
             Open a portal ↗
@@ -472,7 +510,6 @@ export default function HomeExperience() {
             />
           </div>
           <div className={styles.heroWash} />
-          <div className={styles.coordinates}>39°44′N · 104°59′W<br />EST. BLOCK 8,212,019</div>
           <div className={styles.heroCopy}>
             <p className={styles.eyebrow}><span /> Independent digital mercenaries</p>
             <h1>VENTURE<br /><em>BEYOND.</em></h1>
@@ -511,9 +548,6 @@ export default function HomeExperience() {
               className={styles.foregroundImage}
             />
           </div>
-          <div className={styles.depthMeter} aria-hidden="true">
-            <span>TWO-FINGER PAN</span><i /><small>↔</small>
-          </div>
         </div>
       </section>
 
@@ -532,7 +566,7 @@ export default function HomeExperience() {
         </div>
         <div className={styles.prologueCopy}>
           <p className={styles.sectionLabel}>[ THE GUILD ]</p>
-          <h2>Not an agency.<br />A <em>party</em> of experts.</h2>
+          <h2>Many disciplines.<br />One expert <em>party.</em></h2>
           <div className={styles.prologueBody}>
             <p>
               Since 2019, we’ve gathered rare designers, engineers, strategists, and operators around one table. No layers. No handoffs into the void. The people imagining the work are the people making it real.
@@ -546,7 +580,10 @@ export default function HomeExperience() {
               <p className={styles.sectionLabel}>[ CURRENT STEWARDS ]</p>
               <h3>Keepers of the signal.</h3>
             </div>
-            <p>Five active stewards hold the guild&apos;s shared context, rituals, infrastructure, and public voice.</p>
+            <div className={styles.rosterAside}>
+              <p>Five active stewards hold the guild&apos;s shared context, rituals, infrastructure, and public voice.</p>
+              <a href="https://portal.raidguild.org" target="_blank" rel="noreferrer">Open the join portal <span>↗</span></a>
+            </div>
           </div>
 
           <div className={styles.stewardTrack}>
@@ -603,7 +640,10 @@ export default function HomeExperience() {
         <div className={styles.practiceHeading}>
           <p className={styles.sectionLabel}>[ OUR CRAFT ]</p>
           <h2>From first signal<br />to <em>living system.</em></h2>
-          <p>Bring us the problem that won’t leave you alone.</p>
+          <div className={styles.practiceAside}>
+            <p>Bring us the problem that won’t leave you alone.</p>
+            <a href="#contact">Open a hire portal <span>↘</span></a>
+          </div>
         </div>
         <div className={styles.disciplineGrid}>
           {disciplines.map((item) => (
@@ -625,7 +665,10 @@ export default function HomeExperience() {
         <div className={styles.fieldIntro}>
           <p className={styles.sectionLabel}>[ SELECTED EXPEDITIONS ]</p>
           <h2>Proof from<br />the <em>frontier.</em></h2>
-          <p>Artifacts, protocols, and communities built with people brave enough to go first.</p>
+          <div className={styles.fieldAside}>
+            <p>Artifacts, protocols, and communities built with people brave enough to go first.</p>
+            <a href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer">Open the full blog <span>↗</span></a>
+          </div>
         </div>
 
         <div className={styles.fieldControls}>
@@ -679,14 +722,20 @@ export default function HomeExperience() {
       </section>
 
       <section className={styles.contact} id="contact">
-        <div>
+        <div className={styles.contactIntro}>
           <p className={styles.sectionLabel}>[ BEGIN A TRANSMISSION ]</p>
           <h2>What impossible thing<br />are you <em>building?</em></h2>
+          <p className={styles.contactDek}>Send the first signal. Tell us who you are, what world you&apos;re trying to make, and what it will take to get there.</p>
+          <dl className={styles.contactProtocol}>
+            <div><dt>RESPONSE</dt><dd>WITHIN 48 HOURS</dd></div>
+            <div><dt>CHANNEL</dt><dd>SECURE / HUMAN</dd></div>
+            <div><dt>STATUS</dt><dd><span /> RECEIVING</dd></div>
+          </dl>
         </div>
-        <a href="mailto:hello@raidguild.org" className={styles.portalLink}>
-          <span>Tell us everything</span>
-          <i>↗</i>
-        </a>
+        <div className={styles.contactFormShell}>
+          <div className={styles.formCoordinates}><span>RG—INTAKE / 001</span><span>ENCRYPTION: OPEN</span></div>
+          <HireUs />
+        </div>
       </section>
 
       <footer className={styles.footer}>
@@ -702,9 +751,11 @@ export default function HomeExperience() {
 
       <PortalOverlay
         open={portalOpen}
+        forming={portalForming}
         closing={portalClosing}
         onClose={() => dismissPortal(false)}
         onEnter={() => dismissPortal(true)}
+        onJoin={joinGuild}
       />
     </main>
   );
