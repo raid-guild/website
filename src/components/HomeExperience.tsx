@@ -163,12 +163,12 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
 
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const compact = window.innerWidth < 700;
-    const particleCount = reducedMotion ? 130 : compact ? 360 : 720;
+    const particleCount = reducedMotion ? 80 : compact ? 190 : 260;
     const palette = ["238,60,120", "109,230,223", "239,233,215", "215,227,77"];
     const pointer = { x: 0, y: 0 };
     let width = 0;
     let height = 0;
-    let pixelRatio = 1;
+    let renderScale = 1;
     let frame = 0;
     let lastTime = performance.now();
 
@@ -178,20 +178,19 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
       drift: (Math.random() - 0.5) * 0.2,
       speed: (0.18 + Math.random() * 0.52) * (Math.random() > 0.12 ? 1 : -0.55),
       size: 0.45 + Math.random() * 1.8,
-      color: palette[index % palette.length],
+      colorIndex: index % palette.length,
       phase: Math.random() * Math.PI * 2,
-      flicker: 0.4 + Math.random() * 0.6,
     }));
 
     const resize = () => {
       width = window.innerWidth;
       height = window.innerHeight;
-      pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
-      canvas.width = Math.floor(width * pixelRatio);
-      canvas.height = Math.floor(height * pixelRatio);
+      renderScale = reducedMotion ? 0.6 : compact ? 0.72 : Math.min(window.devicePixelRatio || 1, 1);
+      canvas.width = Math.floor(width * renderScale);
+      canvas.height = Math.floor(height * renderScale);
       canvas.style.width = `${width}px`;
       canvas.style.height = `${height}px`;
-      context.setTransform(pixelRatio, 0, 0, pixelRatio, 0, 0);
+      context.setTransform(renderScale, 0, 0, renderScale, 0, 0);
     };
 
     const trackPointer = (event: PointerEvent) => {
@@ -212,7 +211,11 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
       const radiusY = Math.min(height * (compact ? 0.29 : 0.38), 410);
       const elapsed = time * 0.001;
 
-      context.globalCompositeOperation = "lighter";
+      const batches = palette.map(() => Array.from({ length: 3 }, () => ({
+        dots: new Path2D(),
+        trails: new Path2D(),
+      })));
+
       particles.forEach((particle) => {
         particle.angle += particle.speed * delta * (reducedMotion ? 0.08 : 1);
         const turbulence = Math.sin(elapsed * 1.7 + particle.phase) * (5 + particle.lane * 18);
@@ -221,24 +224,27 @@ function PortalOverlay({ open, closing, onClose, onEnter }: PortalOverlayProps) 
         const x = centerX + Math.cos(particle.angle) * (radiusX * laneRadius + turbulence) + particle.drift * radiusX;
         const y = centerY + Math.sin(particle.angle) * (radiusY * laneRadius) + Math.cos(elapsed + particle.phase) * 7;
         const stretch = 3 + depth * 13 + particle.lane * 5;
-        const size = particle.size * (0.55 + depth * 1.3);
-        const alpha = (0.18 + depth * 0.72) * particle.flicker;
+        const size = particle.size * (0.55 + depth * 1.15);
+        const depthBucket = Math.min(2, Math.floor(depth * 3));
+        const batch = batches[particle.colorIndex][depthBucket];
 
-        context.beginPath();
-        context.moveTo(x - Math.cos(particle.angle) * stretch, y - Math.sin(particle.angle) * stretch * 1.7);
-        context.lineTo(x, y);
-        context.strokeStyle = `rgba(${particle.color},${alpha * 0.7})`;
-        context.lineWidth = Math.max(0.4, size * 0.7);
-        context.stroke();
-
-        context.beginPath();
-        context.arc(x, y, size, 0, Math.PI * 2);
-        context.fillStyle = `rgba(${particle.color},${alpha})`;
-        context.shadowColor = `rgba(${particle.color},.75)`;
-        context.shadowBlur = 4 + size * 4;
-        context.fill();
+        batch.trails.moveTo(x - Math.cos(particle.angle) * stretch, y - Math.sin(particle.angle) * stretch * 1.7);
+        batch.trails.lineTo(x, y);
+        batch.dots.moveTo(x + size, y);
+        batch.dots.arc(x, y, size, 0, Math.PI * 2);
       });
-      context.shadowBlur = 0;
+
+      context.globalCompositeOperation = "lighter";
+      batches.forEach((depthBatches, colorIndex) => {
+        depthBatches.forEach((batch, depthBucket) => {
+          const depthAlpha = (0.22 + depthBucket * 0.23);
+          context.strokeStyle = `rgba(${palette[colorIndex]},${depthAlpha * 0.72})`;
+          context.lineWidth = 0.55 + depthBucket * 0.35;
+          context.stroke(batch.trails);
+          context.fillStyle = `rgba(${palette[colorIndex]},${depthAlpha})`;
+          context.fill(batch.dots);
+        });
+      });
       frame = window.requestAnimationFrame(render);
     };
 

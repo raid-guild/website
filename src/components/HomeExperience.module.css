@@ -200,17 +200,17 @@
 .portalOverlay::before { animation: portalReveal .8s cubic-bezier(.16,.76,.18,1) both; background: radial-gradient(ellipse at 66% 50%, rgba(238,60,120,.14), transparent 28%), radial-gradient(ellipse at 66% 50%, transparent 10%, rgba(4,22,24,.2) 38%, rgba(2,12,14,.86) 88%); content: ""; inset: 0; pointer-events: none; position: absolute; z-index: 2; }
 .portalOverlay::after { background-image: linear-gradient(rgba(239,233,215,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(239,233,215,.025) 1px, transparent 1px); background-size: 52px 52px; content: ""; inset: 0; -webkit-mask-image: radial-gradient(ellipse at 66% 50%, transparent 12%, #000 72%); mask-image: radial-gradient(ellipse at 66% 50%, transparent 12%, #000 72%); opacity: .5; pointer-events: none; position: absolute; z-index: 2; }
 .portalCanvas { inset: 0; position: absolute; z-index: 1; }
-.portalAtmosphere { animation: atmosphereTurn 18s linear infinite; background: conic-gradient(from 30deg at 66% 50%, transparent 0 14%, rgba(109,230,223,.08) 18%, transparent 23% 44%, rgba(238,60,120,.1) 50%, transparent 57% 78%, rgba(239,233,215,.05) 84%, transparent 91%); filter: blur(28px); inset: -25%; pointer-events: none; position: absolute; z-index: 2; }
+.portalAtmosphere { animation: atmosphereTurn 28s linear infinite; background: conic-gradient(from 30deg at 66% 50%, transparent 0 14%, rgba(109,230,223,.045) 18%, transparent 23% 44%, rgba(238,60,120,.055) 50%, transparent 57% 78%, rgba(239,233,215,.035) 84%, transparent 91%); inset: -8%; opacity: .75; pointer-events: none; position: absolute; transform: translateZ(0); z-index: 2; }
 .portalMachine { animation: machineArrive 1.15s cubic-bezier(.16,.8,.22,1) both; height: min(76vh, 760px); left: 66%; pointer-events: none; position: absolute; top: 50%; transform: translate(-50%, -50%); width: min(40vw, 540px); z-index: 3; }
 .portalMachine::before, .portalMachine::after { border: 1px solid rgba(109,230,223,.42); border-radius: 50%; content: ""; inset: -3%; position: absolute; }
-.portalMachine::before { animation: rimSkew 7s ease-in-out infinite alternate; border-color: rgba(109,230,223,.45) transparent rgba(238,60,120,.6); filter: drop-shadow(0 0 12px rgba(109,230,223,.4)); transform: rotate(5deg) scaleX(.94); }
+.portalMachine::before { animation: rimSkew 7s ease-in-out infinite alternate; border-color: rgba(109,230,223,.45) transparent rgba(238,60,120,.6); transform: rotate(5deg) scaleX(.94); }
 .portalMachine::after { animation: rimSkew 5s ease-in-out -2s infinite alternate-reverse; border-color: rgba(238,60,120,.65) rgba(239,233,215,.16) transparent; inset: 3%; transform: rotate(-4deg) scaleX(1.06); }
-.portalHalo { animation: haloPulse 2.8s ease-in-out infinite; background: radial-gradient(ellipse, rgba(109,230,223,.08) 0 20%, rgba(238,60,120,.12) 36%, transparent 68%); border: 1px solid rgba(239,233,215,.55); border-radius: 50%; box-shadow: inset 0 0 34px rgba(109,230,223,.22), 0 0 25px rgba(238,60,120,.25), 0 0 90px rgba(109,230,223,.14); inset: 7%; position: absolute; }
+.portalHalo { animation: haloPulse 2.8s ease-in-out infinite; background: radial-gradient(ellipse, rgba(109,230,223,.08) 0 20%, rgba(238,60,120,.12) 36%, transparent 68%); border: 1px solid rgba(239,233,215,.55); border-radius: 50%; box-shadow: inset 0 0 34px rgba(109,230,223,.22), 0 0 25px rgba(238,60,120,.25), 0 0 70px rgba(109,230,223,.12); inset: 7%; position: absolute; will-change: opacity, transform; }
 .portalHalo::before, .portalHalo::after { border-radius: inherit; content: ""; position: absolute; }
-.portalHalo::before { animation: portalScan 3.5s linear infinite; background: conic-gradient(from 0deg, transparent 0 35%, rgba(239,233,215,.92) 48%, rgba(238,60,120,.9) 51%, transparent 62%); filter: blur(1px); inset: -2px; -webkit-mask: radial-gradient(ellipse, transparent 69%, #000 70% 72%, transparent 73%); mask: radial-gradient(ellipse, transparent 69%, #000 70% 72%, transparent 73%); }
+.portalHalo::before { animation: portalScan 3.5s linear infinite; background: conic-gradient(from 0deg, transparent 0 35%, rgba(239,233,215,.92) 48%, rgba(238,60,120,.9) 51%, transparent 62%); inset: -2px; -webkit-mask: radial-gradient(ellipse, transparent 69%, #000 70% 72%, transparent 73%); mask: radial-gradient(ellipse, transparent 69%, #000 70% 72%, transparent 73%); }
 .portalHalo::after { background: repeating-radial-gradient(ellipse, transparent 0 12px, rgba(109,230,223,.08) 13px, transparent 14px); inset: 9%; opacity: .75; }
 .portalThreshold { align-items: center; animation: thresholdBreathe 3.1s ease-in-out infinite; background: radial-gradient(ellipse, rgba(238,60,120,.2), rgba(5,28,30,.95) 48%, rgba(2,15,17,.98) 72%); border: 1px solid rgba(238,60,120,.45); border-radius: 50%; box-shadow: inset 0 0 100px rgba(0,0,0,.85), inset 0 0 34px rgba(238,60,120,.25); display: flex; inset: 13%; justify-content: center; overflow: hidden; position: absolute; }
-.portalThreshold::after { animation: thresholdNoise .15s steps(2) infinite; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); content: ""; inset: 0; mix-blend-mode: soft-light; opacity: .22; position: absolute; }
+.portalThreshold::after { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); content: ""; inset: 0; mix-blend-mode: soft-light; opacity: .18; position: absolute; }
 .portalThreshold .sigil { color: var(--paper); height: 96px; margin: 0; opacity: .9; width: 96px; }
 .portalThreshold .swordMark { height: 62px; width: 68px; }
 .portalClose { align-items: center; background: transparent; border: 0; color: inherit; cursor: pointer; display: flex; font-family: inherit; font-size: 24px; gap: 13px; letter-spacing: .18em; padding: 18px; position: absolute; right: clamp(14px, 3vw, 50px); top: clamp(14px, 3vw, 42px); z-index: 6; }
@@ -232,17 +232,16 @@
 .portalClosing .portalMessage, .portalClosing .portalReadout, .portalClosing .portalCoordinates, .portalClosing .portalClose { animation: copyDeparture .35s ease forwards; }
 
 @keyframes portalReveal { from { opacity: 0; transform: scale(1.08); } to { opacity: 1; transform: scale(1); } }
-@keyframes machineArrive { from { filter: blur(22px); opacity: 0; transform: translate(-50%, -50%) scale(.25) rotate(-16deg); } to { filter: blur(0); opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); } }
+@keyframes machineArrive { from { opacity: 0; transform: translate(-50%, -50%) scale(.25) rotate(-16deg); } to { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(0); } }
 @keyframes atmosphereTurn { to { transform: rotate(360deg); } }
 @keyframes rimSkew { to { transform: rotate(12deg) scaleX(1.06); } }
-@keyframes haloPulse { 50% { box-shadow: inset 0 0 54px rgba(109,230,223,.32), 0 0 48px rgba(238,60,120,.48), 0 0 130px rgba(109,230,223,.22); transform: scale(1.025); } }
+@keyframes haloPulse { 50% { opacity: .72; transform: scale(1.025); } }
 @keyframes portalScan { to { transform: rotate(360deg); } }
-@keyframes thresholdBreathe { 50% { filter: brightness(1.35); transform: scale(.975); } }
-@keyframes thresholdNoise { 50% { transform: translate(1px, -1px); } }
-@keyframes portalCopyIn { from { filter: blur(10px); opacity: 0; transform: translate(-60px, -50%); } to { filter: blur(0); opacity: 1; transform: translate(0, -50%); } }
+@keyframes thresholdBreathe { 50% { opacity: .86; transform: scale(.975); } }
+@keyframes portalCopyIn { from { opacity: 0; transform: translate(-60px, -50%); } to { opacity: 1; transform: translate(0, -50%); } }
 @keyframes signalBlink { 50% { opacity: .35; } }
-@keyframes copyDeparture { to { filter: blur(8px); opacity: 0; transform: translateX(-50px); } }
-@keyframes machineDeparture { 35% { filter: brightness(2); transform: translate(-50%, -50%) scale(.9); } 100% { filter: blur(14px) brightness(4); opacity: 0; transform: translate(-50%, -50%) scale(2.9); } }
+@keyframes copyDeparture { to { opacity: 0; transform: translateX(-50px); } }
+@keyframes machineDeparture { 35% { opacity: 1; transform: translate(-50%, -50%) scale(.9); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(2.9); } }
 @keyframes portalDeparture { 0%, 45% { background: #041618; opacity: 1; } 78% { background: var(--paper); opacity: 1; } 100% { background: var(--paper); opacity: 0; } }
 
 @media (max-width: 900px) {
@@ -277,7 +276,7 @@
   .portalCoordinates { display: none; }
   .portalReadout { left: 24px; right: 24px; }
   .portalReadout span:last-child { display: none; }
-  @keyframes portalCopyIn { from { filter: blur(10px); opacity: 0; transform: translateX(-40px); } to { filter: blur(0); opacity: 1; transform: none; } }
+  @keyframes portalCopyIn { from { opacity: 0; transform: translateX(-40px); } to { opacity: 1; transform: none; } }
 }
 
 @media (max-width: 600px) {
