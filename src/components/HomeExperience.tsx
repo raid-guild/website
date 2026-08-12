@@ -510,6 +510,15 @@ export default function HomeExperience() {
           <a href="#spears" onClick={() => setMenuOpen(false)}>Active spears</a>
           <a href="#work" onClick={() => setMenuOpen(false)}>Field notes</a>
           <a href="#guild" onClick={() => setMenuOpen(false)}>The guild</a>
+          <a
+            className={styles.brandArchiveLink}
+            href="https://raidguild-brand-guide-production.up.railway.app/"
+            target="_blank"
+            rel="noreferrer"
+            onClick={() => setMenuOpen(false)}
+          >
+            Brand archive <span>↗</span>
+          </a>
         </nav>
 
         <button

@@ -21,7 +21,7 @@
   height: 96px;
   justify-content: space-between;
   left: 0;
-  padding: 0 clamp(240px, 14vw, 290px) 0 clamp(24px, 4vw, 72px);
+  padding: 0 clamp(300px, 21vw, 350px) 0 clamp(24px, 4vw, 72px);
   position: absolute;
   right: 0;
   top: 0;
@@ -32,10 +32,13 @@
 .sigil { align-items: center; border: 1px solid currentColor; border-radius: 50%; display: inline-flex; height: 41px; justify-content: center; margin-right: 12px; position: relative; width: 41px; }
 .swordMark { background: currentColor; display: block; height: 27px; -webkit-mask: url("/images/neo/raidguild-swords.png") center / contain no-repeat; mask: url("/images/neo/raidguild-swords.png") center / contain no-repeat; width: 29px; }
 
-.nav { align-items: center; backdrop-filter: blur(12px) saturate(1.15); background: rgba(5,34,34,.52); border: 1px solid rgba(239,233,215,.2); border-radius: 100px; box-shadow: 0 8px 30px rgba(4,22,24,.16); display: flex; gap: clamp(20px, 3vw, 54px); padding: 7px 7px 7px 24px; -webkit-backdrop-filter: blur(12px) saturate(1.15); }
+.nav { align-items: center; backdrop-filter: blur(12px) saturate(1.15); background: rgba(5,34,34,.52); border: 1px solid rgba(239,233,215,.2); border-radius: 100px; box-shadow: 0 8px 30px rgba(4,22,24,.16); display: flex; gap: clamp(18px, 2.15vw, 38px); padding: 10px 23px; -webkit-backdrop-filter: blur(12px) saturate(1.15); }
 .nav a { color: inherit; font-size: 11px; font-weight: 700; letter-spacing: .12em; position: relative; text-decoration: none; text-shadow: 0 1px 10px rgba(0,0,0,.45); text-transform: uppercase; }
 .nav > a:not(.navCta)::after { background: currentColor; bottom: -5px; content: ""; height: 1px; left: 0; position: absolute; transform: scaleX(0); transform-origin: right; transition: transform .25s ease; width: 100%; }
 .nav > a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav .brandArchiveLink { align-items: center; border-left: 1px solid rgba(239,233,215,.24); display: flex; font-size: 8px; gap: 7px; margin-left: 2px; opacity: .72; padding: 3px 0 3px clamp(18px, 1.7vw, 27px); transition: opacity .2s; }
+.nav .brandArchiveLink:hover { opacity: 1; }
+.nav .brandArchiveLink span { color: var(--coral); font-size: 12px; }
 .menuButton { display: none; }
 
 .portalTrigger { align-items: center; animation: portalAttention 6s 2s ease-in-out infinite; backdrop-filter: blur(14px) saturate(1.15); background: rgba(5,34,34,.86); border: 1px solid rgba(239,233,215,.35); border-radius: 100px; box-shadow: 0 10px 35px rgba(2,18,20,.22); color: var(--paper); cursor: pointer; display: flex; font-family: var(--font-mono), monospace; gap: 12px; padding: 7px 17px 7px 7px; position: fixed; right: clamp(24px, 4vw, 72px); top: 20px; transition: background .25s, border-color .25s, transform .25s; -webkit-backdrop-filter: blur(14px) saturate(1.15); z-index: 30; }
@@ -366,6 +369,7 @@
   .header { height: 78px; padding-left: 24px; padding-right: 24px; }
   .nav { align-items: flex-start; backdrop-filter: none; background: var(--deep); border: 0; border-radius: 0; box-shadow: none; flex-direction: column; inset: 0; justify-content: center; opacity: 0; padding: 90px 30px; pointer-events: none; position: fixed; transform: translateY(-15px); transition: opacity .25s, transform .25s; -webkit-backdrop-filter: none; }
   .nav a { font-family: var(--font-display), serif; font-size: 42px; letter-spacing: -.03em; text-transform: none; }
+  .nav .brandArchiveLink { border-left: 0; border-top: 1px solid rgba(239,233,215,.25); font-family: var(--font-mono), monospace; font-size: 12px; letter-spacing: .14em; margin-top: 20px; padding: 24px 0 0; text-transform: uppercase; }
   .navOpen { opacity: 1; pointer-events: auto; transform: translateY(0); }
   .menuButton { background: none; border: 0; display: block; height: 36px; padding: 0; position: relative; width: 36px; z-index: 2; }
   .menuButton span { background: var(--paper); height: 1px; left: 6px; position: absolute; top: 15px; width: 24px; }
