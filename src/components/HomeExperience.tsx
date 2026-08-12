@@ -358,11 +358,24 @@ export default function HomeExperience() {
   const [portalOpen, setPortalOpen] = useState(false);
   const [portalForming, setPortalForming] = useState(false);
   const [portalClosing, setPortalClosing] = useState(false);
+  const [heroRevealed, setHeroRevealed] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const fieldTrackRef = useRef<HTMLDivElement>(null);
   const horizontalPanRef = useRef(0);
+  const curtainRevealRef = useRef(0);
   const portalTimerRef = useRef<number | null>(null);
   const portalFormTimerRef = useRef<number | null>(null);
+
+  const toggleHeroReveal = () => {
+    const next = !heroRevealed;
+    setHeroRevealed(next);
+    const root = document.documentElement;
+    root.style.setProperty("--neo-curtain-speed", ".65s");
+    root.style.setProperty("--neo-curtain-open", next ? "290px" : "0px");
+    root.style.setProperty("--neo-track-title-x", next ? "230px" : "0px");
+    curtainRevealRef.current = next ? 1 : 0;
+    if (!next) horizontalPanRef.current = 0;
+  };
 
   const openPortal = () => {
     if (portalFormTimerRef.current) window.clearTimeout(portalFormTimerRef.current);
@@ -415,15 +428,10 @@ export default function HomeExperience() {
     const updatePointer = (event: PointerEvent) => {
       const x = event.clientX / window.innerWidth - 0.5;
       const y = event.clientY / window.innerHeight - 0.5;
-      const horizontal = event.clientX / window.innerWidth;
-      const leftReveal = 1 - horizontal;
-      const rightReveal = horizontal;
       root.style.setProperty("--neo-pointer-x", x.toFixed(3));
       root.style.setProperty("--neo-pointer-y", y.toFixed(3));
       root.style.setProperty("--neo-sky-x", `${(x * 10).toFixed(1)}px`);
       root.style.setProperty("--neo-land-x", `${(x * -10).toFixed(1)}px`);
-      root.style.setProperty("--neo-fore-left-x", `${(-120 - leftReveal * 115).toFixed(1)}px`);
-      root.style.setProperty("--neo-fore-right-x", `${(90 + rightReveal * 110).toFixed(1)}px`);
       root.style.setProperty("--neo-title-x", `${(x * 8).toFixed(1)}px`);
     };
 
@@ -440,18 +448,22 @@ export default function HomeExperience() {
       if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return;
 
       event.preventDefault();
+      if (heroRevealed) return;
       horizontalPanRef.current = Math.min(1, Math.max(-1, horizontalPanRef.current + event.deltaX * 0.0018));
       const pan = horizontalPanRef.current;
+      curtainRevealRef.current = Math.min(1, curtainRevealRef.current + Math.abs(event.deltaX) * 0.0015);
+      const curtainOpen = curtainRevealRef.current;
       const root = document.documentElement;
-      root.style.setProperty("--neo-track-title-x", `${(pan * 72).toFixed(1)}px`);
+      root.style.setProperty("--neo-curtain-speed", ".12s");
+      root.style.setProperty("--neo-track-title-x", `${(curtainOpen * 190).toFixed(1)}px`);
       root.style.setProperty("--neo-track-land-x", `${(pan * -34).toFixed(1)}px`);
       root.style.setProperty("--neo-track-sky-x", `${(pan * -14).toFixed(1)}px`);
-      root.style.setProperty("--neo-track-fore-x", `${(pan * 6).toFixed(1)}px`);
+      root.style.setProperty("--neo-curtain-open", `${(curtainOpen * 150).toFixed(1)}px`);
     };
 
     window.addEventListener("wheel", updateHorizontalPan, { passive: false });
     return () => window.removeEventListener("wheel", updateHorizontalPan);
-  }, []);
+  }, [heroRevealed]);
 
   useEffect(() => {
     let frame = 0;
@@ -466,7 +478,7 @@ export default function HomeExperience() {
           const root = document.documentElement;
           root.style.setProperty("--neo-progress", progress.toFixed(3));
           root.style.setProperty("--neo-sky-y", `${(distance * 0.035).toFixed(1)}px`);
-          root.style.setProperty("--neo-fore-y", `${(distance * -0.08).toFixed(1)}px`);
+          root.style.setProperty("--neo-fore-y", `${(distance * -0.34).toFixed(1)}px`);
           root.style.setProperty("--neo-copy-y", `${(distance * -0.3).toFixed(1)}px`);
           root.style.setProperty("--neo-meta-y", `${(distance * -0.18).toFixed(1)}px`);
       root.style.setProperty("--neo-copy-opacity", (1 - progress * 0.72).toFixed(3));
@@ -536,7 +548,16 @@ export default function HomeExperience() {
           <div className={styles.heroWash} />
           <div className={styles.heroCopy}>
             <p className={styles.eyebrow}><span /> Independent digital mercenaries</p>
-            <h1>VENTURE<br /><em>BEYOND.</em></h1>
+            <button
+              className={styles.heroTitle}
+              type="button"
+              aria-label={heroRevealed ? "Close the foreground curtain" : "Reveal Venture Beyond"}
+              aria-pressed={heroRevealed}
+              onClick={toggleHeroReveal}
+            >
+              <h1>VENTURE<br /><em>BEYOND.</em></h1>
+              <span>{heroRevealed ? "RESTORE THE FRAME" : "OPEN THE VIEW"}</span>
+            </button>
           </div>
           <div className={styles.heroSupplement}>
             <p className={styles.heroDek}>
@@ -748,6 +769,22 @@ export default function HomeExperience() {
       </section>
 
       <section className={styles.creed}>
+        <Image
+          className={styles.creedMoons}
+          src="/images/neo/creed-moons-v1.png"
+          alt=""
+          width={1536}
+          height={1024}
+          aria-hidden="true"
+        />
+        <Image
+          className={styles.creedCreature}
+          src="/images/neo/creed-flyer-v1.png"
+          alt=""
+          width={1536}
+          height={1024}
+          aria-hidden="true"
+        />
         <p className={styles.sectionLabel}>[ THE RAIDGUILD CREED ]</p>
         <blockquote>
           The future is not<br />something to predict.<br />It is something to <em>build.</em>

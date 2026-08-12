@@ -64,6 +64,10 @@
 .heroWash { background: linear-gradient(90deg, rgba(5, 34, 34, .88) 0%, rgba(5, 34, 34, .43) 31%, rgba(5, 34, 34, .02) 65%), linear-gradient(0deg, rgba(5,27,28,.72), transparent 34%, rgba(2, 25, 27, .26)); inset: 0; position: absolute; z-index: 2; }
 .heroWash::after { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E"); content: ""; inset: 0; mix-blend-mode: soft-light; opacity: .35; pointer-events: none; position: absolute; }
 .heroCopy { bottom: clamp(252px, 28vh, 320px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(var(--neo-title-x, 0), var(--neo-copy-y, 0), 0) translateX(var(--neo-track-title-x, 0)); transition: transform .3s cubic-bezier(.2,.7,.2,1); width: min(820px, 80vw); z-index: 4; }
+.heroTitle { background: transparent; border: 0; color: inherit; cursor: pointer; display: block; font: inherit; padding: 0; position: relative; text-align: left; }
+.heroTitle > span { bottom: -27px; font-family: var(--font-mono), monospace; font-size: 7px; left: 5px; letter-spacing: .18em; opacity: 0; position: absolute; transition: opacity .2s, transform .2s; }
+.heroTitle:hover > span, .heroTitle:focus-visible > span { opacity: .7; transform: translateX(6px); }
+.heroTitle:focus-visible { outline: 1px solid var(--paper); outline-offset: 12px; }
 .heroSupplement { bottom: clamp(74px, 9vh, 104px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(0, var(--neo-copy-y, 0), 0); width: min(540px, 75vw); z-index: 7; }
 .eyebrow { align-items: center; display: flex; font-size: 10px; font-weight: 700; letter-spacing: .19em; margin: 0 0 20px; text-transform: uppercase; }
 .eyebrow span { background: var(--coral); border-radius: 50%; box-shadow: 0 0 0 5px rgba(238,60,120,.2); height: 7px; margin-right: 14px; width: 7px; }
@@ -77,9 +81,9 @@
 .heroIndex span { font-size: 8px; letter-spacing: .18em; padding-top: 8px; }
 .heroIndex strong { font-family: var(--font-display), serif; font-size: 44px; font-weight: 400; grid-row: span 2; line-height: 1; margin-left: 15px; }
 .heroIndex small { font-size: 7px; letter-spacing: .16em; opacity: .55; }
-.heroForeground { inset: -5% -5% -12%; pointer-events: none; position: absolute; transform-origin: center 58%; transition: transform .18s cubic-bezier(.2,.7,.2,1); z-index: 6; }
-.heroForegroundLeft { clip-path: inset(0 50% 0 0); transform: scale(1.04) translate3d(calc(var(--neo-fore-left-x, -188px) + var(--neo-track-fore-x, 0px)), var(--neo-fore-y, 0px), 0); }
-.heroForegroundRight { clip-path: inset(0 0 0 50%); transform: scale(1.04) translate3d(calc(var(--neo-fore-right-x, 155px) + var(--neo-track-fore-x, 0px)), var(--neo-fore-y, 0px), 0); }
+.heroForeground { inset: -7% -7% -14%; pointer-events: none; transform-origin: center 58%; transition: transform var(--neo-curtain-speed, .18s) cubic-bezier(.16,.76,.18,1); position: absolute; z-index: 6; }
+.heroForegroundLeft { clip-path: inset(0 50% 0 0); transform: translate3d(calc(72px - var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
+.heroForegroundRight { clip-path: inset(0 0 0 50%); transform: translate3d(calc(-58px + var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
 .foregroundImage { object-fit: cover; object-position: 48% 58%; }
 
 .signalBar { background: var(--coral); color: var(--paper); overflow: hidden; padding: 14px 0 13px; }
@@ -88,7 +92,10 @@
 .signalBar i { font-style: normal; }
 @keyframes signal { to { transform: translateX(-50%); } }
 
-.prologue { display: grid; grid-template-columns: minmax(270px, .7fr) 1.6fr; margin: 0 auto; max-width: 1440px; padding: clamp(110px, 14vw, 210px) clamp(24px, 7vw, 110px); }
+.prologue { background-image: radial-gradient(circle at 82% 16%, rgba(16,45,44,.022) 0 1px, transparent 1.5px), repeating-linear-gradient(107deg, transparent 0 21px, rgba(16,45,44,.01) 22px, transparent 23px 46px); background-size: 29px 31px, auto; display: grid; grid-template-columns: minmax(270px, .7fr) 1.6fr; margin: 0 auto; max-width: 1440px; overflow: hidden; padding: clamp(110px, 14vw, 210px) clamp(24px, 7vw, 110px); position: relative; }
+.prologue::before { border: 1px solid rgba(16,45,44,.07); border-radius: 50%; content: ""; height: clamp(290px, 37vw, 540px); pointer-events: none; position: absolute; right: clamp(-250px, -10vw, -80px); top: clamp(20px, 5vw, 80px); transform: rotate(19deg); width: clamp(520px, 64vw, 920px); }
+.prologue::after { background: radial-gradient(circle at 50% 50%, transparent 0 21px, rgba(16,45,44,.08) 22px 23px, transparent 24px 49px, rgba(16,45,44,.055) 50px 51px, transparent 52px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(16,45,44,.05) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(16,45,44,.05) 50%, transparent calc(50% + .5px)); content: ""; height: 150px; opacity: .72; pointer-events: none; position: absolute; right: clamp(28px, 8vw, 120px); top: clamp(74px, 10vw, 145px); transform: rotate(7deg); width: 150px; }
+.prologue > * { position: relative; z-index: 1; }
 .prologueMark { align-items: center; display: flex; flex-direction: column; justify-content: center; }
 .prologueMark > span { font-size: 8px; letter-spacing: .22em; margin-top: 20px; }
 .orbit { align-items: center; border: 1px solid rgba(16,45,44,.28); border-radius: 50%; display: flex; height: 210px; justify-content: center; position: relative; width: 210px; }
@@ -174,9 +181,12 @@
 .problemSpear { background: rgba(239,233,215,.06); }
 .problemSpear .disciplineGlyph span { border-style: dashed; }
 
-.fieldNotes { background: var(--sky); padding: clamp(100px, 12vw, 180px) clamp(24px, 6vw, 96px); position: relative; }
+.fieldNotes { background-color: var(--sky); background-image: radial-gradient(circle at 14% 78%, rgba(16,45,44,.025) 0 1px, transparent 1.5px); background-size: 27px 33px; overflow: hidden; padding: clamp(100px, 12vw, 180px) clamp(24px, 6vw, 96px); position: relative; }
 .fieldNotes::before { background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(16,45,44,.08) 25%); content: ""; inset: 0; pointer-events: none; position: absolute; }
+.fieldNotes::after { border: 1px solid rgba(16,45,44,.09); border-radius: 50%; bottom: clamp(-330px, -20vw, -120px); content: ""; height: clamp(360px, 44vw, 650px); left: clamp(-210px, -9vw, -60px); pointer-events: none; position: absolute; transform: rotate(-11deg); width: clamp(760px, 86vw, 1280px); }
+.fieldNotes > * { position: relative; z-index: 1; }
 .fieldIntro { display: grid; grid-template-columns: 1fr 300px; margin: 0 auto 85px; max-width: 1300px; position: relative; }
+.fieldIntro::after { background: radial-gradient(circle, transparent 0 15px, rgba(16,45,44,.095) 16px 17px, transparent 18px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(16,45,44,.075) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(16,45,44,.075) 50%, transparent calc(50% + .5px)); content: ""; height: 92px; opacity: .7; pointer-events: none; position: absolute; right: clamp(255px, 25vw, 375px); top: -18px; transform: rotate(12deg); width: 92px; }
 .fieldIntro .sectionLabel { grid-column: 1 / -1; }
 .fieldAside p { line-height: 1.45; max-width: 300px; }
 .fieldControls { align-items: center; display: flex; justify-content: space-between; margin: 0 auto 24px; max-width: 1300px; position: relative; }
@@ -205,14 +215,34 @@
 .missionCopy dt { font-size: 7px; letter-spacing: .16em; opacity: .6; }
 .missionCopy dd { font-family: var(--font-display), serif; font-size: 25px; margin: 5px 0 0; }
 
-.creed { background: var(--coral); color: var(--paper); padding: clamp(100px, 13vw, 190px) 24px 50px; text-align: center; }
+.creed { background: var(--coral); color: var(--paper); overflow: hidden; padding: clamp(100px, 13vw, 190px) 24px 50px; position: relative; text-align: center; }
+.creed > *:not(.creedCreature):not(.creedMoons) { position: relative; z-index: 2; }
+.creedMoons { animation: creedOrbit 24s ease-in-out infinite alternate; height: auto; left: 50%; mix-blend-mode: soft-light; opacity: .3; pointer-events: none; position: absolute; top: 48%; transform: translate(-50%, -50%) rotate(-2deg) scale(1.04); width: min(1536px, 116vw); z-index: 0; }
+.creedCreature { animation: creedFlight 14s ease-in-out infinite alternate; filter: grayscale(1) sepia(.15) saturate(.65) brightness(.33); height: auto; left: 50%; mix-blend-mode: multiply; opacity: .24; pointer-events: none; position: absolute; top: 48%; transform: translate(-50%, -50%) rotate(-3deg); width: min(1420px, 116vw); }
 .creed blockquote { font-family: var(--font-display), serif; font-size: clamp(58px, 8.5vw, 132px); font-weight: 500; letter-spacing: -.055em; line-height: .83; margin: 55px auto 130px; max-width: 1300px; }
 .creed em { color: var(--deep); }
 .creedFooter { align-items: center; border-top: 1px solid rgba(239,233,215,.4); display: flex; font-size: 8px; justify-content: space-between; letter-spacing: .18em; margin: 0 auto; max-width: 1300px; padding-top: 28px; }
 .creedFooter .sigil { height: 48px; margin: 0; width: 48px; }
 .creedFooter .swordMark { height: 31px; width: 34px; }
 
-.contact { align-items: start; background: var(--paper); display: grid; gap: clamp(60px, 8vw, 130px); grid-template-columns: minmax(340px, .82fr) minmax(540px, 1fr); padding: clamp(100px, 12vw, 180px) clamp(24px, 7vw, 110px); }
+@keyframes creedFlight {
+  from { transform: translate(-52%, -48%) rotate(-4deg) scale(.98); }
+  to { transform: translate(-48%, -52%) rotate(-1deg) scale(1.02); }
+}
+
+@keyframes creedOrbit {
+  from { transform: translate(-51%, -49%) rotate(-2deg) scale(1.04); }
+  to { transform: translate(-49%, -51%) rotate(1deg) scale(1.07); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creedCreature, .creedMoons { animation: none; }
+}
+
+.contact { align-items: start; background-color: var(--paper); background-image: radial-gradient(circle at 16% 22%, rgba(16,45,44,.027) 0 1px, transparent 1.5px), radial-gradient(circle at 74% 68%, rgba(16,45,44,.018) 0 1px, transparent 1.4px), repeating-linear-gradient(103deg, transparent 0 17px, rgba(16,45,44,.012) 18px, transparent 19px 38px); background-size: 23px 29px, 31px 37px, auto; display: grid; gap: clamp(60px, 8vw, 130px); grid-template-columns: minmax(340px, .82fr) minmax(540px, 1fr); overflow: hidden; padding: clamp(100px, 12vw, 180px) clamp(24px, 7vw, 110px); position: relative; }
+.contact::before { border: 1px solid rgba(16,45,44,.075); border-radius: 50%; content: ""; height: clamp(380px, 52vw, 760px); left: clamp(-320px, -18vw, -120px); pointer-events: none; position: absolute; top: clamp(20px, 6vw, 90px); transform: rotate(-17deg); width: clamp(520px, 72vw, 1050px); }
+.contact::after { background: linear-gradient(90deg, transparent calc(50% - .5px), rgba(16,45,44,.065) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(16,45,44,.065) 50%, transparent calc(50% + .5px)); content: ""; height: 74px; left: clamp(22px, 5vw, 80px); opacity: .65; pointer-events: none; position: absolute; top: clamp(130px, 17vw, 255px); transform: rotate(-4deg); width: 74px; }
+.contact > * { position: relative; z-index: 1; }
 .contactIntro { position: sticky; top: 70px; }
 .contact h2.contactHeadline { font-size: clamp(50px, 5.7vw, 88px); }
 .contactHeadline span { display: block; white-space: nowrap; }
@@ -377,9 +407,9 @@
   .hero { height: 130svh; min-height: 920px; }
   .heroStage { min-height: 680px; }
   .heroImage { object-position: 56% center; }
-  .heroForeground { inset: -4% -23% -12%; }
-  .heroForegroundLeft { transform: scale(1.06) translate3d(var(--neo-fore-left-x, -150px), var(--neo-fore-y, 0px), 0); }
-  .heroForegroundRight { transform: scale(1.06) translate3d(var(--neo-fore-right-x, 110px), var(--neo-fore-y, 0px), 0); }
+  .heroForeground { inset: -6% -23% -14%; }
+  .heroForegroundLeft { transform: translate3d(calc(42px - var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
+  .heroForegroundRight { transform: translate3d(calc(-34px + var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
   .heroWash { background: linear-gradient(90deg, rgba(5,34,34,.82), rgba(5,34,34,.22)), linear-gradient(0deg, rgba(5,27,28,.8), transparent 55%); }
   .heroCopy { bottom: 265px; left: 22px; width: calc(100% - 44px); }
   .heroSupplement { bottom: 72px; left: 22px; width: calc(100% - 44px); }
