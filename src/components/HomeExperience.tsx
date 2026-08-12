@@ -27,13 +27,6 @@ const activeSpears = [
   },
 ];
 
-const emergingSignals = [
-  { code: "SIG—01", name: "Robotics", note: "Embodied agents, machine coordination, and tools that leave the screen.", status: "FORMING", people: "03" },
-  { code: "SIG—02", name: "Games + Worlds", note: "Playable systems, economies, and social spaces people choose to inhabit.", status: "ACTIVE", people: "07" },
-  { code: "SIG—03", name: "Biohacking", note: "Personal science, open health tooling, and new interfaces with the body.", status: "EARLY SIGNAL", people: "02" },
-  { code: "SIG—04", name: "Coordination", note: "New ways for distributed groups, capital, and intelligence to move as one.", status: "ONGOING", people: "11" },
-];
-
 const fieldNotes = [
   {
     issue: "07",
@@ -682,25 +675,6 @@ export default function HomeExperience() {
             <a href="#contact">Start a transmission <span>↘</span></a>
           </article>
         </div>
-      </section>
-
-      <section className={styles.signals} id="signals">
-        <div className={styles.signalHeading}>
-          <p className={styles.sectionLabel}>[ EMERGING SIGNALS ]</p>
-          <h2>What the network is<br /><em>becoming next.</em></h2>
-          <p>Not every experiment is an offering. These are live curiosities, working groups, and early expeditions that may coalesce into the Guild&apos;s next spear.</p>
-        </div>
-        <div className={styles.signalGrid}>
-          {emergingSignals.map((signal) => (
-            <article className={styles.signalCard} key={signal.code}>
-              <div><span>{signal.code}</span><i>{signal.status}</i></div>
-              <h3>{signal.name}</h3>
-              <p>{signal.note}</p>
-              <footer><span>{signal.people} GUILD MEMBERS</span><a href="https://portal.raidguild.org" target="_blank" rel="noreferrer">FOLLOW SIGNAL ↗</a></footer>
-            </article>
-          ))}
-        </div>
-        <p className={styles.signalFootnote}>SIGNAL → WORKING GROUP → EXPEDITION → ACTIVE SPEAR</p>
       </section>
 
       <section className={styles.fieldNotes} id="work">

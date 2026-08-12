@@ -168,23 +168,6 @@
 .problemSpear { background: rgba(239,233,215,.06); }
 .problemSpear .disciplineGlyph span { border-style: dashed; }
 
-.signals { background: var(--paper); color: var(--ink); padding: clamp(100px, 12vw, 180px) clamp(24px, 6vw, 96px); }
-.signalHeading { display: grid; gap: 30px; grid-template-columns: 1fr 340px; margin: 0 auto 85px; max-width: 1300px; }
-.signalHeading .sectionLabel { grid-column: 1 / -1; }
-.signalHeading h2 { font-family: var(--font-display), serif; font-size: clamp(54px, 7vw, 108px); font-weight: 500; letter-spacing: -.055em; line-height: .82; margin: 0; }
-.signalHeading h2 em { color: var(--coral); font-weight: 400; }
-.signalHeading > p:last-child { align-self: end; font-family: var(--font-body), serif; font-size: 18px; line-height: 1.45; margin: 0; }
-.signalGrid { border-left: 1px solid rgba(16,45,44,.28); border-top: 1px solid rgba(16,45,44,.28); display: grid; grid-template-columns: repeat(2, 1fr); margin: 0 auto; max-width: 1300px; }
-.signalCard { border-bottom: 1px solid rgba(16,45,44,.28); border-right: 1px solid rgba(16,45,44,.28); min-height: 310px; padding: clamp(26px, 3vw, 44px); transition: background .25s, color .25s, transform .25s; }
-.signalCard:hover { background: var(--sky); transform: translateY(-5px); }
-.signalCard > div, .signalCard footer { display: flex; font-size: 7px; justify-content: space-between; letter-spacing: .16em; }
-.signalCard > div i { color: var(--coral); font-style: normal; }
-.signalCard h3 { font-family: var(--font-display), serif; font-size: clamp(34px, 4vw, 56px); font-weight: 500; letter-spacing: -.04em; margin: 55px 0 14px; }
-.signalCard > p { font-family: var(--font-body), serif; font-size: 17px; line-height: 1.45; margin: 0; max-width: 480px; }
-.signalCard footer { border-top: 1px solid rgba(16,45,44,.2); margin-top: 42px; padding-top: 15px; }
-.signalCard footer a { color: inherit; font-weight: 700; text-decoration: none; }
-.signalFootnote { font-size: 8px; letter-spacing: .2em; margin: 28px auto 0; max-width: 1300px; text-align: center; }
-
 .fieldNotes { background: var(--sky); padding: clamp(100px, 12vw, 180px) clamp(24px, 6vw, 96px); position: relative; }
 .fieldNotes::before { background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(16,45,44,.08) 25%); content: ""; inset: 0; pointer-events: none; position: absolute; }
 .fieldIntro { display: grid; grid-template-columns: 1fr 300px; margin: 0 auto 85px; max-width: 1300px; position: relative; }
@@ -352,9 +335,7 @@
   .stewardTrack { grid-template-columns: repeat(5, 220px); }
   .disciplineGrid { grid-template-columns: 1fr; }
   .discipline { border-bottom: 1px solid rgba(239,233,215,.22); min-height: 480px; }
-  .practiceHeading, .fieldIntro, .signalHeading { grid-template-columns: 1fr; }
-  .signalHeading > p:last-child { margin-top: 18px; }
-  .signalGrid { grid-template-columns: 1fr; }
+  .practiceHeading, .fieldIntro { grid-template-columns: 1fr; }
   .practiceAside, .fieldAside { margin-top: 30px; }
   .featuredMission { grid-template-columns: 1fr; }
   .missionArt { min-height: 660px; }
@@ -403,8 +384,6 @@
   .practiceHeading { padding: 0 22px; }
   .disciplineGrid { border-left: 0; }
   .discipline { border-right: 0; padding-left: 30px; padding-right: 30px; }
-  .signals { padding-left: 22px; padding-right: 22px; }
-  .signalCard { padding-left: 24px; padding-right: 24px; }
   .fieldNotes { padding-left: 0; padding-right: 0; }
   .fieldIntro { padding: 0 22px; }
   .fieldControls { padding: 0 22px; }
