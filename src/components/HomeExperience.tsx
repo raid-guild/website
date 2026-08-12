@@ -466,6 +466,7 @@ export default function HomeExperience() {
           const root = document.documentElement;
           root.style.setProperty("--neo-progress", progress.toFixed(3));
           root.style.setProperty("--neo-sky-y", `${(distance * 0.035).toFixed(1)}px`);
+          root.style.setProperty("--neo-fore-y", `${(distance * -0.08).toFixed(1)}px`);
           root.style.setProperty("--neo-copy-y", `${(distance * -0.3).toFixed(1)}px`);
           root.style.setProperty("--neo-meta-y", `${(distance * -0.18).toFixed(1)}px`);
       root.style.setProperty("--neo-copy-opacity", (1 - progress * 0.72).toFixed(3));

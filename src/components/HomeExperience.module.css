@@ -77,9 +77,9 @@
 .heroIndex span { font-size: 8px; letter-spacing: .18em; padding-top: 8px; }
 .heroIndex strong { font-family: var(--font-display), serif; font-size: 44px; font-weight: 400; grid-row: span 2; line-height: 1; margin-left: 15px; }
 .heroIndex small { font-size: 7px; letter-spacing: .16em; opacity: .55; }
-.heroForeground { inset: -2% -3% -8%; pointer-events: none; position: absolute; transform-origin: center 58%; transition: transform .18s cubic-bezier(.2,.7,.2,1); z-index: 6; }
-.heroForegroundLeft { clip-path: inset(0 50% 0 0); transform: scale(1) translateX(calc(var(--neo-fore-left-x, -188px) + var(--neo-track-fore-x, 0px))); }
-.heroForegroundRight { clip-path: inset(0 0 0 50%); transform: scale(1) translateX(calc(var(--neo-fore-right-x, 155px) + var(--neo-track-fore-x, 0px))); }
+.heroForeground { inset: -5% -5% -12%; pointer-events: none; position: absolute; transform-origin: center 58%; transition: transform .18s cubic-bezier(.2,.7,.2,1); z-index: 6; }
+.heroForegroundLeft { clip-path: inset(0 50% 0 0); transform: scale(1.04) translate3d(calc(var(--neo-fore-left-x, -188px) + var(--neo-track-fore-x, 0px)), var(--neo-fore-y, 0px), 0); }
+.heroForegroundRight { clip-path: inset(0 0 0 50%); transform: scale(1.04) translate3d(calc(var(--neo-fore-right-x, 155px) + var(--neo-track-fore-x, 0px)), var(--neo-fore-y, 0px), 0); }
 .foregroundImage { object-fit: cover; object-position: 48% 58%; }
 
 .signalBar { background: var(--coral); color: var(--paper); overflow: hidden; padding: 14px 0 13px; }
@@ -377,9 +377,9 @@
   .hero { height: 130svh; min-height: 920px; }
   .heroStage { min-height: 680px; }
   .heroImage { object-position: 56% center; }
-  .heroForeground { inset: -1% -23% -8%; }
-  .heroForegroundLeft { transform: scale(1.03) translateX(var(--neo-fore-left-x, -150px)); }
-  .heroForegroundRight { transform: scale(1.03) translateX(var(--neo-fore-right-x, 110px)); }
+  .heroForeground { inset: -4% -23% -12%; }
+  .heroForegroundLeft { transform: scale(1.06) translate3d(var(--neo-fore-left-x, -150px), var(--neo-fore-y, 0px), 0); }
+  .heroForegroundRight { transform: scale(1.06) translate3d(var(--neo-fore-right-x, 110px), var(--neo-fore-y, 0px), 0); }
   .heroWash { background: linear-gradient(90deg, rgba(5,34,34,.82), rgba(5,34,34,.22)), linear-gradient(0deg, rgba(5,27,28,.8), transparent 55%); }
   .heroCopy { bottom: 265px; left: 22px; width: calc(100% - 44px); }
   .heroSupplement { bottom: 72px; left: 22px; width: calc(100% - 44px); }
