@@ -6,25 +6,32 @@ import HireUs from "@/components/HireUs";
 import { mercenaries } from "@/lib/data/members";
 import styles from "./HomeExperience.module.css";
 
-const disciplines = [
+const activeSpears = [
   {
     index: "01",
-    title: "Shape the unknown",
-    copy: "Product strategy, systems thinking, and prototypes that turn a strange idea into a world people can enter.",
-    tag: "DISCOVERY / DESIGN",
+    title: "Applied AI",
+    copy: "Forward-deployed AI systems that move from model capability to useful operation—agents, workflows, interfaces, and the infrastructure that makes them trustworthy.",
+    tag: "ACTIVE SPEAR / RAIDGUILD.AI",
+    status: "DEPLOYING",
+    href: "https://raidguild.ai",
+    cta: "Enter the AI practice",
   },
   {
     index: "02",
-    title: "Forge the machine",
-    copy: "Battle-tested engineering across smart contracts, full-stack products, AI, and the infrastructure between them.",
-    tag: "PROTOCOL / ENGINEERING",
+    title: "Onchain Systems",
+    copy: "Protocols, products, governance, and ownership systems built by a network that has lived at the edge of open coordination since 2019.",
+    tag: "ACTIVE SPEAR / ONCHAIN",
+    status: "BATTLE-TESTED",
+    href: "https://www.raidguild.org",
+    cta: "Explore onchain work",
   },
-  {
-    index: "03",
-    title: "Release the signal",
-    copy: "Launch systems, creative direction, and growth loops built to help remarkable products find their people.",
-    tag: "LAUNCH / MOMENTUM",
-  },
+];
+
+const emergingSignals = [
+  { code: "SIG—01", name: "Robotics", note: "Embodied agents, machine coordination, and tools that leave the screen.", status: "FORMING", people: "03" },
+  { code: "SIG—02", name: "Games + Worlds", note: "Playable systems, economies, and social spaces people choose to inhabit.", status: "ACTIVE", people: "07" },
+  { code: "SIG—03", name: "Biohacking", note: "Personal science, open health tooling, and new interfaces with the body.", status: "EARLY SIGNAL", people: "02" },
+  { code: "SIG—04", name: "Coordination", note: "New ways for distributed groups, capital, and intelligence to move as one.", status: "ONGOING", people: "11" },
 ];
 
 const fieldNotes = [
@@ -135,11 +142,12 @@ type PortalOverlayProps = {
   forming: boolean;
   closing: boolean;
   onClose: () => void;
-  onEnter: () => void;
+  onSpears: () => void;
+  onProblem: () => void;
   onJoin: () => void;
 };
 
-function PortalOverlay({ open, forming, closing, onClose, onEnter, onJoin }: PortalOverlayProps) {
+function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, onJoin }: PortalOverlayProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -184,8 +192,8 @@ function PortalOverlay({ open, forming, closing, onClose, onEnter, onJoin }: Por
         drift: (Math.random() - 0.5) * 0.2,
         speed: (0.22 + Math.random() * 0.58) * (Math.random() > 0.08 ? 1 : -0.45),
         size: 0.45 + Math.random() * 1.8,
-        portalIndex: index % 2,
-        colorIndex: index % 2 === 0 ? (index % 4 === 0 ? 0 : 2) : (index % 4 === 1 ? 1 : 3),
+        portalIndex: index % 3,
+        colorIndex: index % 3 === 0 ? 0 : index % 3 === 1 ? 3 : 1,
         phase: Math.random() * Math.PI * 2,
       };
     });
@@ -229,7 +237,9 @@ function PortalOverlay({ open, forming, closing, onClose, onEnter, onJoin }: Por
         const turbulence = Math.sin(elapsed * 1.7 + particle.phase) * (5 + particle.lane * 18);
         const laneRadius = 0.78 + particle.lane * 0.38;
         const depth = (Math.sin(particle.angle) + 1) / 2;
-        const centerX = width * (compact ? (particle.portalIndex === 0 ? 0.29 : 0.71) : (particle.portalIndex === 0 ? 0.59 : 0.82)) + pointer.x * (particle.portalIndex === 0 ? 14 : -14);
+        const compactCenters = [0.2, 0.5, 0.8];
+        const desktopCenters = [0.54, 0.72, 0.88];
+        const centerX = width * (compact ? compactCenters[particle.portalIndex] : desktopCenters[particle.portalIndex]) + pointer.x * (particle.portalIndex === 1 ? -10 : 12);
         const ignitionScale = 0.08 + bootEase * 0.92;
         const x = centerX + Math.cos(particle.angle) * (radiusX * laneRadius + turbulence) * ignitionScale + particle.drift * radiusX * ignitionScale;
         const y = centerY + Math.sin(particle.angle) * (radiusY * laneRadius) * ignitionScale + Math.cos(elapsed + particle.phase) * 7 * bootEase;
@@ -281,26 +291,37 @@ function PortalOverlay({ open, forming, closing, onClose, onEnter, onJoin }: Por
       <canvas className={styles.portalCanvas} ref={canvasRef} aria-hidden="true" />
       <div className={styles.portalAtmosphere} aria-hidden="true" />
       <button
-        className={`${styles.portalMachine} ${styles.portalHire}`}
+        className={`${styles.portalMachine} ${styles.portalSpear}`}
         type="button"
-        onClick={onEnter}
+        onClick={onSpears}
         disabled={forming}
-        aria-label="Hire RaidGuild"
+        aria-label="Explore RaidGuild active spears"
       >
         <span className={styles.portalHalo} />
         <span className={styles.portalThreshold}><Sigil /></span>
-        <span className={styles.portalChoiceLabel}><small>01 / COMMISSION</small>HIRE THE GUILD <i>↗</i></span>
+        <span className={styles.portalChoiceLabel}><small>01 / SOLUTIONS</small>ENGAGE A SPEAR <i>↓</i></span>
+      </button>
+      <button
+        className={`${styles.portalMachine} ${styles.portalProblem}`}
+        type="button"
+        onClick={onProblem}
+        disabled={forming}
+        aria-label="Bring RaidGuild an edge problem"
+      >
+        <span className={styles.portalHalo} />
+        <span className={styles.portalThreshold}><Sigil /></span>
+        <span className={styles.portalChoiceLabel}><small>02 / DISCOVERY</small>BRING A PROBLEM <i>↓</i></span>
       </button>
       <button
         className={`${styles.portalMachine} ${styles.portalJoin}`}
         type="button"
         onClick={onJoin}
         disabled={forming}
-        aria-label="Join RaidGuild in a new tab"
+        aria-label="Enter the RaidGuild builder network in a new tab"
       >
         <span className={styles.portalHalo} />
         <span className={styles.portalThreshold}><Sigil /></span>
-        <span className={styles.portalChoiceLabel}><small>02 / PARTICIPATE</small>JOIN THE GUILD <i>↗</i></span>
+        <span className={styles.portalChoiceLabel}><small>03 / COMMUNITY</small>ENTER THE NETWORK <i>↗</i></span>
       </button>
       <button className={styles.portalClose} type="button" onClick={onClose} aria-label="Close portal">
         <span>CLOSE</span> ×
@@ -312,9 +333,9 @@ function PortalOverlay({ open, forming, closing, onClose, onEnter, onJoin }: Por
       {forming && <p className={styles.portalBreach}>[ SPATIAL BREACH DETECTED ]</p>}
       {!forming && (
         <div className={styles.portalMessage}>
-          <p><span /> Two transit windows open</p>
+          <p><span /> Three transit windows open</p>
           <h2>CHOOSE YOUR<br /><em>PORTAL.</em></h2>
-          <small>COMMISSION A RAID OR ENTER THE GUILD</small>
+          <small>ENGAGE A PRACTICE · BRING AN EDGE PROBLEM · ENTER THE NETWORK</small>
         </div>
       )}
       <p className={styles.portalCoordinates}>39°44′N / 104°59′W<br />DESTINATION: UNMAPPED</p>
@@ -341,7 +362,7 @@ export default function HomeExperience() {
     portalFormTimerRef.current = window.setTimeout(() => setPortalForming(false), 3400);
   };
 
-  const dismissPortal = (enter = false) => {
+  const dismissPortal = (destination?: "contact" | "spears") => {
     if (portalClosing) return;
     if (portalFormTimerRef.current) window.clearTimeout(portalFormTimerRef.current);
     setPortalForming(false);
@@ -349,13 +370,13 @@ export default function HomeExperience() {
     portalTimerRef.current = window.setTimeout(() => {
       setPortalOpen(false);
       setPortalClosing(false);
-      if (enter) document.getElementById("contact")?.scrollIntoView({ behavior: "smooth" });
-    }, enter ? 920 : 620);
+      if (destination) document.getElementById(destination)?.scrollIntoView({ behavior: "smooth" });
+    }, destination ? 920 : 620);
   };
 
   const joinGuild = () => {
     window.open("https://portal.raidguild.org", "_blank", "noopener,noreferrer");
-    dismissPortal(false);
+    dismissPortal();
   };
 
   useEffect(() => () => {
@@ -464,7 +485,7 @@ export default function HomeExperience() {
         </a>
 
         <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Primary navigation">
-          <a href="#practice" onClick={() => setMenuOpen(false)}>Our craft</a>
+          <a href="#spears" onClick={() => setMenuOpen(false)}>Active spears</a>
           <a href="#work" onClick={() => setMenuOpen(false)}>Field notes</a>
           <a href="#guild" onClick={() => setMenuOpen(false)}>The guild</a>
         </nav>
@@ -511,7 +532,7 @@ export default function HomeExperience() {
             <p className={styles.heroDek}>
               We are a builder-owned collective turning ambitious ideas into digital worlds worth inhabiting.
             </p>
-            <a href="#practice" className={styles.discover}>
+            <a href="#guild" className={styles.discover}>
               <span>Enter the world</span>
               <i>↓</i>
             </a>
@@ -546,9 +567,9 @@ export default function HomeExperience() {
 
       <div className={styles.signalBar} aria-hidden="true">
         <div>
-          <span>STRATEGY</span><i>✦</i><span>DESIGN</span><i>✦</i><span>ENGINEERING</span><i>✦</i>
-          <span>SMART CONTRACTS</span><i>✦</i><span>AI SYSTEMS</span><i>✦</i><span>STRATEGY</span><i>✦</i>
-          <span>DESIGN</span><i>✦</i><span>ENGINEERING</span><i>✦</i>
+          <span>ONE GUILD</span><i>✦</i><span>MANY EDGES</span><i>✦</i><span>BUILDER-OWNED</span><i>✦</i>
+          <span>APPLIED AI</span><i>✦</i><span>ONCHAIN SYSTEMS</span><i>✦</i><span>OPEN EXPERIMENTS</span><i>✦</i>
+          <span>ONE GUILD</span><i>✦</i><span>MANY EDGES</span><i>✦</i>
         </div>
       </div>
 
@@ -559,10 +580,10 @@ export default function HomeExperience() {
         </div>
         <div className={styles.prologueCopy}>
           <p className={styles.sectionLabel}>[ THE GUILD ]</p>
-          <h2>Many disciplines.<br />One expert <em>party.</em></h2>
+          <h2>The network is<br />the <em>engine.</em></h2>
           <div className={styles.prologueBody}>
             <p>
-              Since 2019, we’ve gathered rare designers, engineers, strategists, and operators around one table. No layers. No handoffs into the void. The people imagining the work are the people making it real.
+              RaidGuild is a builder-owned community exploring emerging technology together. Designers, engineers, researchers, strategists, and operators share knowledge, reputation, and infrastructure—then assemble into specialized crews when ambitious work calls.
             </p>
             <p className={styles.stat}><strong>70+</strong><span>raids shipped<br />across the frontier</span></p>
           </div>
@@ -629,29 +650,57 @@ export default function HomeExperience() {
         </div>
       </section>
 
-      <section className={styles.practice} id="practice">
+      <section className={styles.practice} id="spears">
         <div className={styles.practiceHeading}>
-          <p className={styles.sectionLabel}>[ OUR CRAFT ]</p>
-          <h2>From first signal<br />to <em>living system.</em></h2>
+          <p className={styles.sectionLabel}>[ ACTIVE SPEARS ]</p>
+          <h2>Specialized at<br />the <em>applied edge.</em></h2>
           <div className={styles.practiceAside}>
-            <p>Bring us the problem that won’t leave you alone.</p>
-            <a href="#contact">Open a hire portal <span>↘</span></a>
+            <p>Focused practices with the Guild&apos;s full builder network behind them.</p>
+            <a href="#contact">Bring us an edge problem <span>↘</span></a>
           </div>
         </div>
-        <div className={styles.disciplineGrid}>
-          {disciplines.map((item) => (
+        <div className={`${styles.disciplineGrid} ${styles.spearGrid}`}>
+          {activeSpears.map((item) => (
             <article className={styles.discipline} key={item.index}>
               <div className={styles.disciplineTop}>
-                <span>{item.index}</span>
-                <i>↗</i>
+                <span>SP—{item.index}</span>
+                <i>{item.status}</i>
               </div>
               <div className={styles.disciplineGlyph} aria-hidden="true"><span /><span /><span /></div>
               <p className={styles.disciplineTag}>{item.tag}</p>
               <h3>{item.title}</h3>
               <p>{item.copy}</p>
+              <a href={item.href} target="_blank" rel="noreferrer">{item.cta} <span>↗</span></a>
+            </article>
+          ))}
+          <article className={`${styles.discipline} ${styles.problemSpear}`}>
+            <div className={styles.disciplineTop}><span>SP—??</span><i>UNMAPPED</i></div>
+            <div className={styles.disciplineGlyph} aria-hidden="true"><span /><span /><span /></div>
+            <p className={styles.disciplineTag}>GUILD-LEVEL DISCOVERY</p>
+            <h3>Your edge problem</h3>
+            <p>You know what needs to change, but the solution crosses disciplines. Bring us the problem; the Guild will find the right edge and assemble the crew.</p>
+            <a href="#contact">Start a transmission <span>↘</span></a>
+          </article>
+        </div>
+      </section>
+
+      <section className={styles.signals} id="signals">
+        <div className={styles.signalHeading}>
+          <p className={styles.sectionLabel}>[ EMERGING SIGNALS ]</p>
+          <h2>What the network is<br /><em>becoming next.</em></h2>
+          <p>Not every experiment is an offering. These are live curiosities, working groups, and early expeditions that may coalesce into the Guild&apos;s next spear.</p>
+        </div>
+        <div className={styles.signalGrid}>
+          {emergingSignals.map((signal) => (
+            <article className={styles.signalCard} key={signal.code}>
+              <div><span>{signal.code}</span><i>{signal.status}</i></div>
+              <h3>{signal.name}</h3>
+              <p>{signal.note}</p>
+              <footer><span>{signal.people} GUILD MEMBERS</span><a href="https://portal.raidguild.org" target="_blank" rel="noreferrer">FOLLOW SIGNAL ↗</a></footer>
             </article>
           ))}
         </div>
+        <p className={styles.signalFootnote}>SIGNAL → WORKING GROUP → EXPEDITION → ACTIVE SPEAR</p>
       </section>
 
       <section className={styles.fieldNotes} id="work">
@@ -690,7 +739,7 @@ export default function HomeExperience() {
                 <p className={styles.missionType}>{note.type}</p>
                 <h3>{note.title}</h3>
                 <p>{note.abstract}</p>
-                <a href="#contact">Portal dispatch <span>↗</span></a>
+                <a href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer">Read the field notes <span>↗</span></a>
                 <dl>
                   <div><dt>STATUS</dt><dd>{note.status}</dd></div>
                   <div><dt>SECTOR</dt><dd>{note.sector}</dd></div>
@@ -746,8 +795,9 @@ export default function HomeExperience() {
         open={portalOpen}
         forming={portalForming}
         closing={portalClosing}
-        onClose={() => dismissPortal(false)}
-        onEnter={() => dismissPortal(true)}
+        onClose={() => dismissPortal()}
+        onSpears={() => dismissPortal("spears")}
+        onProblem={() => dismissPortal("contact")}
         onJoin={joinGuild}
       />
     </main>

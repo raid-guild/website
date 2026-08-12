@@ -154,14 +154,36 @@
 .discipline { border-right: 1px solid rgba(239,233,215,.22); min-height: 560px; padding: 28px clamp(24px, 3vw, 46px) 40px; position: relative; transition: background .3s, color .3s, transform .3s; }
 .discipline:hover { background: var(--sky); color: var(--ink); transform: translateY(-10px); }
 .disciplineTop { display: flex; font-size: 10px; justify-content: space-between; letter-spacing: .15em; }
-.disciplineTop i { font-size: 19px; font-style: normal; }
+.disciplineTop i { color: var(--coral); font-size: 7px; font-style: normal; }
 .disciplineGlyph { height: 190px; margin: 35px auto 42px; position: relative; width: 190px; }
 .disciplineGlyph span { border: 1px solid currentColor; border-radius: 50%; inset: 20px; opacity: .7; position: absolute; }
 .disciplineGlyph span:nth-child(2) { border-radius: 0; inset: 48px 22px; transform: rotate(45deg); }
 .disciplineGlyph span:nth-child(3) { border-color: var(--coral); inset: 5px 75px; }
 .disciplineTag { color: var(--coral); font-size: 8px !important; font-weight: 700; letter-spacing: .15em; }
 .discipline h3 { font-family: var(--font-display), serif; font-size: clamp(30px, 3vw, 46px); font-weight: 500; letter-spacing: -.035em; line-height: .95; margin: 15px 0 20px; }
-.discipline > p:last-child { font-family: var(--font-body), serif; font-size: 17px; line-height: 1.45; margin: 0; opacity: .78; }
+.discipline > p:not(.disciplineTag) { font-family: var(--font-body), serif; font-size: 17px; line-height: 1.45; margin: 0; opacity: .78; }
+.discipline > a { border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 30px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; }
+.discipline > a span { font-size: 14px; transition: transform .2s; }
+.discipline > a:hover span { transform: translate(3px, -3px); }
+.problemSpear { background: rgba(239,233,215,.06); }
+.problemSpear .disciplineGlyph span { border-style: dashed; }
+
+.signals { background: var(--paper); color: var(--ink); padding: clamp(100px, 12vw, 180px) clamp(24px, 6vw, 96px); }
+.signalHeading { display: grid; gap: 30px; grid-template-columns: 1fr 340px; margin: 0 auto 85px; max-width: 1300px; }
+.signalHeading .sectionLabel { grid-column: 1 / -1; }
+.signalHeading h2 { font-family: var(--font-display), serif; font-size: clamp(54px, 7vw, 108px); font-weight: 500; letter-spacing: -.055em; line-height: .82; margin: 0; }
+.signalHeading h2 em { color: var(--coral); font-weight: 400; }
+.signalHeading > p:last-child { align-self: end; font-family: var(--font-body), serif; font-size: 18px; line-height: 1.45; margin: 0; }
+.signalGrid { border-left: 1px solid rgba(16,45,44,.28); border-top: 1px solid rgba(16,45,44,.28); display: grid; grid-template-columns: repeat(2, 1fr); margin: 0 auto; max-width: 1300px; }
+.signalCard { border-bottom: 1px solid rgba(16,45,44,.28); border-right: 1px solid rgba(16,45,44,.28); min-height: 310px; padding: clamp(26px, 3vw, 44px); transition: background .25s, color .25s, transform .25s; }
+.signalCard:hover { background: var(--sky); transform: translateY(-5px); }
+.signalCard > div, .signalCard footer { display: flex; font-size: 7px; justify-content: space-between; letter-spacing: .16em; }
+.signalCard > div i { color: var(--coral); font-style: normal; }
+.signalCard h3 { font-family: var(--font-display), serif; font-size: clamp(34px, 4vw, 56px); font-weight: 500; letter-spacing: -.04em; margin: 55px 0 14px; }
+.signalCard > p { font-family: var(--font-body), serif; font-size: 17px; line-height: 1.45; margin: 0; max-width: 480px; }
+.signalCard footer { border-top: 1px solid rgba(16,45,44,.2); margin-top: 42px; padding-top: 15px; }
+.signalCard footer a { color: inherit; font-weight: 700; text-decoration: none; }
+.signalFootnote { font-size: 8px; letter-spacing: .2em; margin: 28px auto 0; max-width: 1300px; text-align: center; }
 
 .fieldNotes { background: var(--sky); padding: clamp(100px, 12vw, 180px) clamp(24px, 6vw, 96px); position: relative; }
 .fieldNotes::before { background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(16,45,44,.08) 25%); content: ""; inset: 0; pointer-events: none; position: absolute; }
@@ -247,8 +269,9 @@
 .portalAtmosphere { animation: atmosphereTurn 28s linear infinite; background: conic-gradient(from 30deg at 66% 50%, transparent 0 14%, rgba(109,230,223,.045) 18%, transparent 23% 44%, rgba(238,60,120,.055) 50%, transparent 57% 78%, rgba(239,233,215,.035) 84%, transparent 91%); inset: -8%; opacity: .75; pointer-events: none; position: absolute; transform: translateZ(0); z-index: 2; }
 .portalMachine { animation: machineArrive 3.2s cubic-bezier(.16,.8,.22,1) both; background: transparent; border: 0; color: var(--paper); cursor: pointer; font-family: inherit; height: min(65vh, 650px); padding: 0; position: absolute; top: 49%; transform: translate(-50%, -50%); width: min(22vw, 300px); z-index: 3; }
 .portalMachine:disabled { cursor: default; }
-.portalHire { left: 59%; --portal-accent: var(--coral); }
-.portalJoin { left: 82%; --portal-accent: #6de6df; }
+.portalSpear { left: 54%; --portal-accent: var(--coral); }
+.portalProblem { left: 72%; --portal-accent: var(--acid); }
+.portalJoin { left: 88%; --portal-accent: #6de6df; }
 .portalMachine::before, .portalMachine::after { border: 1px solid rgba(109,230,223,.42); border-radius: 50%; content: ""; inset: -3%; position: absolute; }
 .portalMachine::before { animation: rimSkew 7s ease-in-out infinite alternate; border-color: rgba(109,230,223,.45) transparent rgba(238,60,120,.6); transform: rotate(5deg) scaleX(.94); }
 .portalMachine::after { animation: rimSkew 5s ease-in-out -2s infinite alternate-reverse; border-color: rgba(238,60,120,.65) rgba(239,233,215,.16) transparent; inset: 3%; transform: rotate(-4deg) scaleX(1.06); }
@@ -264,6 +287,9 @@
 .portalJoin::after { border-color: rgba(215,227,77,.5) rgba(239,233,215,.16) transparent; }
 .portalJoin .portalHalo { background: radial-gradient(ellipse, rgba(215,227,77,.07) 0 20%, rgba(109,230,223,.14) 36%, transparent 68%); border-color: rgba(109,230,223,.7); box-shadow: inset 0 0 34px rgba(109,230,223,.25), 0 0 25px rgba(109,230,223,.22), 0 0 70px rgba(215,227,77,.1); }
 .portalJoin .portalThreshold { background: radial-gradient(ellipse, rgba(109,230,223,.2), rgba(5,28,30,.95) 48%, rgba(2,15,17,.98) 72%); border-color: rgba(109,230,223,.55); box-shadow: inset 0 0 100px rgba(0,0,0,.85), inset 0 0 34px rgba(109,230,223,.25); }
+.portalProblem::before { border-color: rgba(215,227,77,.7) transparent rgba(239,233,215,.28); }
+.portalProblem .portalHalo { border-color: rgba(215,227,77,.6); }
+.portalProblem .portalThreshold { background: radial-gradient(ellipse, rgba(215,227,77,.14), rgba(5,28,30,.95) 48%, rgba(2,15,17,.98) 72%); border-color: rgba(215,227,77,.5); }
 .portalChoiceLabel { bottom: -54px; color: var(--portal-accent); display: flex; flex-direction: column; font-family: var(--font-display), serif; font-size: clamp(18px, 1.6vw, 26px); left: 0; letter-spacing: -.01em; line-height: 1; opacity: 0; position: absolute; right: 0; text-align: center; transition: letter-spacing .25s, color .25s; }
 .portalChoiceLabel small { color: var(--paper); font-family: var(--font-mono), monospace; font-size: 7px; letter-spacing: .17em; margin-bottom: 8px; opacity: .55; }
 .portalChoiceLabel i { font-size: 14px; font-style: normal; position: absolute; right: 8%; top: 18px; }
@@ -326,7 +352,9 @@
   .stewardTrack { grid-template-columns: repeat(5, 220px); }
   .disciplineGrid { grid-template-columns: 1fr; }
   .discipline { border-bottom: 1px solid rgba(239,233,215,.22); min-height: 480px; }
-  .practiceHeading, .fieldIntro { grid-template-columns: 1fr; }
+  .practiceHeading, .fieldIntro, .signalHeading { grid-template-columns: 1fr; }
+  .signalHeading > p:last-child { margin-top: 18px; }
+  .signalGrid { grid-template-columns: 1fr; }
   .practiceAside, .fieldAside { margin-top: 30px; }
   .featuredMission { grid-template-columns: 1fr; }
   .missionArt { min-height: 660px; }
@@ -334,10 +362,11 @@
   .contact { grid-template-columns: 1fr; }
   .contactIntro { position: static; }
   .contactFormShell { margin-top: 15px; }
-  .portalMachine { height: min(42vh, 390px); top: 32%; width: min(31vw, 245px); }
-  .portalHire { left: 30%; }
-  .portalJoin { left: 70%; }
-  .portalOverlay::before { background: radial-gradient(ellipse at 30% 32%, rgba(238,60,120,.16), transparent 22%), radial-gradient(ellipse at 70% 32%, rgba(109,230,223,.15), transparent 22%), radial-gradient(ellipse at 50% 38%, transparent 10%, rgba(4,22,24,.25) 48%, rgba(2,12,14,.9) 88%); }
+  .portalMachine { height: min(36vh, 340px); top: 29%; width: min(27vw, 205px); }
+  .portalSpear { left: 20%; }
+  .portalProblem { left: 50%; }
+  .portalJoin { left: 80%; }
+  .portalOverlay::before { background: radial-gradient(ellipse at 20% 29%, rgba(238,60,120,.14), transparent 18%), radial-gradient(ellipse at 50% 29%, rgba(215,227,77,.1), transparent 18%), radial-gradient(ellipse at 80% 29%, rgba(109,230,223,.14), transparent 18%), radial-gradient(ellipse at 50% 38%, transparent 10%, rgba(4,22,24,.25) 48%, rgba(2,12,14,.9) 88%); }
   .portalOverlay::after { -webkit-mask-image: radial-gradient(ellipse at 50% 40%, transparent 12%, #000 72%); mask-image: radial-gradient(ellipse at 50% 40%, transparent 12%, #000 72%); }
   .portalMessage { bottom: 4vh; left: 24px; top: auto; transform: none; width: calc(100% - 48px); }
   .portalMessage > p { margin-bottom: 13px; }
@@ -374,6 +403,8 @@
   .practiceHeading { padding: 0 22px; }
   .disciplineGrid { border-left: 0; }
   .discipline { border-right: 0; padding-left: 30px; padding-right: 30px; }
+  .signals { padding-left: 22px; padding-right: 22px; }
+  .signalCard { padding-left: 24px; padding-right: 24px; }
   .fieldNotes { padding-left: 0; padding-right: 0; }
   .fieldIntro { padding: 0 22px; }
   .fieldControls { padding: 0 22px; }
