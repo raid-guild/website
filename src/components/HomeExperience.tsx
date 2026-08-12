@@ -288,33 +288,48 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         type="button"
         onClick={onSpears}
         disabled={forming}
-        aria-label="Explore RaidGuild active spears"
+        aria-label="Hire a specialist through a RaidGuild practice"
       >
         <span className={styles.portalHalo} />
         <span className={styles.portalThreshold}><Sigil /></span>
-        <span className={styles.portalChoiceLabel}><small>01 / SOLUTIONS</small>ENGAGE A SPEAR <i>↓</i></span>
+        <span className={styles.portalChoiceLabel}>
+          <small>01 / HIRE</small>
+          <strong>HIRE A SPECIALIST</strong>
+          <b>Choose an established practice</b>
+          <i>↓</i>
+        </span>
       </button>
       <button
         className={`${styles.portalMachine} ${styles.portalProblem}`}
         type="button"
         onClick={onProblem}
         disabled={forming}
-        aria-label="Bring RaidGuild an edge problem"
+        aria-label="Start a project with RaidGuild"
       >
         <span className={styles.portalHalo} />
         <span className={styles.portalThreshold}><Sigil /></span>
-        <span className={styles.portalChoiceLabel}><small>02 / DISCOVERY</small>BRING A PROBLEM <i>↓</i></span>
+        <span className={styles.portalChoiceLabel}>
+          <small>02 / INQUIRE</small>
+          <strong>START A PROJECT</strong>
+          <b>Bring the Guild an ambitious problem</b>
+          <i>↓</i>
+        </span>
       </button>
       <button
         className={`${styles.portalMachine} ${styles.portalJoin}`}
         type="button"
         onClick={onJoin}
         disabled={forming}
-        aria-label="Enter the RaidGuild builder network in a new tab"
+        aria-label="Join the RaidGuild builder community in a new tab"
       >
         <span className={styles.portalHalo} />
         <span className={styles.portalThreshold}><Sigil /></span>
-        <span className={styles.portalChoiceLabel}><small>03 / COMMUNITY</small>ENTER THE NETWORK <i>↗</i></span>
+        <span className={styles.portalChoiceLabel}>
+          <small>03 / JOIN</small>
+          <strong>JOIN THE GUILD</strong>
+          <b>Enter the builder community</b>
+          <i>↗</i>
+        </span>
       </button>
       <button className={styles.portalClose} type="button" onClick={onClose} aria-label="Close portal">
         <span>CLOSE</span> ×
@@ -328,7 +343,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         <div className={styles.portalMessage}>
           <p><span /> Three transit windows open</p>
           <h2>CHOOSE YOUR<br /><em>PORTAL.</em></h2>
-          <small>ENGAGE A PRACTICE · BRING AN EDGE PROBLEM · ENTER THE NETWORK</small>
+          <small>HIRE A SPECIALIST · START A PROJECT · JOIN THE GUILD</small>
           <b>Distinct practices. One accountable Guild.<br />Every engagement operates through RaidGuild LLC.</b>
         </div>
       )}
