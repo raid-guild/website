@@ -14,7 +14,7 @@ const activeSpears = [
     tag: "ACTIVE SPEAR / RAIDGUILD.AI",
     status: "DEPLOYING",
     href: "https://raidguild.ai",
-    cta: "Enter the AI practice",
+    cta: "Explore the AI practice",
   },
   {
     index: "02",
@@ -329,6 +329,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
           <p><span /> Three transit windows open</p>
           <h2>CHOOSE YOUR<br /><em>PORTAL.</em></h2>
           <small>ENGAGE A PRACTICE · BRING AN EDGE PROBLEM · ENTER THE NETWORK</small>
+          <b>Distinct practices. One accountable Guild.<br />Every engagement operates through RaidGuild LLC.</b>
         </div>
       )}
       <p className={styles.portalCoordinates}>39°44′N / 104°59′W<br />DESTINATION: UNMAPPED</p>
@@ -648,7 +649,7 @@ export default function HomeExperience() {
           <p className={styles.sectionLabel}>[ ACTIVE SPEARS ]</p>
           <h2>Specialized at<br />the <em>applied edge.</em></h2>
           <div className={styles.practiceAside}>
-            <p>Focused practices with the Guild&apos;s full builder network behind them.</p>
+            <p>Independently led specialist practices operating through RaidGuild LLC, with shared contracts, treasury, infrastructure, and access to the Guild&apos;s builder network.</p>
             <a href="#contact">Bring us an edge problem <span>↘</span></a>
           </div>
         </div>
@@ -660,10 +661,14 @@ export default function HomeExperience() {
                 <i>{item.status}</i>
               </div>
               <div className={styles.disciplineGlyph} aria-hidden="true"><span /><span /><span /></div>
+              <p className={styles.spearEndorsement}><Sigil /> RAIDGUILD PRACTICE / VERIFIED SPEAR</p>
               <p className={styles.disciplineTag}>{item.tag}</p>
               <h3>{item.title}</h3>
               <p>{item.copy}</p>
-              <a href={item.href} target="_blank" rel="noreferrer">{item.cta} <span>↗</span></a>
+              <div className={styles.spearActions}>
+                <a href={item.href} target="_blank" rel="noreferrer">{item.cta} <span>↗</span><small>OPENS THE SPECIALIST PRACTICE SITE</small></a>
+                <a href="#contact">Bring this problem to the Guild <span>↘</span></a>
+              </div>
             </article>
           ))}
           <article className={`${styles.discipline} ${styles.problemSpear}`}>
@@ -671,7 +676,7 @@ export default function HomeExperience() {
             <div className={styles.disciplineGlyph} aria-hidden="true"><span /><span /><span /></div>
             <p className={styles.disciplineTag}>GUILD-LEVEL DISCOVERY</p>
             <h3>Your edge problem</h3>
-            <p>You know what needs to change, but the solution crosses disciplines. Bring us the problem; the Guild will find the right edge and assemble the crew.</p>
+            <p>Not sure which practice fits? Tell us what you&apos;re trying to change. The Guild will identify the right edge and assemble the crew.</p>
             <a href="#contact">Start a transmission <span>↘</span></a>
           </article>
         </div>
