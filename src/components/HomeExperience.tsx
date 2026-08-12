@@ -674,6 +674,7 @@ export default function HomeExperience() {
           <article className={`${styles.discipline} ${styles.problemSpear}`}>
             <div className={styles.disciplineTop}><span>SP—??</span><i>UNMAPPED</i></div>
             <div className={styles.disciplineGlyph} aria-hidden="true"><span /><span /><span /></div>
+            <p className={styles.spearEndorsement}><Sigil /> RAIDGUILD NETWORK / SHARED INTAKE</p>
             <p className={styles.disciplineTag}>GUILD-LEVEL DISCOVERY</p>
             <h3>Your edge problem</h3>
             <p>Not sure which practice fits? Tell us what you&apos;re trying to change. The Guild will identify the right edge and assemble the crew.</p>
@@ -745,7 +746,11 @@ export default function HomeExperience() {
       <section className={styles.contact} id="contact">
         <div className={styles.contactIntro}>
           <p className={styles.sectionLabel}>[ BEGIN A TRANSMISSION ]</p>
-          <h2>What impossible thing<br />are you <em>building?</em></h2>
+          <h2 className={styles.contactHeadline}>
+            <span>What impossible</span>
+            <span>thing are you</span>
+            <span><em>building?</em></span>
+          </h2>
           <p className={styles.contactDek}>Send the first signal. Tell us who you are, what world you&apos;re trying to make, and what it will take to get there.</p>
           <dl className={styles.contactProtocol}>
             <div><dt>RESPONSE</dt><dd>WITHIN 48 HOURS</dd></div>

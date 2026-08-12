@@ -214,6 +214,8 @@
 
 .contact { align-items: start; background: var(--paper); display: grid; gap: clamp(60px, 8vw, 130px); grid-template-columns: minmax(340px, .82fr) minmax(540px, 1fr); padding: clamp(100px, 12vw, 180px) clamp(24px, 7vw, 110px); }
 .contactIntro { position: sticky; top: 70px; }
+.contact h2.contactHeadline { font-size: clamp(50px, 5.7vw, 88px); }
+.contactHeadline span { display: block; white-space: nowrap; }
 .contactDek { font-family: var(--font-body), serif; font-size: clamp(18px, 1.6vw, 23px); line-height: 1.45; margin: 42px 0 0; max-width: 590px; }
 .contactProtocol { border-top: 1px solid rgba(16,45,44,.3); display: grid; grid-template-columns: repeat(3, 1fr); margin: 70px 0 0; padding-top: 18px; }
 .contactProtocol div { border-left: 1px solid rgba(16,45,44,.25); padding-left: 12px; }
@@ -402,6 +404,7 @@
   .creedFooter { gap: 12px; }
   .creedFooter span { max-width: 90px; }
   .contact { padding-left: 22px; padding-right: 22px; }
+  .contactHeadline span { white-space: normal; }
   .contactProtocol { grid-template-columns: 1fr; }
   .contactProtocol div { border-bottom: 1px solid rgba(16,45,44,.2); padding: 14px 0; }
   .contactFormShell { box-shadow: 10px 10px 0 var(--sky); margin-right: 10px; padding: 28px 20px; }
