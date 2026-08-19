@@ -31,6 +31,14 @@
 .brand { align-items: center; color: inherit; display: inline-flex; font-size: 12px; font-weight: 700; letter-spacing: .11em; line-height: .9; text-decoration: none; }
 .sigil { align-items: center; border: 1px solid currentColor; border-radius: 50%; display: inline-flex; height: 41px; justify-content: center; margin-right: 12px; position: relative; width: 41px; }
 .swordMark { background: currentColor; display: block; height: 27px; -webkit-mask: url("/images/neo/raidguild-swords.png") center / contain no-repeat; mask: url("/images/neo/raidguild-swords.png") center / contain no-repeat; width: 29px; }
+.celestialToggle { align-items: center; background: rgba(5,34,34,.52); border: 1px solid rgba(239,233,215,.24); border-radius: 999px; color: var(--paper); cursor: pointer; display: flex; font-family: var(--font-mono), monospace; gap: 8px; left: clamp(158px, 10vw, 192px); padding: 5px 9px 5px 6px; position: absolute; transition: background .3s, border-color .3s; }
+.celestialToggle:hover { background: rgba(5,34,34,.8); border-color: rgba(239,233,215,.55); }
+.celestialToggle > span { background: rgba(239,233,215,.14); border: 1px solid rgba(239,233,215,.38); border-radius: 999px; display: block; height: 18px; position: relative; width: 34px; }
+.celestialToggle > span::before { color: var(--paper); content: "☼"; font-family: serif; font-size: 10px; left: 3px; line-height: 16px; opacity: .72; position: absolute; }
+.celestialToggle > span::after { color: var(--paper); content: "☾"; font-family: serif; font-size: 10px; line-height: 16px; opacity: .72; position: absolute; right: 3px; }
+.celestialToggle i { background: var(--paper); border-radius: 50%; box-shadow: 0 0 8px rgba(239,233,215,.55); height: 10px; left: 3px; position: absolute; top: 3px; transform: translateX(0); transition: background .75s, box-shadow .75s, transform .75s cubic-bezier(.16,.76,.18,1); width: 10px; z-index: 1; }
+.celestialToggle b { font-size: 7px; letter-spacing: .16em; min-width: 34px; text-align: center; }
+.nightMode .celestialToggle i { background: #8fe3ef; box-shadow: 0 0 10px rgba(113,221,235,.82); transform: translateX(16px); }
 
 .nav { align-items: center; backdrop-filter: blur(12px) saturate(1.15); background: rgba(5,34,34,.52); border: 1px solid rgba(239,233,215,.2); border-radius: 100px; box-shadow: 0 8px 30px rgba(4,22,24,.16); display: flex; gap: clamp(18px, 2.15vw, 38px); padding: 10px 23px; -webkit-backdrop-filter: blur(12px) saturate(1.15); }
 .nav a { color: inherit; font-size: 11px; font-weight: 700; letter-spacing: .12em; position: relative; text-decoration: none; text-shadow: 0 1px 10px rgba(0,0,0,.45); text-transform: uppercase; }
@@ -57,6 +65,7 @@
 
 .hero { background: var(--deep); color: var(--paper); height: max(1060px, 140svh); min-height: 1060px; position: relative; }
 .heroStage { height: 100svh; min-height: 760px; overflow: hidden; position: sticky; top: 0; }
+.heroExploring { --neo-curtain-open: 152px; --neo-curtain-speed: .68s; --neo-track-title-x: 54px; }
 .heroCelestial { inset: -10%; position: absolute; transform: translate3d(var(--neo-sky-x, 0), var(--neo-sky-y, 0), 0) translateX(var(--neo-track-sky-x, 0)); z-index: 0; }
 .heroCelestial span { border: 1px solid rgba(239,233,215,.22); border-radius: 50%; position: absolute; }
 .moonLarge { height: 25vw; max-height: 400px; max-width: 400px; right: 7%; top: 7%; width: 25vw; }
@@ -64,17 +73,55 @@
 .orbitLine { border-bottom-color: transparent !important; border-left-color: transparent !important; height: 52vw; right: -7%; top: -19%; transform: rotate(22deg); width: 52vw; }
 .heroArt { inset: 0; position: absolute; z-index: 1; }
 .heroImage { object-fit: cover; object-position: calc(48% + var(--neo-land-x, 0px) + var(--neo-track-land-x, 0px)) 58%; transition: object-position .22s cubic-bezier(.2,.7,.2,1); }
+.heroNightImage { opacity: 0; transition: object-position .22s cubic-bezier(.2,.7,.2,1), opacity 1.35s cubic-bezier(.2,.7,.2,1); }
+.nightMode .heroNightImage { opacity: 1; }
 .heroWash { background: linear-gradient(90deg, rgba(5, 34, 34, .88) 0%, rgba(5, 34, 34, .43) 31%, rgba(5, 34, 34, .02) 65%), linear-gradient(0deg, rgba(5,27,28,.72), transparent 34%, rgba(2, 25, 27, .26)); inset: 0; position: absolute; z-index: 2; }
+.nightMode .heroWash { background: linear-gradient(90deg, rgba(2,14,28,.76) 0%, rgba(2,18,31,.3) 31%, rgba(2,18,31,.02) 65%), linear-gradient(0deg, rgba(1,10,20,.66), transparent 38%, rgba(1,10,20,.14)); }
 .heroWash::after { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E"); content: ""; inset: 0; mix-blend-mode: soft-light; opacity: .35; pointer-events: none; position: absolute; }
-.heroCopy { bottom: clamp(252px, 28vh, 320px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(var(--neo-title-x, 0), var(--neo-copy-y, 0), 0) translateX(var(--neo-track-title-x, 0)); transition: transform .3s cubic-bezier(.2,.7,.2,1); width: min(820px, 80vw); z-index: 4; }
-.heroTitle { background: transparent; border: 0; color: inherit; cursor: pointer; display: block; font: inherit; padding: 0; position: relative; text-align: left; }
+.heroLandmarks { filter: saturate(.92) contrast(1.02); inset: 0; opacity: 0; pointer-events: none; position: absolute; transform: translateY(8px) scale(.995); transition: opacity .48s ease, transform .72s cubic-bezier(.16,.76,.18,1), filter .48s ease; z-index: 5; }
+.heroExploring .heroLandmarks { filter: saturate(1.08) contrast(1.045) drop-shadow(0 0 1px rgba(239,233,215,.82)) drop-shadow(0 0 10px rgba(238,60,120,.28)) drop-shadow(0 12px 18px rgba(2,25,27,.16)); opacity: 1; transform: translateY(-3px) scale(1.006); }
+.landmarkImage { object-fit: cover; object-position: 48% 58%; }
+.heroWayfinding { inset: 0; opacity: .46; pointer-events: none; position: absolute; transition: opacity .5s ease; z-index: 8; }
+.heroExploring .heroWayfinding, .heroWayfinding:focus-within { opacity: 1; }
+.heroOrbitMap { fill: none; height: 100%; inset: 0; overflow: visible; pointer-events: none; position: absolute; stroke: rgba(239,233,215,.4); stroke-dasharray: 2 9; stroke-width: .65; width: 100%; }
+.heroOrbitMap ellipse { opacity: .34; }
+.heroOrbitMap path { opacity: .18; }
+.heroHub { align-items: center; display: flex; gap: 9px; left: 53.5%; opacity: 0; pointer-events: none; position: absolute; top: 49.3%; transform: translate(-50%, -50%) scale(.9); transition: opacity .35s, transform .5s; }
+.heroExploring .heroHub { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+.heroHub > i { background: var(--coral); border: 1px solid var(--paper); border-radius: 50%; box-shadow: 0 0 0 7px rgba(238,60,120,.18); height: 9px; width: 9px; }
+.heroHub > span { display: none; }
+.heroHub small { font-size: 5px; font-weight: 400; opacity: .7; }
+.heroWaypoint { color: var(--paper); height: 52px; pointer-events: auto; position: absolute; text-decoration: none; width: 52px; }
+.heroWaypoint::after { backdrop-filter: blur(8px); background: rgba(5,34,34,.74); border: 1px solid rgba(239,233,215,.22); border-radius: 999px; content: attr(data-route); font-size: 7px; font-weight: 700; left: 43px; letter-spacing: .16em; opacity: 0; padding: 6px 9px 5px; pointer-events: none; position: absolute; text-shadow: 0 1px 7px var(--deep); top: 18px; transform: translateX(5px); transition: opacity .3s, transform .35s; white-space: nowrap; -webkit-backdrop-filter: blur(8px); }
+.heroExploring .heroWaypoint::after { opacity: 1; transform: translateX(0); }
+.heroWaypoint:hover::after, .heroWaypoint:focus-visible::after { opacity: 0; }
+.heroWaypoint > i { animation: waypointPulse 3.6s ease-in-out infinite; backdrop-filter: blur(3px); background: rgba(238,60,120,.72); border: 1px solid rgba(239,233,215,.94); border-radius: 50%; box-shadow: 0 0 0 7px rgba(238,60,120,.14), 0 0 13px rgba(238,60,120,.28); display: block; height: 14px; left: 19px; position: absolute; top: 19px; transition: background .25s, box-shadow .25s, transform .25s; width: 14px; -webkit-backdrop-filter: blur(3px); }
+.heroWaypoint > i::after { border: 1px solid rgba(239,233,215,.72); border-radius: 50%; content: ""; inset: -7px; position: absolute; }
+.heroExploring .heroWaypoint > i { background: var(--coral); box-shadow: 0 0 0 8px rgba(238,60,120,.17); }
+.heroWaypoint:hover > i, .heroWaypoint:focus-visible > i { background: var(--coral); box-shadow: 0 0 0 9px rgba(238,60,120,.2); transform: scale(1.18); }
+.heroWaypoint:focus-visible { outline: 1px solid var(--paper); outline-offset: 5px; }
+.waypointShip { left: 25.1%; top: 69.5%; }
+.waypointCitadel { left: 69%; top: 21%; }
+.waypointProcession { left: 54.6%; top: 70.2%; }
+.waypointLabel { backdrop-filter: blur(9px); background: rgba(5,34,34,.68); border-left: 1px solid var(--coral); display: flex; flex-direction: column; left: 38px; min-width: 210px; opacity: 0; padding: 10px 12px; pointer-events: none; position: absolute; top: 29px; transform: translate(8px, -50%); transition: opacity .3s, transform .35s; -webkit-backdrop-filter: blur(9px); }
+.heroWaypoint:hover .waypointLabel, .heroWaypoint:focus-visible .waypointLabel { opacity: 1; transform: translate(4px, -50%); }
+.waypointLabel small { color: var(--coral); font-size: 6px; letter-spacing: .16em; margin-bottom: 4px; }
+.waypointLabel strong { font-family: var(--font-body), serif; font-size: 17px; font-weight: 500; line-height: 1; }
+.waypointLabel em { font-family: var(--font-body), serif; font-size: 11px; font-style: normal; line-height: 1.2; margin-top: 5px; opacity: .72; }
+.waypointCitadel .waypointLabel { left: auto; right: 38px; text-align: right; }
+.waypointCitadel::after { left: auto; right: 43px; text-align: right; }
+@keyframes waypointPulse { 50% { box-shadow: 0 0 0 9px rgba(239,233,215,0); } }
+.heroCopy { left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; top: clamp(138px, 17vh, 172px); transform: translate3d(var(--neo-title-x, 0), var(--neo-copy-y, 0), 0) translateX(var(--neo-track-title-x, 0)); transition: transform .3s cubic-bezier(.2,.7,.2,1); width: min(720px, 70vw); z-index: 4; }
+.heroTitle { color: inherit; display: block; position: relative; text-align: left; transform: translateX(clamp(-100px, -5.5vw, -64px)); transition: transform .3s cubic-bezier(.2,.7,.2,1); width: max-content; }
+.heroExploring .heroTitle { transform: translateX(0); }
 .heroTitle > span { bottom: -27px; font-family: var(--font-mono), monospace; font-size: 7px; left: 5px; letter-spacing: .18em; opacity: 0; position: absolute; transition: opacity .2s, transform .2s; }
-.heroTitle:hover > span, .heroTitle:focus-visible > span { opacity: .7; transform: translateX(6px); }
-.heroTitle:focus-visible { outline: 1px solid var(--paper); outline-offset: 12px; }
-.heroSupplement { bottom: clamp(74px, 9vh, 104px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(0, var(--neo-copy-y, 0), 0); width: min(540px, 75vw); z-index: 7; }
+.heroTitle:hover > span, .heroTitle:focus-within > span { opacity: .7; transform: translateX(6px); }
+.heroTitle h1:focus-visible { outline: 1px solid var(--paper); outline-offset: 12px; }
+.heroSupplement { bottom: clamp(74px, 9vh, 104px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(0, var(--neo-copy-y, 0), 0); transition: opacity .3s ease; width: min(540px, 75vw); z-index: 7; }
+.heroExploring .heroSupplement { opacity: 0; pointer-events: none; }
 .eyebrow { align-items: center; display: flex; font-size: 10px; font-weight: 700; letter-spacing: .19em; margin: 0 0 20px; text-transform: uppercase; }
 .eyebrow span { background: var(--coral); border-radius: 50%; box-shadow: 0 0 0 5px rgba(238,60,120,.2); height: 7px; margin-right: 14px; width: 7px; }
-.hero h1 { font-family: var(--font-display), serif; font-size: clamp(74px, 11.5vw, 184px); font-weight: 500; letter-spacing: -.065em; line-height: .69; margin: 0; text-shadow: 0 2px 30px rgba(2,25,27,.16); }
+.hero h1 { font-family: var(--font-display), serif; font-size: clamp(74px, 10vw, 160px); font-weight: 500; letter-spacing: -.065em; line-height: .69; margin: 0; text-shadow: 0 2px 30px rgba(2,25,27,.16); }
 .hero h1 em { color: var(--coral); font-weight: 400; }
 .heroDek { font-family: var(--font-body), serif; font-size: clamp(18px, 1.65vw, 25px); line-height: 1.28; margin: 35px 0 0; max-width: 520px; }
 .discover { align-items: center; color: inherit; display: flex; font-size: 10px; gap: 18px; letter-spacing: .16em; margin-top: 40px; text-decoration: none; text-transform: uppercase; width: max-content; }
@@ -88,6 +135,8 @@
 .heroForegroundLeft { clip-path: inset(0 50% 0 0); transform: translate3d(calc(72px - var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
 .heroForegroundRight { clip-path: inset(0 0 0 50%); transform: translate3d(calc(-58px + var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
 .foregroundImage { object-fit: cover; object-position: 48% 58%; }
+.nightMode .foregroundImage { filter: brightness(.46) saturate(.82) hue-rotate(7deg) contrast(1.14); }
+.nightMode .heroExploring .heroLandmarks { filter: brightness(.54) saturate(.9) hue-rotate(7deg) contrast(1.12) drop-shadow(0 0 1px rgba(143,227,239,.9)) drop-shadow(0 0 12px rgba(238,60,120,.34)) drop-shadow(0 12px 18px rgba(1,8,18,.35)); }
 
 .signalBar { background: var(--coral); color: var(--paper); overflow: hidden; padding: 14px 0 13px; }
 .signalBar div { align-items: center; animation: signal 28s linear infinite; display: flex; gap: 30px; width: max-content; }
@@ -279,6 +328,60 @@
 .socials a { color: inherit; font-size: 9px; letter-spacing: .13em; text-decoration: none; }
 .footer small { border-top: 1px solid rgba(239,233,215,.2); font-size: 7px; grid-column: 1 / -1; letter-spacing: .14em; opacity: .6; padding-top: 25px; }
 
+/* Night is an atmospheric palette, not a blanket color inversion. */
+.nightMode { background: #071722; color: #e8e6d9; }
+.prologue, .practice, .fieldNotes, .featuredMission, .creed, .contact, .footer { transition: background-color .9s ease, color .9s ease, border-color .9s ease; }
+.nightMode .signalBar { background: #a72d68; }
+
+.nightMode .prologue {
+  background-color: #0b2230;
+  background-image: radial-gradient(circle at 82% 16%, rgba(143,227,239,.07) 0 1px, transparent 1.5px), repeating-linear-gradient(107deg, transparent 0 21px, rgba(232,230,217,.018) 22px, transparent 23px 46px);
+  color: #e8e6d9;
+}
+.nightMode .prologue::before { border-color: rgba(143,227,239,.13); }
+.nightMode .prologue::after { background: radial-gradient(circle at 50% 50%, transparent 0 21px, rgba(143,227,239,.14) 22px 23px, transparent 24px 49px, rgba(143,227,239,.08) 50px 51px, transparent 52px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(232,230,217,.09) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(232,230,217,.09) 50%, transparent calc(50% + .5px)); }
+.nightMode .orbit { border-color: rgba(143,227,239,.42); }
+.nightMode .orbit::before { border-color: rgba(232,230,217,.18); }
+.nightMode .prologueBody, .nightMode .rosterHeading, .nightMode .memberMarquee { border-color: rgba(232,230,217,.22); }
+.nightMode .stewardCard, .nightMode .stewardCard:last-child, .nightMode .memberRail > a, .nightMode .memberRail > div { border-color: rgba(232,230,217,.2); }
+.nightMode .stewardCard:hover { background: #163949; color: #f1edde; }
+.nightMode .stewardPortrait, .nightMode .memberRail img { background: #173c4d; }
+.nightMode .stewardPortrait::after { border-color: rgba(143,227,239,.28); }
+.nightMode .stewardPortrait img, .nightMode .memberRail img { filter: saturate(.58) brightness(.82) contrast(1.08); }
+
+.nightMode .practice { background: #06141f; color: #e8e6d9; }
+.nightMode .discipline:hover { background: #173c4d; color: #f1edde; }
+.nightMode .discipline:hover .spearEndorsement { color: #f1edde; }
+.nightMode .problemSpear { background: rgba(143,227,239,.045); }
+
+.nightMode .fieldNotes {
+  background-color: #102c3c;
+  background-image: radial-gradient(circle at 14% 78%, rgba(143,227,239,.075) 0 1px, transparent 1.5px);
+  color: #e8e6d9;
+}
+.nightMode .fieldNotes::before { background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(143,227,239,.075) 25%); }
+.nightMode .fieldNotes::after { border-color: rgba(143,227,239,.16); }
+.nightMode .fieldIntro::after { background: radial-gradient(circle, transparent 0 15px, rgba(143,227,239,.18) 16px 17px, transparent 18px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(143,227,239,.12) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(143,227,239,.12) 50%, transparent calc(50% + .5px)); }
+.nightMode .fieldControls button { border-color: rgba(232,230,217,.48); color: #e8e6d9; }
+.nightMode .fieldControls button:hover { background: #8fe3ef; color: #071722; }
+.nightMode .featuredMission { background: #0a1f2d; color: #e8e6d9; }
+.nightMode .missionImage { filter: brightness(.7) saturate(.82) hue-rotate(5deg) contrast(1.08); }
+.nightMode .artBadge { background: #8fe3ef; color: #071722; }
+.nightMode .missionCopy dl div { border-color: rgba(232,230,217,.22); }
+
+.nightMode .creed { background: #792653; color: #f1edde; }
+.nightMode .creed em { color: #9ce8ef; text-shadow: 0 0 28px rgba(143,227,239,.2); }
+.nightMode .creedMoons { mix-blend-mode: screen; opacity: .22; }
+.nightMode .creedCreature { filter: grayscale(1) sepia(.1) saturate(.8) brightness(.72) hue-rotate(145deg); mix-blend-mode: screen; opacity: .16; }
+
+.nightMode .contact {
+  background-color: #dce7e3;
+  background-image: radial-gradient(circle at 16% 22%, rgba(16,45,44,.04) 0 1px, transparent 1.5px), radial-gradient(circle at 74% 68%, rgba(16,45,44,.03) 0 1px, transparent 1.4px), repeating-linear-gradient(103deg, transparent 0 17px, rgba(16,45,44,.018) 18px, transparent 19px 38px);
+  color: #102d2c;
+}
+.nightMode .contactFormShell { background: #06141f; box-shadow: 20px 20px 0 #8fc9d0; }
+.nightMode .footer { background: #040f18; color: #e8e6d9; }
+
 .siteGlitching > .header, .siteGlitching > .hero { animation: realityGlitch 3.4s steps(1, end) both; transform-origin: center; will-change: filter, transform; }
 .siteGlitching::after { animation: glitchBands 3.4s steps(2, end) both; background: repeating-linear-gradient(0deg, transparent 0 8px, rgba(109,230,223,.12) 9px, transparent 10px 17px, rgba(238,60,120,.1) 18px, transparent 19px 26px); content: ""; inset: 0; mix-blend-mode: screen; pointer-events: none; position: fixed; z-index: 99; }
 
@@ -374,7 +477,11 @@
   .menuButton { background: none; border: 0; display: block; height: 36px; padding: 0; position: relative; width: 36px; z-index: 2; }
   .menuButton span { background: var(--paper); height: 1px; left: 6px; position: absolute; top: 15px; width: 24px; }
   .menuButton span:last-child { top: 21px; }
+  .celestialToggle { left: 138px; }
   .portalTrigger { bottom: 18px; right: 18px; top: auto; }
+  .heroWayfinding { opacity: .7; }
+  .heroWaypoint::after { opacity: .7; }
+  .heroWaypoint > i { background: rgba(238,60,120,.72); }
   .prologue { grid-template-columns: 1fr; }
   .prologueMark { margin-bottom: 80px; }
   .rosterHeading { align-items: start; flex-direction: column; gap: 25px; }
@@ -410,12 +517,16 @@
 @media (max-width: 600px) {
   .hero { height: 130svh; min-height: 920px; }
   .heroStage { min-height: 680px; }
+  .celestialToggle { left: 126px; }
   .heroImage { object-position: 56% center; }
   .heroForeground { inset: -6% -23% -14%; }
   .heroForegroundLeft { transform: translate3d(calc(42px - var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
   .heroForegroundRight { transform: translate3d(calc(-34px + var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
   .heroWash { background: linear-gradient(90deg, rgba(5,34,34,.82), rgba(5,34,34,.22)), linear-gradient(0deg, rgba(5,27,28,.8), transparent 55%); }
-  .heroCopy { bottom: 265px; left: 22px; width: calc(100% - 44px); }
+  .heroExploring { --neo-track-title-x: 0px; }
+  .heroCopy { bottom: 265px; left: 22px; top: auto; width: calc(100% - 44px); }
+  .heroTitle, .heroExploring .heroTitle { transform: none; }
+  .heroExploring .heroSupplement { opacity: var(--neo-copy-opacity, 1); pointer-events: auto; }
   .heroSupplement { bottom: 72px; left: 22px; width: calc(100% - 44px); }
   .hero h1 { font-size: clamp(70px, 23vw, 105px); line-height: .72; }
   .heroDek { font-size: 18px; max-width: 330px; }
@@ -455,6 +566,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .heroArt, .heroForeground, .heroCelestial, .heroCopy, .heroSupplement, .heroIndex, .signalBar div, .orbit::after { animation: none; transform: none; transition: none; }
+  .heroNightImage, .celestialToggle i { transition: none; }
   .missionImage { transition: none; }
   .portalAtmosphere, .portalMachine::before, .portalMachine::after, .portalHalo, .portalHalo::before, .portalThreshold, .portalThreshold::after, .portalMessage > p span { animation: none; }
 }

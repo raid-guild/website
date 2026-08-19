@@ -359,22 +359,21 @@ export default function HomeExperience() {
   const [portalForming, setPortalForming] = useState(false);
   const [portalClosing, setPortalClosing] = useState(false);
   const [heroRevealed, setHeroRevealed] = useState(false);
+  const [isNight, setIsNight] = useState(false);
   const heroRef = useRef<HTMLElement>(null);
   const fieldTrackRef = useRef<HTMLDivElement>(null);
-  const horizontalPanRef = useRef(0);
-  const curtainRevealRef = useRef(0);
+  const heroRevealTimerRef = useRef<number | null>(null);
   const portalTimerRef = useRef<number | null>(null);
   const portalFormTimerRef = useRef<number | null>(null);
 
-  const toggleHeroReveal = () => {
-    const next = !heroRevealed;
-    setHeroRevealed(next);
-    const root = document.documentElement;
-    root.style.setProperty("--neo-curtain-speed", ".65s");
-    root.style.setProperty("--neo-curtain-open", next ? "290px" : "0px");
-    root.style.setProperty("--neo-track-title-x", next ? "230px" : "0px");
-    curtainRevealRef.current = next ? 1 : 0;
-    if (!next) horizontalPanRef.current = 0;
+  const revealHero = () => {
+    if (heroRevealTimerRef.current) window.clearTimeout(heroRevealTimerRef.current);
+    setHeroRevealed(true);
+  };
+
+  const restHero = () => {
+    if (heroRevealTimerRef.current) window.clearTimeout(heroRevealTimerRef.current);
+    heroRevealTimerRef.current = window.setTimeout(() => setHeroRevealed(false), 2200);
   };
 
   const openPortal = () => {
@@ -402,6 +401,7 @@ export default function HomeExperience() {
   };
 
   useEffect(() => () => {
+    if (heroRevealTimerRef.current) window.clearTimeout(heroRevealTimerRef.current);
     if (portalTimerRef.current) window.clearTimeout(portalTimerRef.current);
     if (portalFormTimerRef.current) window.clearTimeout(portalFormTimerRef.current);
   }, []);
@@ -440,32 +440,6 @@ export default function HomeExperience() {
   }, []);
 
   useEffect(() => {
-    const updateHorizontalPan = (event: WheelEvent) => {
-      const hero = heroRef.current;
-      if (!hero || Math.abs(event.deltaX) < Math.abs(event.deltaY) || Math.abs(event.deltaX) < 1) return;
-
-      const bounds = hero.getBoundingClientRect();
-      if (bounds.bottom <= 0 || bounds.top >= window.innerHeight) return;
-
-      event.preventDefault();
-      if (heroRevealed) return;
-      horizontalPanRef.current = Math.min(1, Math.max(-1, horizontalPanRef.current + event.deltaX * 0.0018));
-      const pan = horizontalPanRef.current;
-      curtainRevealRef.current = Math.min(1, curtainRevealRef.current + Math.abs(event.deltaX) * 0.0015);
-      const curtainOpen = curtainRevealRef.current;
-      const root = document.documentElement;
-      root.style.setProperty("--neo-curtain-speed", ".12s");
-      root.style.setProperty("--neo-track-title-x", `${(curtainOpen * 190).toFixed(1)}px`);
-      root.style.setProperty("--neo-track-land-x", `${(pan * -34).toFixed(1)}px`);
-      root.style.setProperty("--neo-track-sky-x", `${(pan * -14).toFixed(1)}px`);
-      root.style.setProperty("--neo-curtain-open", `${(curtainOpen * 150).toFixed(1)}px`);
-    };
-
-    window.addEventListener("wheel", updateHorizontalPan, { passive: false });
-    return () => window.removeEventListener("wheel", updateHorizontalPan);
-  }, [heroRevealed]);
-
-  useEffect(() => {
     let frame = 0;
     const updateScroll = () => {
       if (frame) return;
@@ -499,12 +473,23 @@ export default function HomeExperience() {
   }, []);
 
   return (
-    <main className={`${styles.site} ${portalForming ? styles.siteGlitching : ""}`}>
+    <main className={`${styles.site} ${isNight ? styles.nightMode : ""} ${portalForming ? styles.siteGlitching : ""}`}>
       <header className={styles.header}>
         <a className={styles.brand} href="#top" aria-label="RaidGuild home">
           <Sigil />
           <span>RAID<br />GUILD</span>
         </a>
+
+        <button
+          className={styles.celestialToggle}
+          type="button"
+          aria-label={`Switch to ${isNight ? "day" : "night"} mode`}
+          aria-pressed={isNight}
+          onClick={() => setIsNight((night) => !night)}
+        >
+          <span aria-hidden="true"><i /></span>
+          <b>{isNight ? "NIGHT" : "DAY"}</b>
+        </button>
 
         <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Primary navigation">
           <a href="#spears" onClick={() => setMenuOpen(false)}>Active spears</a>
@@ -538,7 +523,7 @@ export default function HomeExperience() {
           <span className={styles.portalTriggerMark}><Sigil /><i /></span>
           <span className={styles.portalTriggerCopy}><small>TRANSIT READY</small>OPEN A PORTAL <i>↗</i></span>
         </button>
-        <div className={styles.heroStage}>
+        <div className={`${styles.heroStage} ${heroRevealed ? styles.heroExploring : ""}`}>
           <div className={styles.heroCelestial} aria-hidden="true">
             <span className={styles.moonLarge} />
             <span className={styles.moonSmall} />
@@ -553,20 +538,86 @@ export default function HomeExperience() {
               sizes="100vw"
               className={styles.heroImage}
             />
+            <Image
+              src="/images/neo/raidguild-panorama-night-v1.webp"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className={`${styles.heroImage} ${styles.heroNightImage}`}
+            />
           </div>
           <div className={styles.heroWash} />
+          <div className={styles.heroLandmarks} aria-hidden="true">
+            <Image
+              src="/images/neo/hero-landmarks-v1.png"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className={styles.landmarkImage}
+            />
+          </div>
+          <div className={styles.heroWayfinding}>
+            <svg className={styles.heroOrbitMap} viewBox="0 0 1000 700" aria-hidden="true" preserveAspectRatio="none">
+              <ellipse cx="535" cy="345" rx="286" ry="190" />
+              <path d="M535 345C440 388 357 440 276 512" />
+              <path d="M535 345C611 290 670 232 716 172" />
+              <path d="M535 345C548 405 560 460 570 518" />
+            </svg>
+
+            <div className={styles.heroHub} aria-hidden="true">
+              <i />
+              <span>RAIDGUILD<br /><small>CENTER OF GRAVITY</small></span>
+            </div>
+
+            <a className={`${styles.heroWaypoint} ${styles.waypointShip}`} href="#contact" data-route="BRING A CHALLENGE" onMouseEnter={revealHero} onMouseLeave={restHero} onFocus={revealHero} onBlur={restHero}>
+              <i />
+              <span className={styles.waypointLabel}>
+                <small>01 / SHARED INTAKE</small>
+                <strong>Bring a challenge</strong>
+                <em>We route the problem or assemble the crew.</em>
+              </span>
+            </a>
+
+            <a className={`${styles.heroWaypoint} ${styles.waypointCitadel}`} href="#spears" data-route="EXPLORE PRACTICES" onMouseEnter={revealHero} onMouseLeave={restHero} onFocus={revealHero} onBlur={restHero}>
+              <i />
+              <span className={styles.waypointLabel}>
+                <small>02 / ACTIVE SPEARS</small>
+                <strong>Explore practices</strong>
+                <em>Specialists working at the applied edge.</em>
+              </span>
+            </a>
+
+            <a
+              className={`${styles.heroWaypoint} ${styles.waypointProcession}`}
+              href="https://portal.raidguild.org"
+              target="_blank"
+              rel="noreferrer"
+              data-route="JOIN THE GUILD"
+              onMouseEnter={revealHero}
+              onMouseLeave={restHero}
+              onFocus={revealHero}
+              onBlur={restHero}
+            >
+              <i />
+              <span className={styles.waypointLabel}>
+                <small>03 / COMMUNITY</small>
+                <strong>Join the Guild</strong>
+                <em>Enter the builder network through Portal.</em>
+              </span>
+            </a>
+          </div>
           <div className={styles.heroCopy}>
             <p className={styles.eyebrow}><span /> Independent digital mercenaries</p>
-            <button
+            <div
               className={styles.heroTitle}
-              type="button"
-              aria-label={heroRevealed ? "Close the foreground curtain" : "Reveal Venture Beyond"}
-              aria-pressed={heroRevealed}
-              onClick={toggleHeroReveal}
+              onMouseEnter={revealHero}
+              onMouseLeave={restHero}
             >
-              <h1>VENTURE<br /><em>BEYOND.</em></h1>
-              <span>{heroRevealed ? "RESTORE THE FRAME" : "OPEN THE VIEW"}</span>
-            </button>
+              <h1 tabIndex={0} onFocus={revealHero} onBlur={restHero}>VENTURE<br /><em>BEYOND.</em></h1>
+              <span>{heroRevealed ? "THE WORLD IS OPEN" : "HOVER TO LOOK BEYOND"}</span>
+            </div>
           </div>
           <div className={styles.heroSupplement}>
             <p className={styles.heroDek}>
