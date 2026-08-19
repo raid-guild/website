@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import HireUs from "@/components/HireUs";
 import { mercenaries } from "@/lib/data/members";
@@ -360,11 +360,13 @@ export default function HomeExperience() {
   const [portalClosing, setPortalClosing] = useState(false);
   const [heroRevealed, setHeroRevealed] = useState(false);
   const [isNight, setIsNight] = useState(false);
+  const [arrivalTarget, setArrivalTarget] = useState<string | null>(null);
   const heroRef = useRef<HTMLElement>(null);
   const fieldTrackRef = useRef<HTMLDivElement>(null);
   const heroRevealTimerRef = useRef<number | null>(null);
   const portalTimerRef = useRef<number | null>(null);
   const portalFormTimerRef = useRef<number | null>(null);
+  const arrivalTimerRef = useRef<number | null>(null);
 
   const revealHero = () => {
     if (heroRevealTimerRef.current) window.clearTimeout(heroRevealTimerRef.current);
@@ -374,6 +376,26 @@ export default function HomeExperience() {
   const restHero = () => {
     if (heroRevealTimerRef.current) window.clearTimeout(heroRevealTimerRef.current);
     heroRevealTimerRef.current = window.setTimeout(() => setHeroRevealed(false), 2200);
+  };
+
+  const scrollToSection = (destination: "guild" | "spears" | "work" | "contact") => {
+    const target = document.getElementById(destination);
+    if (!target) return;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    target.scrollIntoView({ behavior: reduceMotion ? "auto" : "smooth", block: "start" });
+    if (arrivalTimerRef.current) window.clearTimeout(arrivalTimerRef.current);
+    setArrivalTarget(destination);
+    arrivalTimerRef.current = window.setTimeout(() => setArrivalTarget(null), reduceMotion ? 0 : 1800);
+  };
+
+  const followSectionLink = (
+    event: MouseEvent<HTMLAnchorElement>,
+    destination: "guild" | "spears" | "work" | "contact",
+    departHero = false,
+  ) => {
+    event.preventDefault();
+    if (departHero) setHeroRevealed(false);
+    scrollToSection(destination);
   };
 
   const openPortal = () => {
@@ -391,7 +413,7 @@ export default function HomeExperience() {
     portalTimerRef.current = window.setTimeout(() => {
       setPortalOpen(false);
       setPortalClosing(false);
-      if (destination) document.getElementById(destination)?.scrollIntoView({ behavior: "smooth" });
+      if (destination) scrollToSection(destination);
     }, destination ? 920 : 620);
   };
 
@@ -404,6 +426,7 @@ export default function HomeExperience() {
     if (heroRevealTimerRef.current) window.clearTimeout(heroRevealTimerRef.current);
     if (portalTimerRef.current) window.clearTimeout(portalTimerRef.current);
     if (portalFormTimerRef.current) window.clearTimeout(portalFormTimerRef.current);
+    if (arrivalTimerRef.current) window.clearTimeout(arrivalTimerRef.current);
   }, []);
 
   const scrollFields = (direction: number) => {
@@ -492,9 +515,9 @@ export default function HomeExperience() {
         </button>
 
         <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Primary navigation">
-          <a href="#spears" onClick={() => setMenuOpen(false)}>Active spears</a>
-          <a href="#work" onClick={() => setMenuOpen(false)}>Field notes</a>
-          <a href="#guild" onClick={() => setMenuOpen(false)}>The guild</a>
+          <a href="#guild" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "guild"); }}>The guild</a>
+          <a href="#spears" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "spears"); }}>Active spears</a>
+          <a href="#work" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "work"); }}>Field notes</a>
           <a
             className={styles.brandArchiveLink}
             href="https://raidguild-brand-guide-production.up.railway.app/"
@@ -571,7 +594,7 @@ export default function HomeExperience() {
               <span>RAIDGUILD<br /><small>CENTER OF GRAVITY</small></span>
             </div>
 
-            <a className={`${styles.heroWaypoint} ${styles.waypointShip}`} href="#contact" data-route="BRING A CHALLENGE" onMouseEnter={revealHero} onMouseLeave={restHero} onFocus={revealHero} onBlur={restHero}>
+            <a className={`${styles.heroWaypoint} ${styles.waypointShip}`} href="#contact" data-route="BRING A CHALLENGE" onClick={(event) => followSectionLink(event, "contact", true)} onMouseEnter={revealHero} onMouseLeave={restHero} onFocus={revealHero} onBlur={restHero}>
               <i />
               <span className={styles.waypointLabel}>
                 <small>01 / SHARED INTAKE</small>
@@ -580,7 +603,7 @@ export default function HomeExperience() {
               </span>
             </a>
 
-            <a className={`${styles.heroWaypoint} ${styles.waypointCitadel}`} href="#spears" data-route="EXPLORE PRACTICES" onMouseEnter={revealHero} onMouseLeave={restHero} onFocus={revealHero} onBlur={restHero}>
+            <a className={`${styles.heroWaypoint} ${styles.waypointCitadel}`} href="#spears" data-route="EXPLORE PRACTICES" onClick={(event) => followSectionLink(event, "spears", true)} onMouseEnter={revealHero} onMouseLeave={restHero} onFocus={revealHero} onBlur={restHero}>
               <i />
               <span className={styles.waypointLabel}>
                 <small>02 / ACTIVE SPEARS</small>
@@ -623,7 +646,7 @@ export default function HomeExperience() {
             <p className={styles.heroDek}>
               We are a builder-owned collective turning ambitious ideas into digital worlds worth inhabiting.
             </p>
-            <a href="#guild" className={styles.discover}>
+            <a href="#guild" className={styles.discover} onClick={(event) => followSectionLink(event, "guild", true)}>
               <span>Enter the world</span>
               <i>↓</i>
             </a>
@@ -664,7 +687,7 @@ export default function HomeExperience() {
         </div>
       </div>
 
-      <section className={styles.prologue} id="guild">
+      <section className={`${styles.prologue} ${arrivalTarget === "guild" ? styles.sectionArriving : ""}`} id="guild">
         <div className={styles.prologueMark}>
           <div className={styles.orbit}><Sigil /></div>
           <span>THE MANY / AS ONE</span>
@@ -741,7 +764,7 @@ export default function HomeExperience() {
         </div>
       </section>
 
-      <section className={styles.practice} id="spears">
+      <section className={`${styles.practice} ${arrivalTarget === "spears" ? styles.sectionArriving : ""}`} id="spears">
         <div className={styles.practiceHeading}>
           <p className={styles.sectionLabel}>[ ACTIVE SPEARS ]</p>
           <h2>Specialized at<br />the <em>applied edge.</em></h2>
@@ -780,7 +803,7 @@ export default function HomeExperience() {
         </div>
       </section>
 
-      <section className={styles.fieldNotes} id="work">
+      <section className={`${styles.fieldNotes} ${arrivalTarget === "work" ? styles.sectionArriving : ""}`} id="work">
         <div className={styles.fieldIntro}>
           <p className={styles.sectionLabel}>[ SELECTED EXPEDITIONS ]</p>
           <h2>Proof from<br />the <em>frontier.</em></h2>
@@ -856,7 +879,7 @@ export default function HomeExperience() {
         </div>
       </section>
 
-      <section className={styles.contact} id="contact">
+      <section className={`${styles.contact} ${arrivalTarget === "contact" ? styles.sectionArriving : ""}`} id="contact">
         <div className={styles.contactIntro}>
           <p className={styles.sectionLabel}>[ BEGIN A TRANSMISSION ]</p>
           <h2 className={styles.contactHeadline}>

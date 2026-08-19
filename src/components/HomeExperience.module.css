@@ -157,6 +157,12 @@
 .orbit .swordMark { height: 50px; width: 54px; }
 @keyframes orbit { to { transform: rotate(360deg); } }
 .sectionLabel { font-size: 9px; font-weight: 700; letter-spacing: .2em; margin: 0 0 30px; text-transform: uppercase; }
+.sectionArriving .sectionLabel { animation: arrivalSignal 1.8s cubic-bezier(.16,.76,.18,1) both; }
+@keyframes arrivalSignal {
+  0% { color: inherit; letter-spacing: .34em; opacity: .3; text-shadow: 0 0 0 rgba(238,60,120,0); }
+  28% { color: var(--coral); opacity: 1; text-shadow: 0 0 18px rgba(238,60,120,.42); }
+  100% { color: inherit; letter-spacing: .2em; opacity: 1; text-shadow: 0 0 0 rgba(238,60,120,0); }
+}
 .prologue h2, .practice h2, .fieldIntro h2, .contact h2 { font-family: var(--font-display), serif; font-size: clamp(54px, 7vw, 108px); font-weight: 500; letter-spacing: -.055em; line-height: .82; margin: 0; }
 .prologue h2 em, .practice h2 em, .fieldIntro h2 em, .contact h2 em, .creed em { color: var(--coral); font-weight: 400; }
 .prologueBody { border-top: 1px solid rgba(16,45,44,.3); display: grid; gap: 50px; grid-template-columns: 1fr auto; margin-top: 56px; padding-top: 30px; }
@@ -524,12 +530,24 @@
   .heroForegroundRight { transform: translate3d(calc(-34px + var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
   .heroWash { background: linear-gradient(90deg, rgba(5,34,34,.82), rgba(5,34,34,.22)), linear-gradient(0deg, rgba(5,27,28,.8), transparent 55%); }
   .heroExploring { --neo-track-title-x: 0px; }
-  .heroCopy { bottom: 265px; left: 22px; top: auto; width: calc(100% - 44px); }
+  .heroWayfinding { display: block; opacity: .82; }
+  .heroOrbitMap, .heroHub, .waypointLabel { display: none; }
+  .heroWaypoint::after { display: none; }
+  .heroExploring .heroWaypoint::after { display: block; opacity: 1; }
+  .waypointShip { left: 7%; top: 70%; }
+  .waypointCitadel { left: auto; right: 7%; top: 45%; }
+  .waypointProcession { left: auto; right: 8%; top: 68%; }
+  .waypointProcession::after { left: auto; right: 43px; text-align: right; }
+  .heroCopy { bottom: auto; left: 24px; top: 168px; width: calc(100% - 48px); }
   .heroTitle, .heroExploring .heroTitle { transform: none; }
-  .heroExploring .heroSupplement { opacity: var(--neo-copy-opacity, 1); pointer-events: auto; }
-  .heroSupplement { bottom: 72px; left: 22px; width: calc(100% - 44px); }
-  .hero h1 { font-size: clamp(70px, 23vw, 105px); line-height: .72; }
-  .heroDek { font-size: 18px; max-width: 330px; }
+  .heroTitle > span { display: none; }
+  .heroSupplement, .heroExploring .heroSupplement { bottom: auto; left: 24px; opacity: var(--neo-copy-opacity, 1); pointer-events: auto; top: 336px; width: min(330px, calc(100% - 48px)); }
+  .eyebrow { font-size: 7px; letter-spacing: .16em; margin-bottom: 13px; }
+  .eyebrow span { box-shadow: 0 0 0 4px rgba(238,60,120,.18); height: 6px; margin-right: 11px; width: 6px; }
+  .hero h1 { font-size: clamp(54px, 15.5vw, 68px); letter-spacing: -.055em; line-height: .74; }
+  .heroDek { font-size: 16px; line-height: 1.35; margin-top: 0; max-width: 315px; }
+  .discover { font-size: 8px; gap: 13px; margin-top: 28px; }
+  .discover i { height: 36px; width: 36px; }
   .heroIndex { display: none; }
   .prologue { padding-left: 22px; padding-right: 22px; }
   .prologue h2, .practice h2, .fieldIntro h2, .contact h2 { font-size: 54px; }
@@ -567,6 +585,7 @@
 @media (prefers-reduced-motion: reduce) {
   .heroArt, .heroForeground, .heroCelestial, .heroCopy, .heroSupplement, .heroIndex, .signalBar div, .orbit::after { animation: none; transform: none; transition: none; }
   .heroNightImage, .celestialToggle i { transition: none; }
+  .sectionArriving .sectionLabel { animation: none; }
   .missionImage { transition: none; }
   .portalAtmosphere, .portalMachine::before, .portalMachine::after, .portalHalo, .portalHalo::before, .portalThreshold, .portalThreshold::after, .portalMessage > p span { animation: none; }
 }
