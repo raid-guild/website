@@ -614,10 +614,9 @@ export default function HomeExperience() {
 
             <a
               className={`${styles.heroWaypoint} ${styles.waypointProcession}`}
-              href="https://portal.raidguild.org"
-              target="_blank"
-              rel="noreferrer"
+              href="#guild"
               data-route="JOIN THE GUILD"
+              onClick={(event) => followSectionLink(event, "guild", true)}
               onMouseEnter={revealHero}
               onMouseLeave={restHero}
               onFocus={revealHero}
@@ -626,8 +625,8 @@ export default function HomeExperience() {
               <i />
               <span className={styles.waypointLabel}>
                 <small>03 / COMMUNITY</small>
-                <strong>Join the Guild</strong>
-                <em>Enter the builder network through Portal.</em>
+                <strong>Meet the Guild</strong>
+                <em>Discover the network, then enter through Portal.</em>
               </span>
             </a>
           </div>
@@ -688,6 +687,15 @@ export default function HomeExperience() {
       </div>
 
       <section className={`${styles.prologue} ${arrivalTarget === "guild" ? styles.sectionArriving : ""}`} id="guild">
+        <Image
+          className={styles.guildBuilders}
+          src="/images/neo/guild-builders-v1.png"
+          alt=""
+          width={768}
+          height={1024}
+          sizes="(max-width: 600px) 76vw, 38vw"
+          aria-hidden="true"
+        />
         <div className={styles.prologueMark}>
           <div className={styles.orbit}><Sigil /></div>
           <span>THE MANY / AS ONE</span>
@@ -701,6 +709,16 @@ export default function HomeExperience() {
             </p>
             <p className={styles.stat}><strong>70+</strong><span>raids shipped<br />across the frontier</span></p>
           </div>
+          <div className={styles.guildActions}>
+            <a className={styles.guildJoinCta} href="https://portal.raidguild.org" target="_blank" rel="noreferrer">
+              <span><small>COMMUNITY PORTAL</small>Join the Guild</span>
+              <i>↗</i>
+            </a>
+            <div className={styles.guildResourceLinks}>
+              <a href="https://handbook.raidguild.org/docs/overview/what-is-raidguild" target="_blank" rel="noreferrer">Read the handbook <span>↗</span></a>
+              <a href="https://discord.gg/2vx47gT95y" target="_blank" rel="noreferrer">Enter Discord <span>↗</span></a>
+            </div>
+          </div>
         </div>
         <div className={styles.guildRoster}>
           <div className={styles.rosterHeading}>
@@ -710,7 +728,6 @@ export default function HomeExperience() {
             </div>
             <div className={styles.rosterAside}>
               <p>Five active stewards hold the guild&apos;s shared context, rituals, infrastructure, and public voice.</p>
-              <a href="https://portal.raidguild.org" target="_blank" rel="noreferrer">Open the join portal <span>↗</span></a>
             </div>
           </div>
 
@@ -880,6 +897,15 @@ export default function HomeExperience() {
       </section>
 
       <section className={`${styles.contact} ${arrivalTarget === "contact" ? styles.sectionArriving : ""}`} id="contact">
+        <Image
+          className={styles.contactShipSchematic}
+          src="/images/neo/project-ship-schematic-v1.webp"
+          alt=""
+          width={2160}
+          height={912}
+          sizes="72vw"
+          aria-hidden="true"
+        />
         <div className={styles.contactIntro}>
           <p className={styles.sectionLabel}>[ BEGIN A TRANSMISSION ]</p>
           <h2 className={styles.contactHeadline}>

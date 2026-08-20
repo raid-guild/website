@@ -148,6 +148,13 @@
 .prologue::before { border: 1px solid rgba(16,45,44,.07); border-radius: 50%; content: ""; height: clamp(290px, 37vw, 540px); pointer-events: none; position: absolute; right: clamp(-250px, -10vw, -80px); top: clamp(20px, 5vw, 80px); transform: rotate(19deg); width: clamp(520px, 64vw, 920px); }
 .prologue::after { background: radial-gradient(circle at 50% 50%, transparent 0 21px, rgba(16,45,44,.08) 22px 23px, transparent 24px 49px, rgba(16,45,44,.055) 50px 51px, transparent 52px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(16,45,44,.05) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(16,45,44,.05) 50%, transparent calc(50% + .5px)); content: ""; height: 150px; opacity: .72; pointer-events: none; position: absolute; right: clamp(28px, 8vw, 120px); top: clamp(74px, 10vw, 145px); transform: rotate(7deg); width: 150px; }
 .prologue > * { position: relative; z-index: 1; }
+.guildBuilders { --artifact-opacity: .105; height: auto; mix-blend-mode: multiply; opacity: var(--artifact-opacity); pointer-events: none; position: absolute; right: clamp(-110px, -4vw, -36px); top: clamp(250px, 27vw, 410px); width: clamp(300px, 38vw, 560px); z-index: 0; }
+.sectionArriving .guildBuilders, .sectionArriving .contactShipSchematic { animation: artifactArrival 1.8s cubic-bezier(.16,.76,.18,1) both; }
+@keyframes artifactArrival {
+  0% { opacity: .015; }
+  30% { opacity: .23; }
+  100% { opacity: var(--artifact-opacity); }
+}
 .prologueMark { align-items: center; display: flex; flex-direction: column; justify-content: center; }
 .prologueMark > span { font-size: 8px; letter-spacing: .22em; margin-top: 20px; }
 .orbit { align-items: center; border: 1px solid rgba(16,45,44,.28); border-radius: 50%; display: flex; height: 210px; justify-content: center; position: relative; width: 210px; }
@@ -167,10 +174,21 @@
 .prologue h2 em, .practice h2 em, .fieldIntro h2 em, .contact h2 em, .creed em { color: var(--coral); font-weight: 400; }
 .prologueBody { border-top: 1px solid rgba(16,45,44,.3); display: grid; gap: 50px; grid-template-columns: 1fr auto; margin-top: 56px; padding-top: 30px; }
 .prologueBody > p:first-child { font-family: var(--font-body), serif; font-size: clamp(18px, 1.7vw, 24px); line-height: 1.45; margin: 0; max-width: 680px; }
+.guildActions { align-items: center; display: flex; flex-wrap: wrap; gap: 22px 30px; margin-top: 38px; }
+.guildJoinCta { align-items: center; background: var(--coral); border: 1px solid var(--coral); border-radius: 999px; box-shadow: 0 12px 32px rgba(238,60,120,.16); color: var(--paper); display: inline-flex; gap: 28px; padding: 8px 8px 8px 22px; text-decoration: none; transition: background .25s, color .25s, transform .25s; }
+.guildJoinCta > span { display: flex; flex-direction: column; font-size: 10px; font-weight: 700; letter-spacing: .14em; line-height: 1.2; text-transform: uppercase; }
+.guildJoinCta small { font-size: 6px; font-weight: 400; letter-spacing: .18em; margin-bottom: 4px; opacity: .68; }
+.guildJoinCta > i { align-items: center; background: var(--paper); border-radius: 50%; color: var(--ink); display: flex; font-size: 17px; font-style: normal; height: 42px; justify-content: center; transition: transform .25s; width: 42px; }
+.guildJoinCta:hover { background: var(--deep); border-color: var(--deep); transform: translateY(-3px); }
+.guildJoinCta:hover > i { transform: rotate(12deg); }
+.guildResourceLinks { display: flex; flex-wrap: wrap; gap: 13px 22px; }
+.guildResourceLinks a { border-bottom: 1px solid currentColor; color: inherit; font-size: 7px; font-weight: 700; letter-spacing: .14em; padding: 8px 0; text-decoration: none; text-transform: uppercase; }
+.guildResourceLinks a span { color: var(--coral); display: inline-block; font-size: 11px; margin-left: 9px; transition: transform .2s; }
+.guildResourceLinks a:hover span { transform: translate(3px, -3px); }
 .stat { align-items: center; display: flex; gap: 15px; margin: 0; }
 .stat strong { color: var(--coral); font-family: var(--font-display), serif; font-size: 68px; font-weight: 400; line-height: .8; }
 .stat span { font-size: 8px; letter-spacing: .12em; line-height: 1.6; text-transform: uppercase; }
-.guildRoster { grid-column: 1 / -1; margin-top: clamp(110px, 12vw, 180px); min-width: 0; }
+.guildRoster { grid-column: 1 / -1; margin-top: clamp(72px, 7vw, 108px); min-width: 0; }
 .rosterHeading { align-items: end; border-top: 1px solid rgba(16,45,44,.3); display: flex; justify-content: space-between; padding-top: 28px; }
 .rosterHeading .sectionLabel { margin-bottom: 20px; }
 .rosterHeading h3 { font-family: var(--font-display), serif; font-size: clamp(44px, 5vw, 72px); font-weight: 500; letter-spacing: -.045em; line-height: .9; margin: 0; }
@@ -298,9 +316,11 @@
 }
 
 .contact { align-items: start; background-color: var(--paper); background-image: radial-gradient(circle at 16% 22%, rgba(16,45,44,.027) 0 1px, transparent 1.5px), radial-gradient(circle at 74% 68%, rgba(16,45,44,.018) 0 1px, transparent 1.4px), repeating-linear-gradient(103deg, transparent 0 17px, rgba(16,45,44,.012) 18px, transparent 19px 38px); background-size: 23px 29px, 31px 37px, auto; display: grid; gap: clamp(60px, 8vw, 130px); grid-template-columns: minmax(340px, .82fr) minmax(540px, 1fr); overflow: hidden; padding: clamp(100px, 12vw, 180px) clamp(24px, 7vw, 110px); position: relative; }
+.contactShipSchematic { --artifact-opacity: .07; height: auto; left: clamp(-110px, -5vw, -40px); mix-blend-mode: multiply; opacity: var(--artifact-opacity); pointer-events: none; position: absolute; top: clamp(100px, 12vw, 180px); transform: rotate(-2deg); width: min(1120px, 72vw); z-index: 0; }
 .contact::before { border: 1px solid rgba(16,45,44,.075); border-radius: 50%; content: ""; height: clamp(380px, 52vw, 760px); left: clamp(-320px, -18vw, -120px); pointer-events: none; position: absolute; top: clamp(20px, 6vw, 90px); transform: rotate(-17deg); width: clamp(520px, 72vw, 1050px); }
 .contact::after { background: linear-gradient(90deg, transparent calc(50% - .5px), rgba(16,45,44,.065) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(16,45,44,.065) 50%, transparent calc(50% + .5px)); content: ""; height: 74px; left: clamp(22px, 5vw, 80px); opacity: .65; pointer-events: none; position: absolute; top: clamp(130px, 17vw, 255px); transform: rotate(-4deg); width: 74px; }
 .contact > * { position: relative; z-index: 1; }
+.contact > .contactShipSchematic { position: absolute; z-index: 0; }
 .contactIntro { position: sticky; top: 70px; }
 .contact h2.contactHeadline { font-size: clamp(50px, 5.7vw, 88px); }
 .contactHeadline span { display: block; white-space: nowrap; }
@@ -354,6 +374,7 @@
 .nightMode .stewardPortrait, .nightMode .memberRail img { background: #173c4d; }
 .nightMode .stewardPortrait::after { border-color: rgba(143,227,239,.28); }
 .nightMode .stewardPortrait img, .nightMode .memberRail img { filter: saturate(.58) brightness(.82) contrast(1.08); }
+.nightMode .guildBuilders { filter: brightness(.8) saturate(.65) hue-rotate(8deg); mix-blend-mode: screen; opacity: .09; }
 
 .nightMode .practice { background: #06141f; color: #e8e6d9; }
 .nightMode .discipline:hover { background: #173c4d; color: #f1edde; }
@@ -386,6 +407,7 @@
   color: #102d2c;
 }
 .nightMode .contactFormShell { background: #06141f; box-shadow: 20px 20px 0 #8fc9d0; }
+.nightMode .contactShipSchematic { opacity: .085; }
 .nightMode .footer { background: #040f18; color: #e8e6d9; }
 
 .siteGlitching > .header, .siteGlitching > .hero { animation: realityGlitch 3.4s steps(1, end) both; transform-origin: center; will-change: filter, transform; }
@@ -550,6 +572,7 @@
   .discover i { height: 36px; width: 36px; }
   .heroIndex { display: none; }
   .prologue { padding-left: 22px; padding-right: 22px; }
+  .guildBuilders { right: -92px; top: 560px; width: 78vw; }
   .prologue h2, .practice h2, .fieldIntro h2, .contact h2 { font-size: 54px; }
   .prologueBody { grid-template-columns: 1fr; }
   .guildRoster { margin-top: 100px; }
@@ -586,6 +609,7 @@
   .heroArt, .heroForeground, .heroCelestial, .heroCopy, .heroSupplement, .heroIndex, .signalBar div, .orbit::after { animation: none; transform: none; transition: none; }
   .heroNightImage, .celestialToggle i { transition: none; }
   .sectionArriving .sectionLabel { animation: none; }
+  .sectionArriving .guildBuilders, .sectionArriving .contactShipSchematic { animation: none; }
   .missionImage { transition: none; }
   .portalAtmosphere, .portalMachine::before, .portalMachine::after, .portalHalo, .portalHalo::before, .portalThreshold, .portalThreshold::after, .portalMessage > p span { animation: none; }
 }
