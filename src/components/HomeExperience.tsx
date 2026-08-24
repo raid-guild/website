@@ -15,6 +15,8 @@ const activeSpears = [
     status: "DEPLOYING",
     href: "https://raidguild.ai",
     cta: "Explore the AI practice",
+    art: "/images/neo/spear-applied-ai-v1.webp",
+    artAlt: "A field technologist working with an AI companion and portable systems",
   },
   {
     index: "02",
@@ -24,6 +26,8 @@ const activeSpears = [
     status: "BATTLE-TESTED",
     href: "https://www.raidguild.org",
     cta: "Explore onchain work",
+    art: "/images/neo/spear-onchain-v1.webp",
+    artAlt: "Guild builders operating an onchain systems foundry",
   },
 ];
 
@@ -797,7 +801,9 @@ export default function HomeExperience() {
                 <span>SP—{item.index}</span>
                 <i>{item.status}</i>
               </div>
-              <div className={styles.disciplineGlyph} aria-hidden="true"><span /><span /><span /></div>
+              <div className={styles.disciplineArt}>
+                <Image src={item.art} alt={item.artAlt} width={1024} height={768} />
+              </div>
               <p className={styles.spearEndorsement}><Sigil /> RAIDGUILD PRACTICE / VERIFIED SPEAR</p>
               <p className={styles.disciplineTag}>{item.tag}</p>
               <h3>{item.title}</h3>
@@ -810,7 +816,14 @@ export default function HomeExperience() {
           ))}
           <article className={`${styles.discipline} ${styles.problemSpear}`}>
             <div className={styles.disciplineTop}><span>SP—??</span><i>UNMAPPED</i></div>
-            <div className={styles.disciplineGlyph} aria-hidden="true"><span /><span /><span /></div>
+            <div className={styles.disciplineArt}>
+              <Image
+                src="/images/neo/spear-edge-problem-v1.webp"
+                alt="A crew investigating an unfamiliar machine at the applied edge"
+                width={1024}
+                height={768}
+              />
+            </div>
             <p className={styles.spearEndorsement}><Sigil /> RAIDGUILD NETWORK / SHARED INTAKE</p>
             <p className={styles.disciplineTag}>GUILD-LEVEL DISCOVERY</p>
             <h3>Your edge problem</h3>

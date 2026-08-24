@@ -238,12 +238,13 @@
 .discipline:hover { background: var(--sky); color: var(--ink); transform: translateY(-10px); }
 .disciplineTop { display: flex; font-size: 10px; justify-content: space-between; letter-spacing: .15em; }
 .disciplineTop i { color: var(--coral); font-size: 7px; font-style: normal; }
-.disciplineGlyph { height: 190px; margin: 35px auto 42px; position: relative; width: 190px; }
-.disciplineGlyph span { border: 1px solid currentColor; border-radius: 50%; inset: 20px; opacity: .7; position: absolute; }
-.disciplineGlyph span:nth-child(2) { border-radius: 0; inset: 48px 22px; transform: rotate(45deg); }
-.disciplineGlyph span:nth-child(3) { border-color: var(--coral); inset: 5px 75px; }
+.disciplineArt { align-items: end; aspect-ratio: 4 / 3; display: flex; justify-content: center; margin: 26px -12px 30px; overflow: hidden; position: relative; }
+.disciplineArt::after { background: linear-gradient(90deg, transparent, rgba(239,233,215,.28), transparent); bottom: 0; content: ""; height: 1px; left: 3%; position: absolute; width: 94%; }
+.disciplineArt img { height: 100%; object-fit: contain; transform: scale(.96); transition: filter .35s, transform .45s cubic-bezier(.2,.8,.2,1); width: 100%; }
+.discipline:hover .disciplineArt img { filter: saturate(1.08) contrast(1.03); transform: scale(1.02) translateY(-3px); }
+.discipline:hover .disciplineArt::after { background: linear-gradient(90deg, transparent, rgba(16,45,44,.28), transparent); }
 .disciplineTag { color: var(--coral); font-size: 8px !important; font-weight: 700; letter-spacing: .15em; }
-.spearEndorsement { align-items: center; color: var(--paper); display: flex; font-family: var(--font-mono), monospace !important; font-size: 6px !important; letter-spacing: .15em; margin: -18px 0 20px !important; opacity: .6 !important; }
+.spearEndorsement { align-items: center; color: var(--paper); display: flex; font-family: var(--font-mono), monospace !important; font-size: 6px !important; letter-spacing: .15em; margin: 0 0 20px !important; opacity: .6 !important; }
 .spearEndorsement .sigil { color: var(--coral); height: 27px; margin-right: 9px; width: 27px; }
 .spearEndorsement .swordMark { height: 17px; width: 19px; }
 .discipline:hover .spearEndorsement { color: var(--ink); }
@@ -255,7 +256,8 @@
 .spearActions > a + a { margin-top: 18px; }
 .spearActions small { font-size: 6px; font-weight: 400; grid-column: 1 / -1; letter-spacing: .12em; opacity: .5; }
 .problemSpear { background: rgba(239,233,215,.06); }
-.problemSpear .disciplineGlyph span { border-style: dashed; }
+.problemSpear .disciplineArt img { filter: saturate(.82); }
+.problemSpear:hover .disciplineArt img { filter: saturate(1) contrast(1.03); }
 
 .fieldNotes { background-color: var(--sky); background-image: radial-gradient(circle at 14% 78%, rgba(16,45,44,.025) 0 1px, transparent 1.5px); background-size: 27px 33px; overflow: hidden; padding: clamp(100px, 12vw, 180px) clamp(24px, 6vw, 96px); position: relative; }
 .fieldNotes::before { background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(16,45,44,.08) 25%); content: ""; inset: 0; pointer-events: none; position: absolute; }
