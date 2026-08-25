@@ -1,4 +1,4 @@
-import { EB_Garamond, Ubuntu_Mono } from "next/font/google";
+import { Ubuntu_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
 // Primary Display Font - Mazius Display
@@ -19,12 +19,21 @@ export const maziusDisplay = localFont({
   display: "swap",
 });
 
-// Secondary Body Font - EB Garamond
-export const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
+// Secondary Body Font - EB Garamond (bundled to keep production builds deterministic)
+export const ebGaramond = localFont({
+  src: [
+    {
+      path: "../../public/fonts/EBGaramond-VariableFont_wght.ttf",
+      weight: "400 800",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/EBGaramond-Italic-VariableFont_wght.ttf",
+      weight: "400 800",
+      style: "italic",
+    },
+  ],
   variable: "--font-body",
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
   display: "swap",
 });
 
