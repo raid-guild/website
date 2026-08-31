@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "../brand-dist/palette.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -137,40 +138,6 @@
 
 :root {
     --radius: 0.625rem;
-
-    /* Brand Colors - Moloch */
-    --moloch-100: #f1efee;
-    --moloch-200: #efc5bb;
-    --moloch-300: #e39b8b;
-    --moloch-400: #d25c41;
-    --moloch-500: #bd482d;
-    --moloch-600: #8b3521;
-    --moloch-700: #5c2316;
-    --moloch-800: #29100a;
-
-    /* Brand Colors - Scroll */
-    --scroll-100: #f9f7e7;
-    --scroll-150: #f3eeca;
-    --scroll-200: #ece5ac;
-    --scroll-300: #dccd6a;
-    --scroll-400: #d2c141;
-    --scroll-500: #b5a22c;
-    --scroll-600: #837820;
-    --scroll-700: #534a13;
-    --scroll-800: #211e07;
-
-    /* Brand Colors - Neutral */
-    --neutral-100: #f1efee;
-    --neutral-200: #d5cecd;
-    --neutral-300: #b9aeac;
-    --neutral-400: #9e8e8a;
-    --neutral-500: #806f6b;
-    --neutral-600: #645754;
-    --neutral-700: #433937;
-    --neutral-800: #221d1c;
-    --neutral-white: #fafafa;
-    --neutral-black: #0d0d0d;
-
     /* Light Theme - Using brand colors */
     --background: var(--scroll-100);
     --foreground: var(--moloch-800);
