@@ -821,7 +821,8 @@
 
 /* Integration: open display face, retained local routes, responsive handoff. */
 .site h1, .site h2, .rosterHeading h3, .teamCopy h3, .discipline h3, .missionCopy h3, .creed blockquote { font-weight: 900; text-transform: uppercase; letter-spacing: -.015em; }
-.site h1 em, .site h2 em, .site h3 em, .creed em { display: inline-block; font-style: normal; font-weight: 1000; font-variation-settings: "slnt" 0; transform: skewX(-12deg); }
+/* Reverse italic accents: positive skew leans the letter tops to the left. */
+.site h1 em, .site h2 em, .site h3 em, .creed em { display: inline-block; font-style: normal; font-weight: 1000; font-variation-settings: "slnt" 0; transform: skewX(12deg); transform-origin: center; }
 .hero h1 { line-height: .73; }
 .hero h1 > span { display: inline-block; transform: skewX(12deg); }
 .fieldIntro h2 > em { font-size: 1.1em; white-space: nowrap; }
