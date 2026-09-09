@@ -286,6 +286,8 @@ export default function HomeExperience() {
   const [arrivalTarget, setArrivalTarget] = useState<string | null>(null);
   const heroRef = useRef<HTMLElement>(null);
   const fieldTrackRef = useRef<HTMLDivElement>(null);
+  const spearTrackRef = useRef<HTMLDivElement>(null);
+  const [activeSpear, setActiveSpear] = useState(0);
   const heroRevealTimerRef = useRef<number | null>(null);
   const portalTimerRef = useRef<number | null>(null);
   const portalFormTimerRef = useRef<number | null>(null);
@@ -414,15 +416,23 @@ export default function HomeExperience() {
     setIsNight(theme === "dark");
   };
 
-  const updateActiveField = () => {
-    const track = fieldTrackRef.current;
-    if (!track) return;
+  const closestCard = (track: HTMLDivElement) => {
     const cards = Array.from(track.children) as HTMLElement[];
-    const closest = cards.reduce((best, card, index) =>
-      Math.abs(card.offsetLeft - track.scrollLeft) < Math.abs(cards[best].offsetLeft - track.scrollLeft)
+    const start = track.getBoundingClientRect().left + parseFloat(getComputedStyle(track).paddingLeft);
+    return cards.reduce((best, card, index) =>
+      Math.abs(card.getBoundingClientRect().left - start) < Math.abs(cards[best].getBoundingClientRect().left - start)
         ? index
         : best, 0);
-    setActiveField(closest);
+  };
+  const updateActiveField = () => {
+    if (fieldTrackRef.current) setActiveField(closestCard(fieldTrackRef.current));
+  };
+  const moveCard = (track: HTMLDivElement | null, direction: number) => {
+    if (!track) return;
+    const cards = Array.from(track.children) as HTMLElement[];
+    const next = Math.max(0, Math.min(cards.length - 1, closestCard(track) + direction));
+    const left = cards[next].getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft - parseFloat(getComputedStyle(track).paddingLeft);
+    track.scrollTo({ left, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   };
 
   useEffect(() => {
@@ -765,7 +775,14 @@ export default function HomeExperience() {
             </a>
           </div>
         </div>
-        <div className={`${styles.disciplineGrid} ${styles.spearGrid}`}>
+        <div className={`${styles.fieldControls} ${styles.spearControls}`}>
+          <p><strong>{String(activeSpear + 1).padStart(2, "0")}</strong> / 04</p>
+          <div className={styles.carouselButtons}>
+            <button type="button" aria-label="Previous spear" disabled={activeSpear === 0} onClick={() => moveCard(spearTrackRef.current, -1)}>←</button>
+            <button type="button" aria-label="Next spear" disabled={activeSpear === 3} onClick={() => moveCard(spearTrackRef.current, 1)}>→</button>
+          </div>
+        </div>
+        <div className={`${styles.disciplineGrid} ${styles.spearGrid}`} ref={spearTrackRef} onScroll={() => { if (spearTrackRef.current) setActiveSpear(closestCard(spearTrackRef.current)); }}>
           {activeSpears.map((item) => (
             <article className={styles.discipline} key={item.index}>
               <div className={styles.disciplineTop}>
@@ -835,6 +852,10 @@ export default function HomeExperience() {
 
         <div className={styles.fieldControls}>
           <p><strong>{String(activeField + 1).padStart(2, "0")}</strong> / {String(fieldNotes.length).padStart(2, "0")}</p>
+          <div className={styles.carouselButtons}>
+            <button type="button" aria-label="Previous field note" disabled={activeField === 0} onClick={() => moveCard(fieldTrackRef.current, -1)}>←</button>
+            <button type="button" aria-label="Next field note" disabled={activeField === fieldNotes.length - 1} onClick={() => moveCard(fieldTrackRef.current, 1)}>→</button>
+          </div>
         </div>
 
         <div className={styles.fieldTrack} ref={fieldTrackRef} onScroll={updateActiveField}>
