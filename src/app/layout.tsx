@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { maziusDisplay, ebGaramond, ubuntuMono } from "@/lib/fonts";
+import { afacadFlux, ebGaramond, ubuntuMono } from "@/lib/fonts";
 import "./globals.css";
 // import { ThemeProvider } from "next-themes";
 import { Providers } from "@/providers/providers";
@@ -49,7 +49,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${maziusDisplay.variable} ${ebGaramond.variable} ${ubuntuMono.variable} antialiased`}
+        className={`${afacadFlux.variable} ${ebGaramond.variable} ${ubuntuMono.variable} antialiased`}
       >
         <VercelAnalytics />
         {/* <ThemeProvider

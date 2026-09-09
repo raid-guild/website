@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState, type MouseEvent } from "react";
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import FrontDoor from "./FrontDoor";
 import Image from "next/image";
 import HireUs from "@/components/HireUs";
 import { mercenaries } from "@/lib/data/members";
@@ -357,6 +358,22 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
 }
 
 export default function HomeExperience() {
+  const [frontDoorOpen, setFrontDoorOpen] = useState(true);
+  const [entranceDestination, setEntranceDestination] = useState<string | null>(null);
+  const enterFromFrontDoor = useCallback((destination: string) => {
+    setEntranceDestination(destination);
+    setFrontDoorOpen(false);
+  }, []);
+
+  useEffect(() => {
+    if (frontDoorOpen || !entranceDestination) return;
+    const target = document.getElementById(entranceDestination);
+    if (!target) return;
+    target.scrollIntoView({ behavior: "instant", block: "start" });
+    const focusTarget = target.querySelector<HTMLElement>("input, a, button") || target;
+    if (!focusTarget.hasAttribute("tabindex") && focusTarget === target) focusTarget.setAttribute("tabindex", "-1");
+    focusTarget.focus({ preventScroll: true });
+  }, [frontDoorOpen, entranceDestination]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeField, setActiveField] = useState(0);
   const [portalOpen, setPortalOpen] = useState(false);
@@ -500,7 +517,9 @@ export default function HomeExperience() {
   }, []);
 
   return (
-    <main className={`${styles.site} ${isNight ? styles.nightMode : ""} ${portalForming ? styles.siteGlitching : ""}`}>
+    <>
+    {frontDoorOpen && <FrontDoor onEnter={enterFromFrontDoor} />}
+    <main inert={frontDoorOpen} className={`${styles.site} ${isNight ? styles.nightMode : ""} ${portalForming ? styles.siteGlitching : ""}`}>
       <header className={styles.header}>
         <a className={styles.brand} href="#top" aria-label="RaidGuild home">
           <Sigil />
@@ -641,7 +660,7 @@ export default function HomeExperience() {
               onMouseEnter={revealHero}
               onMouseLeave={restHero}
             >
-              <h1 tabIndex={0} onFocus={revealHero} onBlur={restHero}>VENTURE<br /><em>BEYOND.</em></h1>
+              <h1 tabIndex={0} onFocus={revealHero} onBlur={restHero}><span>VENTURE</span><br /><em>BEYOND</em></h1>
               <span>{heroRevealed ? "THE WORLD IS OPEN" : "HOVER TO LOOK BEYOND"}</span>
             </div>
           </div>
@@ -706,7 +725,7 @@ export default function HomeExperience() {
         </div>
         <div className={styles.prologueCopy}>
           <p className={styles.sectionLabel}>[ THE GUILD ]</p>
-          <h2>The network is<br />the <em>engine.</em></h2>
+          <h2><span>The network</span><br /><em>is the engine</em></h2>
           <div className={styles.prologueBody}>
             <p>
               RaidGuild is a builder-owned community exploring emerging technology together. Designers, engineers, researchers, strategists, and operators share knowledge, reputation, and infrastructure—then assemble into specialized crews when ambitious work calls.
@@ -814,6 +833,22 @@ export default function HomeExperience() {
               </div>
             </article>
           ))}
+          <article className={styles.discipline} id="placement" style={{ scrollMarginTop: "80px" }}>
+            <div className={styles.disciplineTop}><span>SP—03</span><i>PROPOSED</i></div>
+            <div className={styles.disciplineArt}>
+              <Image src="/images/neo/guild-builders-v1.png" alt="Creative and technical specialists working together" width={1024} height={768} />
+            </div>
+            <p className={styles.spearEndorsement}><Sigil /> RAIDGUILD NETWORK / PROPOSED SPEAR</p>
+            <p className={styles.disciplineTag}>TALENT / PLACEMENT SERVICES</p>
+            <h3>Talent &amp; Placement</h3>
+            <p>The right people, on your team. Connect with designers, engineers, and specialists from the Guild’s network. Tell us what expertise you need and what you’re trying to achieve—let’s explore the right fit.</p>
+            <div className={styles.spearActions}>
+              <a href="#project-inquiry" onClick={(event) => {
+                event.preventDefault();
+                document.getElementById("project-inquiry")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
+              }}>Find people for your team <span>↘</span><small>START A PLACEMENT INQUIRY</small></a>
+            </div>
+          </article>
           <article className={`${styles.discipline} ${styles.problemSpear}`}>
             <div className={styles.disciplineTop}><span>SP—??</span><i>UNMAPPED</i></div>
             <div className={styles.disciplineArt}>
@@ -933,7 +968,7 @@ export default function HomeExperience() {
             <div><dt>STATUS</dt><dd><span /> RECEIVING</dd></div>
           </dl>
         </div>
-        <div className={styles.contactFormShell}>
+        <div className={styles.contactFormShell} id="project-inquiry" style={{ scrollMarginTop: "30px" }}>
           <div className={styles.formCoordinates}><span>RG—INTAKE / 001</span><span>ENCRYPTION: OPEN</span></div>
           <HireUs />
         </div>
@@ -960,5 +995,6 @@ export default function HomeExperience() {
         onJoin={joinGuild}
       />
     </main>
+    </>
   );
 }

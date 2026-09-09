@@ -1,4 +1,5 @@
 .site {
+  --font-body: var(--font-display);
   --ink: #102d2c;
   --deep: #0a292b;
   --paper: #efe9d7;
@@ -13,6 +14,17 @@
 }
 
 .site ::selection { background: var(--coral); color: var(--paper); }
+
+/* Retalic accents use upright glyphs skewed backwards, not synthetic italic. */
+.site h1 em, .site h2 em, .site blockquote em {
+  font-family: var(--font-display), sans-serif;
+  font-style: normal;
+  font-variation-settings: "slnt" 0;
+  display: inline-block;
+  transform: skewX(12deg);
+  transform-origin: center;
+}
+
 
 .header {
   align-items: center;
@@ -117,13 +129,15 @@
 .heroTitle > span { bottom: -27px; font-family: var(--font-mono), monospace; font-size: 7px; left: 5px; letter-spacing: .18em; opacity: 0; position: absolute; transition: opacity .2s, transform .2s; }
 .heroTitle:hover > span, .heroTitle:focus-within > span { opacity: .7; transform: translateX(6px); }
 .heroTitle h1:focus-visible { outline: 1px solid var(--paper); outline-offset: 12px; }
-.heroSupplement { bottom: clamp(74px, 9vh, 104px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(0, var(--neo-copy-y, 0), 0); transition: opacity .3s ease; width: min(540px, 75vw); z-index: 7; }
+.heroSupplement { top: calc(clamp(138px, 17vh, 172px) + clamp(74px, 10vw, 160px) * 1.46 + 58px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(0, var(--neo-copy-y, 0), 0); transition: opacity .3s ease; width: min(470px, 75vw); z-index: 7; }
 .heroExploring .heroSupplement { opacity: 0; pointer-events: none; }
 .eyebrow { align-items: center; display: flex; font-size: 10px; font-weight: 700; letter-spacing: .19em; margin: 0 0 20px; text-transform: uppercase; }
 .eyebrow span { background: var(--coral); border-radius: 50%; box-shadow: 0 0 0 5px rgba(238,60,120,.2); height: 7px; margin-right: 14px; width: 7px; }
-.hero h1 { font-family: var(--font-display), serif; font-size: clamp(74px, 10vw, 160px); font-weight: 500; letter-spacing: -.065em; line-height: .69; margin: 0; text-shadow: 0 2px 30px rgba(2,25,27,.16); }
-.hero h1 em { color: var(--coral); font-weight: 400; }
-.heroDek { font-family: var(--font-body), serif; font-size: clamp(18px, 1.65vw, 25px); line-height: 1.28; margin: 35px 0 0; max-width: 520px; }
+.hero h1 { font-family: var(--font-display), sans-serif; font-size: clamp(74px, 10vw, 160px); font-weight: 900; letter-spacing: -.025em; line-height: .73; margin: 0; text-shadow: 0 2px 30px rgba(2,25,27,.16); }
+.hero h1 > span { display: inline-block; transform: skewX(12deg); transform-origin: center; font-variation-settings: "slnt" 0; }
+.hero h1 em { color: var(--coral); font-weight: 1000; transform: skewX(-12deg); }
+.hero .eyebrow { font-style: italic; letter-spacing: .12em; }
+.heroDek { font-family: var(--font-display), sans-serif; font-size: clamp(20px, 1.9vw, 28px); line-height: 1.2; margin: 0; max-width: 470px; }
 .discover { align-items: center; color: inherit; display: flex; font-size: 10px; gap: 18px; letter-spacing: .16em; margin-top: 40px; text-decoration: none; text-transform: uppercase; width: max-content; }
 .discover i { align-items: center; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; display: flex; font-style: normal; height: 42px; justify-content: center; transition: transform .25s, background .25s; width: 42px; }
 .discover:hover i { background: var(--coral); border-color: var(--coral); transform: translateY(5px); }
@@ -234,6 +248,7 @@
 .practiceAside a:hover span { transform: translate(3px, 3px); }
 .fieldAside a:hover span { transform: translate(3px, -3px); }
 .disciplineGrid { border-left: 1px solid rgba(239,233,215,.22); display: grid; grid-template-columns: repeat(3, 1fr); margin: 0 auto; max-width: 1300px; }
+.spearGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .discipline { border-right: 1px solid rgba(239,233,215,.22); min-height: 560px; padding: 28px clamp(24px, 3vw, 46px) 40px; position: relative; transition: background .3s, color .3s, transform .3s; }
 .discipline:hover { background: var(--sky); color: var(--ink); transform: translateY(-10px); }
 .disciplineTop { display: flex; font-size: 10px; justify-content: space-between; letter-spacing: .15em; }
@@ -312,6 +327,34 @@
   from { transform: translate(-51%, -49%) rotate(-2deg) scale(1.04); }
   to { transform: translate(-49%, -51%) rotate(1deg) scale(1.07); }
 }
+
+/* Shared Afacad treatment across the editorial sections. */
+.prologue h2, .practice h2, .fieldIntro h2, .contact h2.contactHeadline {
+  font-size: clamp(36px, 4.4vw, 68px);
+  font-weight: 900;
+  line-height: .95;
+  letter-spacing: -.015em;
+  text-transform: uppercase;
+}
+.prologue h2 > span { display: inline-block; transform: skewX(12deg); }
+.site h2 em, .site blockquote em { font-weight: 1000; transform: skewX(-12deg); }
+.rosterHeading h3, .missionCopy h3 {
+  font-size: clamp(32px, 3.6vw, 54px);
+  font-weight: 850;
+  text-transform: uppercase;
+  line-height: 1;
+  letter-spacing: -.015em;
+}
+.discipline h3 { font-weight: 850; text-transform: uppercase; line-height: 1; font-size: clamp(28px, 2.7vw, 42px); }
+.creed blockquote { font-weight: 900; text-transform: uppercase; line-height: .95; letter-spacing: -.02em; }
+.sectionLabel { font-size: 12px; font-style: italic; letter-spacing: .13em; margin-bottom: 22px; }
+.guildJoinCta, .guildResourceLinks a, .spearActions a, .discipline > a, .practiceAside a, .fieldAside a, .missionCopy > a, .discover { font-style: italic; }
+.prologueBody { margin-top: 28px; padding-top: 20px; }
+.stat strong { font-weight: 1000; display: inline-block; transform: skewX(-12deg); }
+.stat span { font-style: italic; }
+.contactHeadline span { white-space: normal; }
+.portalMessage h2 { font-weight: 900; line-height: .9; letter-spacing: -.02em; }
+.contactFormShell :global(.text-heading-lg) { font-weight: 850 !important; text-transform: uppercase; line-height: 1 !important; }
 
 @media (prefers-reduced-motion: reduce) {
   .creedCreature, .creedMoons { animation: none; }
@@ -568,7 +611,7 @@
   .heroSupplement, .heroExploring .heroSupplement { bottom: auto; left: 24px; opacity: var(--neo-copy-opacity, 1); pointer-events: auto; top: 336px; width: min(330px, calc(100% - 48px)); }
   .eyebrow { font-size: 7px; letter-spacing: .16em; margin-bottom: 13px; }
   .eyebrow span { box-shadow: 0 0 0 4px rgba(238,60,120,.18); height: 6px; margin-right: 11px; width: 6px; }
-  .hero h1 { font-size: clamp(54px, 15.5vw, 68px); letter-spacing: -.055em; line-height: .74; }
+  .hero h1 { font-size: clamp(50px, 14.5vw, 66px); letter-spacing: -.025em; line-height: .73; }
   .heroDek { font-size: 16px; line-height: 1.35; margin-top: 0; max-width: 315px; }
   .discover { font-size: 8px; gap: 13px; margin-top: 28px; }
   .discover i { height: 36px; width: 36px; }

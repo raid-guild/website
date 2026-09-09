@@ -1,20 +1,11 @@
 import { Ubuntu_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
-// Primary Display Font - Mazius Display
-export const maziusDisplay = localFont({
-  src: [
-    {
-      path: "../../public/fonts/MAZIUSREVIEW20.09-Regular.woff",
-      weight: "400",
-      style: "normal",
-    },
-    {
-      path: "../../public/fonts/MaziusDisplay-Bold.otf",
-      weight: "700",
-      style: "bold",
-    },
-  ],
+// Afacad Flux, self-hosted with its SIL Open Font License.
+export const afacadFlux = localFont({
+  src: "../../public/fonts/AfacadFlux-Variable.ttf",
+  weight: "100 1000",
+  style: "normal",
   variable: "--font-display",
   display: "swap",
 });
