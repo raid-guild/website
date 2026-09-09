@@ -88,13 +88,6 @@ const fieldNotes = [
 
 const stewards = [
   {
-    name: "Louchi",
-    role: "Brand Steward",
-    href: "https://estudioblanco.org",
-    project: "ESTUDIO BLANCO",
-    initials: "LO",
-  },
-  {
     name: "Dekan",
     role: "Knowledge Steward",
     href: "https://x.com/DekanBro",
@@ -120,6 +113,13 @@ const stewards = [
     href: "https://github.com/Fluffy9",
     project: "GITHUB / FLUFFY9",
     image: "/images/member-pupcakes.png",
+  },
+  {
+    name: "Louchi",
+    role: "Brand Steward",
+    href: "https://estudioblanco.org",
+    project: "ESTUDIO BLANCO",
+    initials: "LO",
   },
 ];
 
@@ -433,6 +433,38 @@ export default function HomeExperience() {
     if (arrivalTimerRef.current) window.clearTimeout(arrivalTimerRef.current);
   }, []);
 
+  useEffect(() => {
+    const root = document.documentElement;
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const stored = window.localStorage.getItem("raidguild-theme");
+    const initialTheme = stored === "light" || stored === "dark"
+      ? stored
+      : media.matches ? "dark" : "light";
+
+    root.dataset.theme = initialTheme;
+    root.style.colorScheme = initialTheme;
+    setIsNight(initialTheme === "dark");
+
+    const followSystem = (event: MediaQueryListEvent) => {
+      if (window.localStorage.getItem("raidguild-theme")) return;
+      const theme = event.matches ? "dark" : "light";
+      root.dataset.theme = theme;
+      root.style.colorScheme = theme;
+      setIsNight(event.matches);
+    };
+
+    media.addEventListener("change", followSystem);
+    return () => media.removeEventListener("change", followSystem);
+  }, []);
+
+  const toggleTheme = () => {
+    const theme = isNight ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+    window.localStorage.setItem("raidguild-theme", theme);
+    setIsNight(theme === "dark");
+  };
+
   const scrollFields = (direction: number) => {
     const track = fieldTrackRef.current;
     if (!track) return;
@@ -500,7 +532,7 @@ export default function HomeExperience() {
   }, []);
 
   return (
-    <main className={`${styles.site} ${isNight ? styles.nightMode : ""} ${portalForming ? styles.siteGlitching : ""}`}>
+    <main className={`${styles.site} ${portalForming ? styles.siteGlitching : ""}`}>
       <header className={styles.header}>
         <a className={styles.brand} href="#top" aria-label="RaidGuild home">
           <Sigil />
@@ -512,7 +544,7 @@ export default function HomeExperience() {
           type="button"
           aria-label={`Switch to ${isNight ? "day" : "night"} mode`}
           aria-pressed={isNight}
-          onClick={() => setIsNight((night) => !night)}
+          onClick={toggleTheme}
         >
           <span aria-hidden="true"><i /></span>
           <b>{isNight ? "NIGHT" : "DAY"}</b>
@@ -641,7 +673,7 @@ export default function HomeExperience() {
               onMouseEnter={revealHero}
               onMouseLeave={restHero}
             >
-              <h1 tabIndex={0} onFocus={revealHero} onBlur={restHero}>VENTURE<br /><em>BEYOND.</em></h1>
+              <h1 tabIndex={0} onFocus={revealHero} onBlur={restHero}>VENTURE<br /><em>BEYOND</em></h1>
               <span>{heroRevealed ? "THE WORLD IS OPEN" : "HOVER TO LOOK BEYOND"}</span>
             </div>
           </div>
@@ -691,27 +723,26 @@ export default function HomeExperience() {
       </div>
 
       <section className={`${styles.prologue} ${arrivalTarget === "guild" ? styles.sectionArriving : ""}`} id="guild">
-        <Image
-          className={styles.guildBuilders}
-          src="/images/neo/guild-builders-v1.png"
-          alt=""
-          width={768}
-          height={1024}
-          sizes="(max-width: 600px) 76vw, 38vw"
-          aria-hidden="true"
-        />
-        <div className={styles.prologueMark}>
-          <div className={styles.orbit}><Sigil /></div>
-          <span>THE MANY / AS ONE</span>
+        <div className={styles.guildVisual}>
+          <Image
+            className={styles.guildBuilders}
+            src="/images/neo/guild-builders-v1.png"
+            alt=""
+            width={768}
+            height={1024}
+            sizes="600px"
+            aria-hidden="true"
+          />
         </div>
         <div className={styles.prologueCopy}>
           <p className={styles.sectionLabel}>[ THE GUILD ]</p>
-          <h2>The network is<br />the <em>engine.</em></h2>
+          <h2>The network<br /><em>is the engine</em></h2>
           <div className={styles.prologueBody}>
             <p>
-              RaidGuild is a builder-owned community exploring emerging technology together. Designers, engineers, researchers, strategists, and operators share knowledge, reputation, and infrastructure—then assemble into specialized crews when ambitious work calls.
+              <strong>RaidGuild</strong> is a builder-owned community exploring emerging technology together.{" "}
+              <strong>Designers, engineers, researchers, strategists, and operators</strong> share knowledge, reputation, and infrastructure.
             </p>
-            <p className={styles.stat}><strong>70+</strong><span>raids shipped<br />across the frontier</span></p>
+            <p>Then assemble into specialized crews when ambitious work calls.</p>
           </div>
           <div className={styles.guildActions}>
             <a className={styles.guildJoinCta} href="https://portal.raidguild.org" target="_blank" rel="noreferrer">
@@ -724,14 +755,24 @@ export default function HomeExperience() {
             </div>
           </div>
         </div>
+        <div className={styles.statsBand} aria-label="RaidGuild statistics">
+          <div><strong>150</strong><span>GLOBAL MEMBERS</span></div>
+          <div><strong>88+</strong><span>RAIDS SHIPPED ACROSS THE FRONTIER</span></div>
+          <div><strong>4999</strong><span>YEARS OF EXPERIENCE</span></div>
+          <div><strong>2019</strong><span>BORN AND RAISED IN ADVERSITY</span></div>
+        </div>
+      </section>
+
+      <section className={styles.keepers}>
         <div className={styles.guildRoster}>
           <div className={styles.rosterHeading}>
             <div>
               <p className={styles.sectionLabel}>[ CURRENT STEWARDS ]</p>
-              <h3>Keepers of the signal.</h3>
+              <h3>Keepers of <em>the signal</em></h3>
+              <p>RaidGuild is a builder-owned community exploring emerging technology together.</p>
             </div>
             <div className={styles.rosterAside}>
-              <p>Five active stewards hold the guild&apos;s shared context, rituals, infrastructure, and public voice.</p>
+              <a href="https://portal.raidguild.org" target="_blank" rel="noreferrer">Explore all members <span>↗</span></a>
             </div>
           </div>
 
@@ -764,6 +805,11 @@ export default function HomeExperience() {
             })}
           </div>
 
+        </div>
+      </section>
+
+      <section className={styles.teamNetwork}>
+        <div className={styles.teamWall}>
           <div className={styles.memberMarquee}>
             <div className={styles.memberRail}>
               {[...guildMembers, ...guildMembers].map((member, index) => {
@@ -781,7 +827,12 @@ export default function HomeExperience() {
               })}
             </div>
           </div>
-          <p className={styles.rosterFootnote}>DRAG TO EXPLORE · HOVER TO HOLD THE TRANSMISSION · SELECT A MEMBER TO FOLLOW THEIR WORK</p>
+        </div>
+        <div className={styles.teamCopy}>
+          <p className={styles.sectionLabel}>[ THE TEAM ]</p>
+          <h3>A WIDE NETWORK<br /><em>OF BUILDERS</em></h3>
+          <p>RaidGuild is a builder-owned community exploring emerging technology together.</p>
+          <a href="https://portal.raidguild.org" target="_blank" rel="noreferrer">Join the Guild <span>↗</span></a>
         </div>
       </section>
 

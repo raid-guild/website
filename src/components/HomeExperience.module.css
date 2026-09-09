@@ -1,11 +1,21 @@
 .site {
-  --ink: #102d2c;
-  --deep: #0a292b;
-  --paper: #efe9d7;
-  --sky: #b8e0df;
-  --coral: #ee3c78;
+  --color-cream: #efe9d7;
+  --color-pink: #ee3c78;
+  --color-lime: #d7e34d;
+  --color-navy: #191e4e;
+  --color-dark-green: #102d2c;
+  --color-cyan: #b8e0df;
+  --ink: var(--color-dark-green);
+  --deep: var(--color-dark-green);
+  --paper: var(--color-cream);
+  --sky: var(--color-cyan);
+  --coral: var(--color-pink);
   --rust: #b84031;
   --acid: #d7e34d;
+  /* Figma type system: display Grinder 500, body Ubuntu 400, mono Ubuntu Mono 700.
+     Scoped here so the pre-redesign routes keep the global Mazius display face. */
+  --font-display: var(--font-grinder);
+  --font-retalic: var(--font-grinder-retalic);
   background: var(--paper);
   color: var(--ink);
   overflow: clip;
@@ -38,7 +48,7 @@
 .celestialToggle > span::after { color: var(--paper); content: "☾"; font-family: serif; font-size: 10px; line-height: 16px; opacity: .72; position: absolute; right: 3px; }
 .celestialToggle i { background: var(--paper); border-radius: 50%; box-shadow: 0 0 8px rgba(239,233,215,.55); height: 10px; left: 3px; position: absolute; top: 3px; transform: translateX(0); transition: background .75s, box-shadow .75s, transform .75s cubic-bezier(.16,.76,.18,1); width: 10px; z-index: 1; }
 .celestialToggle b { font-size: 7px; letter-spacing: .16em; min-width: 34px; text-align: center; }
-.nightMode .celestialToggle i { background: #8fe3ef; box-shadow: 0 0 10px rgba(113,221,235,.82); transform: translateX(16px); }
+:global(html[data-theme="dark"]) .site .celestialToggle i { background: var(--color-cyan); box-shadow: 0 0 10px rgba(184,224,223,.82); transform: translateX(16px); }
 
 .nav { align-items: center; backdrop-filter: blur(12px) saturate(1.15); background: rgba(5,34,34,.52); border: 1px solid rgba(239,233,215,.2); border-radius: 100px; box-shadow: 0 8px 30px rgba(4,22,24,.16); display: flex; gap: clamp(18px, 2.15vw, 38px); padding: 10px 23px; -webkit-backdrop-filter: blur(12px) saturate(1.15); }
 .nav a { color: inherit; font-size: 11px; font-weight: 700; letter-spacing: .12em; position: relative; text-decoration: none; text-shadow: 0 1px 10px rgba(0,0,0,.45); text-transform: uppercase; }
@@ -74,9 +84,9 @@
 .heroArt { inset: 0; position: absolute; z-index: 1; }
 .heroImage { object-fit: cover; object-position: calc(48% + var(--neo-land-x, 0px) + var(--neo-track-land-x, 0px)) 58%; transition: object-position .22s cubic-bezier(.2,.7,.2,1); }
 .heroNightImage { opacity: 0; transition: object-position .22s cubic-bezier(.2,.7,.2,1), opacity 1.35s cubic-bezier(.2,.7,.2,1); }
-.nightMode .heroNightImage { opacity: 1; }
+:global(html[data-theme="dark"]) .site .heroNightImage { opacity: 1; }
 .heroWash { background: linear-gradient(90deg, rgba(5, 34, 34, .88) 0%, rgba(5, 34, 34, .43) 31%, rgba(5, 34, 34, .02) 65%), linear-gradient(0deg, rgba(5,27,28,.72), transparent 34%, rgba(2, 25, 27, .26)); inset: 0; position: absolute; z-index: 2; }
-.nightMode .heroWash { background: linear-gradient(90deg, rgba(2,14,28,.76) 0%, rgba(2,18,31,.3) 31%, rgba(2,18,31,.02) 65%), linear-gradient(0deg, rgba(1,10,20,.66), transparent 38%, rgba(1,10,20,.14)); }
+:global(html[data-theme="dark"]) .site .heroWash { background: linear-gradient(90deg, rgba(25,30,78,.82) 0%, rgba(25,30,78,.3) 31%, rgba(25,30,78,.02) 65%), linear-gradient(0deg, rgba(25,30,78,.66), transparent 38%, rgba(25,30,78,.14)); }
 .heroWash::after { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E"); content: ""; inset: 0; mix-blend-mode: soft-light; opacity: .35; pointer-events: none; position: absolute; }
 .heroLandmarks { filter: saturate(.92) contrast(1.02); inset: 0; opacity: 0; pointer-events: none; position: absolute; transform: translateY(8px) scale(.995); transition: opacity .48s ease, transform .72s cubic-bezier(.16,.76,.18,1), filter .48s ease; z-index: 5; }
 .heroExploring .heroLandmarks { filter: saturate(1.08) contrast(1.045) drop-shadow(0 0 1px rgba(239,233,215,.82)) drop-shadow(0 0 10px rgba(238,60,120,.28)) drop-shadow(0 12px 18px rgba(2,25,27,.16)); opacity: 1; transform: translateY(-3px) scale(1.006); }
@@ -120,9 +130,9 @@
 .heroSupplement { bottom: clamp(74px, 9vh, 104px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(0, var(--neo-copy-y, 0), 0); transition: opacity .3s ease; width: min(540px, 75vw); z-index: 7; }
 .heroExploring .heroSupplement { opacity: 0; pointer-events: none; }
 .eyebrow { align-items: center; display: flex; font-size: 10px; font-weight: 700; letter-spacing: .19em; margin: 0 0 20px; text-transform: uppercase; }
-.eyebrow span { background: var(--coral); border-radius: 50%; box-shadow: 0 0 0 5px rgba(238,60,120,.2); height: 7px; margin-right: 14px; width: 7px; }
-.hero h1 { font-family: var(--font-display), serif; font-size: clamp(74px, 10vw, 160px); font-weight: 500; letter-spacing: -.065em; line-height: .69; margin: 0; text-shadow: 0 2px 30px rgba(2,25,27,.16); }
-.hero h1 em { color: var(--coral); font-weight: 400; }
+.eyebrow span { background: var(--coral); border-radius: 50%; box-shadow: 0 0 0 5.625px rgba(238,60,120,.2); height: 7px; margin-right: 14px; width: 7px; }
+.hero h1 { font-family: var(--font-retalic), var(--font-display), sans-serif; font-size: clamp(74px, 10vw, 160px); font-weight: 500; letter-spacing: 0; line-height: 1; margin: 0; text-shadow: 0 4px 8px rgba(25,30,78,.3); }
+.hero h1 em { color: var(--coral); font-family: var(--font-display), sans-serif; font-style: italic; font-weight: 500; }
 .heroDek { font-family: var(--font-body), serif; font-size: clamp(18px, 1.65vw, 25px); line-height: 1.28; margin: 35px 0 0; max-width: 520px; }
 .discover { align-items: center; color: inherit; display: flex; font-size: 10px; gap: 18px; letter-spacing: .16em; margin-top: 40px; text-decoration: none; text-transform: uppercase; width: max-content; }
 .discover i { align-items: center; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; display: flex; font-style: normal; height: 42px; justify-content: center; transition: transform .25s, background .25s; width: 42px; }
@@ -356,61 +366,70 @@
 .socials a { color: inherit; font-size: 9px; letter-spacing: .13em; text-decoration: none; }
 .footer small { border-top: 1px solid rgba(239,233,215,.2); font-size: 7px; grid-column: 1 / -1; letter-spacing: .14em; opacity: .6; padding-top: 25px; }
 
-/* Night is an atmospheric palette, not a blanket color inversion. */
-.nightMode { background: #071722; color: #e8e6d9; }
+/* The paired Figma frame uses the same accents over a canonical navy ground. */
+:global(html[data-theme="dark"]) .site { background: var(--color-navy); color: var(--color-cream); }
 .prologue, .practice, .fieldNotes, .featuredMission, .creed, .contact, .footer { transition: background-color .9s ease, color .9s ease, border-color .9s ease; }
-.nightMode .signalBar { background: #a72d68; }
+:global(html[data-theme="dark"]) .site .signalBar { background: var(--color-pink); }
 
-.nightMode .prologue {
-  background-color: #0b2230;
-  background-image: radial-gradient(circle at 82% 16%, rgba(143,227,239,.07) 0 1px, transparent 1.5px), repeating-linear-gradient(107deg, transparent 0 21px, rgba(232,230,217,.018) 22px, transparent 23px 46px);
-  color: #e8e6d9;
+:global(html[data-theme="dark"]) .site .prologue {
+  background-color: var(--color-navy);
+  background-image: radial-gradient(circle at 82% 16%, rgba(184,224,223,.07) 0 1px, transparent 1.5px), repeating-linear-gradient(107deg, transparent 0 21px, rgba(239,233,215,.018) 22px, transparent 23px 46px);
+  color: var(--color-cream);
 }
-.nightMode .prologue::before { border-color: rgba(143,227,239,.13); }
-.nightMode .prologue::after { background: radial-gradient(circle at 50% 50%, transparent 0 21px, rgba(143,227,239,.14) 22px 23px, transparent 24px 49px, rgba(143,227,239,.08) 50px 51px, transparent 52px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(232,230,217,.09) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(232,230,217,.09) 50%, transparent calc(50% + .5px)); }
-.nightMode .orbit { border-color: rgba(143,227,239,.42); }
-.nightMode .orbit::before { border-color: rgba(232,230,217,.18); }
-.nightMode .prologueBody, .nightMode .rosterHeading, .nightMode .memberMarquee { border-color: rgba(232,230,217,.22); }
-.nightMode .stewardCard, .nightMode .stewardCard:last-child, .nightMode .memberRail > a, .nightMode .memberRail > div { border-color: rgba(232,230,217,.2); }
-.nightMode .stewardCard:hover { background: #163949; color: #f1edde; }
-.nightMode .stewardPortrait, .nightMode .memberRail img { background: #173c4d; }
-.nightMode .stewardPortrait::after { border-color: rgba(143,227,239,.28); }
-.nightMode .stewardPortrait img, .nightMode .memberRail img { filter: saturate(.58) brightness(.82) contrast(1.08); }
-.nightMode .guildBuilders { filter: brightness(.8) saturate(.65) hue-rotate(8deg); mix-blend-mode: screen; opacity: .09; }
-
-.nightMode .practice { background: #06141f; color: #e8e6d9; }
-.nightMode .discipline:hover { background: #173c4d; color: #f1edde; }
-.nightMode .discipline:hover .spearEndorsement { color: #f1edde; }
-.nightMode .problemSpear { background: rgba(143,227,239,.045); }
-
-.nightMode .fieldNotes {
-  background-color: #102c3c;
-  background-image: radial-gradient(circle at 14% 78%, rgba(143,227,239,.075) 0 1px, transparent 1.5px);
-  color: #e8e6d9;
+:global(html[data-theme="dark"]) .site .keepers,
+:global(html[data-theme="dark"]) .site .teamNetwork {
+  background: var(--color-navy);
+  color: var(--color-cream);
 }
-.nightMode .fieldNotes::before { background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(143,227,239,.075) 25%); }
-.nightMode .fieldNotes::after { border-color: rgba(143,227,239,.16); }
-.nightMode .fieldIntro::after { background: radial-gradient(circle, transparent 0 15px, rgba(143,227,239,.18) 16px 17px, transparent 18px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(143,227,239,.12) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(143,227,239,.12) 50%, transparent calc(50% + .5px)); }
-.nightMode .fieldControls button { border-color: rgba(232,230,217,.48); color: #e8e6d9; }
-.nightMode .fieldControls button:hover { background: #8fe3ef; color: #071722; }
-.nightMode .featuredMission { background: #0a1f2d; color: #e8e6d9; }
-.nightMode .missionImage { filter: brightness(.7) saturate(.82) hue-rotate(5deg) contrast(1.08); }
-.nightMode .artBadge { background: #8fe3ef; color: #071722; }
-.nightMode .missionCopy dl div { border-color: rgba(232,230,217,.22); }
+:global(html[data-theme="dark"]) .site .statsBand { background: var(--color-navy); }
+:global(html[data-theme="dark"]) .site .keepers .stewardCard,
+:global(html[data-theme="dark"]) .site .teamNetwork .memberRail > a,
+:global(html[data-theme="dark"]) .site .teamNetwork .memberRail > div { border-color: rgba(239,233,215,.25); }
+:global(html[data-theme="dark"]) .site .prologue::before { border-color: rgba(184,224,223,.13); }
+:global(html[data-theme="dark"]) .site .prologue::after { background: radial-gradient(circle at 50% 50%, transparent 0 21px, rgba(184,224,223,.14) 22px 23px, transparent 24px 49px, rgba(184,224,223,.08) 50px 51px, transparent 52px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(239,233,215,.09) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(239,233,215,.09) 50%, transparent calc(50% + .5px)); }
+:global(html[data-theme="dark"]) .site .orbit { border-color: rgba(184,224,223,.42); }
+:global(html[data-theme="dark"]) .site .orbit::before { border-color: rgba(239,233,215,.18); }
+:global(html[data-theme="dark"]) .site .prologueBody, :global(html[data-theme="dark"]) .site .rosterHeading, :global(html[data-theme="dark"]) .site .memberMarquee { border-color: rgba(239,233,215,.22); }
+:global(html[data-theme="dark"]) .site .stewardCard, :global(html[data-theme="dark"]) .site .stewardCard:last-child, :global(html[data-theme="dark"]) .site .memberRail > a, :global(html[data-theme="dark"]) .site .memberRail > div { border-color: rgba(239,233,215,.2); }
+:global(html[data-theme="dark"]) .site .stewardCard:hover { background: var(--color-dark-green); color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .stewardPortrait, :global(html[data-theme="dark"]) .site .memberRail img { background: var(--color-cyan); }
+:global(html[data-theme="dark"]) .site .stewardPortrait::after { border-color: rgba(184,224,223,.28); }
+:global(html[data-theme="dark"]) .site .stewardPortrait img, :global(html[data-theme="dark"]) .site .memberRail img { filter: saturate(.58) brightness(.82) contrast(1.08); }
+:global(html[data-theme="dark"]) .site .guildBuilders { filter: brightness(.8) saturate(.65) hue-rotate(8deg); mix-blend-mode: screen; opacity: .09; }
 
-.nightMode .creed { background: #792653; color: #f1edde; }
-.nightMode .creed em { color: #9ce8ef; text-shadow: 0 0 28px rgba(143,227,239,.2); }
-.nightMode .creedMoons { mix-blend-mode: screen; opacity: .22; }
-.nightMode .creedCreature { filter: grayscale(1) sepia(.1) saturate(.8) brightness(.72) hue-rotate(145deg); mix-blend-mode: screen; opacity: .16; }
+:global(html[data-theme="dark"]) .site .practice { background: var(--color-navy); color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .discipline:hover { background: var(--color-dark-green); color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .discipline:hover .spearEndorsement { color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .problemSpear { background: rgba(184,224,223,.045); }
 
-.nightMode .contact {
-  background-color: #dce7e3;
-  background-image: radial-gradient(circle at 16% 22%, rgba(16,45,44,.04) 0 1px, transparent 1.5px), radial-gradient(circle at 74% 68%, rgba(16,45,44,.03) 0 1px, transparent 1.4px), repeating-linear-gradient(103deg, transparent 0 17px, rgba(16,45,44,.018) 18px, transparent 19px 38px);
-  color: #102d2c;
+:global(html[data-theme="dark"]) .site .fieldNotes {
+  background-color: var(--color-navy);
+  background-image: radial-gradient(circle at 14% 78%, rgba(184,224,223,.075) 0 1px, transparent 1.5px);
+  color: var(--color-cream);
 }
-.nightMode .contactFormShell { background: #06141f; box-shadow: 20px 20px 0 #8fc9d0; }
-.nightMode .contactShipSchematic { opacity: .085; }
-.nightMode .footer { background: #040f18; color: #e8e6d9; }
+:global(html[data-theme="dark"]) .site .fieldNotes::before { background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(184,224,223,.075) 25%); }
+:global(html[data-theme="dark"]) .site .fieldNotes::after { border-color: rgba(184,224,223,.16); }
+:global(html[data-theme="dark"]) .site .fieldIntro::after { background: radial-gradient(circle, transparent 0 15px, rgba(184,224,223,.18) 16px 17px, transparent 18px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(184,224,223,.12) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(184,224,223,.12) 50%, transparent calc(50% + .5px)); }
+:global(html[data-theme="dark"]) .site .fieldControls button { border-color: rgba(239,233,215,.48); color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .fieldControls button:hover { background: var(--color-cyan); color: var(--color-navy); }
+:global(html[data-theme="dark"]) .site .featuredMission { background: var(--color-navy); color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .missionImage { filter: brightness(.7) saturate(.82) hue-rotate(5deg) contrast(1.08); }
+:global(html[data-theme="dark"]) .site .artBadge { background: var(--color-cyan); color: var(--color-navy); }
+:global(html[data-theme="dark"]) .site .missionCopy dl div { border-color: rgba(239,233,215,.22); }
+
+:global(html[data-theme="dark"]) .site .creed { background: var(--color-pink); color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .creed em { color: var(--color-cyan); text-shadow: 0 0 28px rgba(184,224,223,.2); }
+:global(html[data-theme="dark"]) .site .creedMoons { mix-blend-mode: screen; opacity: .22; }
+:global(html[data-theme="dark"]) .site .creedCreature { filter: grayscale(1) sepia(.1) saturate(.8) brightness(.72) hue-rotate(145deg); mix-blend-mode: screen; opacity: .16; }
+
+:global(html[data-theme="dark"]) .site .contact {
+  background-color: var(--color-navy);
+  background-image: radial-gradient(circle at 16% 22%, rgba(184,224,223,.04) 0 1px, transparent 1.5px), radial-gradient(circle at 74% 68%, rgba(184,224,223,.03) 0 1px, transparent 1.4px), repeating-linear-gradient(103deg, transparent 0 17px, rgba(184,224,223,.018) 18px, transparent 19px 38px);
+  color: var(--color-cream);
+}
+:global(html[data-theme="dark"]) .site .contactFormShell { background: var(--color-navy); box-shadow: 20px 20px 0 var(--color-cyan); }
+:global(html[data-theme="dark"]) .site .contactShipSchematic { opacity: .085; }
+:global(html[data-theme="dark"]) .site .footer { background: var(--color-navy); color: var(--color-cream); }
 
 .siteGlitching > .header, .siteGlitching > .hero { animation: realityGlitch 3.4s steps(1, end) both; transform-origin: center; will-change: filter, transform; }
 .siteGlitching::after { animation: glitchBands 3.4s steps(2, end) both; background: repeating-linear-gradient(0deg, transparent 0 8px, rgba(109,230,223,.12) 9px, transparent 10px 17px, rgba(238,60,120,.1) 18px, transparent 19px 26px); content: ""; inset: 0; mix-blend-mode: screen; pointer-events: none; position: fixed; z-index: 99; }
@@ -497,6 +516,171 @@
 @keyframes copyDeparture { to { opacity: 0; transform: translateX(-50px); } }
 @keyframes machineDeparture { 35% { opacity: 1; transform: translate(-50%, -50%) scale(.9); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(2.9); } }
 @keyframes portalDeparture { 0%, 45% { background: #041618; opacity: 1; } 78% { background: var(--paper); opacity: 1; } 100% { background: var(--paper); opacity: 0; } }
+
+/* Finalized 1440px Code Transfer composition. */
+@media (min-width: 1000px) {
+  .site { width: 100%; }
+
+  .header { height: 104px; padding: 0 80px; }
+  .brand { font-size: 16px; gap: 16px; letter-spacing: 2px; line-height: 1; white-space: nowrap; }
+  .brand .sigil { height: 46px; margin: 0; width: 46px; }
+  .brand .swordMark { height: 32px; width: 32px; }
+  .nav { gap: 31px; padding: 12px 27px; }
+  .nav a { font-size: 16px; letter-spacing: 2px; line-height: 24px; }
+  .nav .brandArchiveLink { display: none; }
+  .celestialToggle { left: auto; padding: 9px; right: 398px; }
+  .celestialToggle > span { height: 30px; width: 62px; }
+  .celestialToggle i { height: 16px; left: 7px; top: 6px; width: 16px; }
+  .celestialToggle b { font-size: 16px; letter-spacing: 2px; min-width: 38px; }
+  :global(html[data-theme="dark"]) .site .celestialToggle i { transform: translateX(31px); }
+  .portalTrigger { position: absolute; right: 80px; top: 18px; }
+
+  .hero { height: 897px; min-height: 897px; }
+  .heroStage { height: 897px; min-height: 897px; position: relative; top: auto; }
+  .heroArt, .heroImage, .heroNightImage, .heroWash { height: 897px; }
+  .heroImage { object-position: 50% 50%; }
+  .heroForeground { inset: 0; transform: none; }
+  .heroForegroundLeft { clip-path: inset(0 50% 0 0); }
+  .heroForegroundRight { clip-path: inset(0 0 0 50%); }
+  .heroCopy { left: 176px; opacity: 1; top: 245px; transform: none; width: 509px; }
+  .heroTitle, .heroExploring .heroTitle { transform: none; }
+  .eyebrow { font-size: 24px; font-style: italic; letter-spacing: 2px; line-height: 24px; margin-bottom: 24px; white-space: nowrap; }
+  .eyebrow span { height: 16px; margin-right: 16px; width: 16px; }
+  .hero h1 { font-size: 88px; letter-spacing: 0; line-height: 88px; text-shadow: 0 4px 8px rgba(25,30,78,.3); }
+  .heroTitle > span { display: none; }
+  .heroSupplement, .heroExploring .heroSupplement { bottom: auto; left: 305px; opacity: 1; pointer-events: auto; top: 509px; transform: none; width: 379px; }
+  .heroDek { font-size: 24px; line-height: 32px; margin: 0; width: 379px; }
+  .discover { display: none; }
+  .heroIndex { bottom: 78px; right: 80px; }
+  .heroIndex span { font-size: 16px; letter-spacing: 2px; line-height: 24px; }
+  .heroIndex strong { font-size: 88px; letter-spacing: 4px; line-height: 88px; }
+  .heroIndex small { display: none; }
+  .heroWayfinding { opacity: 1; }
+  .heroOrbitMap, .heroHub { display: none; }
+  .heroWaypoint { height: 78px; width: 165px; }
+  .heroWaypoint::after { background: transparent; border: 0; font-size: 16px; left: 0; letter-spacing: 2px; opacity: 1; padding: 0; text-align: center; top: 0; transform: none; width: 100%; }
+  .heroWaypoint > i { background: transparent; border-color: rgba(255,255,255,.5); box-shadow: none; height: 47px; left: 59px; top: 40px; width: 47px; }
+  .heroWaypoint > i::after { border: 0; content: "+"; font-size: 40px; inset: 8px 0 0; line-height: 24px; text-align: center; }
+  .waypointShip { left: 604px; top: 650px; }
+  .waypointCitadel { left: 844px; top: 378px; }
+  .waypointProcession { left: 1007px; top: 223px; }
+  .waypointLabel { display: none; }
+
+  .signalBar { height: 80px; padding: 0; }
+  .signalBar div { animation: none; gap: 24px; height: 80px; justify-content: space-around; width: 100%; }
+  .signalBar span { font-size: 16px; letter-spacing: 2px; }
+
+  .prologue { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 653px 184px; height: 837px; max-width: none; padding: 0; }
+  .prologue::before, .prologue::after { display: none; }
+  .guildVisual { align-items: center; display: flex; height: 653px; justify-content: center; overflow: hidden; }
+  .guildBuilders { height: 596px; mix-blend-mode: normal; object-fit: contain; opacity: 1; position: static; width: 601px; }
+  .prologueCopy { align-self: start; padding: 139px 114px 0 42px; }
+  .sectionLabel { font-size: 16px; letter-spacing: 2px; line-height: 24px; margin-bottom: 16px; }
+  .prologue h2, .practice h2, .fieldIntro h2 { font-size: 72px; letter-spacing: 0; line-height: 72px; }
+  .prologue h2 { color: var(--color-navy); font-family: var(--font-display), sans-serif; font-size: 40px; font-style: italic; letter-spacing: 0; line-height: 48px; }
+  .prologue h2 em { font-family: var(--font-retalic), sans-serif; font-size: 56px; font-style: normal; line-height: 56px; }
+  .prologue .sectionLabel { color: var(--coral); font-size: 24px; font-style: italic; line-height: 24px; }
+  .prologueCopy { color: var(--color-navy); }
+  .prologueBody > p { font-size: 16px; letter-spacing: 1px; line-height: 24px; max-width: 565px; }
+  .prologueBody > p + p { margin-top: 24px; }
+  .prologueBody strong { font-weight: 700; }
+  .prologueBody { border: 0; display: block; margin-top: 16px; padding: 0; }
+  .prologueBody > p:first-child { font-size: 16px; letter-spacing: 1px; line-height: 24px; max-width: 565px; }
+  .guildActions { gap: 16px; margin-top: 16px; }
+  .guildJoinCta { height: 56px; padding: 0 8px 0 24px; }
+  .guildJoinCta > span { font-size: 14px; }
+  .guildJoinCta small { display: none; }
+  .guildResourceLinks a { font-size: 14px; letter-spacing: 1px; }
+  .statsBand { align-items: center; background: var(--deep); color: var(--paper); display: grid; grid-column: 1 / -1; grid-template-columns: 249px 395px 316px 369px; height: 184px; justify-content: center; padding: 0 20px; }
+  .statsBand > div { align-items: center; border-left: 1px solid rgba(239,233,215,.28); display: flex; gap: 24px; min-height: 72px; padding-left: 24px; }
+  .statsBand strong { color: var(--coral); font-family: var(--font-display), serif; font-size: 56px; font-weight: 500; line-height: 56px; }
+  .statsBand span { font-size: 16px; letter-spacing: 2px; line-height: 24px; max-width: 200px; text-transform: uppercase; }
+
+  .keepers { background: var(--paper); color: var(--ink); height: 802px; overflow: hidden; padding: 48px 80px 24px; }
+  .guildRoster { margin: 0; }
+  .rosterHeading { align-items: center; border: 0; height: 247px; padding: 32px 0; }
+  .rosterHeading h3, .teamCopy h3 { font-family: var(--font-display), serif; font-size: 56px; font-weight: 500; letter-spacing: 4px; line-height: 56px; margin: 0; }
+  .rosterHeading h3 em, .teamCopy h3 em { color: var(--coral); font-style: normal; letter-spacing: 0; }
+  .rosterHeading > div > p:last-child { font-family: var(--font-body), serif; font-size: 16px; letter-spacing: 1px; line-height: 24px; margin: 8px 0 0; width: 671px; }
+  .rosterAside { width: 268px; }
+  .rosterAside a { font-size: 14px; height: 56px; letter-spacing: 1px; margin: 0; }
+  .stewardTrack { grid-template-columns: repeat(5, 243.2px); margin-top: 0; overflow: visible; padding: 24px 0; }
+  .stewardCard { border: 1px solid rgba(16,45,44,.35); border-right: 0; border-radius: 18px; height: 411px; min-width: 0; padding: 26px; }
+  .stewardCard:last-child { border-right: 1px solid rgba(16,45,44,.35); }
+  .stewardPortrait { height: 169px; margin: 24px auto 8px; max-width: none; width: 169px; }
+  .stewardCard > p { font-size: 16px; letter-spacing: 2px; line-height: 24px; margin: 0; }
+  .stewardCard h4 { font-size: 24px; line-height: 32px; margin: 8px 0; }
+  .stewardCard > small { font-size: 14px; letter-spacing: 1px; line-height: 16px; }
+  .stewardTop { font-size: 14px; }
+
+  .teamNetwork { align-items: center; background: var(--paper); color: var(--ink); display: grid; grid-template-columns: 839px 1fr; height: 444px; overflow: hidden; }
+  .teamWall { height: 384px; overflow: hidden; position: relative; width: 820px; }
+  .memberMarquee { border: 0; height: 384px; margin: 0; overflow: hidden; padding: 0; }
+  .memberRail { animation: none; column-gap: 14px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(4, 90px); row-gap: 8px; transform: none; width: max-content; }
+  .memberRail > a, .memberRail > div { border: 2px solid var(--coral); border-radius: 16px; gap: 16px; height: 90px; min-width: 213.75px; padding: 18px; }
+  .memberRail img { border-radius: 27px; filter: none; height: 54px; width: 54px; }
+  .memberRail strong { color: var(--coral); font-family: var(--font-display), sans-serif; font-size: 24px; font-style: italic; line-height: 32px; }
+  .memberRail small { color: var(--color-dark-green); font-size: 14px; font-weight: 700; letter-spacing: 1px; line-height: 16px; margin-top: 5.625px; opacity: 1; }
+  .memberRail i { display: none; }
+  .teamCopy { padding-left: 61px; width: 460px; }
+  .teamCopy > p:not(.sectionLabel) { font-family: var(--font-body), serif; font-size: 16px; letter-spacing: 1px; line-height: 24px; }
+  .teamCopy > a { border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 14px; justify-content: space-between; letter-spacing: 1px; margin-top: 24px; padding-bottom: 12px; text-decoration: none; text-transform: uppercase; width: 228px; }
+
+  .practice { height: 1525px; padding: 160px 86px; }
+  .practiceHeading { align-items: center; grid-template-columns: 762px 447px; margin: 0 auto; max-width: 1209px; }
+  .practiceHeading .sectionLabel { grid-column: 1; margin-bottom: 24px; }
+  .practiceHeading h2 { grid-column: 1; }
+  .practiceAside { grid-column: 2; grid-row: 1 / span 2; padding-left: 109px; }
+  .practiceAside p { font-size: 16px; letter-spacing: 1px; line-height: 24px; width: 338px; }
+  .disciplineGrid { height: 826px; margin-top: 40px; max-width: 1267px; }
+  .discipline { height: 826px; min-height: 826px; padding: 32px 43px 45px; }
+  .disciplineArt { height: 337px; margin: 20px 0 0; }
+  .disciplineTag { color: var(--sky); font-size: 16px !important; line-height: 24px; }
+  .spearEndorsement { display: none; }
+  .discipline h3 { font-size: 24px; line-height: 32px; margin: 16px 0 0; }
+  .discipline > p:not(.disciplineTag) { font-size: 16px; letter-spacing: 1px; line-height: 24px; }
+  .disciplineTop { font-size: 20px; }
+  .disciplineTop i { color: var(--sky); font-size: 16px; }
+  .discipline > a, .spearActions > a { font-size: 16px; letter-spacing: 2px; line-height: 24px; }
+
+  .fieldNotes { height: 1338px; padding: 120px 0 0; }
+  .fieldIntro { grid-template-columns: 930px 338px; margin: 0 auto 80px; max-width: 1267px; }
+  .fieldIntro::after { display: none; }
+  .fieldAside { padding-top: 110px; }
+  .fieldAside p { font-size: 16px; letter-spacing: 1px; line-height: 24px; }
+  .fieldControls { margin: 0 45px 24px; max-width: none; }
+  .fieldTrack { gap: 80px; margin: 0; padding: 0 45px; }
+  .featuredMission { flex-basis: 1181px; grid-template-columns: 560px 621px; height: 765px; min-height: 765px; }
+  .missionArt { min-height: 765px; }
+  .missionCopy { padding: 72px; }
+  .missionType { font-size: 16px; letter-spacing: 2px; line-height: 24px; margin-top: auto; }
+  .missionCopy h3 { font-size: 40px; line-height: 48px; margin-bottom: 24px; }
+  .missionCopy > p:not(.missionType) { font-size: 16px; letter-spacing: 1px; line-height: 24px; }
+  .missionCopy > a { font-size: 14px; }
+  .missionCopy dl { margin-top: 56px; }
+
+  .creed { background: var(--deep); height: 615px; padding: 133px 24px 0; }
+  .creed::after { background: rgba(10,41,43,.3); content: ""; inset: 0; position: absolute; z-index: 1; }
+  .creedMoons { height: 100%; left: 0; max-width: none; mix-blend-mode: normal; object-fit: cover; opacity: .7; top: 0; transform: none; width: 100%; }
+  .creedCreature { filter: none; height: 100%; left: 0; mix-blend-mode: soft-light; object-fit: cover; opacity: .75; top: 0; transform: none; width: 100%; }
+  .creed .sectionLabel { color: var(--sky); font-size: 24px; line-height: 24px; margin: 0; }
+  .creed blockquote { font-size: 56px; letter-spacing: 4px; line-height: 56px; margin: 73px auto 0; }
+  .creed em { color: var(--coral); }
+  .creedFooter { display: none; }
+
+  .contact { gap: 80px; grid-template-columns: 1fr 720px; height: 881px; padding: 80px; }
+  .contactIntro { position: static; padding-top: 84px; }
+  .contact h2.contactHeadline { font-size: 56px; letter-spacing: 0; line-height: 56px; }
+  .contactDek { font-size: 16px; letter-spacing: 1px; line-height: 24px; margin-top: 24px; width: 460px; }
+  .contactProtocol { margin-top: 48px; }
+  .contactFormShell { box-shadow: 20px 20px 0 var(--sky); height: 720px; padding: 54px; }
+
+  .footer { gap: 56px; grid-template-columns: 394px 1fr 394px; height: 340px; padding: 79px 72px 34px; }
+  .footer > p { font-size: 25px; line-height: 29px; }
+  .socials { gap: 16px; }
+  .socials a { font-size: 14px; letter-spacing: 1px; line-height: 16px; }
+  .footer small { border-color: var(--sky); font-size: 14px; letter-spacing: 1px; line-height: 16px; padding-top: 25px; }
+}
 
 @media (max-width: 900px) {
   .header { height: 78px; padding-left: 24px; padding-right: 24px; }

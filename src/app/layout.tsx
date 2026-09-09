@@ -1,5 +1,11 @@
 import type { Metadata } from "next";
-import { maziusDisplay, ebGaramond, ubuntuMono } from "@/lib/fonts";
+import {
+  grinder,
+  grinderRetalic,
+  maziusDisplay,
+  ubuntu,
+  ubuntuMono,
+} from "@/lib/fonts";
 import "./globals.css";
 // import { ThemeProvider } from "next-themes";
 import { Providers } from "@/providers/providers";
@@ -38,6 +44,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var k="raidguild-theme",s=localStorage.getItem(k),t=s==="light"||s==="dark"?s:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t}catch(e){document.documentElement.dataset.theme="light"}})();`,
+          }}
+        />
+        <script
           async
           src="https://plausible-production-78b3.up.railway.app/js/pa-FkymWO7gixkQ6_9ux01Qn.js"
         />
@@ -49,7 +60,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${maziusDisplay.variable} ${ebGaramond.variable} ${ubuntuMono.variable} antialiased`}
+        className={`${grinder.variable} ${grinderRetalic.variable} ${maziusDisplay.variable} ${ubuntu.variable} ${ubuntuMono.variable} antialiased`}
       >
         <VercelAnalytics />
         {/* <ThemeProvider
