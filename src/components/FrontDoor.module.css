@@ -31,7 +31,7 @@
 .door a:focus-visible { outline: 2px solid #ee3c78; outline-offset: 6px; }
 .door { overflow-x: hidden; }
 .content { flex-shrink: 0; margin: auto; }
-.door { --font-body: var(--font-display); }
+.door { --font-display: var(--font-afacad); --font-body: var(--font-afacad); }
 .opening { background: transparent; pointer-events: none; overflow: hidden; }
 .opening .cluster { transform: var(--spread); opacity: 0; }
 .opening .shade, .opening .content, .opening .bottom { opacity: 0; }

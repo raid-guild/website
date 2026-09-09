@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
-import FrontDoor from "./FrontDoor";
 import Image from "next/image";
+import FrontDoor from "./FrontDoor";
 import HireUs from "@/components/HireUs";
 import { mercenaries } from "@/lib/data/members";
 import styles from "./HomeExperience.module.css";
@@ -89,13 +89,6 @@ const fieldNotes = [
 
 const stewards = [
   {
-    name: "Louchi",
-    role: "Brand Steward",
-    href: "https://estudioblanco.org",
-    project: "ESTUDIO BLANCO",
-    initials: "LO",
-  },
-  {
     name: "Dekan",
     role: "Knowledge Steward",
     href: "https://x.com/DekanBro",
@@ -121,6 +114,13 @@ const stewards = [
     href: "https://github.com/Fluffy9",
     project: "GITHUB / FLUFFY9",
     image: "/images/member-pupcakes.png",
+  },
+  {
+    name: "Louchi",
+    role: "Brand Steward",
+    href: "https://estudioblanco.org",
+    project: "ESTUDIO BLANCO",
+    image: "/images/member-louchi.png",
   },
 ];
 
@@ -389,6 +389,36 @@ export default function HomeExperience() {
   const portalFormTimerRef = useRef<number | null>(null);
   const arrivalTimerRef = useRef<number | null>(null);
 
+  useEffect(() => {
+    const preference = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const visible = new Set<HTMLVideoElement>();
+    const videos = Array.from(document.querySelectorAll<HTMLVideoElement>("video[data-scene]"));
+    const update = () => videos.forEach((video) => {
+      const scene = video.dataset.scene;
+      const matchesTheme = scene === "manifesto" || scene === (isNight ? "dark" : "light");
+      if (!frontDoorOpen && !document.hidden && !preference.matches && matchesTheme && visible.has(video)) {
+        void video.play().catch(() => { /* Poster remains available if autoplay is blocked. */ });
+      } else video.pause();
+    });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target as HTMLVideoElement;
+        if (entry.isIntersecting) visible.add(video);
+        else visible.delete(video);
+      });
+      update();
+    });
+    videos.forEach((video) => observer.observe(video));
+    preference.addEventListener("change", update);
+    document.addEventListener("visibilitychange", update);
+    return () => {
+      observer.disconnect();
+      videos.forEach((video) => video.pause());
+      preference.removeEventListener("change", update);
+      document.removeEventListener("visibilitychange", update);
+    };
+  }, [frontDoorOpen, isNight]);
+
   const revealHero = () => {
     if (heroRevealTimerRef.current) window.clearTimeout(heroRevealTimerRef.current);
     setHeroRevealed(true);
@@ -450,10 +480,36 @@ export default function HomeExperience() {
     if (arrivalTimerRef.current) window.clearTimeout(arrivalTimerRef.current);
   }, []);
 
-  const scrollFields = (direction: number) => {
-    const track = fieldTrackRef.current;
-    if (!track) return;
-    track.scrollBy({ left: direction * track.clientWidth * 0.78, behavior: "smooth" });
+  useEffect(() => {
+    const root = document.documentElement;
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const stored = window.localStorage.getItem("raidguild-theme");
+    const initialTheme = stored === "light" || stored === "dark"
+      ? stored
+      : media.matches ? "dark" : "light";
+
+    root.dataset.theme = initialTheme;
+    root.style.colorScheme = initialTheme;
+    setIsNight(initialTheme === "dark");
+
+    const followSystem = (event: MediaQueryListEvent) => {
+      if (window.localStorage.getItem("raidguild-theme")) return;
+      const theme = event.matches ? "dark" : "light";
+      root.dataset.theme = theme;
+      root.style.colorScheme = theme;
+      setIsNight(event.matches);
+    };
+
+    media.addEventListener("change", followSystem);
+    return () => media.removeEventListener("change", followSystem);
+  }, []);
+
+  const toggleTheme = () => {
+    const theme = isNight ? "light" : "dark";
+    document.documentElement.dataset.theme = theme;
+    document.documentElement.style.colorScheme = theme;
+    window.localStorage.setItem("raidguild-theme", theme);
+    setIsNight(theme === "dark");
   };
 
   const updateActiveField = () => {
@@ -519,7 +575,7 @@ export default function HomeExperience() {
   return (
     <>
     {frontDoorOpen && <FrontDoor onEnter={enterFromFrontDoor} />}
-    <main inert={frontDoorOpen} className={`${styles.site} ${isNight ? styles.nightMode : ""} ${portalForming ? styles.siteGlitching : ""}`}>
+    <main inert={frontDoorOpen} className={`${styles.site} ${portalForming ? styles.siteGlitching : ""}`}>
       <header className={styles.header}>
         <a className={styles.brand} href="#top" aria-label="RaidGuild home">
           <Sigil />
@@ -531,7 +587,7 @@ export default function HomeExperience() {
           type="button"
           aria-label={`Switch to ${isNight ? "day" : "night"} mode`}
           aria-pressed={isNight}
-          onClick={() => setIsNight((night) => !night)}
+          onClick={toggleTheme}
         >
           <span aria-hidden="true"><i /></span>
           <b>{isNight ? "NIGHT" : "DAY"}</b>
@@ -566,8 +622,8 @@ export default function HomeExperience() {
 
       <section className={styles.hero} id="top" ref={heroRef}>
         <button className={styles.portalTrigger} type="button" onClick={openPortal}>
-          <span className={styles.portalTriggerMark}><Sigil /><i /></span>
-          <span className={styles.portalTriggerCopy}><small>TRANSIT READY</small>OPEN A PORTAL <i>↗</i></span>
+          <span className={styles.portalTriggerMark}><b className={styles.iconPortal} /><i /></span>
+          <span className={styles.portalTriggerCopy}><small>TRANSIT READY</small>OPEN A PORTAL</span>
         </button>
         <div className={`${styles.heroStage} ${heroRevealed ? styles.heroExploring : ""}`}>
           <div className={styles.heroCelestial} aria-hidden="true">
@@ -577,33 +633,25 @@ export default function HomeExperience() {
           </div>
           <div className={styles.heroArt} aria-hidden="true">
             <Image
-              src="/images/neo/raidguild-panorama.png"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
               className={styles.heroImage}
-            />
-            <Image
-              src="/images/neo/raidguild-panorama-night-v1.webp"
+              src="/images/neo/hero-light-poster.png"
               alt=""
               fill
-              priority
               sizes="100vw"
+              priority
+            />
+            <video
               className={`${styles.heroImage} ${styles.heroNightImage}`}
+              poster="/images/neo/hero-dark-poster.png"
+              src="/videos/venture/hero-dark.mp4"
+              data-scene="dark"
+              muted
+              loop
+              playsInline
+              preload="metadata"
             />
           </div>
           <div className={styles.heroWash} />
-          <div className={styles.heroLandmarks} aria-hidden="true">
-            <Image
-              src="/images/neo/hero-landmarks-v1.png"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className={styles.landmarkImage}
-            />
-          </div>
           <div className={styles.heroWayfinding}>
             <svg className={styles.heroOrbitMap} viewBox="0 0 1000 700" aria-hidden="true" preserveAspectRatio="none">
               <ellipse cx="535" cy="345" rx="286" ry="190" />
@@ -638,7 +686,7 @@ export default function HomeExperience() {
             <a
               className={`${styles.heroWaypoint} ${styles.waypointProcession}`}
               href="#guild"
-              data-route="JOIN THE GUILD"
+              data-route="MEET THE GUILD"
               onClick={(event) => followSectionLink(event, "guild", true)}
               onMouseEnter={revealHero}
               onMouseLeave={restHero}
@@ -676,8 +724,8 @@ export default function HomeExperience() {
           <div className={styles.heroIndex}>
             <span>TRANSMISSION</span>
             <strong>001</strong>
-            <small>SCROLL TO DESCEND</small>
           </div>
+          <p className={styles.heroScrollCue} aria-hidden="true">&lt;&lt;&lt; SCROLL TO DESCEND</p>
           <div className={`${styles.heroForeground} ${styles.heroForegroundLeft}`} aria-hidden="true">
             <Image
               src="/images/neo/hero-foreground.png"
@@ -703,54 +751,64 @@ export default function HomeExperience() {
 
       <div className={styles.signalBar} aria-hidden="true">
         <div>
-          <span>ONE GUILD</span><i>✦</i><span>MANY EDGES</span><i>✦</i><span>BUILDER-OWNED</span><i>✦</i>
-          <span>APPLIED AI</span><i>✦</i><span>ONCHAIN SYSTEMS</span><i>✦</i><span>OPEN EXPERIMENTS</span><i>✦</i>
-          <span>ONE GUILD</span><i>✦</i><span>MANY EDGES</span><i>✦</i>
+          <span>ONE GUILD</span><i /><span>MANY EDGES</span><i /><span>BUILDER-OWNED</span><i />
+          <span>APPLIED AI</span><i /><span>ONCHAIN SYSTEMS</span><i /><span>OPEN EXPERIMENTS</span><i />
+          <span>ONE GUILD</span><i /><span>MANY EDGES</span><i />
         </div>
       </div>
 
       <section className={`${styles.prologue} ${arrivalTarget === "guild" ? styles.sectionArriving : ""}`} id="guild">
-        <Image
-          className={styles.guildBuilders}
-          src="/images/neo/guild-builders-v1.png"
-          alt=""
-          width={768}
-          height={1024}
-          sizes="(max-width: 600px) 76vw, 38vw"
-          aria-hidden="true"
-        />
-        <div className={styles.prologueMark}>
-          <div className={styles.orbit}><Sigil /></div>
-          <span>THE MANY / AS ONE</span>
+        <div className={styles.guildVisual}>
+          <Image
+            className={styles.guildBuilders}
+            src="/images/neo/guild-builders-v1.png"
+            alt=""
+            width={768}
+            height={1024}
+            sizes="600px"
+            aria-hidden="true"
+          />
         </div>
         <div className={styles.prologueCopy}>
           <p className={styles.sectionLabel}>[ THE GUILD ]</p>
-          <h2><span>The network</span><br /><em>is the engine</em></h2>
+          <h2>The network<br /><em>is the engine</em></h2>
           <div className={styles.prologueBody}>
             <p>
-              RaidGuild is a builder-owned community exploring emerging technology together. Designers, engineers, researchers, strategists, and operators share knowledge, reputation, and infrastructure—then assemble into specialized crews when ambitious work calls.
+              <strong>RaidGuild</strong> is a builder-owned community exploring emerging technology together.{" "}
+              <strong>Designers, engineers, researchers, strategists, and operators</strong> share knowledge, reputation, and infrastructure.
             </p>
-            <p className={styles.stat}><strong>70+</strong><span>raids shipped<br />across the frontier</span></p>
+            <p>Then assemble into specialized crews when ambitious work calls.</p>
           </div>
           <div className={styles.guildActions}>
-            <a className={styles.guildJoinCta} href="https://portal.raidguild.org" target="_blank" rel="noreferrer">
-              <span><small>COMMUNITY PORTAL</small>Join the Guild</span>
-              <i>↗</i>
+            <a className={`${styles.pill} ${styles.pillFilled}`} href="https://portal.raidguild.org" target="_blank" rel="noreferrer">
+              <span>Join the Guild</span>
+              <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
             </a>
-            <div className={styles.guildResourceLinks}>
-              <a href="https://handbook.raidguild.org/docs/overview/what-is-raidguild" target="_blank" rel="noreferrer">Read the handbook <span>↗</span></a>
-              <a href="https://discord.gg/2vx47gT95y" target="_blank" rel="noreferrer">Enter Discord <span>↗</span></a>
-            </div>
+            <a className={`${styles.pill} ${styles.pillOutline}`} href="https://discord.gg/2vx47gT95y" target="_blank" rel="noreferrer">
+              <span>Enter Discord</span>
+              <i className={styles.pillIcon}><b className={styles.iconDiscord} /></i>
+            </a>
           </div>
+          <a className={styles.handbookLink} href="https://handbook.raidguild.org/docs/overview/what-is-raidguild" target="_blank" rel="noreferrer">Read the handbook ↗</a>
         </div>
+        <div className={styles.statsBand} aria-label="RaidGuild statistics">
+          <div><strong>150</strong><span>GLOBAL MEMBERS</span></div>
+          <div><strong>88+</strong><span>RAIDS SHIPPED ACROSS THE FRONTIER</span></div>
+          <div><strong>4999</strong><span>YEARS OF EXPERIENCE</span></div>
+          <div><strong>2019</strong><span>BORN AND RAISED IN ADVERSITY</span></div>
+        </div>
+      </section>
+
+      <section className={styles.keepers}>
         <div className={styles.guildRoster}>
           <div className={styles.rosterHeading}>
             <div>
               <p className={styles.sectionLabel}>[ CURRENT STEWARDS ]</p>
-              <h3>Keepers of the signal.</h3>
+              <h3>Keepers of<br /><em>the signal</em></h3>
+              <p>RaidGuild is a builder-owned community exploring emerging technology together.</p>
             </div>
             <div className={styles.rosterAside}>
-              <p>Five active stewards hold the guild&apos;s shared context, rituals, infrastructure, and public voice.</p>
+              <a href="https://portal.raidguild.org" target="_blank" rel="noreferrer">Explore all members <span>↗</span></a>
             </div>
           </div>
 
@@ -763,11 +821,7 @@ export default function HomeExperience() {
                     <i>{steward.href ? "↗" : "·"}</i>
                   </div>
                   <div className={styles.stewardPortrait}>
-                    {steward.image ? (
-                      <Image src={steward.image} alt="" fill sizes="180px" />
-                    ) : (
-                      <span>{steward.initials}</span>
-                    )}
+                    <Image src={steward.image} alt="" fill sizes="180px" />
                   </div>
                   <p>{steward.role}</p>
                   <h4>{steward.name}</h4>
@@ -783,6 +837,11 @@ export default function HomeExperience() {
             })}
           </div>
 
+        </div>
+      </section>
+
+      <section className={styles.teamNetwork}>
+        <div className={styles.teamWall}>
           <div className={styles.memberMarquee}>
             <div className={styles.memberRail}>
               {[...guildMembers, ...guildMembers].map((member, index) => {
@@ -800,17 +859,28 @@ export default function HomeExperience() {
               })}
             </div>
           </div>
-          <p className={styles.rosterFootnote}>DRAG TO EXPLORE · HOVER TO HOLD THE TRANSMISSION · SELECT A MEMBER TO FOLLOW THEIR WORK</p>
+        </div>
+        <div className={styles.teamCopy}>
+          <p className={styles.sectionLabel}>[ THE TEAM ]</p>
+          <h3>A WIDE NETWORK<br /><em>OF BUILDERS</em></h3>
+          <p>RaidGuild is a builder-owned community exploring emerging technology together.</p>
+          <a className={`${styles.pill} ${styles.pillOutline}`} href="https://discord.gg/2vx47gT95y" target="_blank" rel="noreferrer">
+            <span>Enter Discord</span>
+            <i className={styles.pillIcon}><b className={styles.iconDiscord} /></i>
+          </a>
         </div>
       </section>
 
       <section className={`${styles.practice} ${arrivalTarget === "spears" ? styles.sectionArriving : ""}`} id="spears">
         <div className={styles.practiceHeading}>
           <p className={styles.sectionLabel}>[ ACTIVE SPEARS ]</p>
-          <h2>Specialized at<br />the <em>applied edge.</em></h2>
+          <h2>Specialized at<br /><em>the applied edge</em></h2>
           <div className={styles.practiceAside}>
             <p>Independently led specialist practices operating through RaidGuild LLC, with shared contracts, treasury, infrastructure, and access to the Guild&apos;s builder network.</p>
-            <a href="#contact">Bring us an edge problem <span>↘</span></a>
+            <a className={`${styles.pill} ${styles.pillOutlineNavy}`} href="#contact">
+              <span>Bring us an edge problem</span>
+              <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
+            </a>
           </div>
         </div>
         <div className={`${styles.disciplineGrid} ${styles.spearGrid}`}>
@@ -871,19 +941,18 @@ export default function HomeExperience() {
       <section className={`${styles.fieldNotes} ${arrivalTarget === "work" ? styles.sectionArriving : ""}`} id="work">
         <div className={styles.fieldIntro}>
           <p className={styles.sectionLabel}>[ SELECTED EXPEDITIONS ]</p>
-          <h2>Proof from<br />the <em>frontier.</em></h2>
+          <h2>Proof from<br /><b>the <em>frontier</em></b></h2>
           <div className={styles.fieldAside}>
             <p>Artifacts, protocols, and communities built with people brave enough to go first.</p>
-            <a href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer">Open the full blog <span>↗</span></a>
+            <a className={`${styles.pill} ${styles.pillOutlineGreen}`} href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer">
+              <span>Open the full blog</span>
+              <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
+            </a>
           </div>
         </div>
 
         <div className={styles.fieldControls}>
           <p><strong>{String(activeField + 1).padStart(2, "0")}</strong> / {String(fieldNotes.length).padStart(2, "0")}</p>
-          <div>
-            <button type="button" onClick={() => scrollFields(-1)} aria-label="Previous field note">←</button>
-            <button type="button" onClick={() => scrollFields(1)} aria-label="Next field note">→</button>
-          </div>
         </div>
 
         <div className={styles.fieldTrack} ref={fieldTrackRef} onScroll={updateActiveField}>
@@ -919,18 +988,10 @@ export default function HomeExperience() {
       <section className={styles.creed}>
         <Image
           className={styles.creedMoons}
-          src="/images/neo/creed-moons-v1.png"
+          src="/images/neo/manifesto-backdrop.png"
+          width={2200}
+          height={940}
           alt=""
-          width={1536}
-          height={1024}
-          aria-hidden="true"
-        />
-        <Image
-          className={styles.creedCreature}
-          src="/images/neo/creed-flyer-v1.png"
-          alt=""
-          width={1536}
-          height={1024}
           aria-hidden="true"
         />
         <p className={styles.sectionLabel}>[ THE RAIDGUILD CREED ]</p>
@@ -945,21 +1006,20 @@ export default function HomeExperience() {
       </section>
 
       <section className={`${styles.contact} ${arrivalTarget === "contact" ? styles.sectionArriving : ""}`} id="contact">
-        <Image
-          className={styles.contactShipSchematic}
-          src="/images/neo/project-ship-schematic-v1.webp"
-          alt=""
-          width={2160}
-          height={912}
-          sizes="72vw"
-          aria-hidden="true"
-        />
         <div className={styles.contactIntro}>
+          <Image
+            className={styles.contactDruid}
+            src="/images/neo/contact-druid.png"
+            alt=""
+            width={1518}
+            height={1308}
+            sizes="506px"
+            aria-hidden="true"
+          />
           <p className={styles.sectionLabel}>[ BEGIN A TRANSMISSION ]</p>
           <h2 className={styles.contactHeadline}>
-            <span>What impossible</span>
-            <span>thing are you</span>
-            <span><em>building?</em></span>
+            <span>What impossible thing</span>
+            <em>are you building?</em>
           </h2>
           <p className={styles.contactDek}>Send the first signal. Tell us who you are, what world you&apos;re trying to make, and what it will take to get there.</p>
           <dl className={styles.contactProtocol}>
@@ -978,9 +1038,9 @@ export default function HomeExperience() {
         <a className={styles.brand} href="#top"><Sigil /><span>RAID<br />GUILD</span></a>
         <p>WE BUILD THE ROADS<br />THROUGH UNMAPPED TERRITORY.</p>
         <div className={styles.socials}>
-          <a href="https://github.com/raid-guild">GITHUB ↗</a>
-          <a href="https://x.com/RaidGuild">X / TWITTER ↗</a>
-          <a href="https://discord.gg/2vx47gT95y">DISCORD ↗</a>
+          <a href="https://github.com/raid-guild">GITHUB</a>
+          <a href="https://x.com/RaidGuild">X / TWITTER</a>
+          <a href="https://discord.gg/2vx47gT95y">DISCORD</a>
         </div>
         <small>© 2019—2026 RAIDGUILD · EARTH &amp; ELSEWHERE</small>
       </footer>

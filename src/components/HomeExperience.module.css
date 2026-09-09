@@ -1,12 +1,21 @@
 .site {
-  --font-body: var(--font-display);
-  --ink: #102d2c;
-  --deep: #0a292b;
-  --paper: #efe9d7;
-  --sky: #b8e0df;
-  --coral: #ee3c78;
+  --color-cream: #efe9d7;
+  --color-pink: #ee3c78;
+  --color-lime: #d7e34d;
+  --color-navy: #191e4e;
+  --color-dark-green: #102d2c;
+  --color-cyan: #b8e0df;
+  --ink: var(--color-dark-green);
+  --deep: var(--color-dark-green);
+  --paper: var(--color-cream);
+  --sky: var(--color-cyan);
+  --coral: var(--color-pink);
   --rust: #b84031;
   --acid: #d7e34d;
+  /* Afacad substitutes for the unlicensed display cuts; Ubuntu follows the handoff. */
+  --font-display: var(--font-afacad);
+  --font-retalic: var(--font-afacad);
+  --font-body: var(--font-ubuntu);
   background: var(--paper);
   color: var(--ink);
   overflow: clip;
@@ -15,16 +24,7 @@
 
 .site ::selection { background: var(--coral); color: var(--paper); }
 
-/* Retalic accents use upright glyphs skewed backwards, not synthetic italic. */
-.site h1 em, .site h2 em, .site blockquote em {
-  font-family: var(--font-display), sans-serif;
-  font-style: normal;
-  font-variation-settings: "slnt" 0;
-  display: inline-block;
-  transform: skewX(12deg);
-  transform-origin: center;
-}
-
+.handbookLink { display: inline-block; margin-top: 16px; font-size: 12px; text-decoration: underline; text-underline-offset: 5px; }
 
 .header {
   align-items: center;
@@ -41,16 +41,36 @@
 }
 
 .brand { align-items: center; color: inherit; display: inline-flex; font-size: 12px; font-weight: 700; letter-spacing: .11em; line-height: .9; text-decoration: none; }
+/* Glifos nativos exportados de Figma, pintados con currentColor via mask. */
+.iconLogo, .iconDiscord, .iconPortal { background: currentColor; display: block; }
+.iconLogo { -webkit-mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; }
+.iconDiscord { -webkit-mask: url("/images/icons/venture/ico-discord.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-discord.svg") center / contain no-repeat; }
+.iconPortal { -webkit-mask: url("/images/icons/venture/ico-portal.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-portal.svg") center / contain no-repeat; }
+
+/* Componente button de Figma (19:4977 y variantes): alto 56, radio 100,
+   padding 8/8/8/24, gap 24, contenedor de icono 40 y glifo 32. */
+.pill { align-items: center; border: 2px solid transparent; border-radius: 100px; display: inline-flex; gap: 24px; height: 56px; justify-content: flex-end; padding: 8px 8px 8px 24px; text-decoration: none; transition: background .25s, color .25s, border-color .25s, transform .25s; width: max-content; }
+.pill:hover { transform: translateY(-2px); }
+.pill > span { font-family: var(--font-mono), monospace; font-size: 16px; font-style: italic; font-weight: 700; letter-spacing: 2px; line-height: 24px; text-transform: uppercase; white-space: nowrap; }
+.pillIcon { align-items: center; border: 2px solid transparent; border-radius: 100px; display: flex; flex: 0 0 auto; height: 40px; justify-content: center; width: 40px; }
+.pillIcon > b { height: 32px; width: 32px; }
+.pillFilled { background: var(--coral); border-color: var(--coral); color: var(--paper); }
+.pillFilled .pillIcon { background: var(--paper); color: var(--coral); }
+.pillOutline { background: var(--paper); border-color: var(--coral); color: var(--coral); }
+.pillOutlineNavy { background: var(--paper); border-color: var(--color-navy); color: var(--color-navy); }
+.pillOutlineGreen { background: var(--paper); border-color: var(--color-dark-green); color: var(--color-dark-green); }
+.pillOutline .pillIcon, .pillOutlineNavy .pillIcon, .pillOutlineGreen .pillIcon { border-color: currentColor; }
+
 .sigil { align-items: center; border: 1px solid currentColor; border-radius: 50%; display: inline-flex; height: 41px; justify-content: center; margin-right: 12px; position: relative; width: 41px; }
-.swordMark { background: currentColor; display: block; height: 27px; -webkit-mask: url("/images/neo/raidguild-swords.png") center / contain no-repeat; mask: url("/images/neo/raidguild-swords.png") center / contain no-repeat; width: 29px; }
+.swordMark { background: currentColor; display: block; height: 27px; -webkit-mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; width: 29px; }
 .celestialToggle { align-items: center; background: rgba(5,34,34,.52); border: 1px solid rgba(239,233,215,.24); border-radius: 999px; color: var(--paper); cursor: pointer; display: flex; font-family: var(--font-mono), monospace; gap: 8px; left: clamp(158px, 10vw, 192px); padding: 5px 9px 5px 6px; position: absolute; transition: background .3s, border-color .3s; }
 .celestialToggle:hover { background: rgba(5,34,34,.8); border-color: rgba(239,233,215,.55); }
 .celestialToggle > span { background: rgba(239,233,215,.14); border: 1px solid rgba(239,233,215,.38); border-radius: 999px; display: block; height: 18px; position: relative; width: 34px; }
-.celestialToggle > span::before { color: var(--paper); content: "☼"; font-family: serif; font-size: 10px; left: 3px; line-height: 16px; opacity: .72; position: absolute; }
-.celestialToggle > span::after { color: var(--paper); content: "☾"; font-family: serif; font-size: 10px; line-height: 16px; opacity: .72; position: absolute; right: 3px; }
+.celestialToggle > span::before { background: var(--paper); content: ""; height: 10px; left: 3px; -webkit-mask: url("/images/icons/venture/ico-sun.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-sun.svg") center / contain no-repeat; opacity: .72; position: absolute; top: 50%; transform: translateY(-50%); width: 10px; }
+.celestialToggle > span::after { background: var(--paper); content: ""; height: 10px; -webkit-mask: url("/images/icons/venture/ico-dark.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-dark.svg") center / contain no-repeat; opacity: .72; position: absolute; right: 3px; top: 50%; transform: translateY(-50%); width: 10px; }
 .celestialToggle i { background: var(--paper); border-radius: 50%; box-shadow: 0 0 8px rgba(239,233,215,.55); height: 10px; left: 3px; position: absolute; top: 3px; transform: translateX(0); transition: background .75s, box-shadow .75s, transform .75s cubic-bezier(.16,.76,.18,1); width: 10px; z-index: 1; }
 .celestialToggle b { font-size: 7px; letter-spacing: .16em; min-width: 34px; text-align: center; }
-.nightMode .celestialToggle i { background: #8fe3ef; box-shadow: 0 0 10px rgba(113,221,235,.82); transform: translateX(16px); }
+:global(html[data-theme="dark"]) .site .celestialToggle i { background: var(--color-cyan); box-shadow: 0 0 10px rgba(184,224,223,.82); transform: translateX(16px); }
 
 .nav { align-items: center; backdrop-filter: blur(12px) saturate(1.15); background: rgba(5,34,34,.52); border: 1px solid rgba(239,233,215,.2); border-radius: 100px; box-shadow: 0 8px 30px rgba(4,22,24,.16); display: flex; gap: clamp(18px, 2.15vw, 38px); padding: 10px 23px; -webkit-backdrop-filter: blur(12px) saturate(1.15); }
 .nav a { color: inherit; font-size: 11px; font-weight: 700; letter-spacing: .12em; position: relative; text-decoration: none; text-shadow: 0 1px 10px rgba(0,0,0,.45); text-transform: uppercase; }
@@ -64,8 +84,7 @@
 .portalTrigger { align-items: center; animation: portalAttention 6s 2s ease-in-out infinite; backdrop-filter: blur(14px) saturate(1.15); background: rgba(5,34,34,.86); border: 1px solid rgba(239,233,215,.35); border-radius: 100px; box-shadow: 0 10px 35px rgba(2,18,20,.22); color: var(--paper); cursor: pointer; display: flex; font-family: var(--font-mono), monospace; gap: 12px; padding: 7px 17px 7px 7px; position: fixed; right: clamp(24px, 4vw, 72px); top: 20px; transition: background .25s, border-color .25s, transform .25s; -webkit-backdrop-filter: blur(14px) saturate(1.15); z-index: 30; }
 .portalTrigger:hover { animation-play-state: paused; background: var(--paper); border-color: var(--paper); color: var(--ink); transform: translateY(-3px); }
 .portalTriggerMark { display: block; position: relative; }
-.portalTriggerMark .sigil { color: var(--coral); height: 48px; margin: 0; width: 48px; }
-.portalTriggerMark .swordMark { height: 30px; width: 33px; }
+.portalTriggerMark .iconPortal { color: var(--coral); height: 48px; width: 48px; }
 .portalTriggerMark > i { animation: triggerOrbit 3.8s linear infinite; border: 1px solid var(--coral); border-bottom-color: transparent; border-radius: 50%; inset: -3px; pointer-events: none; position: absolute; }
 .portalTriggerCopy { align-items: center; display: grid; font-size: 9px; font-weight: 700; gap: 3px 10px; grid-template-columns: auto auto; letter-spacing: .15em; text-align: left; white-space: nowrap; }
 .portalTriggerCopy small { font-size: 6px; font-weight: 400; grid-column: 1 / -1; letter-spacing: .2em; opacity: .55; }
@@ -84,15 +103,12 @@
 .moonSmall { height: 5vw; min-height: 48px; min-width: 48px; right: 31%; top: 13%; width: 5vw; }
 .orbitLine { border-bottom-color: transparent !important; border-left-color: transparent !important; height: 52vw; right: -7%; top: -19%; transform: rotate(22deg); width: 52vw; }
 .heroArt { inset: 0; position: absolute; z-index: 1; }
-.heroImage { object-fit: cover; object-position: calc(48% + var(--neo-land-x, 0px) + var(--neo-track-land-x, 0px)) 58%; transition: object-position .22s cubic-bezier(.2,.7,.2,1); }
+.heroImage { height: 100%; inset: 0; object-fit: cover; object-position: calc(48% + var(--neo-land-x, 0px) + var(--neo-track-land-x, 0px)) 58%; position: absolute; transition: object-position .22s cubic-bezier(.2,.7,.2,1); width: 100%; }
 .heroNightImage { opacity: 0; transition: object-position .22s cubic-bezier(.2,.7,.2,1), opacity 1.35s cubic-bezier(.2,.7,.2,1); }
-.nightMode .heroNightImage { opacity: 1; }
+:global(html[data-theme="dark"]) .site .heroNightImage { opacity: 1; }
 .heroWash { background: linear-gradient(90deg, rgba(5, 34, 34, .88) 0%, rgba(5, 34, 34, .43) 31%, rgba(5, 34, 34, .02) 65%), linear-gradient(0deg, rgba(5,27,28,.72), transparent 34%, rgba(2, 25, 27, .26)); inset: 0; position: absolute; z-index: 2; }
-.nightMode .heroWash { background: linear-gradient(90deg, rgba(2,14,28,.76) 0%, rgba(2,18,31,.3) 31%, rgba(2,18,31,.02) 65%), linear-gradient(0deg, rgba(1,10,20,.66), transparent 38%, rgba(1,10,20,.14)); }
+:global(html[data-theme="dark"]) .site .heroWash { background: linear-gradient(90deg, rgba(25,30,78,.82) 0%, rgba(25,30,78,.3) 31%, rgba(25,30,78,.02) 65%), linear-gradient(0deg, rgba(25,30,78,.66), transparent 38%, rgba(25,30,78,.14)); }
 .heroWash::after { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E"); content: ""; inset: 0; mix-blend-mode: soft-light; opacity: .35; pointer-events: none; position: absolute; }
-.heroLandmarks { filter: saturate(.92) contrast(1.02); inset: 0; opacity: 0; pointer-events: none; position: absolute; transform: translateY(8px) scale(.995); transition: opacity .48s ease, transform .72s cubic-bezier(.16,.76,.18,1), filter .48s ease; z-index: 5; }
-.heroExploring .heroLandmarks { filter: saturate(1.08) contrast(1.045) drop-shadow(0 0 1px rgba(239,233,215,.82)) drop-shadow(0 0 10px rgba(238,60,120,.28)) drop-shadow(0 12px 18px rgba(2,25,27,.16)); opacity: 1; transform: translateY(-3px) scale(1.006); }
-.landmarkImage { object-fit: cover; object-position: 48% 58%; }
 .heroWayfinding { inset: 0; opacity: .46; pointer-events: none; position: absolute; transition: opacity .5s ease; z-index: 8; }
 .heroExploring .heroWayfinding, .heroWayfinding:focus-within { opacity: 1; }
 .heroOrbitMap { fill: none; height: 100%; inset: 0; overflow: visible; pointer-events: none; position: absolute; stroke: rgba(239,233,215,.4); stroke-dasharray: 2 9; stroke-width: .65; width: 100%; }
@@ -129,33 +145,30 @@
 .heroTitle > span { bottom: -27px; font-family: var(--font-mono), monospace; font-size: 7px; left: 5px; letter-spacing: .18em; opacity: 0; position: absolute; transition: opacity .2s, transform .2s; }
 .heroTitle:hover > span, .heroTitle:focus-within > span { opacity: .7; transform: translateX(6px); }
 .heroTitle h1:focus-visible { outline: 1px solid var(--paper); outline-offset: 12px; }
-.heroSupplement { top: calc(clamp(138px, 17vh, 172px) + clamp(74px, 10vw, 160px) * 1.46 + 58px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(0, var(--neo-copy-y, 0), 0); transition: opacity .3s ease; width: min(470px, 75vw); z-index: 7; }
+.heroSupplement { bottom: clamp(74px, 9vh, 104px); left: clamp(24px, 7.5vw, 140px); opacity: var(--neo-copy-opacity, 1); position: absolute; transform: translate3d(0, var(--neo-copy-y, 0), 0); transition: opacity .3s ease; width: min(540px, 75vw); z-index: 7; }
 .heroExploring .heroSupplement { opacity: 0; pointer-events: none; }
 .eyebrow { align-items: center; display: flex; font-size: 10px; font-weight: 700; letter-spacing: .19em; margin: 0 0 20px; text-transform: uppercase; }
-.eyebrow span { background: var(--coral); border-radius: 50%; box-shadow: 0 0 0 5px rgba(238,60,120,.2); height: 7px; margin-right: 14px; width: 7px; }
-.hero h1 { font-family: var(--font-display), sans-serif; font-size: clamp(74px, 10vw, 160px); font-weight: 900; letter-spacing: -.025em; line-height: .73; margin: 0; text-shadow: 0 2px 30px rgba(2,25,27,.16); }
-.hero h1 > span { display: inline-block; transform: skewX(12deg); transform-origin: center; font-variation-settings: "slnt" 0; }
-.hero h1 em { color: var(--coral); font-weight: 1000; transform: skewX(-12deg); }
-.hero .eyebrow { font-style: italic; letter-spacing: .12em; }
-.heroDek { font-family: var(--font-display), sans-serif; font-size: clamp(20px, 1.9vw, 28px); line-height: 1.2; margin: 0; max-width: 470px; }
+.eyebrow span { background: var(--coral); border-radius: 50%; box-shadow: 0 0 0 5.625px rgba(238,60,120,.2); height: 7px; margin-right: 14px; width: 7px; }
+.hero h1 { font-family: var(--font-retalic), var(--font-display), sans-serif; font-size: clamp(74px, 10vw, 160px); font-weight: 500; letter-spacing: 0; line-height: 1; margin: 0; text-shadow: 0 4px 8px rgba(25,30,78,.3); }
+.hero h1 em { color: var(--coral); font-family: var(--font-display), sans-serif; font-style: italic; font-weight: 500; }
+.heroDek { font-family: var(--font-body), serif; font-size: clamp(18px, 1.65vw, 25px); line-height: 1.28; margin: 35px 0 0; max-width: 520px; }
 .discover { align-items: center; color: inherit; display: flex; font-size: 10px; gap: 18px; letter-spacing: .16em; margin-top: 40px; text-decoration: none; text-transform: uppercase; width: max-content; }
 .discover i { align-items: center; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; display: flex; font-style: normal; height: 42px; justify-content: center; transition: transform .25s, background .25s; width: 42px; }
 .discover:hover i { background: var(--coral); border-color: var(--coral); transform: translateY(5px); }
-.heroIndex { bottom: 44px; display: grid; grid-template-columns: auto auto; opacity: var(--neo-meta-opacity, 1); position: absolute; right: clamp(24px, 4vw, 72px); text-align: right; transform: translateY(var(--neo-meta-y, 0)); z-index: 4; }
+.heroIndex { bottom: 44px; display: grid; grid-template-columns: auto auto; opacity: var(--neo-meta-opacity, 1); position: absolute; right: clamp(24px, 4vw, 72px); text-align: right; transform: translateY(var(--neo-meta-y, 0)); z-index: 7; }
 .heroIndex span { font-size: 8px; letter-spacing: .18em; padding-top: 8px; }
 .heroIndex strong { font-family: var(--font-display), serif; font-size: 44px; font-weight: 400; grid-row: span 2; line-height: 1; margin-left: 15px; }
-.heroIndex small { font-size: 7px; letter-spacing: .16em; opacity: .55; }
+.heroScrollCue { display: none; margin: 0; }
 .heroForeground { inset: -7% -7% -14%; pointer-events: none; transform-origin: center 58%; transition: transform var(--neo-curtain-speed, .18s) cubic-bezier(.16,.76,.18,1); position: absolute; z-index: 6; }
 .heroForegroundLeft { clip-path: inset(0 50% 0 0); transform: translate3d(calc(72px - var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
 .heroForegroundRight { clip-path: inset(0 0 0 50%); transform: translate3d(calc(-58px + var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
 .foregroundImage { object-fit: cover; object-position: 48% 58%; }
 .nightMode .foregroundImage { filter: brightness(.46) saturate(.82) hue-rotate(7deg) contrast(1.14); }
-.nightMode .heroExploring .heroLandmarks { filter: brightness(.54) saturate(.9) hue-rotate(7deg) contrast(1.12) drop-shadow(0 0 1px rgba(143,227,239,.9)) drop-shadow(0 0 12px rgba(238,60,120,.34)) drop-shadow(0 12px 18px rgba(1,8,18,.35)); }
 
 .signalBar { background: var(--coral); color: var(--paper); overflow: hidden; padding: 14px 0 13px; }
 .signalBar div { align-items: center; animation: signal 28s linear infinite; display: flex; gap: 30px; width: max-content; }
 .signalBar span { font-size: 10px; font-weight: 700; letter-spacing: .16em; white-space: nowrap; }
-.signalBar i { font-style: normal; }
+.signalBar i { background: currentColor; display: block; flex: 0 0 auto; height: 32px; -webkit-mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; width: 32px; }
 @keyframes signal { to { transform: translateX(-50%); } }
 
 .prologue { background-image: radial-gradient(circle at 82% 16%, rgba(16,45,44,.022) 0 1px, transparent 1.5px), repeating-linear-gradient(107deg, transparent 0 21px, rgba(16,45,44,.01) 22px, transparent 23px 46px); background-size: 29px 31px, auto; display: grid; grid-template-columns: minmax(270px, .7fr) 1.6fr; margin: 0 auto; max-width: 1440px; overflow: hidden; padding: clamp(110px, 14vw, 210px) clamp(24px, 7vw, 110px); position: relative; }
@@ -163,7 +176,7 @@
 .prologue::after { background: radial-gradient(circle at 50% 50%, transparent 0 21px, rgba(16,45,44,.08) 22px 23px, transparent 24px 49px, rgba(16,45,44,.055) 50px 51px, transparent 52px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(16,45,44,.05) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(16,45,44,.05) 50%, transparent calc(50% + .5px)); content: ""; height: 150px; opacity: .72; pointer-events: none; position: absolute; right: clamp(28px, 8vw, 120px); top: clamp(74px, 10vw, 145px); transform: rotate(7deg); width: 150px; }
 .prologue > * { position: relative; z-index: 1; }
 .guildBuilders { --artifact-opacity: .105; height: auto; mix-blend-mode: multiply; opacity: var(--artifact-opacity); pointer-events: none; position: absolute; right: clamp(-110px, -4vw, -36px); top: clamp(250px, 27vw, 410px); width: clamp(300px, 38vw, 560px); z-index: 0; }
-.sectionArriving .guildBuilders, .sectionArriving .contactShipSchematic { animation: artifactArrival 1.8s cubic-bezier(.16,.76,.18,1) both; }
+.sectionArriving .guildBuilders { animation: artifactArrival 1.8s cubic-bezier(.16,.76,.18,1) both; }
 @keyframes artifactArrival {
   0% { opacity: .015; }
   30% { opacity: .23; }
@@ -189,16 +202,6 @@
 .prologueBody { border-top: 1px solid rgba(16,45,44,.3); display: grid; gap: 50px; grid-template-columns: 1fr auto; margin-top: 56px; padding-top: 30px; }
 .prologueBody > p:first-child { font-family: var(--font-body), serif; font-size: clamp(18px, 1.7vw, 24px); line-height: 1.45; margin: 0; max-width: 680px; }
 .guildActions { align-items: center; display: flex; flex-wrap: wrap; gap: 22px 30px; margin-top: 38px; }
-.guildJoinCta { align-items: center; background: var(--coral); border: 1px solid var(--coral); border-radius: 999px; box-shadow: 0 12px 32px rgba(238,60,120,.16); color: var(--paper); display: inline-flex; gap: 28px; padding: 8px 8px 8px 22px; text-decoration: none; transition: background .25s, color .25s, transform .25s; }
-.guildJoinCta > span { display: flex; flex-direction: column; font-size: 10px; font-weight: 700; letter-spacing: .14em; line-height: 1.2; text-transform: uppercase; }
-.guildJoinCta small { font-size: 6px; font-weight: 400; letter-spacing: .18em; margin-bottom: 4px; opacity: .68; }
-.guildJoinCta > i { align-items: center; background: var(--paper); border-radius: 50%; color: var(--ink); display: flex; font-size: 17px; font-style: normal; height: 42px; justify-content: center; transition: transform .25s; width: 42px; }
-.guildJoinCta:hover { background: var(--deep); border-color: var(--deep); transform: translateY(-3px); }
-.guildJoinCta:hover > i { transform: rotate(12deg); }
-.guildResourceLinks { display: flex; flex-wrap: wrap; gap: 13px 22px; }
-.guildResourceLinks a { border-bottom: 1px solid currentColor; color: inherit; font-size: 7px; font-weight: 700; letter-spacing: .14em; padding: 8px 0; text-decoration: none; text-transform: uppercase; }
-.guildResourceLinks a span { color: var(--coral); display: inline-block; font-size: 11px; margin-left: 9px; transition: transform .2s; }
-.guildResourceLinks a:hover span { transform: translate(3px, -3px); }
 .stat { align-items: center; display: flex; gap: 15px; margin: 0; }
 .stat strong { color: var(--coral); font-family: var(--font-display), serif; font-size: 68px; font-weight: 400; line-height: .8; }
 .stat span { font-size: 8px; letter-spacing: .12em; line-height: 1.6; text-transform: uppercase; }
@@ -208,7 +211,7 @@
 .rosterHeading h3 { font-family: var(--font-display), serif; font-size: clamp(44px, 5vw, 72px); font-weight: 500; letter-spacing: -.045em; line-height: .9; margin: 0; }
 .rosterAside { max-width: 390px; }
 .rosterAside p { font-family: var(--font-body), serif; font-size: 16px; line-height: 1.45; margin: 0; }
-.rosterAside a { align-items: center; border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 23px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; }
+.rosterAside a:not(.pill) { align-items: center; border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 23px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; }
 .rosterAside a span { font-size: 15px; transition: transform .2s; }
 .rosterAside a:hover span { transform: translate(3px, -3px); }
 .stewardTrack { display: grid; grid-template-columns: repeat(5, minmax(190px, 1fr)); margin-top: 55px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: thin; }
@@ -220,7 +223,6 @@
 .stewardPortrait { aspect-ratio: 1; background: var(--sky); border-radius: 50%; margin: 26px auto; max-width: 150px; overflow: hidden; position: relative; }
 .stewardPortrait::after { border: 1px solid rgba(16,45,44,.25); border-radius: 50%; content: ""; inset: 8px; pointer-events: none; position: absolute; }
 .stewardPortrait img { filter: saturate(.75) contrast(1.04); object-fit: cover; }
-.stewardPortrait > span { align-items: center; color: var(--coral); display: flex; font-family: var(--font-display), serif; font-size: 54px; height: 100%; justify-content: center; letter-spacing: -.05em; }
 .stewardCard > p { color: var(--coral); font-size: 7px; letter-spacing: .15em; margin: 0 0 8px; text-transform: uppercase; }
 .stewardCard h4 { font-family: var(--font-display), serif; font-size: 30px; font-weight: 500; line-height: 1; margin: 0 0 10px; }
 .stewardCard > small { font-size: 7px; letter-spacing: .12em; opacity: .65; }
@@ -243,12 +245,11 @@
 .practiceHeading .sectionLabel { grid-column: 1 / -1; }
 .practiceAside, .fieldAside { align-self: end; }
 .practiceAside p, .fieldAside p { font-family: var(--font-body), serif; font-size: 18px; line-height: 1.4; margin: 0; max-width: 280px; }
-.practiceAside a, .fieldAside a { align-items: center; border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 26px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; width: min(100%, 280px); }
+.practiceAside a:not(.pill), .fieldAside a:not(.pill) { align-items: center; border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 26px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; width: min(100%, 280px); }
 .practiceAside a span, .fieldAside a span { font-size: 15px; transition: transform .2s; }
 .practiceAside a:hover span { transform: translate(3px, 3px); }
 .fieldAside a:hover span { transform: translate(3px, -3px); }
 .disciplineGrid { border-left: 1px solid rgba(239,233,215,.22); display: grid; grid-template-columns: repeat(3, 1fr); margin: 0 auto; max-width: 1300px; }
-.spearGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .discipline { border-right: 1px solid rgba(239,233,215,.22); min-height: 560px; padding: 28px clamp(24px, 3vw, 46px) 40px; position: relative; transition: background .3s, color .3s, transform .3s; }
 .discipline:hover { background: var(--sky); color: var(--ink); transform: translateY(-10px); }
 .disciplineTop { display: flex; font-size: 10px; justify-content: space-between; letter-spacing: .15em; }
@@ -285,9 +286,6 @@
 .fieldControls { align-items: center; display: flex; justify-content: space-between; margin: 0 auto 24px; max-width: 1300px; position: relative; }
 .fieldControls p { font-size: 9px; letter-spacing: .15em; margin: 0; }
 .fieldControls p strong { color: var(--coral); font-family: var(--font-display), serif; font-size: 30px; font-weight: 400; }
-.fieldControls > div { display: flex; gap: 8px; }
-.fieldControls button { align-items: center; background: transparent; border: 1px solid rgba(16,45,44,.45); border-radius: 50%; color: var(--ink); cursor: pointer; display: flex; font-size: 20px; height: 48px; justify-content: center; transition: background .2s, color .2s, transform .2s; width: 48px; }
-.fieldControls button:hover { background: var(--ink); color: var(--paper); transform: scale(1.06); }
 .fieldTrack { display: flex; gap: clamp(16px, 2vw, 32px); margin-right: clamp(-96px, -6vw, -24px); overflow-x: auto; overscroll-behavior-inline: contain; padding: 0 clamp(24px, 6vw, 96px) 24px 0; position: relative; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .fieldTrack::-webkit-scrollbar { display: none; }
 .featuredMission { background: var(--paper); display: grid; flex: 0 0 min(1120px, 82vw); grid-template-columns: 1.05fr .95fr; min-height: 680px; position: relative; scroll-snap-align: start; }
@@ -309,9 +307,8 @@
 .missionCopy dd { font-family: var(--font-display), serif; font-size: 25px; margin: 5px 0 0; }
 
 .creed { background: var(--coral); color: var(--paper); overflow: hidden; padding: clamp(100px, 13vw, 190px) 24px 50px; position: relative; text-align: center; }
-.creed > *:not(.creedCreature):not(.creedMoons) { position: relative; z-index: 2; }
+.creed > *:not(.creedMoons) { position: relative; z-index: 2; }
 .creedMoons { animation: creedOrbit 24s ease-in-out infinite alternate; height: auto; left: 50%; mix-blend-mode: soft-light; opacity: .3; pointer-events: none; position: absolute; top: 48%; transform: translate(-50%, -50%) rotate(-2deg) scale(1.04); width: min(1536px, 116vw); z-index: 0; }
-.creedCreature { animation: creedFlight 14s ease-in-out infinite alternate; filter: grayscale(1) sepia(.15) saturate(.65) brightness(.33); height: auto; left: 50%; mix-blend-mode: multiply; opacity: .24; pointer-events: none; position: absolute; top: 48%; transform: translate(-50%, -50%) rotate(-3deg); width: min(1420px, 116vw); }
 .creed blockquote { font-family: var(--font-display), serif; font-size: clamp(58px, 8.5vw, 132px); font-weight: 500; letter-spacing: -.055em; line-height: .83; margin: 55px auto 130px; max-width: 1300px; }
 .creed em { color: var(--deep); }
 .creedFooter { align-items: center; border-top: 1px solid rgba(239,233,215,.4); display: flex; font-size: 8px; justify-content: space-between; letter-spacing: .18em; margin: 0 auto; max-width: 1300px; padding-top: 28px; }
@@ -328,44 +325,16 @@
   to { transform: translate(-49%, -51%) rotate(1deg) scale(1.07); }
 }
 
-/* Shared Afacad treatment across the editorial sections. */
-.prologue h2, .practice h2, .fieldIntro h2, .contact h2.contactHeadline {
-  font-size: clamp(36px, 4.4vw, 68px);
-  font-weight: 900;
-  line-height: .95;
-  letter-spacing: -.015em;
-  text-transform: uppercase;
-}
-.prologue h2 > span { display: inline-block; transform: skewX(12deg); }
-.site h2 em, .site blockquote em { font-weight: 1000; transform: skewX(-12deg); }
-.rosterHeading h3, .missionCopy h3 {
-  font-size: clamp(32px, 3.6vw, 54px);
-  font-weight: 850;
-  text-transform: uppercase;
-  line-height: 1;
-  letter-spacing: -.015em;
-}
-.discipline h3 { font-weight: 850; text-transform: uppercase; line-height: 1; font-size: clamp(28px, 2.7vw, 42px); }
-.creed blockquote { font-weight: 900; text-transform: uppercase; line-height: .95; letter-spacing: -.02em; }
-.sectionLabel { font-size: 12px; font-style: italic; letter-spacing: .13em; margin-bottom: 22px; }
-.guildJoinCta, .guildResourceLinks a, .spearActions a, .discipline > a, .practiceAside a, .fieldAside a, .missionCopy > a, .discover { font-style: italic; }
-.prologueBody { margin-top: 28px; padding-top: 20px; }
-.stat strong { font-weight: 1000; display: inline-block; transform: skewX(-12deg); }
-.stat span { font-style: italic; }
-.contactHeadline span { white-space: normal; }
-.portalMessage h2 { font-weight: 900; line-height: .9; letter-spacing: -.02em; }
-.contactFormShell :global(.text-heading-lg) { font-weight: 850 !important; text-transform: uppercase; line-height: 1 !important; }
-
 @media (prefers-reduced-motion: reduce) {
-  .creedCreature, .creedMoons { animation: none; }
+  .creedMoons { animation: none; }
 }
 
 .contact { align-items: start; background-color: var(--paper); background-image: radial-gradient(circle at 16% 22%, rgba(16,45,44,.027) 0 1px, transparent 1.5px), radial-gradient(circle at 74% 68%, rgba(16,45,44,.018) 0 1px, transparent 1.4px), repeating-linear-gradient(103deg, transparent 0 17px, rgba(16,45,44,.012) 18px, transparent 19px 38px); background-size: 23px 29px, 31px 37px, auto; display: grid; gap: clamp(60px, 8vw, 130px); grid-template-columns: minmax(340px, .82fr) minmax(540px, 1fr); overflow: hidden; padding: clamp(100px, 12vw, 180px) clamp(24px, 7vw, 110px); position: relative; }
-.contactShipSchematic { --artifact-opacity: .07; height: auto; left: clamp(-110px, -5vw, -40px); mix-blend-mode: multiply; opacity: var(--artifact-opacity); pointer-events: none; position: absolute; top: clamp(100px, 12vw, 180px); transform: rotate(-2deg); width: min(1120px, 72vw); z-index: 0; }
+.contactDruid { display: block; height: auto; margin: 0 0 34px; max-width: 506px; object-fit: cover; pointer-events: none; width: 100%; }
 .contact::before { border: 1px solid rgba(16,45,44,.075); border-radius: 50%; content: ""; height: clamp(380px, 52vw, 760px); left: clamp(-320px, -18vw, -120px); pointer-events: none; position: absolute; top: clamp(20px, 6vw, 90px); transform: rotate(-17deg); width: clamp(520px, 72vw, 1050px); }
 .contact::after { background: linear-gradient(90deg, transparent calc(50% - .5px), rgba(16,45,44,.065) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(16,45,44,.065) 50%, transparent calc(50% + .5px)); content: ""; height: 74px; left: clamp(22px, 5vw, 80px); opacity: .65; pointer-events: none; position: absolute; top: clamp(130px, 17vw, 255px); transform: rotate(-4deg); width: 74px; }
 .contact > * { position: relative; z-index: 1; }
-.contact > .contactShipSchematic { position: absolute; z-index: 0; }
+
 .contactIntro { position: sticky; top: 70px; }
 .contact h2.contactHeadline { font-size: clamp(50px, 5.7vw, 88px); }
 .contactHeadline span { display: block; white-space: nowrap; }
@@ -399,61 +368,71 @@
 .socials a { color: inherit; font-size: 9px; letter-spacing: .13em; text-decoration: none; }
 .footer small { border-top: 1px solid rgba(239,233,215,.2); font-size: 7px; grid-column: 1 / -1; letter-spacing: .14em; opacity: .6; padding-top: 25px; }
 
-/* Night is an atmospheric palette, not a blanket color inversion. */
-.nightMode { background: #071722; color: #e8e6d9; }
+/* The paired Figma frame uses the same accents over a canonical navy ground. */
+:global(html[data-theme="dark"]) .site { background: var(--color-navy); color: var(--color-cream); }
 .prologue, .practice, .fieldNotes, .featuredMission, .creed, .contact, .footer { transition: background-color .9s ease, color .9s ease, border-color .9s ease; }
-.nightMode .signalBar { background: #a72d68; }
+:global(html[data-theme="dark"]) .site .signalBar { background: var(--color-pink); }
 
-.nightMode .prologue {
-  background-color: #0b2230;
-  background-image: radial-gradient(circle at 82% 16%, rgba(143,227,239,.07) 0 1px, transparent 1.5px), repeating-linear-gradient(107deg, transparent 0 21px, rgba(232,230,217,.018) 22px, transparent 23px 46px);
-  color: #e8e6d9;
+:global(html[data-theme="dark"]) .site .prologue {
+  background-color: var(--color-navy);
+  background-image: radial-gradient(circle at 82% 16%, rgba(184,224,223,.07) 0 1px, transparent 1.5px), repeating-linear-gradient(107deg, transparent 0 21px, rgba(239,233,215,.018) 22px, transparent 23px 46px);
+  color: var(--color-cream);
 }
-.nightMode .prologue::before { border-color: rgba(143,227,239,.13); }
-.nightMode .prologue::after { background: radial-gradient(circle at 50% 50%, transparent 0 21px, rgba(143,227,239,.14) 22px 23px, transparent 24px 49px, rgba(143,227,239,.08) 50px 51px, transparent 52px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(232,230,217,.09) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(232,230,217,.09) 50%, transparent calc(50% + .5px)); }
-.nightMode .orbit { border-color: rgba(143,227,239,.42); }
-.nightMode .orbit::before { border-color: rgba(232,230,217,.18); }
-.nightMode .prologueBody, .nightMode .rosterHeading, .nightMode .memberMarquee { border-color: rgba(232,230,217,.22); }
-.nightMode .stewardCard, .nightMode .stewardCard:last-child, .nightMode .memberRail > a, .nightMode .memberRail > div { border-color: rgba(232,230,217,.2); }
-.nightMode .stewardCard:hover { background: #163949; color: #f1edde; }
-.nightMode .stewardPortrait, .nightMode .memberRail img { background: #173c4d; }
-.nightMode .stewardPortrait::after { border-color: rgba(143,227,239,.28); }
-.nightMode .stewardPortrait img, .nightMode .memberRail img { filter: saturate(.58) brightness(.82) contrast(1.08); }
-.nightMode .guildBuilders { filter: brightness(.8) saturate(.65) hue-rotate(8deg); mix-blend-mode: screen; opacity: .09; }
-
-.nightMode .practice { background: #06141f; color: #e8e6d9; }
-.nightMode .discipline:hover { background: #173c4d; color: #f1edde; }
-.nightMode .discipline:hover .spearEndorsement { color: #f1edde; }
-.nightMode .problemSpear { background: rgba(143,227,239,.045); }
-
-.nightMode .fieldNotes {
-  background-color: #102c3c;
-  background-image: radial-gradient(circle at 14% 78%, rgba(143,227,239,.075) 0 1px, transparent 1.5px);
-  color: #e8e6d9;
+:global(html[data-theme="dark"]) .site .keepers,
+:global(html[data-theme="dark"]) .site .teamNetwork {
+  background: var(--color-navy);
+  color: var(--color-cream);
 }
-.nightMode .fieldNotes::before { background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(143,227,239,.075) 25%); }
-.nightMode .fieldNotes::after { border-color: rgba(143,227,239,.16); }
-.nightMode .fieldIntro::after { background: radial-gradient(circle, transparent 0 15px, rgba(143,227,239,.18) 16px 17px, transparent 18px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(143,227,239,.12) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(143,227,239,.12) 50%, transparent calc(50% + .5px)); }
-.nightMode .fieldControls button { border-color: rgba(232,230,217,.48); color: #e8e6d9; }
-.nightMode .fieldControls button:hover { background: #8fe3ef; color: #071722; }
-.nightMode .featuredMission { background: #0a1f2d; color: #e8e6d9; }
-.nightMode .missionImage { filter: brightness(.7) saturate(.82) hue-rotate(5deg) contrast(1.08); }
-.nightMode .artBadge { background: #8fe3ef; color: #071722; }
-.nightMode .missionCopy dl div { border-color: rgba(232,230,217,.22); }
+:global(html[data-theme="dark"]) .site .statsBand { background: var(--color-navy); }
+:global(html[data-theme="dark"]) .site .keepers .stewardCard,
+:global(html[data-theme="dark"]) .site .teamNetwork .memberRail > a,
+:global(html[data-theme="dark"]) .site .teamNetwork .memberRail > div { border-color: rgba(239,233,215,.25); }
+:global(html[data-theme="dark"]) .site .prologue::before { border-color: rgba(184,224,223,.13); }
+:global(html[data-theme="dark"]) .site .prologue::after { background: radial-gradient(circle at 50% 50%, transparent 0 21px, rgba(184,224,223,.14) 22px 23px, transparent 24px 49px, rgba(184,224,223,.08) 50px 51px, transparent 52px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(239,233,215,.09) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(239,233,215,.09) 50%, transparent calc(50% + .5px)); }
+:global(html[data-theme="dark"]) .site .orbit { border-color: rgba(184,224,223,.42); }
+:global(html[data-theme="dark"]) .site .orbit::before { border-color: rgba(239,233,215,.18); }
+:global(html[data-theme="dark"]) .site .prologueBody, :global(html[data-theme="dark"]) .site .rosterHeading, :global(html[data-theme="dark"]) .site .memberMarquee { border-color: rgba(239,233,215,.22); }
+:global(html[data-theme="dark"]) .site .stewardCard, :global(html[data-theme="dark"]) .site .stewardCard:last-child, :global(html[data-theme="dark"]) .site .memberRail > a, :global(html[data-theme="dark"]) .site .memberRail > div { border-color: rgba(239,233,215,.2); }
+:global(html[data-theme="dark"]) .site .stewardCard:hover { background: var(--color-dark-green); color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .stewardPortrait, :global(html[data-theme="dark"]) .site .memberRail img { background: var(--color-cyan); }
+:global(html[data-theme="dark"]) .site .stewardPortrait::after { border-color: rgba(184,224,223,.28); }
+:global(html[data-theme="dark"]) .site .stewardPortrait img, :global(html[data-theme="dark"]) .site .memberRail img { filter: saturate(.58) brightness(.82) contrast(1.08); }
+:global(html[data-theme="dark"]) .site .guildBuilders { filter: brightness(.8) saturate(.65) hue-rotate(8deg); mix-blend-mode: screen; opacity: .09; }
 
-.nightMode .creed { background: #792653; color: #f1edde; }
-.nightMode .creed em { color: #9ce8ef; text-shadow: 0 0 28px rgba(143,227,239,.2); }
-.nightMode .creedMoons { mix-blend-mode: screen; opacity: .22; }
-.nightMode .creedCreature { filter: grayscale(1) sepia(.1) saturate(.8) brightness(.72) hue-rotate(145deg); mix-blend-mode: screen; opacity: .16; }
+:global(html[data-theme="dark"]) .site .practice { background: var(--color-navy); color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .discipline:hover { background: var(--color-dark-green); color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .discipline:hover .spearEndorsement { color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .problemSpear { background: rgba(184,224,223,.045); }
 
-.nightMode .contact {
-  background-color: #dce7e3;
-  background-image: radial-gradient(circle at 16% 22%, rgba(16,45,44,.04) 0 1px, transparent 1.5px), radial-gradient(circle at 74% 68%, rgba(16,45,44,.03) 0 1px, transparent 1.4px), repeating-linear-gradient(103deg, transparent 0 17px, rgba(16,45,44,.018) 18px, transparent 19px 38px);
-  color: #102d2c;
+:global(html[data-theme="dark"]) .site .fieldNotes {
+  background-color: var(--color-navy);
+  background-image: radial-gradient(circle at 14% 78%, rgba(184,224,223,.075) 0 1px, transparent 1.5px);
+  color: var(--color-cream);
 }
-.nightMode .contactFormShell { background: #06141f; box-shadow: 20px 20px 0 #8fc9d0; }
-.nightMode .contactShipSchematic { opacity: .085; }
-.nightMode .footer { background: #040f18; color: #e8e6d9; }
+:global(html[data-theme="dark"]) .site .fieldNotes::before { background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(184,224,223,.075) 25%); }
+:global(html[data-theme="dark"]) .site .fieldNotes::after { border-color: rgba(184,224,223,.16); }
+:global(html[data-theme="dark"]) .site .fieldIntro::after { background: radial-gradient(circle, transparent 0 15px, rgba(184,224,223,.18) 16px 17px, transparent 18px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(184,224,223,.12) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(184,224,223,.12) 50%, transparent calc(50% + .5px)); }
+:global(html[data-theme="dark"]) .site .featuredMission { background: var(--color-navy); color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .missionImage { filter: brightness(.7) saturate(.82) hue-rotate(5deg) contrast(1.08); }
+:global(html[data-theme="dark"]) .site .artBadge { background: var(--color-cyan); color: var(--color-navy); }
+:global(html[data-theme="dark"]) .site .missionCopy dl div { border-color: rgba(239,233,215,.22); }
+
+:global(html[data-theme="dark"]) .site .creed { background: var(--color-pink); color: var(--color-cream); }
+:global(html[data-theme="dark"]) .site .creed em { color: var(--color-cyan); text-shadow: 0 0 28px rgba(184,224,223,.2); }
+:global(html[data-theme="dark"]) .site .creedMoons { mix-blend-mode: normal; opacity: .8; }
+/* El Deep Blue del Guild es solo para light: en dark Figma 117:3966 pinta el
+   fondo con ese mismo azul, asi que el texto pasa a papyrus. */
+:global(html[data-theme="dark"]) .site .prologueCopy,
+:global(html[data-theme="dark"]) .site .prologue h2 { color: var(--paper); }
+
+:global(html[data-theme="dark"]) .site .contact {
+  background-color: var(--color-navy);
+  background-image: radial-gradient(circle at 16% 22%, rgba(184,224,223,.04) 0 1px, transparent 1.5px), radial-gradient(circle at 74% 68%, rgba(184,224,223,.03) 0 1px, transparent 1.4px), repeating-linear-gradient(103deg, transparent 0 17px, rgba(184,224,223,.018) 18px, transparent 19px 38px);
+  color: var(--color-cream);
+}
+:global(html[data-theme="dark"]) .site .contactFormShell { background: var(--color-navy); box-shadow: 20px 20px 0 var(--color-cyan); }
+
+:global(html[data-theme="dark"]) .site .footer { background: var(--color-navy); color: var(--color-cream); }
 
 .siteGlitching > .header, .siteGlitching > .hero { animation: realityGlitch 3.4s steps(1, end) both; transform-origin: center; will-change: filter, transform; }
 .siteGlitching::after { animation: glitchBands 3.4s steps(2, end) both; background: repeating-linear-gradient(0deg, transparent 0 8px, rgba(109,230,223,.12) 9px, transparent 10px 17px, rgba(238,60,120,.1) 18px, transparent 19px 26px); content: ""; inset: 0; mix-blend-mode: screen; pointer-events: none; position: fixed; z-index: 99; }
@@ -541,6 +520,173 @@
 @keyframes machineDeparture { 35% { opacity: 1; transform: translate(-50%, -50%) scale(.9); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(2.9); } }
 @keyframes portalDeparture { 0%, 45% { background: #041618; opacity: 1; } 78% { background: var(--paper); opacity: 1; } 100% { background: var(--paper); opacity: 0; } }
 
+/* Finalized 1440px Code Transfer composition. */
+@media (min-width: 1000px) {
+  .site { width: 100%; }
+
+  .header { height: 104px; padding: 0 80px; }
+  .brand { font-size: 16px; gap: 16px; letter-spacing: 2px; line-height: 1; white-space: nowrap; }
+  .brand .sigil { height: 46px; margin: 0; width: 46px; }
+  .brand .swordMark { height: 32px; width: 32px; }
+  .nav { gap: 31px; padding: 12px 27px; }
+  .nav a { font-size: 16px; letter-spacing: 2px; line-height: 24px; }
+  .nav .brandArchiveLink { display: none; }
+  .celestialToggle { left: auto; padding: 9px; right: 398px; }
+  .celestialToggle > span { height: 30px; width: 62px; }
+  .celestialToggle i { height: 16px; left: 7px; top: 6px; width: 16px; }
+  .celestialToggle b { font-size: 16px; letter-spacing: 2px; min-width: 38px; }
+  :global(html[data-theme="dark"]) .site .celestialToggle i { transform: translateX(31px); }
+  .portalTrigger { position: absolute; right: 80px; top: 18px; }
+
+  .hero { height: 897px; min-height: 897px; }
+  .heroStage { height: 897px; min-height: 897px; position: relative; top: auto; }
+  .heroArt, .heroImage, .heroNightImage, .heroWash { height: 897px; }
+  .heroImage { object-position: 50% 50%; }
+  .heroForeground { inset: 0; transform: none; }
+  .heroForegroundLeft { clip-path: inset(0 50% 0 0); }
+  .heroForegroundRight { clip-path: inset(0 0 0 50%); }
+  .heroCopy { left: 176px; opacity: 1; top: 245px; transform: none; width: 509px; }
+  .heroTitle, .heroExploring .heroTitle { transform: none; }
+  .eyebrow { font-size: 24px; font-style: italic; letter-spacing: 2px; line-height: 24px; margin-bottom: 24px; white-space: nowrap; }
+  .eyebrow span { height: 16px; margin-right: 16px; width: 16px; }
+  .hero h1 { font-size: 88px; letter-spacing: 0; line-height: 88px; text-shadow: 0 4px 8px rgba(25,30,78,.3); }
+  .heroTitle > span { display: none; }
+  .heroSupplement, .heroExploring .heroSupplement { bottom: auto; left: 305px; opacity: 1; pointer-events: auto; top: 509px; transform: none; width: 379px; }
+  .heroDek { font-size: 24px; line-height: 32px; margin: 0; width: 379px; }
+  .discover { display: none; }
+  .heroIndex { bottom: 78px; display: block; right: 80px; }
+  .heroIndex span { display: block; font-size: 16px; letter-spacing: 2px; line-height: 24px; padding-top: 0; }
+  .heroIndex strong { display: block; font-size: 88px; letter-spacing: 4px; line-height: 88px; margin-left: 0; margin-top: 8px; }
+  .heroScrollCue { bottom: 78px; display: block; font-size: 16px; left: 80px; letter-spacing: 2px; line-height: 24px; position: absolute; transform: rotate(180deg); white-space: nowrap; writing-mode: vertical-rl; z-index: 7; }
+  .heroWayfinding { opacity: 1; }
+  .heroOrbitMap, .heroHub { display: none; }
+  .heroWaypoint { height: 78px; width: 165px; }
+  .heroWaypoint::after { background: transparent; border: 0; font-size: 16px; left: 0; letter-spacing: 2px; opacity: 1; padding: 0; text-align: center; top: 0; transform: none; width: 100%; }
+  .heroWaypoint > i { background: transparent; border-color: rgba(255,255,255,.5); box-shadow: none; height: 47px; left: 59px; top: 40px; width: 47px; }
+  .heroWaypoint > i::after { border: 0; content: "+"; font-size: 40px; inset: 8px 0 0; line-height: 24px; text-align: center; }
+  .waypointShip { left: 604px; top: 650px; }
+  .waypointCitadel { left: 844px; top: 378px; }
+  .waypointProcession { left: 1007px; top: 223px; }
+  .waypointLabel { display: none; }
+
+  .signalBar { height: 80px; padding: 0; }
+  .signalBar div { animation: none; gap: 24px; height: 80px; justify-content: space-around; width: 100%; }
+  .signalBar span { font-size: 24px; font-style: italic; letter-spacing: 2px; line-height: 24px; }
+
+  .prologue { display: grid; grid-template-columns: 761.5px 1fr; grid-template-rows: 653px 184px; height: 837px; max-width: none; padding: 0; }
+  .prologue::before, .prologue::after { display: none; }
+  .guildVisual { align-items: center; display: flex; height: 653px; justify-content: flex-end; overflow: hidden; padding-right: 48px; }
+  .guildBuilders { height: 596px; mix-blend-mode: normal; object-fit: contain; opacity: 1; position: static; width: 601px; }
+  .prologueCopy { align-self: start; padding: 139px 114px 0 0; }
+  .sectionLabel { color: var(--coral); font-size: 24px; font-style: italic; letter-spacing: 2px; line-height: 24px; margin-bottom: 16px; }
+  .practice h2 { font-family: var(--font-display), sans-serif; font-size: 56px; font-style: italic; letter-spacing: 0; line-height: 56px; }
+  .practice h2 em { font-family: var(--font-retalic), sans-serif; font-size: 72px; font-style: normal; line-height: 72px; }
+  .fieldIntro h2 { color: var(--color-dark-green); font-family: var(--font-display), sans-serif; font-size: 72px; font-style: italic; letter-spacing: 0; line-height: 72px; }
+  .fieldIntro h2 b { color: var(--color-dark-green); font-family: var(--font-retalic), sans-serif; font-size: 88px; font-style: normal; font-weight: 500; line-height: 88px; }
+  .fieldIntro h2 b em { color: var(--coral); font-family: inherit; font-size: inherit; font-style: normal; }
+  .prologue h2 { color: var(--color-navy); font-family: var(--font-display), sans-serif; font-size: 40px; font-style: italic; letter-spacing: 0; line-height: 48px; }
+  .prologue h2 em { font-family: var(--font-retalic), sans-serif; font-size: 56px; font-style: normal; line-height: 56px; }
+  .prologueCopy { color: var(--color-navy); }
+  .prologueBody > p { font-size: 16px; letter-spacing: 1px; line-height: 24px; max-width: 565px; }
+  .prologueBody > p + p { margin-top: 24px; }
+  .prologueBody strong { font-weight: 700; }
+  .prologueBody { border: 0; display: block; margin-top: 16px; padding: 0; }
+  .prologueBody > p:first-child { font-size: 16px; letter-spacing: 1px; line-height: 24px; max-width: 565px; }
+  .guildActions { gap: 16px; margin-top: 16px; }
+  .statsBand { align-items: center; background: var(--deep); color: var(--paper); display: grid; grid-column: 1 / -1; grid-template-columns: 249px 395px 316px 369px; height: 184px; justify-content: center; padding: 0 20px; }
+  .statsBand > div { align-items: center; border-left: 1px solid rgba(239,233,215,.28); display: flex; gap: 24px; min-height: 72px; padding-left: 24px; }
+  .statsBand strong { color: var(--coral); font-family: var(--font-display), serif; font-size: 56px; font-weight: 500; line-height: 56px; }
+  .statsBand span { font-size: 16px; letter-spacing: 2px; line-height: 24px; max-width: 200px; text-transform: uppercase; }
+
+  .keepers { background: var(--paper); color: var(--ink); height: 802px; overflow: hidden; padding: 48px 80px 24px; }
+  .guildRoster { margin: 0; }
+  .rosterHeading { align-items: center; border: 0; height: 247px; padding: 32px 0; }
+  .rosterHeading h3, .teamCopy h3 { color: var(--color-navy); font-family: var(--font-display), sans-serif; font-size: 40px; font-style: italic; font-weight: 500; letter-spacing: 0; line-height: 48px; margin: 0; }
+  .rosterHeading h3 em, .teamCopy h3 em { color: var(--coral); font-family: var(--font-retalic), sans-serif; font-size: 56px; font-style: normal; letter-spacing: 0; line-height: 56px; }
+  .rosterHeading > div > p:last-child { font-family: var(--font-body), serif; font-size: 16px; letter-spacing: 1px; line-height: 24px; margin: 8px 0 0; width: 671px; }
+  .rosterAside { width: 268px; }
+  .rosterAside a:not(.pill) { font-size: 14px; height: 56px; letter-spacing: 1px; margin: 0; }
+  .stewardTrack { grid-template-columns: repeat(5, 243.2px); margin-top: 0; overflow: visible; padding: 24px 0; }
+  .stewardCard { border: 2px solid var(--coral); border-radius: 16px; height: 411px; min-width: 0; padding: 26px; }
+  .stewardCard:last-child { border-right: 1px solid rgba(16,45,44,.35); }
+  .stewardPortrait { height: 169px; margin: 24px auto 8px; max-width: none; width: 169px; }
+  .stewardCard > p { font-size: 16px; letter-spacing: 2px; line-height: 24px; margin: 0; }
+  .stewardCard h4 { font-size: 24px; line-height: 32px; margin: 8px 0; }
+  .stewardCard > small { font-size: 14px; letter-spacing: 1px; line-height: 16px; }
+  .stewardTop { font-size: 14px; }
+
+  .teamNetwork { align-items: center; background: var(--paper); color: var(--ink); display: grid; grid-template-columns: 839px 1fr; height: 444px; overflow: hidden; }
+  .teamWall { height: 384px; overflow: hidden; position: relative; width: 820px; }
+  .memberMarquee { border: 0; height: 384px; margin: 0; overflow: hidden; padding: 0; }
+  .memberRail { animation: none; column-gap: 14px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(4, 90px); row-gap: 8px; transform: translateX(-799.25px); width: max-content; }
+  .memberRail > a, .memberRail > div { border: 2px solid var(--coral); border-radius: 16px; gap: 16px; height: 90px; min-width: 213.75px; padding: 18px; }
+  .memberRail img { border-radius: 27px; filter: none; height: 54px; width: 54px; }
+  .memberRail strong { color: var(--coral); font-family: var(--font-display), sans-serif; font-size: 24px; font-style: italic; line-height: 32px; }
+  .memberRail small { color: var(--color-dark-green); font-size: 14px; font-weight: 700; letter-spacing: 1px; line-height: 16px; margin-top: 5.625px; opacity: 1; }
+  .memberRail i { display: none; }
+  .teamCopy { padding-left: 61px; width: 460px; }
+  .teamCopy > p:not(.sectionLabel) { font-family: var(--font-body), serif; font-size: 16px; letter-spacing: 1px; line-height: 24px; }
+  .teamCopy > a:not(.pill) { border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 14px; justify-content: space-between; letter-spacing: 1px; margin-top: 24px; padding-bottom: 12px; text-decoration: none; text-transform: uppercase; width: 228px; }
+
+  .practice { height: 1525px; padding: 160px 86px; }
+  .practiceHeading { align-items: center; grid-template-columns: 762px 447px; margin: 0 auto; max-width: 1209px; }
+  .practiceHeading .sectionLabel { grid-column: 1; margin-bottom: 24px; }
+  .practiceHeading h2 { grid-column: 1; }
+  .practiceAside { grid-column: 2; grid-row: 1 / span 2; padding-left: 109px; }
+  .practiceAside p { font-size: 16px; letter-spacing: 1px; line-height: 24px; width: 338px; }
+  .disciplineGrid { height: 826px; margin-top: 40px; max-width: 1267px; }
+  .discipline { height: 826px; min-height: 826px; padding: 32px 43px 45px; }
+  .disciplineArt { height: 337px; margin: 20px 0 0; }
+  .disciplineTag { color: var(--sky); font-size: 16px !important; line-height: 24px; }
+  .spearEndorsement { display: none; }
+  .discipline h3 { font-size: 24px; line-height: 32px; margin: 16px 0 0; }
+  .discipline > p:not(.disciplineTag) { font-size: 16px; letter-spacing: 1px; line-height: 24px; }
+  .disciplineTop { font-size: 20px; }
+  .disciplineTop i { color: var(--sky); font-size: 16px; }
+  .discipline > a, .spearActions > a { font-size: 16px; letter-spacing: 2px; line-height: 24px; }
+
+  .fieldNotes .sectionLabel { color: var(--color-dark-green); }
+  .fieldNotes { height: 1338px; padding: 120px 0 0; }
+  .fieldIntro { grid-template-columns: 930px 338px; margin: 0 auto 80px; max-width: 1267px; }
+  .fieldIntro::after { display: none; }
+  .fieldAside { padding-top: 110px; }
+  .fieldAside p { font-size: 16px; letter-spacing: 1px; line-height: 24px; }
+  .fieldControls { margin: 0 45px 24px; max-width: none; }
+  .fieldTrack { gap: 80px; margin: 0; padding: 0 45px; }
+  .featuredMission { flex-basis: 1181px; grid-template-columns: 560px 621px; height: 765px; min-height: 765px; }
+  .missionArt { min-height: 765px; }
+  .missionCopy { padding: 72px; }
+  .missionType { font-size: 16px; letter-spacing: 2px; line-height: 24px; margin-top: auto; }
+  .missionCopy h3 { font-size: 40px; line-height: 48px; margin-bottom: 24px; }
+  .missionCopy > p:not(.missionType) { font-size: 16px; letter-spacing: 1px; line-height: 24px; }
+  .missionCopy > a:not(.pill) { font-size: 14px; }
+  .missionCopy dl { margin-top: 56px; }
+
+  .creed { background: var(--deep); height: 615px; padding: 133px 24px 0; }
+  .creedMoons { animation: none; height: 100%; left: 0; max-width: none; mix-blend-mode: normal; object-fit: cover; opacity: .8; top: 0; transform: none; width: 100%; }
+  .creed .sectionLabel { color: var(--sky); font-size: 24px; font-style: normal; line-height: 24px; margin: 0; }
+  .creed blockquote { font-size: 56px; letter-spacing: 4px; line-height: 56px; margin: 73px auto 0; }
+  .creed em { color: var(--coral); }
+  .creedFooter { display: none; }
+
+  .contact { gap: 76px; grid-template-columns: 506px 698px; height: 881px; padding: 32px 80px; }
+  .contactIntro { padding-top: 0; position: static; }
+  .contact .sectionLabel { color: var(--color-dark-green); font-size: 16px; font-style: normal; line-height: 24px; opacity: .8; }
+  .contactDruid { height: 435.92px; margin-bottom: 34px; object-fit: cover; width: 506px; }
+  .contact h2.contactHeadline { color: var(--color-dark-green); font-family: var(--font-display), sans-serif; font-size: 24px; font-style: italic; letter-spacing: 0; line-height: 32px; }
+  .contact h2.contactHeadline span { display: block; }
+  .contact h2.contactHeadline em { color: var(--coral); display: block; font-family: var(--font-retalic), sans-serif; font-size: 40px; font-style: normal; line-height: 48px; }
+  .contactDek { font-size: 16px; letter-spacing: 1px; line-height: 24px; margin-top: 24px; width: 460px; }
+  .contactProtocol { margin-top: 48px; }
+  .contactFormShell { box-shadow: 20px 20px 0 var(--sky); height: 720px; padding: 54px; }
+
+  .footer { gap: 56.25px; grid-template-columns: 394.49px 1fr 394.49px; height: 402px; padding: 78.75px 72px 33.75px; }
+  .footer > p { font-size: 24.75px; font-style: italic; letter-spacing: 0; line-height: 28.46px; }
+  .socials { gap: 16px; }
+  .socials a { font-size: 14px; letter-spacing: 1px; line-height: 16px; }
+  .footer small { border-color: var(--sky); font-size: 14px; letter-spacing: 1px; line-height: 16px; opacity: 1; padding-top: 25px; }
+}
+
 @media (max-width: 900px) {
   .header { height: 78px; padding-left: 24px; padding-right: 24px; }
   .nav { align-items: flex-start; backdrop-filter: none; background: var(--deep); border: 0; border-radius: 0; box-shadow: none; flex-direction: column; inset: 0; justify-content: center; opacity: 0; padding: 90px 30px; pointer-events: none; position: fixed; transform: translateY(-15px); transition: opacity .25s, transform .25s; -webkit-backdrop-filter: none; }
@@ -611,7 +757,7 @@
   .heroSupplement, .heroExploring .heroSupplement { bottom: auto; left: 24px; opacity: var(--neo-copy-opacity, 1); pointer-events: auto; top: 336px; width: min(330px, calc(100% - 48px)); }
   .eyebrow { font-size: 7px; letter-spacing: .16em; margin-bottom: 13px; }
   .eyebrow span { box-shadow: 0 0 0 4px rgba(238,60,120,.18); height: 6px; margin-right: 11px; width: 6px; }
-  .hero h1 { font-size: clamp(50px, 14.5vw, 66px); letter-spacing: -.025em; line-height: .73; }
+  .hero h1 { font-size: clamp(54px, 15.5vw, 68px); letter-spacing: -.055em; line-height: .74; }
   .heroDek { font-size: 16px; line-height: 1.35; margin-top: 0; max-width: 315px; }
   .discover { font-size: 8px; gap: 13px; margin-top: 28px; }
   .discover i { height: 36px; width: 36px; }
@@ -650,11 +796,91 @@
   .footer small { grid-column: 1; }
 }
 
+/* Integration: open display face, retained local routes, responsive handoff. */
+.site h1, .site h2, .rosterHeading h3, .teamCopy h3, .discipline h3, .missionCopy h3, .creed blockquote { font-weight: 900; text-transform: uppercase; letter-spacing: -.015em; }
+.site h1 em, .site h2 em, .site h3 em, .creed em { display: inline-block; font-style: normal; font-weight: 1000; font-variation-settings: "slnt" 0; transform: skewX(-12deg); }
+.hero h1 { line-height: .73; }
+.hero h1 > span { display: inline-block; transform: skewX(12deg); }
+.fieldIntro h2 b { font-weight: 900; }
+.site .contactFormShell :global(.text-heading-lg) { font-weight: 900 !important; }
+.statsBand strong { font-weight: 900; }
+.practice { height: auto; }
+.spearGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); height: auto; }
+.spearGrid .discipline { height: auto; min-height: 0; }
+.spearGrid .disciplineArt { height: clamp(220px, 24vw, 337px); }
+.guildActions { flex-wrap: wrap; }
+.pill { max-width: 100%; }
+.pill > span { white-space: normal; }
+.contact, .fieldNotes, .keepers { height: auto; }
+.contactFormShell { height: auto; min-height: 720px; }
+.contactDruid { object-fit: contain; }
+.contactFormShell :global(.hire-us-wizard) > div:first-child > div { height: auto; min-height: 32px; padding-top: 6px; padding-bottom: 6px; }
+.contactFormShell :global(.hire-us-wizard) > div:first-child > div > span:first-child { flex-shrink: 0; }
+.contactFormShell :global(.hire-us-wizard) > div:first-child > div > span:last-child { display: inline; font-size: 11px; line-height: 1.25; }
+.guildBuilders { --artifact-opacity: 1; }
+:global(html[data-theme="dark"]) .site .guildBuilders { filter: none; mix-blend-mode: normal; opacity: 1; }
+.prologueBody p { font-family: var(--font-body), sans-serif; }
+.rosterHeading { height: auto; min-height: 247px; }
+@media (min-width: 1000px) {
+  .header { gap: 20px; justify-content: flex-start; padding: 0 220px 0 4vw; }
+  .celestialToggle { position: static; flex-shrink: 0; }
+  .celestialToggle b { font-size: 10px; }
+  .nav { margin-left: auto; gap: 18px; padding: 12px 18px; }
+  .nav a { font-size: 10px; letter-spacing: 1px; white-space: nowrap; }
+  .nav .brandArchiveLink { display: flex; padding-left: 14px; }
+  .portalTrigger { position: fixed; right: 24px; }
+  .prologue { grid-template-columns: 52% 48%; grid-template-rows: minmax(653px, auto) auto; height: auto; }
+  .prologueCopy { padding: 100px 6vw 48px 0; }
+  .guildBuilders { max-width: 100%; }
+  .statsBand { grid-template-columns: repeat(4, minmax(0, 1fr)); height: auto; min-height: 184px; padding: 25px 4vw; }
+  .statsBand > div { gap: 15px; padding-left: 15px; flex-wrap: wrap; }
+  .stewardTrack { grid-template-columns: repeat(5, minmax(180px, 1fr)); overflow-x: auto; }
+  .stewardCard { height: auto; min-height: 411px; padding: 20px; }
+  .stewardPortrait { max-width: 100%; }
+  .rosterHeading > div > p:last-child { width: auto; max-width: 671px; }
+  .teamNetwork { grid-template-columns: 60% 40%; }
+  .teamWall { width: 100%; }
+  .teamCopy { width: auto; padding: 30px; }
+  .practiceHeading { grid-template-columns: 1.4fr 1fr; }
+  .practiceAside { padding-left: 30px; }
+  .practiceAside p { width: auto; }
+  .fieldIntro { grid-template-columns: minmax(0, 1fr) 338px; padding: 0 5vw; }
+  .contact { grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 5vw; padding: 48px 5vw; }
+  .contactDruid, .contactDek { width: 100%; }
+  .footer { grid-template-columns: 1fr 1fr 1fr; height: auto; }
+  .heroCopy { left: 12%; }
+  .heroSupplement, .heroExploring .heroSupplement { top: 455px; left: 21%; }
+}
+@media (max-width: 999px) {
+  .prologue { grid-template-columns: 1fr; padding: 64px 24px 0; }
+  .guildVisual { display: flex; justify-content: center; }
+  .guildBuilders { position: static; height: 340px; width: 100%; object-fit: contain; opacity: 1; mix-blend-mode: normal; }
+  .prologueCopy { padding: 30px 0; }
+  .prologueBody { display: block; margin-top: 24px; }
+  .prologueBody p + p { margin-top: 20px; }
+  .prologue h2, .practice h2, .fieldIntro h2, .contact h2 { font-size: clamp(32px, 6vw, 56px); line-height: 1; }
+  .statsBand { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; padding: 32px 0; }
+  .statsBand strong { display: block; font-family: var(--font-display); font-size: 40px; color: var(--coral); }
+  .statsBand span { font-size: 11px; }
+  .keepers, .teamNetwork { padding: 40px 24px; }
+  .guildRoster { margin-top: 0; }
+  .teamWall { overflow: auto; }
+  .teamCopy { margin-top: 24px; }
+  .teamCopy h3 { font-size: 36px; line-height: 1; }
+  .teamCopy p { margin: 16px 0; }
+  .spearGrid { grid-template-columns: 1fr; }
+  .contactFormShell { min-height: 0; }
+  .contactDruid { max-height: 350px; width: 100%; }
+  .creedMoons { inset: 0; width: 100%; height: 100%; object-fit: cover; transform: none; opacity: .8; mix-blend-mode: normal; }
+  .pill { gap: 12px; }
+  .pill > span { font-size: 12px; letter-spacing: 1px; }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .heroArt, .heroForeground, .heroCelestial, .heroCopy, .heroSupplement, .heroIndex, .signalBar div, .orbit::after { animation: none; transform: none; transition: none; }
   .heroNightImage, .celestialToggle i { transition: none; }
   .sectionArriving .sectionLabel { animation: none; }
-  .sectionArriving .guildBuilders, .sectionArriving .contactShipSchematic { animation: none; }
+  .sectionArriving .guildBuilders { animation: none; }
   .missionImage { transition: none; }
   .portalAtmosphere, .portalMachine::before, .portalMachine::after, .portalHalo, .portalHalo::before, .portalThreshold, .portalThreshold::after, .portalMessage > p span { animation: none; }
 }
