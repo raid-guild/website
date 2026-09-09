@@ -465,12 +465,6 @@ export default function HomeExperience() {
     setIsNight(theme === "dark");
   };
 
-  const scrollFields = (direction: number) => {
-    const track = fieldTrackRef.current;
-    if (!track) return;
-    track.scrollBy({ left: direction * track.clientWidth * 0.78, behavior: "smooth" });
-  };
-
   const updateActiveField = () => {
     const track = fieldTrackRef.current;
     if (!track) return;
@@ -579,8 +573,8 @@ export default function HomeExperience() {
 
       <section className={styles.hero} id="top" ref={heroRef}>
         <button className={styles.portalTrigger} type="button" onClick={openPortal}>
-          <span className={styles.portalTriggerMark}><Sigil /><i /></span>
-          <span className={styles.portalTriggerCopy}><small>TRANSIT READY</small>OPEN A PORTAL <i>↗</i></span>
+          <span className={styles.portalTriggerMark}><b className={styles.iconPortal} /><i /></span>
+          <span className={styles.portalTriggerCopy}><small>TRANSIT READY</small>OPEN A PORTAL</span>
         </button>
         <div className={`${styles.heroStage} ${heroRevealed ? styles.heroExploring : ""}`}>
           <div className={styles.heroCelestial} aria-hidden="true">
@@ -611,16 +605,6 @@ export default function HomeExperience() {
             />
           </div>
           <div className={styles.heroWash} />
-          <div className={styles.heroLandmarks} aria-hidden="true">
-            <Image
-              src="/images/neo/hero-landmarks-v1.png"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
-              className={styles.landmarkImage}
-            />
-          </div>
           <div className={styles.heroWayfinding}>
             <svg className={styles.heroOrbitMap} viewBox="0 0 1000 700" aria-hidden="true" preserveAspectRatio="none">
               <ellipse cx="535" cy="345" rx="286" ry="190" />
@@ -720,9 +704,9 @@ export default function HomeExperience() {
 
       <div className={styles.signalBar} aria-hidden="true">
         <div>
-          <span>ONE GUILD</span><i>✦</i><span>MANY EDGES</span><i>✦</i><span>BUILDER-OWNED</span><i>✦</i>
-          <span>APPLIED AI</span><i>✦</i><span>ONCHAIN SYSTEMS</span><i>✦</i><span>OPEN EXPERIMENTS</span><i>✦</i>
-          <span>ONE GUILD</span><i>✦</i><span>MANY EDGES</span><i>✦</i>
+          <span>ONE GUILD</span><i /><span>MANY EDGES</span><i /><span>BUILDER-OWNED</span><i />
+          <span>APPLIED AI</span><i /><span>ONCHAIN SYSTEMS</span><i /><span>OPEN EXPERIMENTS</span><i />
+          <span>ONE GUILD</span><i /><span>MANY EDGES</span><i />
         </div>
       </div>
 
@@ -749,14 +733,14 @@ export default function HomeExperience() {
             <p>Then assemble into specialized crews when ambitious work calls.</p>
           </div>
           <div className={styles.guildActions}>
-            <a className={styles.guildJoinCta} href="https://portal.raidguild.org" target="_blank" rel="noreferrer">
-              <span><small>COMMUNITY PORTAL</small>Join the Guild</span>
-              <i>↗</i>
+            <a className={`${styles.pill} ${styles.pillFilled}`} href="https://portal.raidguild.org" target="_blank" rel="noreferrer">
+              <span>Join the Guild</span>
+              <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
             </a>
-            <div className={styles.guildResourceLinks}>
-              <a href="https://handbook.raidguild.org/docs/overview/what-is-raidguild" target="_blank" rel="noreferrer">Read the handbook <span>↗</span></a>
-              <a href="https://discord.gg/2vx47gT95y" target="_blank" rel="noreferrer">Enter Discord <span>↗</span></a>
-            </div>
+            <a className={`${styles.pill} ${styles.pillOutline}`} href="https://discord.gg/2vx47gT95y" target="_blank" rel="noreferrer">
+              <span>Enter Discord</span>
+              <i className={styles.pillIcon}><b className={styles.iconDiscord} /></i>
+            </a>
           </div>
         </div>
         <div className={styles.statsBand} aria-label="RaidGuild statistics">
@@ -772,7 +756,7 @@ export default function HomeExperience() {
           <div className={styles.rosterHeading}>
             <div>
               <p className={styles.sectionLabel}>[ CURRENT STEWARDS ]</p>
-              <h3>Keepers of <em>the signal</em></h3>
+              <h3>Keepers of<br /><em>the signal</em></h3>
               <p>RaidGuild is a builder-owned community exploring emerging technology together.</p>
             </div>
             <div className={styles.rosterAside}>
@@ -832,17 +816,23 @@ export default function HomeExperience() {
           <p className={styles.sectionLabel}>[ THE TEAM ]</p>
           <h3>A WIDE NETWORK<br /><em>OF BUILDERS</em></h3>
           <p>RaidGuild is a builder-owned community exploring emerging technology together.</p>
-          <a href="https://portal.raidguild.org" target="_blank" rel="noreferrer">Join the Guild <span>↗</span></a>
+          <a className={`${styles.pill} ${styles.pillOutline}`} href="https://discord.gg/2vx47gT95y" target="_blank" rel="noreferrer">
+            <span>Enter Discord</span>
+            <i className={styles.pillIcon}><b className={styles.iconDiscord} /></i>
+          </a>
         </div>
       </section>
 
       <section className={`${styles.practice} ${arrivalTarget === "spears" ? styles.sectionArriving : ""}`} id="spears">
         <div className={styles.practiceHeading}>
           <p className={styles.sectionLabel}>[ ACTIVE SPEARS ]</p>
-          <h2>Specialized at<br />the <em>applied edge.</em></h2>
+          <h2>Specialized at<br /><em>the applied edge</em></h2>
           <div className={styles.practiceAside}>
             <p>Independently led specialist practices operating through RaidGuild LLC, with shared contracts, treasury, infrastructure, and access to the Guild&apos;s builder network.</p>
-            <a href="#contact">Bring us an edge problem <span>↘</span></a>
+            <a className={`${styles.pill} ${styles.pillOutlineNavy}`} href="#contact">
+              <span>Bring us an edge problem</span>
+              <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
+            </a>
           </div>
         </div>
         <div className={`${styles.disciplineGrid} ${styles.spearGrid}`}>
@@ -887,19 +877,18 @@ export default function HomeExperience() {
       <section className={`${styles.fieldNotes} ${arrivalTarget === "work" ? styles.sectionArriving : ""}`} id="work">
         <div className={styles.fieldIntro}>
           <p className={styles.sectionLabel}>[ SELECTED EXPEDITIONS ]</p>
-          <h2>Proof from<br />the <em>frontier.</em></h2>
+          <h2>Proof from<br /><b>the <em>frontier</em></b></h2>
           <div className={styles.fieldAside}>
             <p>Artifacts, protocols, and communities built with people brave enough to go first.</p>
-            <a href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer">Open the full blog <span>↗</span></a>
+            <a className={`${styles.pill} ${styles.pillOutlineGreen}`} href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer">
+              <span>Open the full blog</span>
+              <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
+            </a>
           </div>
         </div>
 
         <div className={styles.fieldControls}>
           <p><strong>{String(activeField + 1).padStart(2, "0")}</strong> / {String(fieldNotes.length).padStart(2, "0")}</p>
-          <div>
-            <button type="button" onClick={() => scrollFields(-1)} aria-label="Previous field note">←</button>
-            <button type="button" onClick={() => scrollFields(1)} aria-label="Next field note">→</button>
-          </div>
         </div>
 
         <div className={styles.fieldTrack} ref={fieldTrackRef} onScroll={updateActiveField}>
@@ -968,9 +957,8 @@ export default function HomeExperience() {
           />
           <p className={styles.sectionLabel}>[ BEGIN A TRANSMISSION ]</p>
           <h2 className={styles.contactHeadline}>
-            <span>What impossible</span>
-            <span>thing are you</span>
-            <span><em>building?</em></span>
+            <span>What impossible thing</span>
+            <em>are you building?</em>
           </h2>
           <p className={styles.contactDek}>Send the first signal. Tell us who you are, what world you&apos;re trying to make, and what it will take to get there.</p>
           <dl className={styles.contactProtocol}>
@@ -989,9 +977,9 @@ export default function HomeExperience() {
         <a className={styles.brand} href="#top"><Sigil /><span>RAID<br />GUILD</span></a>
         <p>WE BUILD THE ROADS<br />THROUGH UNMAPPED TERRITORY.</p>
         <div className={styles.socials}>
-          <a href="https://github.com/raid-guild">GITHUB ↗</a>
-          <a href="https://x.com/RaidGuild">X / TWITTER ↗</a>
-          <a href="https://discord.gg/2vx47gT95y">DISCORD ↗</a>
+          <a href="https://github.com/raid-guild">GITHUB</a>
+          <a href="https://x.com/RaidGuild">X / TWITTER</a>
+          <a href="https://discord.gg/2vx47gT95y">DISCORD</a>
         </div>
         <small>© 2019—2026 RAIDGUILD · EARTH &amp; ELSEWHERE</small>
       </footer>

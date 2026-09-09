@@ -39,6 +39,26 @@
 }
 
 .brand { align-items: center; color: inherit; display: inline-flex; font-size: 12px; font-weight: 700; letter-spacing: .11em; line-height: .9; text-decoration: none; }
+/* Glifos nativos exportados de Figma, pintados con currentColor via mask. */
+.iconLogo, .iconDiscord, .iconPortal { background: currentColor; display: block; }
+.iconLogo { -webkit-mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; }
+.iconDiscord { -webkit-mask: url("/images/icons/venture/ico-discord.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-discord.svg") center / contain no-repeat; }
+.iconPortal { -webkit-mask: url("/images/icons/venture/ico-portal.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-portal.svg") center / contain no-repeat; }
+
+/* Componente button de Figma (19:4977 y variantes): alto 56, radio 100,
+   padding 8/8/8/24, gap 24, contenedor de icono 40 y glifo 32. */
+.pill { align-items: center; border: 2px solid transparent; border-radius: 100px; display: inline-flex; gap: 24px; height: 56px; justify-content: flex-end; padding: 8px 8px 8px 24px; text-decoration: none; transition: background .25s, color .25s, border-color .25s, transform .25s; width: max-content; }
+.pill:hover { transform: translateY(-2px); }
+.pill > span { font-family: var(--font-mono), monospace; font-size: 16px; font-style: italic; font-weight: 700; letter-spacing: 2px; line-height: 24px; text-transform: uppercase; white-space: nowrap; }
+.pillIcon { align-items: center; border: 2px solid transparent; border-radius: 100px; display: flex; flex: 0 0 auto; height: 40px; justify-content: center; width: 40px; }
+.pillIcon > b { height: 32px; width: 32px; }
+.pillFilled { background: var(--coral); border-color: var(--coral); color: var(--paper); }
+.pillFilled .pillIcon { background: var(--paper); color: var(--coral); }
+.pillOutline { background: var(--paper); border-color: var(--coral); color: var(--coral); }
+.pillOutlineNavy { background: var(--paper); border-color: var(--color-navy); color: var(--color-navy); }
+.pillOutlineGreen { background: var(--paper); border-color: var(--color-dark-green); color: var(--color-dark-green); }
+.pillOutline .pillIcon, .pillOutlineNavy .pillIcon, .pillOutlineGreen .pillIcon { border-color: currentColor; }
+
 .sigil { align-items: center; border: 1px solid currentColor; border-radius: 50%; display: inline-flex; height: 41px; justify-content: center; margin-right: 12px; position: relative; width: 41px; }
 .swordMark { background: currentColor; display: block; height: 27px; -webkit-mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; width: 29px; }
 .celestialToggle { align-items: center; background: rgba(5,34,34,.52); border: 1px solid rgba(239,233,215,.24); border-radius: 999px; color: var(--paper); cursor: pointer; display: flex; font-family: var(--font-mono), monospace; gap: 8px; left: clamp(158px, 10vw, 192px); padding: 5px 9px 5px 6px; position: absolute; transition: background .3s, border-color .3s; }
@@ -62,8 +82,7 @@
 .portalTrigger { align-items: center; animation: portalAttention 6s 2s ease-in-out infinite; backdrop-filter: blur(14px) saturate(1.15); background: rgba(5,34,34,.86); border: 1px solid rgba(239,233,215,.35); border-radius: 100px; box-shadow: 0 10px 35px rgba(2,18,20,.22); color: var(--paper); cursor: pointer; display: flex; font-family: var(--font-mono), monospace; gap: 12px; padding: 7px 17px 7px 7px; position: fixed; right: clamp(24px, 4vw, 72px); top: 20px; transition: background .25s, border-color .25s, transform .25s; -webkit-backdrop-filter: blur(14px) saturate(1.15); z-index: 30; }
 .portalTrigger:hover { animation-play-state: paused; background: var(--paper); border-color: var(--paper); color: var(--ink); transform: translateY(-3px); }
 .portalTriggerMark { display: block; position: relative; }
-.portalTriggerMark .sigil { color: var(--coral); height: 48px; margin: 0; width: 48px; }
-.portalTriggerMark .swordMark { height: 30px; width: 33px; }
+.portalTriggerMark .iconPortal { color: var(--coral); height: 48px; width: 48px; }
 .portalTriggerMark > i { animation: triggerOrbit 3.8s linear infinite; border: 1px solid var(--coral); border-bottom-color: transparent; border-radius: 50%; inset: -3px; pointer-events: none; position: absolute; }
 .portalTriggerCopy { align-items: center; display: grid; font-size: 9px; font-weight: 700; gap: 3px 10px; grid-template-columns: auto auto; letter-spacing: .15em; text-align: left; white-space: nowrap; }
 .portalTriggerCopy small { font-size: 6px; font-weight: 400; grid-column: 1 / -1; letter-spacing: .2em; opacity: .55; }
@@ -88,9 +107,6 @@
 .heroWash { background: linear-gradient(90deg, rgba(5, 34, 34, .88) 0%, rgba(5, 34, 34, .43) 31%, rgba(5, 34, 34, .02) 65%), linear-gradient(0deg, rgba(5,27,28,.72), transparent 34%, rgba(2, 25, 27, .26)); inset: 0; position: absolute; z-index: 2; }
 :global(html[data-theme="dark"]) .site .heroWash { background: linear-gradient(90deg, rgba(25,30,78,.82) 0%, rgba(25,30,78,.3) 31%, rgba(25,30,78,.02) 65%), linear-gradient(0deg, rgba(25,30,78,.66), transparent 38%, rgba(25,30,78,.14)); }
 .heroWash::after { background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.18'/%3E%3C/svg%3E"); content: ""; inset: 0; mix-blend-mode: soft-light; opacity: .35; pointer-events: none; position: absolute; }
-.heroLandmarks { filter: saturate(.92) contrast(1.02); inset: 0; opacity: 0; pointer-events: none; position: absolute; transform: translateY(8px) scale(.995); transition: opacity .48s ease, transform .72s cubic-bezier(.16,.76,.18,1), filter .48s ease; z-index: 5; }
-.heroExploring .heroLandmarks { filter: saturate(1.08) contrast(1.045) drop-shadow(0 0 1px rgba(239,233,215,.82)) drop-shadow(0 0 10px rgba(238,60,120,.28)) drop-shadow(0 12px 18px rgba(2,25,27,.16)); opacity: 1; transform: translateY(-3px) scale(1.006); }
-.landmarkImage { object-fit: cover; object-position: 48% 58%; }
 .heroWayfinding { inset: 0; opacity: .46; pointer-events: none; position: absolute; transition: opacity .5s ease; z-index: 8; }
 .heroExploring .heroWayfinding, .heroWayfinding:focus-within { opacity: 1; }
 .heroOrbitMap { fill: none; height: 100%; inset: 0; overflow: visible; pointer-events: none; position: absolute; stroke: rgba(239,233,215,.4); stroke-dasharray: 2 9; stroke-width: .65; width: 100%; }
@@ -146,12 +162,11 @@
 .heroForegroundRight { clip-path: inset(0 0 0 50%); transform: translate3d(calc(-58px + var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
 .foregroundImage { object-fit: cover; object-position: 48% 58%; }
 .nightMode .foregroundImage { filter: brightness(.46) saturate(.82) hue-rotate(7deg) contrast(1.14); }
-.nightMode .heroExploring .heroLandmarks { filter: brightness(.54) saturate(.9) hue-rotate(7deg) contrast(1.12) drop-shadow(0 0 1px rgba(143,227,239,.9)) drop-shadow(0 0 12px rgba(238,60,120,.34)) drop-shadow(0 12px 18px rgba(1,8,18,.35)); }
 
 .signalBar { background: var(--coral); color: var(--paper); overflow: hidden; padding: 14px 0 13px; }
 .signalBar div { align-items: center; animation: signal 28s linear infinite; display: flex; gap: 30px; width: max-content; }
 .signalBar span { font-size: 10px; font-weight: 700; letter-spacing: .16em; white-space: nowrap; }
-.signalBar i { font-style: normal; }
+.signalBar i { background: currentColor; display: block; flex: 0 0 auto; height: 32px; -webkit-mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; width: 32px; }
 @keyframes signal { to { transform: translateX(-50%); } }
 
 .prologue { background-image: radial-gradient(circle at 82% 16%, rgba(16,45,44,.022) 0 1px, transparent 1.5px), repeating-linear-gradient(107deg, transparent 0 21px, rgba(16,45,44,.01) 22px, transparent 23px 46px); background-size: 29px 31px, auto; display: grid; grid-template-columns: minmax(270px, .7fr) 1.6fr; margin: 0 auto; max-width: 1440px; overflow: hidden; padding: clamp(110px, 14vw, 210px) clamp(24px, 7vw, 110px); position: relative; }
@@ -185,16 +200,6 @@
 .prologueBody { border-top: 1px solid rgba(16,45,44,.3); display: grid; gap: 50px; grid-template-columns: 1fr auto; margin-top: 56px; padding-top: 30px; }
 .prologueBody > p:first-child { font-family: var(--font-body), serif; font-size: clamp(18px, 1.7vw, 24px); line-height: 1.45; margin: 0; max-width: 680px; }
 .guildActions { align-items: center; display: flex; flex-wrap: wrap; gap: 22px 30px; margin-top: 38px; }
-.guildJoinCta { align-items: center; background: var(--coral); border: 1px solid var(--coral); border-radius: 999px; box-shadow: 0 12px 32px rgba(238,60,120,.16); color: var(--paper); display: inline-flex; gap: 28px; padding: 8px 8px 8px 22px; text-decoration: none; transition: background .25s, color .25s, transform .25s; }
-.guildJoinCta > span { display: flex; flex-direction: column; font-size: 10px; font-weight: 700; letter-spacing: .14em; line-height: 1.2; text-transform: uppercase; }
-.guildJoinCta small { font-size: 6px; font-weight: 400; letter-spacing: .18em; margin-bottom: 4px; opacity: .68; }
-.guildJoinCta > i { align-items: center; background: var(--paper); border-radius: 50%; color: var(--ink); display: flex; font-size: 17px; font-style: normal; height: 42px; justify-content: center; transition: transform .25s; width: 42px; }
-.guildJoinCta:hover { background: var(--deep); border-color: var(--deep); transform: translateY(-3px); }
-.guildJoinCta:hover > i { transform: rotate(12deg); }
-.guildResourceLinks { display: flex; flex-wrap: wrap; gap: 13px 22px; }
-.guildResourceLinks a { border-bottom: 1px solid currentColor; color: inherit; font-size: 7px; font-weight: 700; letter-spacing: .14em; padding: 8px 0; text-decoration: none; text-transform: uppercase; }
-.guildResourceLinks a span { color: var(--coral); display: inline-block; font-size: 11px; margin-left: 9px; transition: transform .2s; }
-.guildResourceLinks a:hover span { transform: translate(3px, -3px); }
 .stat { align-items: center; display: flex; gap: 15px; margin: 0; }
 .stat strong { color: var(--coral); font-family: var(--font-display), serif; font-size: 68px; font-weight: 400; line-height: .8; }
 .stat span { font-size: 8px; letter-spacing: .12em; line-height: 1.6; text-transform: uppercase; }
@@ -204,7 +209,7 @@
 .rosterHeading h3 { font-family: var(--font-display), serif; font-size: clamp(44px, 5vw, 72px); font-weight: 500; letter-spacing: -.045em; line-height: .9; margin: 0; }
 .rosterAside { max-width: 390px; }
 .rosterAside p { font-family: var(--font-body), serif; font-size: 16px; line-height: 1.45; margin: 0; }
-.rosterAside a { align-items: center; border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 23px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; }
+.rosterAside a:not(.pill) { align-items: center; border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 23px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; }
 .rosterAside a span { font-size: 15px; transition: transform .2s; }
 .rosterAside a:hover span { transform: translate(3px, -3px); }
 .stewardTrack { display: grid; grid-template-columns: repeat(5, minmax(190px, 1fr)); margin-top: 55px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: thin; }
@@ -238,7 +243,7 @@
 .practiceHeading .sectionLabel { grid-column: 1 / -1; }
 .practiceAside, .fieldAside { align-self: end; }
 .practiceAside p, .fieldAside p { font-family: var(--font-body), serif; font-size: 18px; line-height: 1.4; margin: 0; max-width: 280px; }
-.practiceAside a, .fieldAside a { align-items: center; border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 26px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; width: min(100%, 280px); }
+.practiceAside a:not(.pill), .fieldAside a:not(.pill) { align-items: center; border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 26px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; width: min(100%, 280px); }
 .practiceAside a span, .fieldAside a span { font-size: 15px; transition: transform .2s; }
 .practiceAside a:hover span { transform: translate(3px, 3px); }
 .fieldAside a:hover span { transform: translate(3px, -3px); }
@@ -279,9 +284,6 @@
 .fieldControls { align-items: center; display: flex; justify-content: space-between; margin: 0 auto 24px; max-width: 1300px; position: relative; }
 .fieldControls p { font-size: 9px; letter-spacing: .15em; margin: 0; }
 .fieldControls p strong { color: var(--coral); font-family: var(--font-display), serif; font-size: 30px; font-weight: 400; }
-.fieldControls > div { display: flex; gap: 8px; }
-.fieldControls button { align-items: center; background: transparent; border: 1px solid rgba(16,45,44,.45); border-radius: 50%; color: var(--ink); cursor: pointer; display: flex; font-size: 20px; height: 48px; justify-content: center; transition: background .2s, color .2s, transform .2s; width: 48px; }
-.fieldControls button:hover { background: var(--ink); color: var(--paper); transform: scale(1.06); }
 .fieldTrack { display: flex; gap: clamp(16px, 2vw, 32px); margin-right: clamp(-96px, -6vw, -24px); overflow-x: auto; overscroll-behavior-inline: contain; padding: 0 clamp(24px, 6vw, 96px) 24px 0; position: relative; scroll-behavior: smooth; scroll-snap-type: x mandatory; scrollbar-width: none; }
 .fieldTrack::-webkit-scrollbar { display: none; }
 .featuredMission { background: var(--paper); display: grid; flex: 0 0 min(1120px, 82vw); grid-template-columns: 1.05fr .95fr; min-height: 680px; position: relative; scroll-snap-align: start; }
@@ -408,8 +410,6 @@
 :global(html[data-theme="dark"]) .site .fieldNotes::before { background: repeating-linear-gradient(90deg, transparent 0, transparent calc(25% - 1px), rgba(184,224,223,.075) 25%); }
 :global(html[data-theme="dark"]) .site .fieldNotes::after { border-color: rgba(184,224,223,.16); }
 :global(html[data-theme="dark"]) .site .fieldIntro::after { background: radial-gradient(circle, transparent 0 15px, rgba(184,224,223,.18) 16px 17px, transparent 18px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(184,224,223,.12) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(184,224,223,.12) 50%, transparent calc(50% + .5px)); }
-:global(html[data-theme="dark"]) .site .fieldControls button { border-color: rgba(239,233,215,.48); color: var(--color-cream); }
-:global(html[data-theme="dark"]) .site .fieldControls button:hover { background: var(--color-cyan); color: var(--color-navy); }
 :global(html[data-theme="dark"]) .site .featuredMission { background: var(--color-navy); color: var(--color-cream); }
 :global(html[data-theme="dark"]) .site .missionImage { filter: brightness(.7) saturate(.82) hue-rotate(5deg) contrast(1.08); }
 :global(html[data-theme="dark"]) .site .artBadge { background: var(--color-cyan); color: var(--color-navy); }
@@ -569,18 +569,21 @@
 
   .signalBar { height: 80px; padding: 0; }
   .signalBar div { animation: none; gap: 24px; height: 80px; justify-content: space-around; width: 100%; }
-  .signalBar span { font-size: 16px; letter-spacing: 2px; }
+  .signalBar span { font-size: 24px; font-style: italic; letter-spacing: 2px; line-height: 24px; }
 
   .prologue { display: grid; grid-template-columns: 761.5px 1fr; grid-template-rows: 653px 184px; height: 837px; max-width: none; padding: 0; }
   .prologue::before, .prologue::after { display: none; }
   .guildVisual { align-items: center; display: flex; height: 653px; justify-content: flex-end; overflow: hidden; padding-right: 48px; }
   .guildBuilders { height: 596px; mix-blend-mode: normal; object-fit: contain; opacity: 1; position: static; width: 601px; }
   .prologueCopy { align-self: start; padding: 139px 114px 0 0; }
-  .sectionLabel { font-size: 16px; letter-spacing: 2px; line-height: 24px; margin-bottom: 16px; }
-  .prologue h2, .practice h2, .fieldIntro h2 { font-size: 72px; letter-spacing: 0; line-height: 72px; }
+  .sectionLabel { color: var(--coral); font-size: 24px; font-style: italic; letter-spacing: 2px; line-height: 24px; margin-bottom: 16px; }
+  .practice h2 { font-family: var(--font-display), sans-serif; font-size: 56px; font-style: italic; letter-spacing: 0; line-height: 56px; }
+  .practice h2 em { font-family: var(--font-retalic), sans-serif; font-size: 72px; font-style: normal; line-height: 72px; }
+  .fieldIntro h2 { color: var(--color-dark-green); font-family: var(--font-display), sans-serif; font-size: 72px; font-style: italic; letter-spacing: 0; line-height: 72px; }
+  .fieldIntro h2 b { color: var(--color-dark-green); font-family: var(--font-retalic), sans-serif; font-size: 88px; font-style: normal; font-weight: 500; line-height: 88px; }
+  .fieldIntro h2 b em { color: var(--coral); font-family: inherit; font-size: inherit; font-style: normal; }
   .prologue h2 { color: var(--color-navy); font-family: var(--font-display), sans-serif; font-size: 40px; font-style: italic; letter-spacing: 0; line-height: 48px; }
   .prologue h2 em { font-family: var(--font-retalic), sans-serif; font-size: 56px; font-style: normal; line-height: 56px; }
-  .prologue .sectionLabel { color: var(--coral); font-size: 24px; font-style: italic; line-height: 24px; }
   .prologueCopy { color: var(--color-navy); }
   .prologueBody > p { font-size: 16px; letter-spacing: 1px; line-height: 24px; max-width: 565px; }
   .prologueBody > p + p { margin-top: 24px; }
@@ -588,10 +591,6 @@
   .prologueBody { border: 0; display: block; margin-top: 16px; padding: 0; }
   .prologueBody > p:first-child { font-size: 16px; letter-spacing: 1px; line-height: 24px; max-width: 565px; }
   .guildActions { gap: 16px; margin-top: 16px; }
-  .guildJoinCta { height: 56px; padding: 0 8px 0 24px; }
-  .guildJoinCta > span { font-size: 14px; }
-  .guildJoinCta small { display: none; }
-  .guildResourceLinks a { font-size: 14px; letter-spacing: 1px; }
   .statsBand { align-items: center; background: var(--deep); color: var(--paper); display: grid; grid-column: 1 / -1; grid-template-columns: 249px 395px 316px 369px; height: 184px; justify-content: center; padding: 0 20px; }
   .statsBand > div { align-items: center; border-left: 1px solid rgba(239,233,215,.28); display: flex; gap: 24px; min-height: 72px; padding-left: 24px; }
   .statsBand strong { color: var(--coral); font-family: var(--font-display), serif; font-size: 56px; font-weight: 500; line-height: 56px; }
@@ -600,11 +599,11 @@
   .keepers { background: var(--paper); color: var(--ink); height: 802px; overflow: hidden; padding: 48px 80px 24px; }
   .guildRoster { margin: 0; }
   .rosterHeading { align-items: center; border: 0; height: 247px; padding: 32px 0; }
-  .rosterHeading h3, .teamCopy h3 { font-family: var(--font-display), serif; font-size: 56px; font-weight: 500; letter-spacing: 4px; line-height: 56px; margin: 0; }
-  .rosterHeading h3 em, .teamCopy h3 em { color: var(--coral); font-style: normal; letter-spacing: 0; }
+  .rosterHeading h3, .teamCopy h3 { color: var(--color-navy); font-family: var(--font-display), sans-serif; font-size: 40px; font-style: italic; font-weight: 500; letter-spacing: 0; line-height: 48px; margin: 0; }
+  .rosterHeading h3 em, .teamCopy h3 em { color: var(--coral); font-family: var(--font-retalic), sans-serif; font-size: 56px; font-style: normal; letter-spacing: 0; line-height: 56px; }
   .rosterHeading > div > p:last-child { font-family: var(--font-body), serif; font-size: 16px; letter-spacing: 1px; line-height: 24px; margin: 8px 0 0; width: 671px; }
   .rosterAside { width: 268px; }
-  .rosterAside a { font-size: 14px; height: 56px; letter-spacing: 1px; margin: 0; }
+  .rosterAside a:not(.pill) { font-size: 14px; height: 56px; letter-spacing: 1px; margin: 0; }
   .stewardTrack { grid-template-columns: repeat(5, 243.2px); margin-top: 0; overflow: visible; padding: 24px 0; }
   .stewardCard { border: 2px solid var(--coral); border-radius: 16px; height: 411px; min-width: 0; padding: 26px; }
   .stewardCard:last-child { border-right: 1px solid rgba(16,45,44,.35); }
@@ -625,7 +624,7 @@
   .memberRail i { display: none; }
   .teamCopy { padding-left: 61px; width: 460px; }
   .teamCopy > p:not(.sectionLabel) { font-family: var(--font-body), serif; font-size: 16px; letter-spacing: 1px; line-height: 24px; }
-  .teamCopy > a { border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 14px; justify-content: space-between; letter-spacing: 1px; margin-top: 24px; padding-bottom: 12px; text-decoration: none; text-transform: uppercase; width: 228px; }
+  .teamCopy > a:not(.pill) { border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 14px; justify-content: space-between; letter-spacing: 1px; margin-top: 24px; padding-bottom: 12px; text-decoration: none; text-transform: uppercase; width: 228px; }
 
   .practice { height: 1525px; padding: 160px 86px; }
   .practiceHeading { align-items: center; grid-template-columns: 762px 447px; margin: 0 auto; max-width: 1209px; }
@@ -644,6 +643,7 @@
   .disciplineTop i { color: var(--sky); font-size: 16px; }
   .discipline > a, .spearActions > a { font-size: 16px; letter-spacing: 2px; line-height: 24px; }
 
+  .fieldNotes .sectionLabel { color: var(--color-dark-green); }
   .fieldNotes { height: 1338px; padding: 120px 0 0; }
   .fieldIntro { grid-template-columns: 930px 338px; margin: 0 auto 80px; max-width: 1267px; }
   .fieldIntro::after { display: none; }
@@ -657,29 +657,32 @@
   .missionType { font-size: 16px; letter-spacing: 2px; line-height: 24px; margin-top: auto; }
   .missionCopy h3 { font-size: 40px; line-height: 48px; margin-bottom: 24px; }
   .missionCopy > p:not(.missionType) { font-size: 16px; letter-spacing: 1px; line-height: 24px; }
-  .missionCopy > a { font-size: 14px; }
+  .missionCopy > a:not(.pill) { font-size: 14px; }
   .missionCopy dl { margin-top: 56px; }
 
   .creed { background: var(--deep); height: 615px; padding: 133px 24px 0; }
   .creedMoons { animation: none; height: 100%; left: 0; max-width: none; mix-blend-mode: normal; object-fit: cover; opacity: .8; top: 0; transform: none; width: 100%; }
-  .creed .sectionLabel { color: var(--sky); font-size: 24px; line-height: 24px; margin: 0; }
+  .creed .sectionLabel { color: var(--sky); font-size: 24px; font-style: normal; line-height: 24px; margin: 0; }
   .creed blockquote { font-size: 56px; letter-spacing: 4px; line-height: 56px; margin: 73px auto 0; }
   .creed em { color: var(--coral); }
   .creedFooter { display: none; }
 
   .contact { gap: 76px; grid-template-columns: 506px 698px; height: 881px; padding: 32px 80px; }
   .contactIntro { padding-top: 0; position: static; }
+  .contact .sectionLabel { color: var(--color-dark-green); font-size: 16px; font-style: normal; line-height: 24px; opacity: .8; }
   .contactDruid { height: 435.92px; margin-bottom: 34px; object-fit: cover; width: 506px; }
-  .contact h2.contactHeadline { font-size: 56px; letter-spacing: 0; line-height: 56px; }
+  .contact h2.contactHeadline { color: var(--color-dark-green); font-family: var(--font-display), sans-serif; font-size: 24px; font-style: italic; letter-spacing: 0; line-height: 32px; }
+  .contact h2.contactHeadline span { display: block; }
+  .contact h2.contactHeadline em { color: var(--coral); display: block; font-family: var(--font-retalic), sans-serif; font-size: 40px; font-style: normal; line-height: 48px; }
   .contactDek { font-size: 16px; letter-spacing: 1px; line-height: 24px; margin-top: 24px; width: 460px; }
   .contactProtocol { margin-top: 48px; }
   .contactFormShell { box-shadow: 20px 20px 0 var(--sky); height: 720px; padding: 54px; }
 
-  .footer { gap: 56px; grid-template-columns: 394px 1fr 394px; height: 340px; padding: 79px 72px 34px; }
-  .footer > p { font-size: 25px; line-height: 29px; }
+  .footer { gap: 56.25px; grid-template-columns: 394.49px 1fr 394.49px; height: 402px; padding: 78.75px 72px 33.75px; }
+  .footer > p { font-size: 24.75px; font-style: italic; letter-spacing: 0; line-height: 28.46px; }
   .socials { gap: 16px; }
   .socials a { font-size: 14px; letter-spacing: 1px; line-height: 16px; }
-  .footer small { border-color: var(--sky); font-size: 14px; letter-spacing: 1px; line-height: 16px; padding-top: 25px; }
+  .footer small { border-color: var(--sky); font-size: 14px; letter-spacing: 1px; line-height: 16px; opacity: 1; padding-top: 25px; }
 }
 
 @media (max-width: 900px) {
