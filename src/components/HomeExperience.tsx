@@ -533,13 +533,15 @@ export default function HomeExperience() {
             <span className={styles.orbitLine} />
           </div>
           <div className={styles.heroArt} aria-hidden="true">
-            <Image
+            <video
               className={styles.heroImage}
-              src="/images/neo/hero-light-poster.png"
-              alt=""
-              fill
-              sizes="100vw"
-              priority
+              poster="/images/neo/hero-light-poster.png"
+              src="/videos/venture/hero-light.mp4"
+              data-scene="light"
+              muted
+              loop
+              playsInline
+              preload="metadata"
             />
             <video
               className={`${styles.heroImage} ${styles.heroNightImage}`}
@@ -869,12 +871,15 @@ export default function HomeExperience() {
       </section>
 
       <section className={styles.creed}>
-        <Image
+        <video
           className={styles.creedMoons}
-          src="/images/neo/manifesto-backdrop.png"
-          width={2200}
-          height={940}
-          alt=""
+          poster="/images/neo/manifesto-backdrop.png"
+          src="/videos/venture/manifesto.mp4"
+          data-scene="manifesto"
+          muted
+          loop
+          playsInline
+          preload="metadata"
           aria-hidden="true"
         />
         <p className={styles.sectionLabel}>[ THE RAIDGUILD CREED ]</p>
