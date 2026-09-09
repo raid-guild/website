@@ -829,6 +829,50 @@
 :global(html[data-theme="dark"]) .site .fieldIntro .sectionLabel { color: var(--paper); }
 .site .contactFormShell :global(.text-heading-lg) { font-weight: 900 !important; }
 .statsBand strong { font-weight: 900; }
+/* Continuous, opposite-direction bands from the design walkthrough. */
+.loopBand { grid-column: 1 / -1; min-width: 0; overflow: hidden; position: relative; color: var(--paper); }
+.wordBand { background: var(--coral); }
+.metricBand { background: var(--deep); }
+.loopViewport { overflow: hidden; }
+.loopTrack { display: flex; width: max-content; animation: bandDrift 60s linear infinite; }
+.loopGroup { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-around; gap: 32px; padding: 20px 16px; min-width: 100vw; }
+.metricBand .loopTrack { animation-duration: 75s; animation-direction: reverse; }
+.metricBand .loopGroup { padding: 32px 24px; }
+.loopBand:hover .loopTrack, .loopBand:focus-within .loopTrack { animation-play-state: paused; }
+.tickerWord { display: flex; align-items: center; gap: 32px; font-family: var(--font-mono); font-size: clamp(14px, 1.6vw, 24px); font-style: italic; font-weight: 700; white-space: nowrap; }
+.tickerWord i { background: currentColor; width: 25px; height: 25px; mask: url('/images/icons/venture/ico-logo.svg') center / contain no-repeat; }
+.metricItem { display: flex; align-items: center; gap: 22px; border-left: 1px solid rgba(239,233,215,.25); padding-left: 24px; width: 300px; flex-shrink: 0; }
+.metricItem strong { color: var(--coral); font-family: var(--font-display); font-size: clamp(40px, 4vw, 56px); font-weight: 900; font-style: italic; }
+.metricItem span { font-family: var(--font-mono); font-size: 14px; line-height: 1.35; max-width: 165px; }
+.loopPause { position: absolute; right: 4px; top: 4px; border: 1px solid currentColor; border-radius: 50%; width: 28px; height: 28px; background: var(--deep); color: var(--paper); cursor: pointer; font-size: 12px; }
+@keyframes bandDrift { to { transform: translateX(-50%); } }
+:global(html[data-theme="dark"]) .site .metricBand { background: #252a61; }
+:global(html[data-theme="dark"]) .site .contactFormShell { background: #252a61; }
+:global(html[data-theme="dark"]) .site .contact h2,
+:global(html[data-theme="dark"]) .site .contact .sectionLabel,
+:global(html[data-theme="dark"]) .site .rosterHeading h3 { color: var(--paper); }
+:global(html[data-theme="dark"]) .site .stewardCard,
+:global(html[data-theme="dark"]) .site .memberRail > a,
+:global(html[data-theme="dark"]) .site .memberRail > div,
+:global(html[data-theme="dark"]) .site .discipline { background: rgba(185,224,223,.055); }
+:global(html[data-theme="dark"]) .site .stewardCard:hover,
+:global(html[data-theme="dark"]) .site .stewardCard:focus-visible,
+:global(html[data-theme="dark"]) .site .memberRail > a:hover,
+:global(html[data-theme="dark"]) .site .memberRail > a:focus-visible,
+:global(html[data-theme="dark"]) .site .discipline:hover,
+:global(html[data-theme="dark"]) .site .discipline:focus-within { background: #303675; border-color: var(--coral); color: var(--paper); }
+:global(html[data-theme="dark"]) .site .memberRail > a:hover strong,
+:global(html[data-theme="dark"]) .site .memberRail > a:focus-visible strong { color: var(--paper); }
+.site .problemSpear { background: transparent; }
+:global(html[data-theme="dark"]) .site .header .nav,
+:global(html[data-theme="dark"]) .site .celestialToggle { background: rgba(25,30,78,.92); border-color: rgba(185,224,223,.4); }
+.site .nav a:focus-visible { outline: 2px solid var(--coral); outline-offset: 6px; }
+@media (prefers-reduced-motion: reduce) {
+  .loopTrack { animation: none; transform: none; width: 100%; }
+  .loopGroup { flex-wrap: wrap; min-width: 0; width: 100%; }
+  .loopGroup[aria-hidden="true"], .loopPause { display: none; }
+  .metricItem { width: min(300px, 100%); }
+}
 .practice { height: auto; }
 .spearGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); height: auto; }
 .spearGrid .discipline { height: auto; min-height: 0; }
@@ -847,13 +891,13 @@
 .prologueBody p { font-family: var(--font-body), sans-serif; }
 .rosterHeading { height: auto; min-height: 247px; }
 @media (min-width: 1000px) {
-  .header { gap: 20px; justify-content: flex-start; padding: 0 220px 0 4vw; }
+  .header { gap: 20px; justify-content: flex-start; padding: 0 224px 0 4vw; }
   .celestialToggle { position: static; flex-shrink: 0; }
   .celestialToggle b { font-size: 10px; }
   .nav { margin-left: auto; gap: 18px; padding: 12px 18px; }
   .nav a { font-size: 10px; letter-spacing: 1px; white-space: nowrap; }
   .nav .brandArchiveLink { display: flex; padding-left: 14px; }
-  .portalTrigger { position: fixed; right: 24px; }
+  .portalTrigger { box-sizing: border-box; width: 180px; position: fixed; right: 24px; }
   .prologue { grid-template-columns: 52% 48%; grid-template-rows: minmax(653px, auto) auto; height: auto; }
   .prologueCopy { padding: 100px 6vw 48px 0; }
   .guildBuilders { max-width: 100%; }

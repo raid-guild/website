@@ -5,6 +5,7 @@ import Image from "next/image";
 import FrontDoor from "./FrontDoor";
 import TeamWall from "./TeamWall";
 import PortalEnergy from "./PortalEnergy";
+import LoopBand from "./LoopBand";
 import HireUs from "@/components/HireUs";
 import { mercenaries } from "@/lib/data/members";
 import styles from "./HomeExperience.module.css";
@@ -483,17 +484,6 @@ export default function HomeExperience() {
           <span>RAID<br />GUILD</span>
         </a>
 
-        <button
-          className={styles.celestialToggle}
-          type="button"
-          aria-label={`Switch to ${isNight ? "day" : "night"} mode`}
-          aria-pressed={isNight}
-          onClick={toggleTheme}
-        >
-          <span aria-hidden="true"><i /></span>
-          <b>{isNight ? "NIGHT" : "DAY"}</b>
-        </button>
-
         <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Primary navigation">
           <a href="#guild" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "guild"); }}>The guild</a>
           <a href="#spears" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "spears"); }}>Active spears</a>
@@ -508,6 +498,17 @@ export default function HomeExperience() {
             Brand archive <span>↗</span>
           </a>
         </nav>
+
+        <button
+          className={styles.celestialToggle}
+          type="button"
+          aria-label={`Switch to ${isNight ? "day" : "night"} mode`}
+          aria-pressed={isNight}
+          onClick={toggleTheme}
+        >
+          <span aria-hidden="true"><i /></span>
+          <b>{isNight ? "NIGHT" : "DAY"}</b>
+        </button>
 
         <button
           className={styles.menuButton}
@@ -536,7 +537,7 @@ export default function HomeExperience() {
             <video
               className={styles.heroImage}
               poster="/images/neo/hero-light-poster.png"
-              src="/videos/venture/hero-light.mp4"
+              src="/videos/venture/hero-light-pingpong.mp4"
               data-scene="light"
               muted
               loop
@@ -546,7 +547,7 @@ export default function HomeExperience() {
             <video
               className={`${styles.heroImage} ${styles.heroNightImage}`}
               poster="/images/neo/hero-dark-poster.png"
-              src="/videos/venture/hero-dark.mp4"
+              src="/videos/venture/hero-dark-pingpong.mp4"
               data-scene="dark"
               muted
               loop
@@ -652,13 +653,9 @@ export default function HomeExperience() {
         </div>
       </section>
 
-      <div className={styles.signalBar} aria-hidden="true">
-        <div>
-          <span>ONE GUILD</span><i /><span>MANY EDGES</span><i /><span>BUILDER-OWNED</span><i />
-          <span>APPLIED AI</span><i /><span>ONCHAIN SYSTEMS</span><i /><span>OPEN EXPERIMENTS</span><i />
-          <span>ONE GUILD</span><i /><span>MANY EDGES</span><i />
-        </div>
-      </div>
+      <LoopBand label="Guild ticker">
+        {['ONE GUILD', 'MANY EDGES', 'BUILDER-OWNED', 'APPLIED AI', 'ONCHAIN SYSTEMS', 'OPEN EXPERIMENTS'].map(word => <span className={styles.tickerWord} key={word}>{word}<i aria-hidden="true" /></span>)}
+      </LoopBand>
 
       <section className={`${styles.prologue} ${arrivalTarget === "guild" ? styles.sectionArriving : ""}`} id="guild">
         <div className={styles.guildVisual}>
@@ -694,12 +691,12 @@ export default function HomeExperience() {
           </div>
           <a className={styles.handbookLink} href="https://handbook.raidguild.org/docs/overview/what-is-raidguild" target="_blank" rel="noreferrer">Read the handbook ↗</a>
         </div>
-        <div className={styles.statsBand} aria-label="RaidGuild statistics">
-          <div><strong>150</strong><span>GLOBAL MEMBERS</span></div>
-          <div><strong>88+</strong><span>RAIDS SHIPPED ACROSS THE FRONTIER</span></div>
-          <div><strong>4999</strong><span>YEARS OF EXPERIENCE</span></div>
-          <div><strong>2019</strong><span>BORN AND RAISED IN ADVERSITY</span></div>
-        </div>
+        <LoopBand label="RaidGuild statistics" reverse>
+          <div className={styles.metricItem}><strong>150</strong><span>GLOBAL MEMBERS</span></div>
+          <div className={styles.metricItem}><strong>88+</strong><span>RAIDS SHIPPED ACROSS THE FRONTIER</span></div>
+          <div className={styles.metricItem}><strong>4999</strong><span>YEARS OF EXPERIENCE</span></div>
+          <div className={styles.metricItem}><strong>2019</strong><span>BORN AND RAISED IN ADVERSITY</span></div>
+        </LoopBand>
       </section>
 
       <section className={styles.keepers}>
@@ -874,7 +871,7 @@ export default function HomeExperience() {
         <video
           className={styles.creedMoons}
           poster="/images/neo/manifesto-backdrop.png"
-          src="/videos/venture/manifesto.mp4"
+          src="/videos/venture/manifesto-crossfade.mp4"
           data-scene="manifesto"
           muted
           loop
@@ -897,10 +894,10 @@ export default function HomeExperience() {
         <div className={styles.contactIntro}>
           <Image
             className={styles.contactDruid}
-            src="/images/neo/contact-druid.png"
+            src="/images/neo/contact-druid-transparent.png"
             alt=""
-            width={1518}
-            height={1308}
+            width={768}
+            height={1024}
             sizes="506px"
             aria-hidden="true"
           />
