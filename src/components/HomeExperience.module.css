@@ -616,7 +616,7 @@
   .teamNetwork { align-items: center; background: var(--paper); color: var(--ink); display: grid; grid-template-columns: 839px 1fr; height: 444px; overflow: hidden; }
   .teamWall { height: 384px; overflow: hidden; position: relative; width: 820px; }
   .memberMarquee { border: 0; height: 384px; margin: 0; overflow: hidden; padding: 0; }
-  .memberRail { animation: none; column-gap: 14px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(4, 90px); row-gap: 8px; transform: none; width: max-content; }
+  .memberRail { animation: none; column-gap: 14px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(4, 90px); row-gap: 8px; transform: translateX(-799.25px); width: max-content; }
   .memberRail > a, .memberRail > div { border: 2px solid var(--coral); border-radius: 16px; gap: 16px; height: 90px; min-width: 213.75px; padding: 18px; }
   .memberRail img { border-radius: 27px; filter: none; height: 54px; width: 54px; }
   .memberRail strong { color: var(--coral); font-family: var(--font-display), sans-serif; font-size: 24px; font-style: italic; line-height: 32px; }
