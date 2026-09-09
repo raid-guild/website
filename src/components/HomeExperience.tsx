@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import FrontDoor from "./FrontDoor";
+import TeamWall from "./TeamWall";
 import HireUs from "@/components/HireUs";
 import { mercenaries } from "@/lib/data/members";
 import styles from "./HomeExperience.module.css";
@@ -840,26 +841,8 @@ export default function HomeExperience() {
         </div>
       </section>
 
-      <section className={styles.teamNetwork}>
-        <div className={styles.teamWall}>
-          <div className={styles.memberMarquee}>
-            <div className={styles.memberRail}>
-              {[...guildMembers, ...guildMembers].map((member, index) => {
-                const content = (
-                  <>
-                    <Image src={member.imagePath} alt="" width={58} height={58} />
-                    <span><strong>{member.name}</strong><small>{member.title}</small></span>
-                  </>
-                );
-                return member.link ? (
-                  <a href={member.link} target="_blank" rel="noreferrer" key={`${member.name}-${index}`}>{content}<i>↗</i></a>
-                ) : (
-                  <div key={`${member.name}-${index}`}>{content}</div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+      <section className={styles.teamNetwork} id="team">
+        <TeamWall members={guildMembers} />
         <div className={styles.teamCopy}>
           <p className={styles.sectionLabel}>[ THE TEAM ]</p>
           <h3>A WIDE NETWORK<br /><em>OF BUILDERS</em></h3>
@@ -941,7 +924,7 @@ export default function HomeExperience() {
       <section className={`${styles.fieldNotes} ${arrivalTarget === "work" ? styles.sectionArriving : ""}`} id="work">
         <div className={styles.fieldIntro}>
           <p className={styles.sectionLabel}>[ SELECTED EXPEDITIONS ]</p>
-          <h2>Proof from<br /><b>the <em>frontier</em></b></h2>
+          <h2>Proof from<br /><em>the frontier</em></h2>
           <div className={styles.fieldAside}>
             <p>Artifacts, protocols, and communities built with people brave enough to go first.</p>
             <a className={`${styles.pill} ${styles.pillOutlineGreen}`} href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer">

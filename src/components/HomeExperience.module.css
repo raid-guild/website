@@ -325,7 +325,20 @@
   to { transform: translate(-49%, -51%) rotate(1deg) scale(1.07); }
 }
 
+.site .teamWall { height: auto; min-width: 0; overflow: hidden; }
+.teamWall .memberMarquee { cursor: grab; overflow-x: auto; overscroll-behavior-x: contain; scroll-behavior: auto; }
+.teamWall .memberMarquee:active { cursor: grabbing; }
+.memberMarquee:focus-visible { outline: 2px solid var(--coral); outline-offset: -2px; }
+.memberLoop { display: flex; gap: 14px; width: max-content; }
+.teamWall .memberRail { animation: none; transform: none; flex-shrink: 0; user-select: none; }
+.memberRail > a:focus-visible { outline: 3px solid var(--coral); outline-offset: -4px; }
+.teamMotionToggle { background: transparent; border: 0; color: inherit; cursor: pointer; font-family: var(--font-mono), monospace; font-size: 11px; margin: 8px 12px; padding: 5px; text-decoration: underline; text-underline-offset: 4px; }
+:global(html[data-theme="dark"]) .site .teamNetwork { color: var(--paper); }
+:global(html[data-theme="dark"]) .site .teamCopy h3,
+:global(html[data-theme="dark"]) .site .memberRail small { color: var(--paper); }
 @media (prefers-reduced-motion: reduce) {
+  .teamMotionToggle { display: none; }
+  .memberRail[aria-hidden="true"] { display: none; }
   .creedMoons { animation: none; }
 }
 
@@ -801,7 +814,9 @@
 .site h1 em, .site h2 em, .site h3 em, .creed em { display: inline-block; font-style: normal; font-weight: 1000; font-variation-settings: "slnt" 0; transform: skewX(-12deg); }
 .hero h1 { line-height: .73; }
 .hero h1 > span { display: inline-block; transform: skewX(12deg); }
-.fieldIntro h2 b { font-weight: 900; }
+.fieldIntro h2 > em { font-size: 1.1em; white-space: nowrap; }
+:global(html[data-theme="dark"]) .site .fieldIntro h2,
+:global(html[data-theme="dark"]) .site .fieldIntro .sectionLabel { color: var(--paper); }
 .site .contactFormShell :global(.text-heading-lg) { font-weight: 900 !important; }
 .statsBand strong { font-weight: 900; }
 .practice { height: auto; }
