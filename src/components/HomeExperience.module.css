@@ -40,12 +40,12 @@
 
 .brand { align-items: center; color: inherit; display: inline-flex; font-size: 12px; font-weight: 700; letter-spacing: .11em; line-height: .9; text-decoration: none; }
 .sigil { align-items: center; border: 1px solid currentColor; border-radius: 50%; display: inline-flex; height: 41px; justify-content: center; margin-right: 12px; position: relative; width: 41px; }
-.swordMark { background: currentColor; display: block; height: 27px; -webkit-mask: url("/images/neo/raidguild-swords.png") center / contain no-repeat; mask: url("/images/neo/raidguild-swords.png") center / contain no-repeat; width: 29px; }
+.swordMark { background: currentColor; display: block; height: 27px; -webkit-mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-logo.svg") center / contain no-repeat; width: 29px; }
 .celestialToggle { align-items: center; background: rgba(5,34,34,.52); border: 1px solid rgba(239,233,215,.24); border-radius: 999px; color: var(--paper); cursor: pointer; display: flex; font-family: var(--font-mono), monospace; gap: 8px; left: clamp(158px, 10vw, 192px); padding: 5px 9px 5px 6px; position: absolute; transition: background .3s, border-color .3s; }
 .celestialToggle:hover { background: rgba(5,34,34,.8); border-color: rgba(239,233,215,.55); }
 .celestialToggle > span { background: rgba(239,233,215,.14); border: 1px solid rgba(239,233,215,.38); border-radius: 999px; display: block; height: 18px; position: relative; width: 34px; }
-.celestialToggle > span::before { color: var(--paper); content: "☼"; font-family: serif; font-size: 10px; left: 3px; line-height: 16px; opacity: .72; position: absolute; }
-.celestialToggle > span::after { color: var(--paper); content: "☾"; font-family: serif; font-size: 10px; line-height: 16px; opacity: .72; position: absolute; right: 3px; }
+.celestialToggle > span::before { background: var(--paper); content: ""; height: 10px; left: 3px; -webkit-mask: url("/images/icons/venture/ico-sun.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-sun.svg") center / contain no-repeat; opacity: .72; position: absolute; top: 50%; transform: translateY(-50%); width: 10px; }
+.celestialToggle > span::after { background: var(--paper); content: ""; height: 10px; -webkit-mask: url("/images/icons/venture/ico-dark.svg") center / contain no-repeat; mask: url("/images/icons/venture/ico-dark.svg") center / contain no-repeat; opacity: .72; position: absolute; right: 3px; top: 50%; transform: translateY(-50%); width: 10px; }
 .celestialToggle i { background: var(--paper); border-radius: 50%; box-shadow: 0 0 8px rgba(239,233,215,.55); height: 10px; left: 3px; position: absolute; top: 3px; transform: translateX(0); transition: background .75s, box-shadow .75s, transform .75s cubic-bezier(.16,.76,.18,1); width: 10px; z-index: 1; }
 .celestialToggle b { font-size: 7px; letter-spacing: .16em; min-width: 34px; text-align: center; }
 :global(html[data-theme="dark"]) .site .celestialToggle i { background: var(--color-cyan); box-shadow: 0 0 10px rgba(184,224,223,.82); transform: translateX(16px); }
@@ -82,7 +82,7 @@
 .moonSmall { height: 5vw; min-height: 48px; min-width: 48px; right: 31%; top: 13%; width: 5vw; }
 .orbitLine { border-bottom-color: transparent !important; border-left-color: transparent !important; height: 52vw; right: -7%; top: -19%; transform: rotate(22deg); width: 52vw; }
 .heroArt { inset: 0; position: absolute; z-index: 1; }
-.heroImage { object-fit: cover; object-position: calc(48% + var(--neo-land-x, 0px) + var(--neo-track-land-x, 0px)) 58%; transition: object-position .22s cubic-bezier(.2,.7,.2,1); }
+.heroImage { height: 100%; inset: 0; object-fit: cover; object-position: calc(48% + var(--neo-land-x, 0px) + var(--neo-track-land-x, 0px)) 58%; position: absolute; transition: object-position .22s cubic-bezier(.2,.7,.2,1); width: 100%; }
 .heroNightImage { opacity: 0; transition: object-position .22s cubic-bezier(.2,.7,.2,1), opacity 1.35s cubic-bezier(.2,.7,.2,1); }
 :global(html[data-theme="dark"]) .site .heroNightImage { opacity: 1; }
 .heroWash { background: linear-gradient(90deg, rgba(5, 34, 34, .88) 0%, rgba(5, 34, 34, .43) 31%, rgba(5, 34, 34, .02) 65%), linear-gradient(0deg, rgba(5,27,28,.72), transparent 34%, rgba(2, 25, 27, .26)); inset: 0; position: absolute; z-index: 2; }
@@ -137,10 +137,10 @@
 .discover { align-items: center; color: inherit; display: flex; font-size: 10px; gap: 18px; letter-spacing: .16em; margin-top: 40px; text-decoration: none; text-transform: uppercase; width: max-content; }
 .discover i { align-items: center; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; display: flex; font-style: normal; height: 42px; justify-content: center; transition: transform .25s, background .25s; width: 42px; }
 .discover:hover i { background: var(--coral); border-color: var(--coral); transform: translateY(5px); }
-.heroIndex { bottom: 44px; display: grid; grid-template-columns: auto auto; opacity: var(--neo-meta-opacity, 1); position: absolute; right: clamp(24px, 4vw, 72px); text-align: right; transform: translateY(var(--neo-meta-y, 0)); z-index: 4; }
+.heroIndex { bottom: 44px; display: grid; grid-template-columns: auto auto; opacity: var(--neo-meta-opacity, 1); position: absolute; right: clamp(24px, 4vw, 72px); text-align: right; transform: translateY(var(--neo-meta-y, 0)); z-index: 7; }
 .heroIndex span { font-size: 8px; letter-spacing: .18em; padding-top: 8px; }
 .heroIndex strong { font-family: var(--font-display), serif; font-size: 44px; font-weight: 400; grid-row: span 2; line-height: 1; margin-left: 15px; }
-.heroIndex small { font-size: 7px; letter-spacing: .16em; opacity: .55; }
+.heroScrollCue { display: none; margin: 0; }
 .heroForeground { inset: -7% -7% -14%; pointer-events: none; transform-origin: center 58%; transition: transform var(--neo-curtain-speed, .18s) cubic-bezier(.16,.76,.18,1); position: absolute; z-index: 6; }
 .heroForegroundLeft { clip-path: inset(0 50% 0 0); transform: translate3d(calc(72px - var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
 .heroForegroundRight { clip-path: inset(0 0 0 50%); transform: translate3d(calc(-58px + var(--neo-curtain-open, 0px)), var(--neo-fore-y, 0px), 0) scale(1.1); }
@@ -159,7 +159,7 @@
 .prologue::after { background: radial-gradient(circle at 50% 50%, transparent 0 21px, rgba(16,45,44,.08) 22px 23px, transparent 24px 49px, rgba(16,45,44,.055) 50px 51px, transparent 52px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(16,45,44,.05) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(16,45,44,.05) 50%, transparent calc(50% + .5px)); content: ""; height: 150px; opacity: .72; pointer-events: none; position: absolute; right: clamp(28px, 8vw, 120px); top: clamp(74px, 10vw, 145px); transform: rotate(7deg); width: 150px; }
 .prologue > * { position: relative; z-index: 1; }
 .guildBuilders { --artifact-opacity: .105; height: auto; mix-blend-mode: multiply; opacity: var(--artifact-opacity); pointer-events: none; position: absolute; right: clamp(-110px, -4vw, -36px); top: clamp(250px, 27vw, 410px); width: clamp(300px, 38vw, 560px); z-index: 0; }
-.sectionArriving .guildBuilders, .sectionArriving .contactShipSchematic { animation: artifactArrival 1.8s cubic-bezier(.16,.76,.18,1) both; }
+.sectionArriving .guildBuilders { animation: artifactArrival 1.8s cubic-bezier(.16,.76,.18,1) both; }
 @keyframes artifactArrival {
   0% { opacity: .015; }
   30% { opacity: .23; }
@@ -216,7 +216,6 @@
 .stewardPortrait { aspect-ratio: 1; background: var(--sky); border-radius: 50%; margin: 26px auto; max-width: 150px; overflow: hidden; position: relative; }
 .stewardPortrait::after { border: 1px solid rgba(16,45,44,.25); border-radius: 50%; content: ""; inset: 8px; pointer-events: none; position: absolute; }
 .stewardPortrait img { filter: saturate(.75) contrast(1.04); object-fit: cover; }
-.stewardPortrait > span { align-items: center; color: var(--coral); display: flex; font-family: var(--font-display), serif; font-size: 54px; height: 100%; justify-content: center; letter-spacing: -.05em; }
 .stewardCard > p { color: var(--coral); font-size: 7px; letter-spacing: .15em; margin: 0 0 8px; text-transform: uppercase; }
 .stewardCard h4 { font-family: var(--font-display), serif; font-size: 30px; font-weight: 500; line-height: 1; margin: 0 0 10px; }
 .stewardCard > small { font-size: 7px; letter-spacing: .12em; opacity: .65; }
@@ -304,9 +303,8 @@
 .missionCopy dd { font-family: var(--font-display), serif; font-size: 25px; margin: 5px 0 0; }
 
 .creed { background: var(--coral); color: var(--paper); overflow: hidden; padding: clamp(100px, 13vw, 190px) 24px 50px; position: relative; text-align: center; }
-.creed > *:not(.creedCreature):not(.creedMoons) { position: relative; z-index: 2; }
+.creed > *:not(.creedMoons) { position: relative; z-index: 2; }
 .creedMoons { animation: creedOrbit 24s ease-in-out infinite alternate; height: auto; left: 50%; mix-blend-mode: soft-light; opacity: .3; pointer-events: none; position: absolute; top: 48%; transform: translate(-50%, -50%) rotate(-2deg) scale(1.04); width: min(1536px, 116vw); z-index: 0; }
-.creedCreature { animation: creedFlight 14s ease-in-out infinite alternate; filter: grayscale(1) sepia(.15) saturate(.65) brightness(.33); height: auto; left: 50%; mix-blend-mode: multiply; opacity: .24; pointer-events: none; position: absolute; top: 48%; transform: translate(-50%, -50%) rotate(-3deg); width: min(1420px, 116vw); }
 .creed blockquote { font-family: var(--font-display), serif; font-size: clamp(58px, 8.5vw, 132px); font-weight: 500; letter-spacing: -.055em; line-height: .83; margin: 55px auto 130px; max-width: 1300px; }
 .creed em { color: var(--deep); }
 .creedFooter { align-items: center; border-top: 1px solid rgba(239,233,215,.4); display: flex; font-size: 8px; justify-content: space-between; letter-spacing: .18em; margin: 0 auto; max-width: 1300px; padding-top: 28px; }
@@ -324,15 +322,15 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .creedCreature, .creedMoons { animation: none; }
+  .creedMoons { animation: none; }
 }
 
 .contact { align-items: start; background-color: var(--paper); background-image: radial-gradient(circle at 16% 22%, rgba(16,45,44,.027) 0 1px, transparent 1.5px), radial-gradient(circle at 74% 68%, rgba(16,45,44,.018) 0 1px, transparent 1.4px), repeating-linear-gradient(103deg, transparent 0 17px, rgba(16,45,44,.012) 18px, transparent 19px 38px); background-size: 23px 29px, 31px 37px, auto; display: grid; gap: clamp(60px, 8vw, 130px); grid-template-columns: minmax(340px, .82fr) minmax(540px, 1fr); overflow: hidden; padding: clamp(100px, 12vw, 180px) clamp(24px, 7vw, 110px); position: relative; }
-.contactShipSchematic { --artifact-opacity: .07; height: auto; left: clamp(-110px, -5vw, -40px); mix-blend-mode: multiply; opacity: var(--artifact-opacity); pointer-events: none; position: absolute; top: clamp(100px, 12vw, 180px); transform: rotate(-2deg); width: min(1120px, 72vw); z-index: 0; }
+.contactDruid { display: block; height: auto; margin: 0 0 34px; max-width: 506px; object-fit: cover; pointer-events: none; width: 100%; }
 .contact::before { border: 1px solid rgba(16,45,44,.075); border-radius: 50%; content: ""; height: clamp(380px, 52vw, 760px); left: clamp(-320px, -18vw, -120px); pointer-events: none; position: absolute; top: clamp(20px, 6vw, 90px); transform: rotate(-17deg); width: clamp(520px, 72vw, 1050px); }
 .contact::after { background: linear-gradient(90deg, transparent calc(50% - .5px), rgba(16,45,44,.065) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(16,45,44,.065) 50%, transparent calc(50% + .5px)); content: ""; height: 74px; left: clamp(22px, 5vw, 80px); opacity: .65; pointer-events: none; position: absolute; top: clamp(130px, 17vw, 255px); transform: rotate(-4deg); width: 74px; }
 .contact > * { position: relative; z-index: 1; }
-.contact > .contactShipSchematic { position: absolute; z-index: 0; }
+
 .contactIntro { position: sticky; top: 70px; }
 .contact h2.contactHeadline { font-size: clamp(50px, 5.7vw, 88px); }
 .contactHeadline span { display: block; white-space: nowrap; }
@@ -419,8 +417,11 @@
 
 :global(html[data-theme="dark"]) .site .creed { background: var(--color-pink); color: var(--color-cream); }
 :global(html[data-theme="dark"]) .site .creed em { color: var(--color-cyan); text-shadow: 0 0 28px rgba(184,224,223,.2); }
-:global(html[data-theme="dark"]) .site .creedMoons { mix-blend-mode: screen; opacity: .22; }
-:global(html[data-theme="dark"]) .site .creedCreature { filter: grayscale(1) sepia(.1) saturate(.8) brightness(.72) hue-rotate(145deg); mix-blend-mode: screen; opacity: .16; }
+:global(html[data-theme="dark"]) .site .creedMoons { mix-blend-mode: normal; opacity: .8; }
+/* El Deep Blue del Guild es solo para light: en dark Figma 117:3966 pinta el
+   fondo con ese mismo azul, asi que el texto pasa a papyrus. */
+:global(html[data-theme="dark"]) .site .prologueCopy,
+:global(html[data-theme="dark"]) .site .prologue h2 { color: var(--paper); }
 
 :global(html[data-theme="dark"]) .site .contact {
   background-color: var(--color-navy);
@@ -428,7 +429,7 @@
   color: var(--color-cream);
 }
 :global(html[data-theme="dark"]) .site .contactFormShell { background: var(--color-navy); box-shadow: 20px 20px 0 var(--color-cyan); }
-:global(html[data-theme="dark"]) .site .contactShipSchematic { opacity: .085; }
+
 :global(html[data-theme="dark"]) .site .footer { background: var(--color-navy); color: var(--color-cream); }
 
 .siteGlitching > .header, .siteGlitching > .hero { animation: realityGlitch 3.4s steps(1, end) both; transform-origin: center; will-change: filter, transform; }
@@ -551,10 +552,10 @@
   .heroSupplement, .heroExploring .heroSupplement { bottom: auto; left: 305px; opacity: 1; pointer-events: auto; top: 509px; transform: none; width: 379px; }
   .heroDek { font-size: 24px; line-height: 32px; margin: 0; width: 379px; }
   .discover { display: none; }
-  .heroIndex { bottom: 78px; right: 80px; }
-  .heroIndex span { font-size: 16px; letter-spacing: 2px; line-height: 24px; }
-  .heroIndex strong { font-size: 88px; letter-spacing: 4px; line-height: 88px; }
-  .heroIndex small { display: none; }
+  .heroIndex { bottom: 78px; display: block; right: 80px; }
+  .heroIndex span { display: block; font-size: 16px; letter-spacing: 2px; line-height: 24px; padding-top: 0; }
+  .heroIndex strong { display: block; font-size: 88px; letter-spacing: 4px; line-height: 88px; margin-left: 0; margin-top: 8px; }
+  .heroScrollCue { bottom: 78px; display: block; font-size: 16px; left: 80px; letter-spacing: 2px; line-height: 24px; position: absolute; transform: rotate(180deg); white-space: nowrap; writing-mode: vertical-rl; z-index: 7; }
   .heroWayfinding { opacity: 1; }
   .heroOrbitMap, .heroHub { display: none; }
   .heroWaypoint { height: 78px; width: 165px; }
@@ -570,11 +571,11 @@
   .signalBar div { animation: none; gap: 24px; height: 80px; justify-content: space-around; width: 100%; }
   .signalBar span { font-size: 16px; letter-spacing: 2px; }
 
-  .prologue { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 653px 184px; height: 837px; max-width: none; padding: 0; }
+  .prologue { display: grid; grid-template-columns: 761.5px 1fr; grid-template-rows: 653px 184px; height: 837px; max-width: none; padding: 0; }
   .prologue::before, .prologue::after { display: none; }
-  .guildVisual { align-items: center; display: flex; height: 653px; justify-content: center; overflow: hidden; }
+  .guildVisual { align-items: center; display: flex; height: 653px; justify-content: flex-end; overflow: hidden; padding-right: 48px; }
   .guildBuilders { height: 596px; mix-blend-mode: normal; object-fit: contain; opacity: 1; position: static; width: 601px; }
-  .prologueCopy { align-self: start; padding: 139px 114px 0 42px; }
+  .prologueCopy { align-self: start; padding: 139px 114px 0 0; }
   .sectionLabel { font-size: 16px; letter-spacing: 2px; line-height: 24px; margin-bottom: 16px; }
   .prologue h2, .practice h2, .fieldIntro h2 { font-size: 72px; letter-spacing: 0; line-height: 72px; }
   .prologue h2 { color: var(--color-navy); font-family: var(--font-display), sans-serif; font-size: 40px; font-style: italic; letter-spacing: 0; line-height: 48px; }
@@ -605,7 +606,7 @@
   .rosterAside { width: 268px; }
   .rosterAside a { font-size: 14px; height: 56px; letter-spacing: 1px; margin: 0; }
   .stewardTrack { grid-template-columns: repeat(5, 243.2px); margin-top: 0; overflow: visible; padding: 24px 0; }
-  .stewardCard { border: 1px solid rgba(16,45,44,.35); border-right: 0; border-radius: 18px; height: 411px; min-width: 0; padding: 26px; }
+  .stewardCard { border: 2px solid var(--coral); border-radius: 16px; height: 411px; min-width: 0; padding: 26px; }
   .stewardCard:last-child { border-right: 1px solid rgba(16,45,44,.35); }
   .stewardPortrait { height: 169px; margin: 24px auto 8px; max-width: none; width: 169px; }
   .stewardCard > p { font-size: 16px; letter-spacing: 2px; line-height: 24px; margin: 0; }
@@ -660,16 +661,15 @@
   .missionCopy dl { margin-top: 56px; }
 
   .creed { background: var(--deep); height: 615px; padding: 133px 24px 0; }
-  .creed::after { background: rgba(10,41,43,.3); content: ""; inset: 0; position: absolute; z-index: 1; }
-  .creedMoons { height: 100%; left: 0; max-width: none; mix-blend-mode: normal; object-fit: cover; opacity: .7; top: 0; transform: none; width: 100%; }
-  .creedCreature { filter: none; height: 100%; left: 0; mix-blend-mode: soft-light; object-fit: cover; opacity: .75; top: 0; transform: none; width: 100%; }
+  .creedMoons { animation: none; height: 100%; left: 0; max-width: none; mix-blend-mode: normal; object-fit: cover; opacity: .8; top: 0; transform: none; width: 100%; }
   .creed .sectionLabel { color: var(--sky); font-size: 24px; line-height: 24px; margin: 0; }
   .creed blockquote { font-size: 56px; letter-spacing: 4px; line-height: 56px; margin: 73px auto 0; }
   .creed em { color: var(--coral); }
   .creedFooter { display: none; }
 
-  .contact { gap: 80px; grid-template-columns: 1fr 720px; height: 881px; padding: 80px; }
-  .contactIntro { position: static; padding-top: 84px; }
+  .contact { gap: 76px; grid-template-columns: 506px 698px; height: 881px; padding: 32px 80px; }
+  .contactIntro { padding-top: 0; position: static; }
+  .contactDruid { height: 435.92px; margin-bottom: 34px; object-fit: cover; width: 506px; }
   .contact h2.contactHeadline { font-size: 56px; letter-spacing: 0; line-height: 56px; }
   .contactDek { font-size: 16px; letter-spacing: 1px; line-height: 24px; margin-top: 24px; width: 460px; }
   .contactProtocol { margin-top: 48px; }
@@ -795,7 +795,7 @@
   .heroArt, .heroForeground, .heroCelestial, .heroCopy, .heroSupplement, .heroIndex, .signalBar div, .orbit::after { animation: none; transform: none; transition: none; }
   .heroNightImage, .celestialToggle i { transition: none; }
   .sectionArriving .sectionLabel { animation: none; }
-  .sectionArriving .guildBuilders, .sectionArriving .contactShipSchematic { animation: none; }
+  .sectionArriving .guildBuilders { animation: none; }
   .missionImage { transition: none; }
   .portalAtmosphere, .portalMachine::before, .portalMachine::after, .portalHalo, .portalHalo::before, .portalThreshold, .portalThreshold::after, .portalMessage > p span { animation: none; }
 }

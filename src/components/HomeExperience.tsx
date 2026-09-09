@@ -119,7 +119,7 @@ const stewards = [
     role: "Brand Steward",
     href: "https://estudioblanco.org",
     project: "ESTUDIO BLANCO",
-    initials: "LO",
+    image: "/images/member-louchi.png",
   },
 ];
 
@@ -589,21 +589,25 @@ export default function HomeExperience() {
             <span className={styles.orbitLine} />
           </div>
           <div className={styles.heroArt} aria-hidden="true">
-            <Image
-              src="/images/neo/raidguild-panorama.png"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
+            <video
               className={styles.heroImage}
+              poster="/images/neo/hero-light-poster.png"
+              src="/videos/venture/hero-light.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
             />
-            <Image
-              src="/images/neo/raidguild-panorama-night-v1.webp"
-              alt=""
-              fill
-              priority
-              sizes="100vw"
+            <video
               className={`${styles.heroImage} ${styles.heroNightImage}`}
+              poster="/images/neo/hero-dark-poster.png"
+              src="/videos/venture/hero-dark.mp4"
+              autoPlay
+              muted
+              loop
+              playsInline
+              preload="metadata"
             />
           </div>
           <div className={styles.heroWash} />
@@ -651,7 +655,7 @@ export default function HomeExperience() {
             <a
               className={`${styles.heroWaypoint} ${styles.waypointProcession}`}
               href="#guild"
-              data-route="JOIN THE GUILD"
+              data-route="MEET THE GUILD"
               onClick={(event) => followSectionLink(event, "guild", true)}
               onMouseEnter={revealHero}
               onMouseLeave={restHero}
@@ -689,8 +693,8 @@ export default function HomeExperience() {
           <div className={styles.heroIndex}>
             <span>TRANSMISSION</span>
             <strong>001</strong>
-            <small>SCROLL TO DESCEND</small>
           </div>
+          <p className={styles.heroScrollCue} aria-hidden="true">&lt;&lt;&lt; SCROLL TO DESCEND</p>
           <div className={`${styles.heroForeground} ${styles.heroForegroundLeft}`} aria-hidden="true">
             <Image
               src="/images/neo/hero-foreground.png"
@@ -785,11 +789,7 @@ export default function HomeExperience() {
                     <i>{steward.href ? "↗" : "·"}</i>
                   </div>
                   <div className={styles.stewardPortrait}>
-                    {steward.image ? (
-                      <Image src={steward.image} alt="" fill sizes="180px" />
-                    ) : (
-                      <span>{steward.initials}</span>
-                    )}
+                    <Image src={steward.image} alt="" fill sizes="180px" />
                   </div>
                   <p>{steward.role}</p>
                   <h4>{steward.name}</h4>
@@ -933,20 +933,15 @@ export default function HomeExperience() {
       </section>
 
       <section className={styles.creed}>
-        <Image
+        <video
           className={styles.creedMoons}
-          src="/images/neo/creed-moons-v1.png"
-          alt=""
-          width={1536}
-          height={1024}
-          aria-hidden="true"
-        />
-        <Image
-          className={styles.creedCreature}
-          src="/images/neo/creed-flyer-v1.png"
-          alt=""
-          width={1536}
-          height={1024}
+          poster="/images/neo/manifesto-backdrop.png"
+          src="/videos/venture/manifesto.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
           aria-hidden="true"
         />
         <p className={styles.sectionLabel}>[ THE RAIDGUILD CREED ]</p>
@@ -961,16 +956,16 @@ export default function HomeExperience() {
       </section>
 
       <section className={`${styles.contact} ${arrivalTarget === "contact" ? styles.sectionArriving : ""}`} id="contact">
-        <Image
-          className={styles.contactShipSchematic}
-          src="/images/neo/project-ship-schematic-v1.webp"
-          alt=""
-          width={2160}
-          height={912}
-          sizes="72vw"
-          aria-hidden="true"
-        />
         <div className={styles.contactIntro}>
+          <Image
+            className={styles.contactDruid}
+            src="/images/neo/contact-druid.png"
+            alt=""
+            width={1518}
+            height={1308}
+            sizes="506px"
+            aria-hidden="true"
+          />
           <p className={styles.sectionLabel}>[ BEGIN A TRANSMISSION ]</p>
           <h2 className={styles.contactHeadline}>
             <span>What impossible</span>
