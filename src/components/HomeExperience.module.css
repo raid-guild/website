@@ -462,6 +462,13 @@
 .portalAtmosphere { animation: atmosphereTurn 28s linear infinite; background: conic-gradient(from 30deg at 66% 50%, transparent 0 14%, rgba(109,230,223,.045) 18%, transparent 23% 44%, rgba(238,60,120,.055) 50%, transparent 57% 78%, rgba(239,233,215,.035) 84%, transparent 91%); inset: -8%; opacity: .75; pointer-events: none; position: absolute; transform: translateZ(0); z-index: 2; }
 .portalMachine { animation: machineArrive 3.2s cubic-bezier(.16,.8,.22,1) both; background: transparent; border: 0; color: var(--paper); cursor: pointer; font-family: inherit; height: min(65vh, 650px); padding: 0; position: absolute; top: 49%; transform: translate(-50%, -50%); width: min(22vw, 300px); z-index: 3; }
 .portalMachine:disabled { cursor: default; }
+.portalEnergy { position: absolute; width: 160%; height: 140%; left: -30%; top: -16%; pointer-events: none; }
+.portalOverlay .portalMachine::before, .portalOverlay .portalMachine::after { display: none; }
+.portalOverlay .portalMachine .portalThreshold { animation: none; background: transparent; border: 0; box-shadow: none; pointer-events: none; }
+.portalOverlay .portalThreshold::after { display: none; }
+.portalOverlay .portalThreshold .sigil { opacity: .48; transition: opacity .3s, transform .3s; }
+.portalMachine:hover .portalThreshold .sigil, .portalMachine:focus-visible .portalThreshold .sigil { opacity: .95; transform: scale(1.06); }
+.portalMachine:focus-visible { outline: 2px solid var(--paper); outline-offset: 8px; border-radius: 45%; }
 .portalSpear { left: 54%; --portal-accent: var(--coral); }
 .portalProblem { left: 72%; --portal-accent: var(--acid); }
 .portalJoin { left: 88%; --portal-accent: #6de6df; }
@@ -555,10 +562,13 @@
   .heroStage { height: 897px; min-height: 897px; position: relative; top: auto; }
   .heroArt, .heroImage, .heroNightImage, .heroWash { height: 897px; }
   .heroImage { object-position: 50% 50%; }
-  .heroForeground { inset: 0; transform: none; }
-  .heroForegroundLeft { clip-path: inset(0 50% 0 0); }
-  .heroForegroundRight { clip-path: inset(0 0 0 50%); }
-  .heroCopy { left: 176px; opacity: 1; top: 245px; transform: none; width: 509px; }
+  .heroStage { --neo-curtain-speed: 1.4s; }
+  .heroExploring { --neo-curtain-open: clamp(160px, 13vw, 250px); --neo-curtain-speed: .8s; }
+  .heroForeground { inset: 0; }
+  .heroForegroundLeft { clip-path: inset(0 50% 0 0); transform: translateX(calc(-1 * var(--neo-curtain-open, 0px))); }
+  .heroForegroundRight { clip-path: inset(0 0 0 50%); transform: translateX(var(--neo-curtain-open, 0px)); }
+  .heroCopy { left: 176px; opacity: 1; top: 245px; transform: translateX(0); transition: transform var(--neo-curtain-speed) cubic-bezier(.16,.76,.18,1); width: 509px; }
+  .heroExploring .heroCopy { transform: translateX(32px); }
   .heroTitle, .heroExploring .heroTitle { transform: none; }
   .eyebrow { font-size: 24px; font-style: italic; letter-spacing: 2px; line-height: 24px; margin-bottom: 24px; white-space: nowrap; }
   .eyebrow span { height: 16px; margin-right: 16px; width: 16px; }
@@ -891,6 +901,9 @@
   .pill > span { font-size: 12px; letter-spacing: 1px; }
 }
 
+@media (hover: none), (pointer: coarse), (prefers-reduced-motion: reduce) {
+  .heroCopy, .heroSupplement { z-index: 7; }
+}
 @media (prefers-reduced-motion: reduce) {
   .heroArt, .heroForeground, .heroCelestial, .heroCopy, .heroSupplement, .heroIndex, .signalBar div, .orbit::after { animation: none; transform: none; transition: none; }
   .heroNightImage, .celestialToggle i { transition: none; }

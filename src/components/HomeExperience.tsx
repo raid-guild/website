@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react
 import Image from "next/image";
 import FrontDoor from "./FrontDoor";
 import TeamWall from "./TeamWall";
+import PortalEnergy from "./PortalEnergy";
 import HireUs from "@/components/HireUs";
 import { mercenaries } from "@/lib/data/members";
 import styles from "./HomeExperience.module.css";
@@ -147,7 +148,7 @@ type PortalOverlayProps = {
 };
 
 function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, onJoin }: PortalOverlayProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [energized, setEnergized] = useState<string | null>(null);
 
   useEffect(() => {
     if (!open) return;
@@ -165,118 +166,6 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
     };
   }, [open, onClose]);
 
-  useEffect(() => {
-    if (!open) return;
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-    if (!canvas || !context) return;
-
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const compact = window.innerWidth < 900;
-    const particleCount = reducedMotion ? 80 : compact ? 190 : 260;
-    const palette = ["238,60,120", "109,230,223", "239,233,215", "215,227,77"];
-    const pointer = { x: 0, y: 0 };
-    let width = 0;
-    let height = 0;
-    let renderScale = 1;
-    let frame = 0;
-    let lastTime = performance.now();
-    const startTime = lastTime;
-
-    const particles = Array.from({ length: particleCount }, (_, index) => {
-      const lane = Math.pow(Math.random(), 1.55);
-      return {
-        angle: lane * Math.PI * 9 + (Math.random() - 0.5) * 0.8,
-        lane,
-        drift: (Math.random() - 0.5) * 0.2,
-        speed: (0.22 + Math.random() * 0.58) * (Math.random() > 0.08 ? 1 : -0.45),
-        size: 0.45 + Math.random() * 1.8,
-        portalIndex: index % 3,
-        colorIndex: index % 3 === 0 ? 0 : index % 3 === 1 ? 3 : 1,
-        phase: Math.random() * Math.PI * 2,
-      };
-    });
-
-    const resize = () => {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      renderScale = reducedMotion ? 0.6 : compact ? 0.72 : Math.min(window.devicePixelRatio || 1, 1);
-      canvas.width = Math.floor(width * renderScale);
-      canvas.height = Math.floor(height * renderScale);
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      context.setTransform(renderScale, 0, 0, renderScale, 0, 0);
-    };
-
-    const trackPointer = (event: PointerEvent) => {
-      pointer.x = event.clientX / width - 0.5;
-      pointer.y = event.clientY / height - 0.5;
-    };
-
-    const render = (time: number) => {
-      const delta = Math.min((time - lastTime) / 1000, 0.04);
-      lastTime = time;
-      context.globalCompositeOperation = "source-over";
-      context.clearRect(0, 0, width, height);
-
-      const centerY = height * (compact ? 0.32 : 0.49) + pointer.y * 12;
-      const radiusX = Math.min(width * (compact ? 0.14 : 0.105), 175);
-      const radiusY = Math.min(height * (compact ? 0.19 : 0.31), 330);
-      const elapsed = time * 0.001;
-      const bootProgress = Math.min(1, Math.max(0, (time - startTime - 180) / 3150));
-      const bootEase = 1 - Math.pow(1 - bootProgress, 3);
-
-      const batches = palette.map(() => Array.from({ length: 3 }, () => ({
-        dots: new Path2D(),
-        trails: new Path2D(),
-      })));
-
-      particles.forEach((particle) => {
-        particle.angle += particle.speed * delta * (reducedMotion ? 0.08 : 0.12 + bootEase * 0.88);
-        const turbulence = Math.sin(elapsed * 1.7 + particle.phase) * (5 + particle.lane * 18);
-        const laneRadius = 0.78 + particle.lane * 0.38;
-        const depth = (Math.sin(particle.angle) + 1) / 2;
-        const compactCenters = [0.2, 0.5, 0.8];
-        const desktopCenters = [0.54, 0.72, 0.88];
-        const centerX = width * (compact ? compactCenters[particle.portalIndex] : desktopCenters[particle.portalIndex]) + pointer.x * (particle.portalIndex === 1 ? -10 : 12);
-        const ignitionScale = 0.08 + bootEase * 0.92;
-        const x = centerX + Math.cos(particle.angle) * (radiusX * laneRadius + turbulence) * ignitionScale + particle.drift * radiusX * ignitionScale;
-        const y = centerY + Math.sin(particle.angle) * (radiusY * laneRadius) * ignitionScale + Math.cos(elapsed + particle.phase) * 7 * bootEase;
-        const stretch = 3 + depth * 13 + particle.lane * 5;
-        const size = particle.size * (0.55 + depth * 1.15);
-        const depthBucket = Math.min(2, Math.floor(depth * 3));
-        const batch = batches[particle.colorIndex][depthBucket];
-
-        batch.trails.moveTo(x - Math.cos(particle.angle) * stretch, y - Math.sin(particle.angle) * stretch * 1.7);
-        batch.trails.lineTo(x, y);
-        batch.dots.moveTo(x + size, y);
-        batch.dots.arc(x, y, size, 0, Math.PI * 2);
-      });
-
-      context.globalCompositeOperation = "lighter";
-      batches.forEach((depthBatches, colorIndex) => {
-        depthBatches.forEach((batch, depthBucket) => {
-          const depthAlpha = (0.22 + depthBucket * 0.23) * bootEase;
-          context.strokeStyle = `rgba(${palette[colorIndex]},${depthAlpha * 0.72})`;
-          context.lineWidth = 0.55 + depthBucket * 0.35;
-          context.stroke(batch.trails);
-          context.fillStyle = `rgba(${palette[colorIndex]},${depthAlpha})`;
-          context.fill(batch.dots);
-        });
-      });
-      frame = window.requestAnimationFrame(render);
-    };
-
-    resize();
-    window.addEventListener("resize", resize);
-    window.addEventListener("pointermove", trackPointer, { passive: true });
-    frame = window.requestAnimationFrame(render);
-    return () => {
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener("resize", resize);
-      window.removeEventListener("pointermove", trackPointer);
-    };
-  }, [open]);
 
   if (!open) return null;
 
@@ -287,16 +176,19 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
       aria-modal="true"
       aria-label="RaidGuild transit portal"
     >
-      <canvas className={styles.portalCanvas} ref={canvasRef} aria-hidden="true" />
       <div className={styles.portalAtmosphere} aria-hidden="true" />
       <button
         className={`${styles.portalMachine} ${styles.portalSpear}`}
+        onPointerEnter={() => setEnergized("Spear")}
+        onPointerLeave={() => setEnergized(null)}
+        onFocus={() => setEnergized("Spear")}
+        onBlur={() => setEnergized(null)}
         type="button"
         onClick={onSpears}
         disabled={forming}
         aria-label="Hire a specialist through a RaidGuild practice"
       >
-        <span className={styles.portalHalo} />
+        <PortalEnergy energized={energized === "Spear"} />
         <span className={styles.portalThreshold}><Sigil /></span>
         <span className={styles.portalChoiceLabel}>
           <small>01 / HIRE</small>
@@ -307,12 +199,16 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
       </button>
       <button
         className={`${styles.portalMachine} ${styles.portalProblem}`}
+        onPointerEnter={() => setEnergized("Problem")}
+        onPointerLeave={() => setEnergized(null)}
+        onFocus={() => setEnergized("Problem")}
+        onBlur={() => setEnergized(null)}
         type="button"
         onClick={onProblem}
         disabled={forming}
         aria-label="Start a project with RaidGuild"
       >
-        <span className={styles.portalHalo} />
+        <PortalEnergy energized={energized === "Problem"} />
         <span className={styles.portalThreshold}><Sigil /></span>
         <span className={styles.portalChoiceLabel}>
           <small>02 / INQUIRE</small>
@@ -323,12 +219,16 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
       </button>
       <button
         className={`${styles.portalMachine} ${styles.portalJoin}`}
+        onPointerEnter={() => setEnergized("Join")}
+        onPointerLeave={() => setEnergized(null)}
+        onFocus={() => setEnergized("Join")}
+        onBlur={() => setEnergized(null)}
         type="button"
         onClick={onJoin}
         disabled={forming}
         aria-label="Join the RaidGuild builder community in a new tab"
       >
-        <span className={styles.portalHalo} />
+        <PortalEnergy energized={energized === "Join"} />
         <span className={styles.portalThreshold}><Sigil /></span>
         <span className={styles.portalChoiceLabel}>
           <small>03 / JOIN</small>
