@@ -144,7 +144,7 @@ export default function MercenariesSection() {
                         {isMobile ? (
                           <button
                             onClick={handleClick}
-                            className="relative w-[72px] h-[72px] rounded-md overflow-hidden border-2 border-scroll-100 bg-scroll-100"
+                            className="relative w-[72px] max-w-full aspect-square rounded-md overflow-hidden border-2 border-scroll-100 bg-scroll-100"
                           >
                             <Image
                               src={mercenary.imagePath}
@@ -159,7 +159,7 @@ export default function MercenariesSection() {
                             href={link}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="relative w-[72px] h-[72px] rounded-md overflow-hidden border-2 border-scroll-100 bg-scroll-100 block"
+                            className="relative w-[72px] max-w-full aspect-square rounded-md overflow-hidden border-2 border-scroll-100 bg-scroll-100 block"
                           >
                             <Image
                               src={mercenary.imagePath}

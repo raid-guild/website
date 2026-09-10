@@ -380,7 +380,7 @@
     .grid-custom {
         display: grid;
         /* Mobile: 4 flexible columns that shrink proportionally */
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: repeat(4, minmax(0, 1fr));
         gap: var(--grid-gap);
         margin-left: auto;
         margin-right: auto;
@@ -388,15 +388,15 @@
 
     @media (min-width: 768px) {
         .grid-custom {
-            /* Tablet: 8 columns of 92px + 7 gaps of 16px = 848px total */
-            grid-template-columns: repeat(8, var(--grid-column-width));
+            /* Fit the available width, including portrait tablets. */
+            grid-template-columns: repeat(8, minmax(0, 1fr));
         }
     }
 
     @media (min-width: 1024px) {
         .grid-custom {
-            /* Desktop: 12 columns of 92px + 11 gaps of 16px = 1280px total */
-            grid-template-columns: repeat(12, var(--grid-column-width));
+            /* Preserve the twelve-column layout without a fixed minimum width. */
+            grid-template-columns: repeat(12, minmax(0, 1fr));
         }
     }
 
