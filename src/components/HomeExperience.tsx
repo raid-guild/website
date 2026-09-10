@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import FrontDoor from "./FrontDoor";
+import { UnchartedHunt, HuntMarker } from "./UnchartedHunt";
 import TeamWall from "./TeamWall";
 import PortalEnergy from "./PortalEnergy";
 import LoopBand from "./LoopBand";
@@ -265,6 +266,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
           <h2>CHOOSE YOUR<br /><em>PORTAL.</em></h2>
           <small>EXPLORE PRACTICES · START A PROJECT · JOIN THE GUILD</small>
           <b>Independent minds. Shared ambition.<br />Different ways to connect with one network.</b>
+          <div className={styles.unchartedPortal}><HuntMarker artifact="portal" label="Follow the rabbit" rabbit /></div>
         </div>
       )}
       <p className={styles.portalCoordinates}>39°44′N / 104°59′W<br />DESTINATION: UNMAPPED</p>
@@ -499,6 +501,7 @@ export default function HomeExperience() {
 
   return (
     <>
+    <UnchartedHunt>
     {frontDoorOpen && <FrontDoor onEnter={enterFromFrontDoor} />}
     <main inert={frontDoorOpen} className={`${styles.site} ${portalForming ? styles.siteGlitching : ""}`}>
       <header className={styles.header}>
@@ -628,6 +631,7 @@ export default function HomeExperience() {
               </span>
             </a>
           </div>
+          <div className={styles.unchartedShip}><HuntMarker artifact="ship" label="A signal from the ship" /></div>
           <div className={styles.heroCopy}>
             <p className={styles.eyebrow}><span /> Independent digital mercenaries</p>
             <div
@@ -934,6 +938,7 @@ export default function HomeExperience() {
           <Sigil />
           <span>OPEN TERRITORY</span>
         </div>
+        <div className={styles.unchartedWalker}><HuntMarker artifact="walker" label="A mark left by the walker" /></div>
       </section>
 
       <section className={`${styles.contact} ${arrivalTarget === "contact" ? styles.sectionArriving : ""}`} id="contact">
@@ -986,6 +991,7 @@ export default function HomeExperience() {
         onJoin={joinGuild}
       />
     </main>
+    </UnchartedHunt>
     </>
   );
 }

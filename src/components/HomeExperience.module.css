@@ -23,6 +23,13 @@
 }
 
 .site ::selection { background: var(--coral); color: var(--paper); }
+.unchartedPortal { position: relative; margin-top: 16px; z-index: 10; }
+.unchartedPortal details[open] > div { position: absolute; bottom: 100%; left: 0; }
+.portalMessage .unchartedPortal button { display: inline-block; background: none; border: 0; border-radius: 0; margin: 0; padding: 10px 0; color: #efe9d7; font: inherit; letter-spacing: normal; text-transform: none; transform: none; }
+.unchartedShip { position: absolute; bottom: 24px; left: 24px; z-index: 12; }
+.unchartedShip details[open] > div { position: absolute; bottom: 100%; left: 0; }
+.unchartedWalker { position: relative; z-index: 3; display: flex; justify-content: center; margin-top: 16px; }
+.unchartedWalker details[open] > div { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); }
 
 .handbookLink { display: inline-block; margin-top: 16px; font-size: 12px; text-decoration: underline; text-underline-offset: 5px; }
 
