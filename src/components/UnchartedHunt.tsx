@@ -11,6 +11,11 @@ const artifacts = {
 type Key = keyof typeof artifacts;
 const keys = Object.keys(artifacts) as Key[];
 const storageKey = "raidguild.uncharted.v1";
+const hints: Record<Key, string> = {
+  portal: "A doorway between worlds. You just opened one.",
+  ship: "Not the message itself, but what carries it. A distress _____.",
+  walker: "Alone is fast. ________ is far.",
+};
 const welcome = String.raw`
  __        __ _____  _      ____   ___   __  __  _____
  \ \      / /| ____|| |    / ___| / _ \ |  \/  || ____|
@@ -25,6 +30,7 @@ const welcome = String.raw`
 
  raidguild.help()                 Start here
  raidguild.clue("portal")         Ask for a clue
+ raidguild.hint("portal")         Get a stronger hint
  raidguild.solve("portal", "…")   Try an answer
  raidguild.progress()             Check your discoveries
  raidguild.reset()                Start again
@@ -61,8 +67,9 @@ export function UnchartedHunt({ children }: { children: ReactNode }) {
       }
     } catch { /* Ignore invalid or unavailable storage. */ }
     const api = {
-      help: () => 'Follow the rabbit in Open a Portal, then find ✧ beside the hero ship route and beneath the Creed. Commands: clue(key), solve(key, answer), progress(), reset(). Keys: portal, ship, walker.',
+      help: () => 'Follow the rabbit in Open a Portal, then find ✧ beside the hero ship route and beneath the Creed. Glowing pixels offer extra hints. Commands: clue(key), hint(key), solve(key, answer), progress(), reset(). Keys: portal, ship, walker.',
       clue: (key: Key) => artifacts[key]?.clue || "Choose portal, ship, or walker.",
+      hint: (key: Key) => hints[key] || "Choose portal, ship, or walker.",
       solve,
       progress: () => `${foundRef.current.length}/3 discovered: ${foundRef.current.join(", ") || "none yet"}`,
       reset: () => { save([]); return "The path is uncharted again."; },
@@ -96,6 +103,10 @@ export function HuntMarker({ artifact, label, rabbit = false }: { artifact: Key;
       <strong>The Uncharted Portal</strong>
       {rabbit && <p>Some trails begin beneath the surface. Inspect closely. Or follow the clues right here.</p>}
       <p>{artifacts[artifact].clue}</p>
+      {!unlocked && <details className={styles.extraHint}>
+        <summary>Another hint?</summary>
+        <p>{hints[artifact]}</p>
+      </details>}
       {!unlocked ? <form onSubmit={event => { event.preventDefault(); setMessage(hunt.solve(artifact, answer)); }}>
         <label>Your answer<input value={answer} onChange={event => setAnswer(event.target.value)} autoComplete="off" /></label>
         <button type="submit">Try the signal</button>
@@ -104,6 +115,19 @@ export function HuntMarker({ artifact, label, rabbit = false }: { artifact: Key;
       <small>Opens an experimental Guild artifact in another tab. Progress stays on this device; visiting is optional.</small>
       {hunt.found.length === 3 && <p>The uncharted path is yours. <a href="https://portal.raidguild.org/modules?view=arcade" target="_blank" rel="noreferrer">Discover the arcade ↗</a> Games may require Portal membership.</p>}
       <button type="button" onClick={() => { hunt.reset(); setMessage(""); setAnswer(""); }}>Reset discoveries</button>
+    </div>
+  </details>;
+}
+
+export function HuntPixel({ artifact }: { artifact: Key }) {
+  return <details className={`${styles.marker} ${styles.pixel}`}>
+    <summary aria-label={`Reveal a hint for the ${artifact} puzzle`} title="A faint signal">
+      <span aria-hidden="true" />
+    </summary>
+    <div className={styles.note}>
+      <strong>A faint signal</strong>
+      <p>{hints[artifact]}</p>
+      <small>Try this clue at the nearby {artifact === "portal" ? "rabbit" : "✧ mark"}. Tap the glowing pixel again to close.</small>
     </div>
   </details>;
 }

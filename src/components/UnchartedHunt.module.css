@@ -16,3 +16,9 @@
 .note button, .note a { display: inline-block; color: #efe9d7; padding: 10px 0; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 .note small { display: block; font-size: 10px; }
 .note :focus-visible { outline: 2px solid #d7e34d; outline-offset: 3px; }
+.marker[open] > .note { z-index: 5; }
+.pixel > summary { display: grid; place-items: center; width: 44px; height: 44px; padding: 0; }
+.pixel > summary span { display: block; width: 5px; height: 5px; background: #b8e0df; box-shadow: 0 0 9px #b8e0df99; }
+.pixel > summary:hover span, .pixel[open] > summary span { background: #d7e34d; box-shadow: 0 0 12px #d7e34d99; }
+.pixel > summary:focus-visible { outline: 2px solid #d7e34d; outline-offset: 2px; border-radius: 4px; }
+.extraHint > summary { min-height: 44px; padding: 10px 0; text-decoration: underline; text-underline-offset: 4px; }

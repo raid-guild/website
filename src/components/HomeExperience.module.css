@@ -30,6 +30,9 @@
 .unchartedShip details[open] > div { position: absolute; bottom: 100%; left: 0; }
 .unchartedWalker { position: relative; z-index: 3; display: flex; justify-content: center; margin-top: 16px; }
 .unchartedWalker details[open] > div { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); }
+.unchartedPortal, .unchartedShip, .unchartedWalker { display: flex; align-items: center; gap: 4px; }
+.unchartedPortal > details, .unchartedShip > details, .unchartedWalker > details { position: static; }
+.unchartedWalker { width: fit-content; margin-inline: auto; }
 
 .handbookLink { display: inline-block; margin-top: 16px; font-size: 12px; text-decoration: underline; text-underline-offset: 5px; }
 
