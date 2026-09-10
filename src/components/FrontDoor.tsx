@@ -7,7 +7,6 @@ export default function FrontDoor({ onEnter }: { onEnter: (destination: string) 
   const [opening, setOpening] = useState(false);
   const leaving = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const touchStart = useRef<number | null>(null);
   const enter = useCallback((destination: string) => {
     if (leaving.current) return;
     leaving.current = true;
@@ -26,33 +25,22 @@ export default function FrontDoor({ onEnter }: { onEnter: (destination: string) 
     if (window.location.hash && window.location.hash !== "#top") {
       onEnter(window.location.hash.slice(1));
     }
-    const wheel = (event: WheelEvent) => {
-      if (event.deltaY > 20 && !event.ctrlKey) enter("top");
-    };
     const key = (event: KeyboardEvent) => {
-      if (["ArrowDown", "PageDown", "Escape"].includes(event.key)) {
+      if (event.key === "Escape") {
         event.preventDefault();
         enter("top");
       }
     };
-    window.addEventListener("wheel", wheel, { passive: true });
     window.addEventListener("keydown", key);
     return () => {
       document.body.style.overflow = overflow;
-      window.removeEventListener("wheel", wheel);
       window.removeEventListener("keydown", key);
       if (timer.current) clearTimeout(timer.current);
     };
   }, [enter, onEnter]);
 
   return (
-    <section className={`${styles.door} ${opening ? styles.opening : ""}`} aria-label="Welcome to RaidGuild"
-      onTouchStart={(event) => { touchStart.current = event.touches[0].clientY; }}
-      onTouchEnd={(event) => {
-        if (touchStart.current !== null && touchStart.current - event.changedTouches[0].clientY > 70
-          && event.currentTarget.scrollHeight <= event.currentTarget.clientHeight + 2) enter("top");
-        touchStart.current = null;
-      }}>
+    <section className={`${styles.door} ${opening ? styles.opening : ""}`} aria-label="Welcome to RaidGuild">
       <div className={styles.canopy} aria-hidden="true">
         {[styles.upperLeft, styles.upperRight, styles.middleLeft, styles.middleRight, styles.lowerLeft, styles.lowerRight].map((cluster) => (
           <div className={`${styles.cluster} ${cluster}`} key={cluster}>
@@ -69,20 +57,26 @@ export default function FrontDoor({ onEnter }: { onEnter: (destination: string) 
           <img src="/images/neo/raidguild-swords.png" alt="" width="48" height="48" />
           <span>RAIDGUILD</span>
         </div>
-        <h1>Creative minds.<br />Technical depth.</h1>
-        <p>We’re a network of designers, engineers, and curious people solving ambitious problems together.</p>
-        <div className={styles.services}>Digital products · Applied AI · Onchain systems · Placement services</div>
-        <a className={styles.contact} href="#project-inquiry" onClick={(event) => { event.preventDefault(); enter("project-inquiry"); }}>
-          Let’s talk about your project <span aria-hidden="true">↗</span>
-        </a>
+        <h1>A community for<br />curious minds.</h1>
+        <p>A builder-owned network of creative and technical people who like solving hard problems.</p>
+        <p className={styles.homeNote}>Our community home—for shared work, experiments, and a little weirdness.</p>
+        <nav className={styles.offerings} aria-label="Work with the network">
+          <h2>Work with the network</h2>
+          <a href="https://raidguild.ai/" target="_blank" rel="noreferrer">
+            <span><strong>Applied AI</strong><small>Explore the AI practice · raidguild.ai</small></span><span aria-hidden="true">↗</span>
+          </a>
+          <a href="#project-inquiry" onClick={(event) => { event.preventDefault(); enter("project-inquiry"); }}>
+            <span><strong>Onchain systems</strong><small>Bring us a protocol, product, or web3 challenge</small></span><span aria-hidden="true">↓</span>
+          </a>
+          <a href="#placement" onClick={(event) => { event.preventDefault(); enter("placement"); }}>
+            <span><strong>Talent &amp; placement</strong><small>Find creative and technical people for your team</small></span><span aria-hidden="true">↓</span>
+          </a>
+        </nav>
         <a className={styles.explore} href="#top" onClick={(event) => { event.preventDefault(); enter("top"); }}>
           Venture Beyond <span aria-hidden="true">↓</span>
-          <small>Explore the people, the work, the Guild</small>
+          <small>Meet the network. Explore our world.</small>
         </a>
-      </div>
-      <div className={styles.bottom}>
-        <span>INDEPENDENT MINDS. SHARED AMBITION.</span>
-        <a href="#guild" onClick={(event) => { event.preventDefault(); enter("guild"); }}>Here to join? Meet the Guild <span aria-hidden="true">↗</span></a>
+        <a className={styles.join} href="#guild" onClick={(event) => { event.preventDefault(); enter("guild"); }}>Join the Guild <span aria-hidden="true">↓</span></a>
       </div>
     </section>
   );

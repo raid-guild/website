@@ -13,45 +13,56 @@
 .left { left: 0; background-position: 21% 100%; }
 .right { right: 0; background-position: 84% 100%; }
 .shade { position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at 50% 46%, rgba(5,29,26,.97) 0%, rgba(5,29,26,.9) 25%, rgba(5,29,26,.35) 64%, rgba(5,29,26,.18)); transition: opacity .7s; }
-.content { text-align: center; width: min(660px, 100%); padding: 75px 28px 110px; transition: opacity .3s, transform .5s; }
+.content { text-align: center; width: min(680px, 100%); padding: 40px 28px; transition: opacity .3s, transform .5s; }
 .brand { display: flex; align-items: center; justify-content: center; gap: 14px; font-family: var(--font-mono), monospace; font-size: 15px; letter-spacing: .22em; margin-bottom: 35px; }
 .brand img { object-fit: contain; filter: brightness(0) invert(94%) sepia(12%) saturate(332%) hue-rotate(353deg); }
 .content h1 { font-family: var(--font-display), sans-serif; font-size: clamp(48px, 5.6vw, 80px); line-height: 1.02; letter-spacing: -.035em; font-weight: 500; margin: 0 0 25px; }
 .content p { font-size: 21px; line-height: 1.5; max-width: 470px; margin: 0 auto; text-wrap: pretty; }
-.services { font-family: var(--font-mono), monospace; font-size: 11px; color: #bdcfc0; margin: 21px 0 34px; }
-.contact { display: inline-flex; align-items: center; justify-content: center; gap: 26px; background: #efe9d7; color: #102d2c; border-radius: 100px; padding: 18px 25px; font-family: var(--font-mono), monospace; font-size: 13px; transition: background .2s, transform .2s; }
-.contact:hover { background: #ee3c78; transform: translateY(-2px); }
+.content .homeNote { font-size: 16px; color: #bdcfc0; margin-top: 12px; max-width: 420px; }
+.offerings { text-align: left; max-width: 470px; margin: 28px auto 0; }
+.offerings h2 { font: 700 11px/1.4 var(--font-mono), monospace; letter-spacing: .12em; text-transform: uppercase; margin: 0 0 12px; color: #bdcfc0; }
+.offerings a { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 12px 0; border-top: 1px solid #648477; text-decoration: none; transition: color .2s; }
+.offerings strong { display: block; font-size: 22px; line-height: 1.2; font-weight: 700; }
+.offerings small { display: block; font-size: 14px; line-height: 1.4; margin-top: 3px; color: #bdcfc0; }
+.offerings a > span:last-child { color: #d7e34d; font-size: 24px; }
+.offerings a:hover { color: #d7e34d; }
+.join { display: inline-block; padding: 12px; margin-top: 12px; font: 12px/1.4 var(--font-mono), monospace; color: #bdcfc0; text-underline-offset: 4px; }
 .explore { display: block; width: fit-content; margin: 28px auto 0; font-size: 23px; }
 .explore > span { display: inline-block; margin-left: 10px; transition: transform .2s; color: #ee3c78; }
 .explore:hover > span { transform: translateY(4px); }
 .explore small { display: block; font-family: var(--font-mono), monospace; font-size: 10px; color: #bdcfc0; margin-top: 8px; }
-.bottom { position: absolute; bottom: 28px; left: 4%; right: 4%; display: flex; justify-content: space-between; gap: 20px; align-items: center; font-family: var(--font-mono), monospace; font-size: 10px; transition: opacity .25s; }
-.bottom > span { letter-spacing: .15em; color: #bdcfc0; font-size: 9px; }
-.bottom a { padding: 10px 0; border-bottom: 1px solid #7b9b86; }
 .door a:focus-visible { outline: 2px solid #ee3c78; outline-offset: 6px; }
 .door { overflow-x: hidden; }
 .content { flex-shrink: 0; margin: auto; }
 .door { --font-display: var(--font-afacad); --font-body: var(--font-afacad); }
 .opening { background: transparent; pointer-events: none; overflow: hidden; }
 .opening .cluster { transform: var(--spread); opacity: 0; }
-.opening .shade, .opening .content, .opening .bottom { opacity: 0; }
+.opening .shade, .opening .content { opacity: 0; }
 .opening .content { transform: translateY(-12px); }
 @media (max-width: 600px) {
-  .content { padding: 50px 25px 115px; }
+  .content { padding: 28px 25px; }
   .content h1 { font-size: clamp(42px, 11vw, 60px); }
   .content p { font-size: 19px; max-width: 340px; }
   .brand { margin-bottom: 28px; }
-  .services { font-size: 9px; margin: 20px 0 28px; }
-  .contact { font-size: 11px; gap: 18px; }
-  .bottom { justify-content: center; bottom: 20px; }
-  .bottom > span { display: none; }
+  .offerings { margin-top: 24px; }
   .leaves { background-size: auto 210%; }
 }
 @media (max-height: 700px) and (min-width: 601px) {
   .content { padding: 30px 25px 65px; }
   .brand { margin-bottom: 18px; }
   .content h1 { font-size: 54px; margin-bottom: 15px; }
-  .services { margin: 15px 0 20px; }
   .explore { margin-top: 18px; }
 }
 @media (prefers-reduced-motion: reduce) { .door, .door * { transition: none !important; } }
+
+/* Keep the entrance a compact directory, including on laptop-height screens. */
+.content { padding: 24px 28px; }
+.brand { margin-bottom: 18px; }
+.brand img { width: 36px; height: 36px; }
+.content h1 { font-size: clamp(42px, 4.2vw, 56px); margin-bottom: 16px; }
+.content p { font-size: 19px; line-height: 1.35; }
+.content .homeNote { font-size: 15px; line-height: 1.35; margin-top: 10px; }
+.offerings { margin-top: 20px; }
+.offerings a { padding: 10px 0; }
+.explore { margin-top: 20px; }
+.join { margin-top: 4px; }
