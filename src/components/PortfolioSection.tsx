@@ -89,7 +89,7 @@ export default function PortfolioSection() {
           </div>
           <div className="col-span-4 md:col-span-8 lg:col-span-12">
             {/* Desktop Carousel */}
-            <div className="relative hidden lg:block px-12 min-[1440px]:px-0">
+            <div className="relative hidden lg:block px-12 min-[1536px]:px-0">
               <div className="overflow-hidden">
                 <div
                   className="flex transition-transform duration-500 ease-in-out gap-4"
@@ -106,7 +106,7 @@ export default function PortfolioSection() {
               </div>
               <button
                 onClick={prevSlide}
-                className="absolute left-0 top-1/2 -translate-y-1/2 min-[1440px]:-translate-x-16 z-10 hover:opacity-80 transition-opacity"
+                className="absolute left-0 top-1/2 -translate-y-1/2 min-[1536px]:-translate-x-16 z-10 hover:opacity-80 transition-opacity"
                 aria-label="Previous slide"
               >
                 <Image
@@ -118,7 +118,7 @@ export default function PortfolioSection() {
               </button>
               <button
                 onClick={nextSlide}
-                className="absolute right-0 top-1/2 -translate-y-1/2 min-[1440px]:translate-x-16 z-10 hover:opacity-80 transition-opacity"
+                className="absolute right-0 top-1/2 -translate-y-1/2 min-[1536px]:translate-x-16 z-10 hover:opacity-80 transition-opacity"
                 aria-label="Next slide"
               >
                 <Image

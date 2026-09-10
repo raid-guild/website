@@ -154,12 +154,12 @@ export function Wizard({
       )}
 
       {/* Step Progress Indicators */}
-      <div className="flex items-center gap-4">
+      <div className="grid grid-cols-3 gap-2 sm:gap-3" aria-label="Form progress">
         {steps.map((step, index) => (
           <div
             key={step.id}
             className={cn(
-              "flex items-center gap-2 h-8 px-5 rounded-md font-medium pointer-events-none",
+              "flex min-w-0 items-center justify-center sm:justify-start gap-2 min-h-12 px-3 py-2 rounded-md font-medium pointer-events-none",
               index === currentStep
                 ? "bg-moloch-500 text-scroll-100"
                 : "bg-moloch-800 text-scroll-100"
@@ -167,7 +167,7 @@ export function Wizard({
           >
             <span
               className={cn(
-                "w-4 h-4 rounded-sm flex items-center justify-center text-[12px] font-body font-bold leading-none",
+                "w-4 h-4 shrink-0 rounded-sm flex items-center justify-center text-[12px] font-body font-bold leading-none",
                 index === currentStep
                   ? "bg-scroll-100 text-moloch-500"
                   : "bg-moloch-500 text-moloch-800"
@@ -175,7 +175,7 @@ export function Wizard({
             >
               {index + 1}
             </span>
-            <span className="hidden sm:inline text-body-md font-body">
+            <span className="hidden sm:inline min-w-0 text-sm leading-snug font-body">
               {step.title}
             </span>
           </div>
@@ -208,7 +208,7 @@ export function Wizard({
             size={null}
             onClick={goToPreviousStep}
             disabled={!allowBackNavigation}
-            className="contact-btn-active"
+            className="contact-btn-active !h-auto !min-h-12 !px-5 !py-3"
           >
             <ChevronLeft className="h-4 w-4" />
             <span>Previous</span>
@@ -219,7 +219,7 @@ export function Wizard({
           onClick={goToNextStep}
           disabled={isValidating || (isLastStep && disableSubmit)}
           size={null}
-          className="contact-btn-active"
+          className="contact-btn-active !h-auto !min-h-12 !px-5 !py-3"
         >
           {isLastStep ? (
             <span>Complete</span>
