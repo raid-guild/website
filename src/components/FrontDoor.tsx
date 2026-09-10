@@ -68,8 +68,11 @@ export default function FrontDoor({ onEnter }: { onEnter: (destination: string) 
           <a href="https://raidguild-onchain-production.up.railway.app/" target="_blank" rel="noreferrer">
             <span><strong>Onchain systems</strong><small>Bring us a protocol, product, or web3 challenge</small></span><span aria-hidden="true">↗</span>
           </a>
-          <a href="#placement" onClick={(event) => { event.preventDefault(); enter("placement"); }}>
+          <a href="#project-inquiry" onClick={(event) => { event.preventDefault(); enter("project-inquiry"); }}>
             <span><strong>Talent &amp; placement</strong><small>Find creative and technical people for your team</small></span><span aria-hidden="true">↓</span>
+          </a>
+          <a href="#project-inquiry" onClick={(event) => { event.preventDefault(); enter("project-inquiry"); }}>
+            <span><strong>Talk to someone</strong><small>Not sure where to start? Send us a note.</small></span><span aria-hidden="true">↓</span>
           </a>
         </nav>
         <a className={styles.explore} href="#top" onClick={(event) => { event.preventDefault(); enter("top"); }}>
