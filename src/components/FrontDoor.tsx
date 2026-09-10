@@ -59,7 +59,7 @@ export default function FrontDoor({ onEnter }: { onEnter: (destination: string) 
         </div>
         <h1>A community for<br />curious minds.</h1>
         <p>A builder-owned network of creative and technical people who like solving hard problems.</p>
-        <p className={styles.homeNote}>Our community home—for shared work, experiments, and a little weirdness.</p>
+        <p className={styles.homeNote}>Go far together. Explore the people, ideas, and shared ambition behind RaidGuild.</p>
         <nav className={styles.offerings} aria-label="Work with the network">
           <h2>Work with the network</h2>
           <a href="https://raidguild.ai/" target="_blank" rel="noreferrer">
