@@ -14,7 +14,7 @@ const activeSpears = [
   {
     index: "01",
     title: "Applied AI",
-    copy: "Forward-deployed AI systems that move from model capability to useful operation—agents, workflows, interfaces, and the infrastructure that makes them trustworthy.",
+    copy: "An independently led practice bringing the network’s technical curiosity to applied AI. Explore its work with agents, workflows, and the systems that support them.",
     tag: "ACTIVE SPEAR / RAIDGUILD.AI",
     status: "DEPLOYING",
     href: "https://raidguild.ai",
@@ -25,10 +25,10 @@ const activeSpears = [
   {
     index: "02",
     title: "Onchain Systems",
-    copy: "Protocols, products, governance, and ownership systems built by a network that has lived at the edge of open coordination since 2019.",
+    copy: "A specialist practice rooted in the Guild’s onchain experience since 2019. Explore its work with protocols, products, governance, and shared ownership.",
     tag: "ACTIVE SPEAR / ONCHAIN",
     status: "BATTLE-TESTED",
-    href: "https://www.raidguild.org",
+    href: "https://raidguild-onchain-production.up.railway.app/",
     cta: "Explore onchain work",
     art: "/images/neo/spear-onchain-v1.webp",
     artAlt: "Guild builders operating an onchain systems foundry",
@@ -187,14 +187,14 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         type="button"
         onClick={onSpears}
         disabled={forming}
-        aria-label="Hire a specialist through a RaidGuild practice"
+        aria-label="Explore independent RaidGuild practices"
       >
         <PortalEnergy energized={energized === "Spear"} />
         <span className={styles.portalThreshold}><Sigil /></span>
         <span className={styles.portalChoiceLabel}>
-          <small>01 / HIRE</small>
-          <strong>HIRE A SPECIALIST</strong>
-          <b>Choose an established practice</b>
+          <small>01 / EXPLORE</small>
+          <strong>EXPLORE PRACTICES</strong>
+          <b>Meet the Guild’s specialist offerings</b>
           <i>↓</i>
         </span>
       </button>
@@ -214,7 +214,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         <span className={styles.portalChoiceLabel}>
           <small>02 / INQUIRE</small>
           <strong>START A PROJECT</strong>
-          <b>Bring the Guild an ambitious problem</b>
+          <b>Find a starting point in the network</b>
           <i>↓</i>
         </span>
       </button>
@@ -234,7 +234,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         <span className={styles.portalChoiceLabel}>
           <small>03 / JOIN</small>
           <strong>JOIN THE GUILD</strong>
-          <b>Enter the builder community</b>
+          <b>Connect with the community on Portal</b>
           <i>↗</i>
         </span>
       </button>
@@ -250,8 +250,8 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         <div className={styles.portalMessage}>
           <p><span /> Three transit windows open</p>
           <h2>CHOOSE YOUR<br /><em>PORTAL.</em></h2>
-          <small>HIRE A SPECIALIST · START A PROJECT · JOIN THE GUILD</small>
-          <b>Distinct practices. One accountable Guild.<br />Every engagement operates through RaidGuild LLC.</b>
+          <small>EXPLORE PRACTICES · START A PROJECT · JOIN THE GUILD</small>
+          <b>Independent minds. Shared ambition.<br />Different ways to connect with one network.</b>
         </div>
       )}
       <p className={styles.portalCoordinates}>39°44′N / 104°59′W<br />DESTINATION: UNMAPPED</p>
@@ -584,7 +584,7 @@ export default function HomeExperience() {
               <span className={styles.waypointLabel}>
                 <small>01 / SHARED INTAKE</small>
                 <strong>Bring a challenge</strong>
-                <em>We route the problem or assemble the crew.</em>
+                <em>Find a starting point for a project.</em>
               </span>
             </a>
 
@@ -628,7 +628,7 @@ export default function HomeExperience() {
           </div>
           <div className={styles.heroSupplement}>
             <p className={styles.heroDek}>
-              We are a builder-owned collective turning ambitious ideas into digital worlds worth inhabiting.
+              A network of creative and technical people learning, experimenting, and building together. Independent minds. Shared ambition.
             </p>
             <a href="#guild" className={styles.discover} onClick={(event) => followSectionLink(event, "guild", true)}>
               <span>Enter the world</span>
@@ -687,7 +687,7 @@ export default function HomeExperience() {
               <strong>RaidGuild</strong> is a builder-owned community exploring emerging technology together.{" "}
               <strong>Designers, engineers, researchers, strategists, and operators</strong> share knowledge, reputation, and infrastructure.
             </p>
-            <p>Then assemble into specialized crews when ambitious work calls.</p>
+            <p>We learn from one another, test ideas, and build lasting relationships. Shared work grows from those connections, from open experiments to independent specialist practices.</p>
           </div>
           <div className={styles.guildActions}>
             <a className={`${styles.pill} ${styles.pillFilled}`} href="https://portal.raidguild.org" target="_blank" rel="noreferrer">
@@ -704,8 +704,8 @@ export default function HomeExperience() {
         <LoopBand label="RaidGuild statistics" reverse>
           <div className={styles.metricItem}><strong>150</strong><span>GLOBAL MEMBERS</span></div>
           <div className={styles.metricItem}><strong>88+</strong><span>RAIDS SHIPPED ACROSS THE FRONTIER</span></div>
-          <div className={styles.metricItem}><strong>4999</strong><span>YEARS OF EXPERIENCE</span></div>
-          <div className={styles.metricItem}><strong>2019</strong><span>BORN AND RAISED IN ADVERSITY</span></div>
+          <div className={styles.metricItem}><strong>∞</strong><span>QUESTIONS TO EXPLORE</span></div>
+          <div className={styles.metricItem}><strong>2019</strong><span>BUILDING TOGETHER SINCE</span></div>
         </LoopBand>
       </section>
 
@@ -715,7 +715,7 @@ export default function HomeExperience() {
             <div>
               <p className={styles.sectionLabel}>[ CURRENT STEWARDS ]</p>
               <h3>Keepers of<br /><em>the signal</em></h3>
-              <p>RaidGuild is a builder-owned community exploring emerging technology together.</p>
+              <p>Stewards help care for the Guild’s shared knowledge, infrastructure, coordination, and public voice.</p>
             </div>
             <div className={styles.rosterAside}>
               <a href="https://portal.raidguild.org" target="_blank" rel="noreferrer">Explore all members <span>↗</span></a>
@@ -755,7 +755,7 @@ export default function HomeExperience() {
         <div className={styles.teamCopy}>
           <p className={styles.sectionLabel}>[ THE TEAM ]</p>
           <h3>A WIDE NETWORK<br /><em>OF BUILDERS</em></h3>
-          <p>RaidGuild is a builder-owned community exploring emerging technology together.</p>
+          <p>Different skills, backgrounds, and curiosities. Get to know the people who share what they learn and make more possible together.</p>
           <a className={`${styles.pill} ${styles.pillOutline}`} href="https://discord.gg/2vx47gT95y" target="_blank" rel="noreferrer">
             <span>Enter Discord</span>
             <i className={styles.pillIcon}><b className={styles.iconDiscord} /></i>
@@ -768,9 +768,9 @@ export default function HomeExperience() {
           <p className={styles.sectionLabel}>[ ACTIVE SPEARS ]</p>
           <h2>Specialized at<br /><em>the applied edge</em></h2>
           <div className={styles.practiceAside}>
-            <p>Independently led specialist practices operating through RaidGuild LLC, with shared contracts, treasury, infrastructure, and access to the Guild&apos;s builder network.</p>
+            <p>The Guild is the center of gravity. These independently led practices are its tips of the spear, turning shared experience into focused offerings with their own teams and direction.</p>
             <a className={`${styles.pill} ${styles.pillOutlineNavy}`} href="#contact">
-              <span>Bring us an edge problem</span>
+              <span>Find your starting point</span>
               <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
             </a>
           </div>
@@ -798,7 +798,7 @@ export default function HomeExperience() {
               <p>{item.copy}</p>
               <div className={styles.spearActions}>
                 <a href={item.href} target="_blank" rel="noreferrer">{item.cta} <span>↗</span><small>OPENS THE SPECIALIST PRACTICE SITE</small></a>
-                <a href="#contact">Bring this problem to the Guild <span>↘</span></a>
+                <a href="#contact">Not sure where to start? <span>↘</span></a>
               </div>
             </article>
           ))}
@@ -810,7 +810,7 @@ export default function HomeExperience() {
             <p className={styles.spearEndorsement}><Sigil /> RAIDGUILD NETWORK / PROPOSED SPEAR</p>
             <p className={styles.disciplineTag}>TALENT / PLACEMENT SERVICES</p>
             <h3>Talent &amp; Placement</h3>
-            <p>The right people, on your team. Connect with designers, engineers, and specialists from the Guild’s network. Tell us what expertise you need and what you’re trying to achieve—let’s explore the right fit.</p>
+            <p>A proposed practice connecting people in the Guild with teams beyond it. Share the skills you’re looking for and help us explore where the network can make a useful connection.</p>
             <div className={styles.spearActions}>
               <a href="#project-inquiry" onClick={(event) => {
                 event.preventDefault();
@@ -830,8 +830,8 @@ export default function HomeExperience() {
             </div>
             <p className={styles.spearEndorsement}><Sigil /> RAIDGUILD NETWORK / SHARED INTAKE</p>
             <p className={styles.disciplineTag}>GUILD-LEVEL DISCOVERY</p>
-            <h3>Your edge problem</h3>
-            <p>Not sure which practice fits? Tell us what you&apos;re trying to change. The Guild will identify the right edge and assemble the crew.</p>
+            <h3>A new direction</h3>
+            <p>Not every project fits an existing practice. Share what you&apos;re exploring and we can help you find a conversation to start within the network.</p>
             <a href="#contact">Start a transmission <span>↘</span></a>
           </article>
         </div>
@@ -842,9 +842,9 @@ export default function HomeExperience() {
           <p className={styles.sectionLabel}>[ SELECTED EXPEDITIONS ]</p>
           <h2>Proof from<br /><em>the frontier</em></h2>
           <div className={styles.fieldAside}>
-            <p>Artifacts, protocols, and communities built with people brave enough to go first.</p>
+            <p>Work and ideas emerging from the network. Explore what members build, the questions they follow, and what they learn along the way.</p>
             <a className={`${styles.pill} ${styles.pillOutlineGreen}`} href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer">
-              <span>Open the full blog</span>
+              <span>Read community posts</span>
               <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
             </a>
           </div>
@@ -927,10 +927,10 @@ export default function HomeExperience() {
             <span>What impossible thing</span>
             <em>are you building?</em>
           </h2>
-          <p className={styles.contactDek}>Send the first signal. Tell us who you are, what world you&apos;re trying to make, and what it will take to get there.</p>
+          <p className={styles.contactDek}>Have a project in mind but aren&apos;t sure where it belongs? Share a little context so we can help you find the right people or practice. To meet the community, head to Portal or Discord.</p>
           <dl className={styles.contactProtocol}>
-            <div><dt>RESPONSE</dt><dd>WITHIN 48 HOURS</dd></div>
-            <div><dt>CHANNEL</dt><dd>SECURE / HUMAN</dd></div>
+            <div><dt>PURPOSE</dt><dd>PROJECT CONNECTIONS</dd></div>
+            <div><dt>CHANNEL</dt><dd>GUILD INQUIRY</dd></div>
             <div><dt>STATUS</dt><dd><span /> RECEIVING</dd></div>
           </dl>
         </div>
@@ -942,7 +942,7 @@ export default function HomeExperience() {
 
       <footer className={styles.footer}>
         <a className={styles.brand} href="#top"><Sigil /><span>RAID<br />GUILD</span></a>
-        <p>WE BUILD THE ROADS<br />THROUGH UNMAPPED TERRITORY.</p>
+        <p>INDEPENDENT MINDS.<br />WE GO FURTHER TOGETHER.</p>
         <div className={styles.socials}>
           <a href="https://github.com/raid-guild">GITHUB</a>
           <a href="https://x.com/RaidGuild">X / TWITTER</a>
