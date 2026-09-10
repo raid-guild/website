@@ -75,6 +75,22 @@ export default function FrontDoor({ onEnter }: { onEnter: (destination: string) 
             <span><strong>Talk to someone</strong><small>Not sure where to start? Send us a note.</small></span><span aria-hidden="true">↓</span>
           </a>
         </nav>
+        <div className={styles.trust}>
+          <p>Built with and contributed to</p>
+          <ul aria-label="Selected organizations the network has worked with">
+            {[
+              { name: "Gitcoin", file: "logo-Gitcoin.svg" },
+              { name: "Gnosis", file: "logo-Gnosis.svg" },
+              { name: "Pocket Network", file: "logo-Pocket.svg" },
+              { name: "Unlock Protocol", file: "logo-Unlock.svg" },
+            ].map((logo) => (
+              <li key={logo.name}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={`/images/${logo.file}`} alt={logo.name} width="100" height="28" />
+              </li>
+            ))}
+          </ul>
+        </div>
         <a className={styles.explore} href="#top" onClick={(event) => { event.preventDefault(); enter("top"); }}>
           Venture Beyond <span aria-hidden="true">↓</span>
           <small>Meet the network. Explore our world.</small>

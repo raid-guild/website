@@ -282,6 +282,21 @@
 .fieldIntro { display: grid; grid-template-columns: 1fr 300px; margin: 0 auto 85px; max-width: 1300px; position: relative; }
 .fieldIntro::after { background: radial-gradient(circle, transparent 0 15px, rgba(16,45,44,.095) 16px 17px, transparent 18px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(16,45,44,.075) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(16,45,44,.075) 50%, transparent calc(50% + .5px)); content: ""; height: 92px; opacity: .7; pointer-events: none; position: absolute; right: clamp(255px, 25vw, 375px); top: -18px; transform: rotate(12deg); width: 92px; }
 .fieldIntro .sectionLabel { grid-column: 1 / -1; }
+.networkProof { max-width: 1267px; margin: 0 auto 48px; padding: 24px 0; border-top: 1px solid currentColor; border-bottom: 1px solid currentColor; color: var(--ink); }
+.networkProof > p { font-family: var(--font-body), sans-serif; font-size: 17px; line-height: 1.5; margin: 0 0 24px; }
+.networkProof ul { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px 32px; list-style: none; margin: 0; padding: 0; }
+.networkProof li { display: flex; align-items: center; justify-content: center; min-width: 0; height: 56px; }
+.networkProof img { width: auto; height: auto; max-width: min(150px, 100%); max-height: 44px; filter: brightness(0) saturate(100%) invert(13%) sepia(18%) saturate(1335%) hue-rotate(129deg) brightness(92%) contrast(94%); }
+.networkProof small { display: block; font-size: 11px; line-height: 1.5; margin-top: 24px; }
+:global(html[data-theme="dark"]) .site .networkProof { color: var(--paper); }
+:global(html[data-theme="dark"]) .site .networkProof img { filter: brightness(0) invert(94%) sepia(12%) saturate(332%) hue-rotate(353deg); }
+@media (max-width: 800px) {
+  .networkProof { margin: 0 22px 32px; }
+  .networkProof ul { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+}
+@media (min-width: 801px) and (max-width: 1500px) {
+  .networkProof { margin-left: 5vw; margin-right: 5vw; }
+}
 .fieldAside p { line-height: 1.45; max-width: 300px; }
 .fieldControls { align-items: center; display: flex; justify-content: space-between; margin: 0 auto 24px; max-width: 1300px; position: relative; }
 .fieldControls p { font-size: 9px; letter-spacing: .15em; margin: 0; }
@@ -871,6 +886,13 @@
 :global(html[data-theme="dark"]) .site .memberRail > a:hover strong,
 :global(html[data-theme="dark"]) .site .memberRail > a:focus-visible strong { color: var(--paper); }
 .site .problemSpear { background: transparent; }
+/* Keep foreground and surface changes paired, including the transparent
+   discovery card. Its base selector previously overrode only the hover surface. */
+.site .discipline:hover,
+.site .discipline:focus-within { background: var(--sky); color: var(--ink); }
+.site .discipline:is(:hover, :focus-within) .disciplineTag,
+.site .discipline:is(:hover, :focus-within) .disciplineTop i,
+.site .discipline:is(:hover, :focus-within) .spearEndorsement { color: inherit; }
 :global(html[data-theme="dark"]) .site .header .nav,
 :global(html[data-theme="dark"]) .site .celestialToggle { background: rgba(25,30,78,.92); border-color: rgba(185,224,223,.4); }
 .site .nav a:focus-visible { outline: 2px solid var(--coral); outline-offset: 6px; }

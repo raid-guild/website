@@ -35,6 +35,19 @@ const activeSpears = [
   },
 ];
 
+// Reuse the identity assets from the original site's partner-logo banner.
+// The group includes client, partner, and member-built projects, not just clients.
+const networkLogos = [
+  { name: "Gitcoin", file: "logo-Gitcoin.svg" },
+  { name: "Gnosis", file: "logo-Gnosis.svg" },
+  { name: "Pocket Network", file: "logo-Pocket.svg" },
+  { name: "Unlock Protocol", file: "logo-Unlock.svg" },
+  { name: "BrightID", file: "logo-brightid.svg" },
+  { name: "DAOhaus", file: "logo-daohaus.svg" },
+  { name: "Hypercerts", file: "logo-Hypercerts.svg" },
+  { name: "Protocol Labs", file: "logo-Protocol.svg" },
+];
+
 const fieldNotes = [
   {
     issue: "07",
@@ -848,6 +861,18 @@ export default function HomeExperience() {
               <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
             </a>
           </div>
+        </div>
+
+        <div className={styles.networkProof}>
+          <p>Across the network, we’ve built with and contributed to</p>
+          <ul aria-label="Clients, collaborators, and member-built projects">
+            {networkLogos.map((logo) => (
+              <li key={logo.name}>
+                <Image src={`/images/${logo.file}`} alt={logo.name} width={150} height={44} />
+              </li>
+            ))}
+          </ul>
+          <small>Clients, collaborators, and member-built projects.</small>
         </div>
 
         <div className={styles.fieldControls}>
