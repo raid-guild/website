@@ -502,7 +502,7 @@ export default function HomeExperience() {
   return (
     <>
     <UnchartedHunt>
-    {frontDoorOpen && <FrontDoor onEnter={enterFromFrontDoor} />}
+    {frontDoorOpen && <FrontDoor onEnter={enterFromFrontDoor} isNight={isNight} />}
     <main inert={frontDoorOpen} className={`${styles.site} ${portalForming ? styles.siteGlitching : ""}`}>
       <header className={styles.header}>
         <a className={styles.brand} href="#top" aria-label="RaidGuild home">

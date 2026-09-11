@@ -2,9 +2,83 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./FrontDoor.module.css";
+import { ProgressBar } from "./ui/progress";
 
-export default function FrontDoor({ onEnter }: { onEnter: (destination: string) => void }) {
+const bootMessages = [
+  "Cold-starting the walker",
+  "Booting OuroborOS",
+  "Plugging into the WORM",
+  "Tuning the guild frequency",
+  "Charting the uncharted",
+];
+
+export default function FrontDoor({ onEnter, isNight }: { onEnter: (destination: string) => void; isNight: boolean }) {
   const [opening, setOpening] = useState(false);
+  const [loading, setLoading] = useState({ percent: 0, finished: false, fallback: false });
+  const [bootMessage, setBootMessage] = useState(0);
+
+  useEffect(() => {
+    if (loading.finished) return;
+    const interval = setInterval(() => setBootMessage(index => (index + 1) % bootMessages.length), 2200);
+    return () => clearInterval(interval);
+  }, [loading.finished]);
+
+  useEffect(() => {
+    let disposed = false;
+    let completed = 0;
+    let failed = false;
+    const cleanups: (() => void)[] = [];
+    const video = document.querySelector<HTMLVideoElement>(`video[data-scene="${isNight ? "dark" : "light"}"]`);
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } }).connection;
+    const useVideo = !!video && !connection?.saveData && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const sources = [...new Set([
+      `/images/neo/hero-${isNight ? "dark" : "light"}-poster.png`,
+      ...Array.from(document.querySelectorAll<HTMLImageElement>("#top img")).map(img => img.currentSrc || img.src),
+    ])];
+    const total = sources.length + 1 + Number(useVideo);
+    setLoading({ percent: 0, finished: false, fallback: false });
+    const track = (subscribe: (finish: (ok: boolean) => void) => void) => {
+      let settled = false;
+      const timeout = setTimeout(() => finish(false), 12000);
+      const finish = (ok: boolean) => {
+        if (settled || disposed) return;
+        settled = true;
+        clearTimeout(timeout);
+        failed ||= !ok;
+        completed += 1;
+        setLoading({ percent: Math.round(completed / total * 100), finished: completed === total, fallback: failed });
+      };
+      cleanups.push(() => clearTimeout(timeout));
+      subscribe(finish);
+    };
+    sources.forEach(src => track(finish => {
+      const image = new Image();
+      image.onload = () => finish(true);
+      image.onerror = () => finish(false);
+      image.src = src;
+      cleanups.push(() => { image.onload = null; image.onerror = null; });
+    }));
+    track(finish => { void document.fonts.ready.then(() => finish(true), () => finish(false)); });
+    if (useVideo && video) track(finish => {
+      const check = () => {
+        for (let i = 0; i < video.buffered.length; i++) {
+          if (video.readyState >= 3 && video.buffered.start(i) <= .1 && video.buffered.end(i) >= Math.min(2, video.duration)) finish(true);
+        }
+      };
+      const error = () => finish(false);
+      video.preload = "auto";
+      video.addEventListener("progress", check);
+      video.addEventListener("canplay", check);
+      video.addEventListener("error", error);
+      check();
+      cleanups.push(() => {
+        video.removeEventListener("progress", check);
+        video.removeEventListener("canplay", check);
+        video.removeEventListener("error", error);
+      });
+    });
+    return () => { disposed = true; cleanups.forEach(cleanup => cleanup()); };
+  }, [isNight]);
   const leaving = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const enter = useCallback((destination: string) => {
@@ -95,6 +169,10 @@ export default function FrontDoor({ onEnter }: { onEnter: (destination: string) 
           Venture Beyond <span aria-hidden="true">↓</span>
           <small>Meet the network. Explore our world.</small>
         </a>
+        <div className={styles.readiness}>
+          <div><span>{loading.finished ? (loading.fallback ? "Signal faint. Venture onward." : "Systems awake. Venture beyond.") : `${bootMessages[bootMessage]}…`}</span><span aria-hidden="true">{loading.finished ? "↓" : `${loading.percent}%`}</span></div>
+          <ProgressBar className={styles.loadBar} value={loading.percent} aria-label="Hero preparation" aria-valuetext={loading.finished ? (loading.fallback ? "Preparation finished with some assets unavailable" : "Hero ready") : `${loading.percent}% of preparation checks complete`} />
+        </div>
         <a className={styles.join} href="#guild" onClick={(event) => { event.preventDefault(); enter("guild"); }}>Join the Guild <span aria-hidden="true">↓</span></a>
       </div>
     </section>

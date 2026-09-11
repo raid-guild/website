@@ -31,6 +31,11 @@
 .explore > span { display: inline-block; margin-left: 10px; transition: transform .2s; color: #ee3c78; }
 .explore:hover > span { transform: translateY(4px); }
 .explore small { display: block; font-family: var(--font-mono), monospace; font-size: 10px; color: #bdcfc0; margin-top: 8px; }
+.readiness { width: min(280px, 100%); margin: 16px auto 0; color: #bdcfc0; font: 12px/1.5 var(--font-mono), monospace; }
+.readiness > div:first-child { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 7px; }
+.readiness .loadBar { height: 3px; border-radius: 0; background: #64847755; }
+.loadBar > div { background: #ee3c78; transition: transform .4s ease; }
+@media (prefers-reduced-motion: reduce) { .loadBar > div { transition: none; } }
 .door a:focus-visible { outline: 2px solid #ee3c78; outline-offset: 6px; }
 .door { overflow-x: hidden; }
 .content { flex-shrink: 0; margin: auto; }
