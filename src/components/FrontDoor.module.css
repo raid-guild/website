@@ -35,6 +35,7 @@
 .readiness > div:first-child { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 7px; }
 .readiness .loadBar { height: 3px; border-radius: 0; background: #64847755; }
 .loadBar > div { background: #ee3c78; transition: transform .4s ease; }
+.readiness > small { display: block; margin-top: 7px; font-size: 12px; opacity: .8; }
 @media (prefers-reduced-motion: reduce) { .loadBar > div { transition: none; } }
 .door a:focus-visible { outline: 2px solid #ee3c78; outline-offset: 6px; }
 .door { overflow-x: hidden; }

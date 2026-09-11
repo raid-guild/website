@@ -15,13 +15,21 @@ const bootMessages = [
 export default function FrontDoor({ onEnter, isNight }: { onEnter: (destination: string) => void; isNight: boolean }) {
   const [opening, setOpening] = useState(false);
   const [loading, setLoading] = useState({ percent: 0, finished: false, fallback: false });
-  const [bootMessage, setBootMessage] = useState(0);
+  const [bootProgress, setBootProgress] = useState(0);
+  const bootFinished = bootProgress === 100;
+  const bootMessage = Math.min(bootMessages.length - 1, Math.floor(bootProgress / 20));
 
   useEffect(() => {
-    if (loading.finished) return;
-    const interval = setInterval(() => setBootMessage(index => (index + 1) % bootMessages.length), 2200);
+    // Deliberately paced atmosphere, independent of the real background loading.
+    // Entry is never gated by either this sequence or asset readiness.
+    const started = performance.now();
+    const interval = setInterval(() => {
+      const progress = Math.min(100, Math.floor((performance.now() - started) / 80));
+      setBootProgress(progress);
+      if (progress === 100) clearInterval(interval);
+    }, 80);
     return () => clearInterval(interval);
-  }, [loading.finished]);
+  }, []);
 
   useEffect(() => {
     let disposed = false;
@@ -170,8 +178,9 @@ export default function FrontDoor({ onEnter, isNight }: { onEnter: (destination:
           <small>Meet the network. Explore our world.</small>
         </a>
         <div className={styles.readiness}>
-          <div><span>{loading.finished ? (loading.fallback ? "Signal faint. Venture onward." : "Systems awake. Venture beyond.") : `${bootMessages[bootMessage]}…`}</span><span aria-hidden="true">{loading.finished ? "↓" : `${loading.percent}%`}</span></div>
-          <ProgressBar className={styles.loadBar} value={loading.percent} aria-label="Hero preparation" aria-valuetext={loading.finished ? (loading.fallback ? "Preparation finished with some assets unavailable" : "Hero ready") : `${loading.percent}% of preparation checks complete`} />
+          <div><span>{bootFinished ? (loading.finished && !loading.fallback ? "Systems awake. Venture beyond." : "Signal faint. Venture onward.") : `${bootMessages[bootMessage]}…`}</span><span aria-hidden="true">{bootFinished ? "↓" : `${bootProgress}%`}</span></div>
+          <ProgressBar className={styles.loadBar} value={bootProgress} aria-label="Atmospheric boot sequence" aria-valuetext={bootFinished ? "Boot sequence complete. Enter anytime." : `${bootProgress}% of boot sequence. You can enter now.`} />
+          <small>Enter anytime</small>
         </div>
         <a className={styles.join} href="#guild" onClick={(event) => { event.preventDefault(); enter("guild"); }}>Join the Guild <span aria-hidden="true">↓</span></a>
       </div>
