@@ -12,9 +12,10 @@
   --coral: var(--color-pink);
   --rust: #b84031;
   --acid: #d7e34d;
-  /* Afacad substitutes for the unlicensed display cuts; Ubuntu follows the handoff. */
-  --font-display: var(--font-afacad);
-  --font-retalic: var(--font-afacad);
+  /* Supplied Grinder display cuts; Ubuntu follows the handoff for body copy. */
+  --font-display: var(--font-grinder);
+  --font-retalic: var(--font-grinder-retalic);
+  font-synthesis: none;
   --font-body: var(--font-ubuntu);
   background: var(--paper);
   color: var(--ink);
@@ -846,10 +847,11 @@
 
 /* Integration: open display face, retained local routes, responsive handoff. */
 .site h1, .site h2, .rosterHeading h3, .teamCopy h3, .discipline h3, .missionCopy h3, .creed blockquote { font-weight: 900; text-transform: uppercase; letter-spacing: -.015em; }
-/* Reverse italic accents: positive skew leans the letter tops to the left. */
-.site h1 em, .site h2 em, .site h3 em, .creed em { display: inline-block; font-style: normal; font-weight: 1000; font-variation-settings: "slnt" 0; transform: skewX(12deg); transform-origin: center; }
-.hero h1 { line-height: .73; }
-.hero h1 > span { display: inline-block; transform: skewX(12deg); }
+/* The supplied Retalic face provides the reverse lean without synthetic skew. */
+.site h1 em, .site h2 em, .site h3 em, .creed em { display: inline-block; font-family: var(--font-retalic), sans-serif; font-style: normal; font-weight: 400; transform: none; }
+.hero h1 { line-height: .86; }
+.hero h1 > span { display: inline-block; font-family: var(--font-retalic), sans-serif; font-weight: 400; transform: none; }
+.site .hero h1 em { font-family: var(--font-display), sans-serif; font-style: italic; font-weight: 400; transform: none; }
 .fieldIntro h2 > em { font-size: 1.1em; white-space: nowrap; }
 :global(html[data-theme="dark"]) .site .fieldIntro h2,
 :global(html[data-theme="dark"]) .site .fieldIntro .sectionLabel { color: var(--paper); }

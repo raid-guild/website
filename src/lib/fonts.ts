@@ -1,6 +1,24 @@
 import { Ubuntu, Ubuntu_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
+// Supplied by Louchi, September 2026; user confirmed rights for this package.
+export const grinder = localFont({
+  src: [
+    { path: "../../public/fonts/Grinder-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../../public/fonts/Grinder-Italic.woff2", weight: "400", style: "italic" },
+  ],
+  variable: "--font-grinder",
+  display: "swap",
+});
+
+export const grinderRetalic = localFont({
+  src: "../../public/fonts/Grinder-Retalic.woff2",
+  weight: "400",
+  style: "normal",
+  variable: "--font-grinder-retalic",
+  display: "swap",
+});
+
 // Openly licensed display alternative; preserve legacy typography on other routes.
 export const afacadFlux = localFont({
   src: "../../public/fonts/AfacadFlux-Variable.ttf",
