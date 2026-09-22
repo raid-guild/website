@@ -31,7 +31,8 @@ export default function PortalEnergy({ energized = false, destinationSrc }: { en
   const settings: Settings = useMemo(() => ({ mixed: true, scale: 1, hue: 339.66, saturation: 83.89, lightness: 58.63, energy: 1.8, speed: 1.15, oval: .55, paused: reduced, hover: energized, replay: 0, enter: 0, reduced }), [energized, reduced]);
   const canvas = useRef<HTMLCanvasElement>(null);
   const live = useRef(settings);
-  useEffect(() => { live.current = settings; }, [settings]);
+  const wake = useRef<(() => void) | null>(null);
+  useEffect(() => { live.current = settings; wake.current?.(); }, [settings]);
   useEffect(() => {
     const el = canvas.current!;
     const context = el.getContext('2d', { alpha: true });
@@ -41,6 +42,16 @@ export default function PortalEnergy({ energized = false, destinationSrc }: { en
     let sparks:Spark[]=[];
     let previous:Settings | null=null;
     let dirty=true;
+    let visible=true;
+    const schedule = () => {
+      if (!frame && visible && !document.hidden) frame=requestAnimationFrame(draw);
+    };
+    const invalidate = () => { dirty=true; schedule(); };
+    const syncVisibility = () => {
+      cancelAnimationFrame(frame); frame=0; last=0;
+      schedule();
+    };
+    wake.current=invalidate;
     let destinationReady=false;
     const destination=new Image();
     // Bake two blur levels once; crossfade them without filtering a full canvas every frame.
@@ -54,21 +65,33 @@ export default function PortalEnergy({ energized = false, destinationSrc }: { en
         v.filter=`blur(${i===0?10:2}px)`;
         v.drawImage(destination,(960-iw)/2,(960-ih)/2,iw,ih);
       }
-      destinationReady=true;dirty=true;
+      destinationReady=true;invalidate();
     };
     if (destinationSrc) destination.src=destinationSrc;
     const resize = () => {
       dirty=true;
       width=el.clientWidth; height=el.clientHeight;
-      const dpr=Math.min(window.devicePixelRatio || 1,2);
+      // Three large canvases share the screen; retain crisp edges without
+      // allocating four physical pixels per CSS pixel on high-DPI displays.
+      const dpr=Math.min(window.devicePixelRatio || 1,1.5);
       el.width=width*dpr; el.height=height*dpr; ctx.setTransform(dpr,0,0,dpr,0,0);
+      schedule();
     };
     const observer=new ResizeObserver(resize); observer.observe(el); resize();
+    const visibilityObserver=new IntersectionObserver(([entry])=>{
+      visible=entry.isIntersecting; syncVisibility();
+    });
+    visibilityObserver.observe(el);
+    document.addEventListener('visibilitychange',syncVisibility);
     function draw(now:number) {
-      frame=requestAnimationFrame(draw);
+      frame=0;
+      if (!visible || document.hidden) return;
       const s=live.current;
-      const dt=Math.min((now-last)/1000 || .016,.035); last=now;
-      if(document.hidden) return;
+      // A reduced-motion portal paints once, then sleeps until invalidated.
+      if (!s.paused) schedule();
+      // Idle portals drift at 30fps; the portal being explored stays at 60fps.
+      if (!dirty && now-last < (s.hover ? 1000/60 : 1000/30) - 1) return;
+      const dt=last ? Math.min((now-last)/1000,.05) : .016; last=now;
       if(s.paused && previous===s && !dirty) return;
       previous=s;dirty=false;
       const step=s.reduced || s.paused ? 0 : dt;
@@ -158,15 +181,21 @@ export default function PortalEnergy({ energized = false, destinationSrc }: { en
       sparks=sparks.filter(p=>p.age<p.life);
       for(const p of sparks){
         p.age+=step;p.x+=p.vx*step;p.y+=p.vy*step;p.vy+=65*step;p.vx*=Math.exp(-step*.5);
-        const fade=Math.pow(1-p.age/p.life,1.7);
+        const fade=Math.pow(Math.max(0,1-p.age/p.life),1.7);
         ctx.strokeStyle=color(fade*.9,p.age<.08?88:62,p.tint+time*.15);ctx.lineWidth=p.size;
         ctx.beginPath();ctx.moveTo(p.x,p.y);ctx.lineTo(p.x-p.vx*.025,p.y-p.vy*.025);ctx.stroke();
       }
       ctx.globalCompositeOperation='source-over';
       if(travel>.7){ctx.fillStyle=`rgba(239,233,215,${Math.sin((travel-.7)/.3*Math.PI)*.2})`;ctx.fillRect(0,0,width,height);}
     }
-    frame=requestAnimationFrame(draw);
-    return()=>{cancelAnimationFrame(frame);observer.disconnect();destination.onload=null;};
+    schedule();
+    return()=>{
+      wake.current=null;
+      cancelAnimationFrame(frame);
+      observer.disconnect();visibilityObserver.disconnect();
+      document.removeEventListener('visibilitychange',syncVisibility);
+      destination.onload=null;
+    };
   },[destinationSrc]);
   return <canvas ref={canvas} className={styles.portalEnergy} aria-hidden="true" />;
 }

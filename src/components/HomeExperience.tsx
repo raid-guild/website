@@ -200,7 +200,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         onBlur={() => setEnergized(null)}
         type="button"
         onClick={onSpears}
-        disabled={forming}
+        disabled={closing}
         aria-label="Explore independent RaidGuild practices"
       >
         <PortalEnergy energized={energized === "Spear"} />
@@ -220,7 +220,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         onBlur={() => setEnergized(null)}
         type="button"
         onClick={onProblem}
-        disabled={forming}
+        disabled={closing}
         aria-label="Start a project with RaidGuild"
       >
         <PortalEnergy energized={energized === "Problem"} />
@@ -240,7 +240,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         onBlur={() => setEnergized(null)}
         type="button"
         onClick={onJoin}
-        disabled={forming}
+        disabled={closing}
         aria-label="Join the RaidGuild builder community in a new tab"
       >
         <PortalEnergy energized={energized === "Join"} />
@@ -315,7 +315,7 @@ export default function HomeExperience() {
     const update = () => videos.forEach((video) => {
       const scene = video.dataset.scene;
       const matchesTheme = scene === "manifesto" || scene === (isNight ? "dark" : "light");
-      if (!frontDoorOpen && !document.hidden && !preference.matches && matchesTheme && visible.has(video)) {
+      if (!frontDoorOpen && !portalOpen && !document.hidden && !preference.matches && matchesTheme && visible.has(video)) {
         void video.play().catch(() => { /* Poster remains available if autoplay is blocked. */ });
       } else video.pause();
     });
@@ -336,7 +336,7 @@ export default function HomeExperience() {
       preference.removeEventListener("change", update);
       document.removeEventListener("visibilitychange", update);
     };
-  }, [frontDoorOpen, isNight]);
+  }, [frontDoorOpen, portalOpen, isNight]);
 
   const revealHero = () => {
     if (heroRevealTimerRef.current) window.clearTimeout(heroRevealTimerRef.current);
@@ -371,8 +371,9 @@ export default function HomeExperience() {
   const openPortal = () => {
     if (portalFormTimerRef.current) window.clearTimeout(portalFormTimerRef.current);
     setPortalOpen(true);
-    setPortalForming(true);
-    portalFormTimerRef.current = window.setTimeout(() => setPortalForming(false), 3400);
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setPortalForming(!reduced);
+    if (!reduced) portalFormTimerRef.current = window.setTimeout(() => setPortalForming(false), 3400);
   };
 
   const dismissPortal = (destination?: "contact" | "spears") => {
@@ -384,7 +385,7 @@ export default function HomeExperience() {
       setPortalOpen(false);
       setPortalClosing(false);
       if (destination) scrollToSection(destination);
-    }, destination ? 920 : 620);
+    }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : destination ? 920 : 620);
   };
 
   const joinGuild = () => {
@@ -451,32 +452,53 @@ export default function HomeExperience() {
   };
 
   useEffect(() => {
-    const root = document.documentElement;
-    const updatePointer = (event: PointerEvent) => {
-      const x = event.clientX / window.innerWidth - 0.5;
-      const y = event.clientY / window.innerHeight - 0.5;
-      root.style.setProperty("--neo-pointer-x", x.toFixed(3));
-      root.style.setProperty("--neo-pointer-y", y.toFixed(3));
+    const root = heroRef.current;
+    if (!root || frontDoorOpen || portalOpen) return;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const finePointer = window.matchMedia("(pointer: fine)");
+    let frame = 0;
+    let x = 0;
+    const paint = () => {
+      frame = 0;
       root.style.setProperty("--neo-sky-x", `${(x * 10).toFixed(1)}px`);
       root.style.setProperty("--neo-land-x", `${(x * -10).toFixed(1)}px`);
       root.style.setProperty("--neo-title-x", `${(x * 8).toFixed(1)}px`);
     };
-
-    window.addEventListener("pointermove", updatePointer, { passive: true });
-    return () => window.removeEventListener("pointermove", updatePointer);
-  }, []);
+    const updatePointer = (event: PointerEvent) => {
+      if (motion.matches || !finePointer.matches || document.hidden) return;
+      x = event.clientX / window.innerWidth - 0.5;
+      if (!frame) frame = requestAnimationFrame(paint);
+    };
+    const reset = () => { cancelAnimationFrame(frame); x = 0; paint(); };
+    root.addEventListener("pointermove", updatePointer, { passive: true });
+    root.addEventListener("pointerleave", reset);
+    return () => {
+      root.removeEventListener("pointermove", updatePointer);
+      root.removeEventListener("pointerleave", reset);
+      cancelAnimationFrame(frame);
+      reset();
+    };
+  }, [frontDoorOpen, portalOpen]);
 
   useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero || frontDoorOpen || portalOpen) return;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let visible = false;
     let frame = 0;
+    let previousDistance = -1;
+    let travel = 1;
+    let top = 0;
     const updateScroll = () => {
-      if (frame) return;
+      if (frame || !visible || document.hidden || motion.matches) return;
       frame = window.requestAnimationFrame(() => {
-        const hero = heroRef.current;
+        frame = 0;
         if (hero) {
-          const travel = Math.max(hero.offsetHeight - window.innerHeight, 1);
-          const distance = Math.min(Math.max(window.scrollY - hero.offsetTop, 0), travel);
+          const distance = Math.min(Math.max(window.scrollY - top, 0), travel);
+          if (distance === previousDistance) return;
+          previousDistance = distance;
           const progress = distance / travel;
-          const root = document.documentElement;
+          const root = hero;
           root.style.setProperty("--neo-progress", progress.toFixed(3));
           root.style.setProperty("--neo-sky-y", `${(distance * 0.035).toFixed(1)}px`);
           root.style.setProperty("--neo-fore-y", `${(distance * -0.34).toFixed(1)}px`);
@@ -485,25 +507,35 @@ export default function HomeExperience() {
       root.style.setProperty("--neo-copy-opacity", (1 - progress * 0.72).toFixed(3));
       root.style.setProperty("--neo-meta-opacity", (1 - progress).toFixed(3));
         }
-        frame = 0;
       });
     };
-
-    updateScroll();
+    const resize = () => {
+      travel = Math.max(hero.offsetHeight - window.innerHeight, 1);
+      top = hero.offsetTop;
+      previousDistance = -1;
+      updateScroll();
+    };
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; updateScroll(); });
+    const sizes = new ResizeObserver(resize);
+    observer.observe(hero);
+    sizes.observe(hero);
+    resize();
     window.addEventListener("scroll", updateScroll, { passive: true });
-    window.addEventListener("resize", updateScroll, { passive: true });
+    window.addEventListener("resize", resize, { passive: true });
     return () => {
+      observer.disconnect();
+      sizes.disconnect();
       window.removeEventListener("scroll", updateScroll);
-      window.removeEventListener("resize", updateScroll);
+      window.removeEventListener("resize", resize);
       if (frame) window.cancelAnimationFrame(frame);
     };
-  }, []);
+  }, [frontDoorOpen, portalOpen]);
 
   return (
     <>
     <UnchartedHunt>
     {frontDoorOpen && <FrontDoor onEnter={enterFromFrontDoor} isNight={isNight} />}
-    <main inert={frontDoorOpen} className={`${styles.site} ${portalForming ? styles.siteGlitching : ""}`}>
+    <main inert={frontDoorOpen} data-motion-paused={frontDoorOpen || portalOpen} className={`${styles.site} ${portalForming ? styles.siteGlitching : ""}`}>
       <header className={styles.header}>
         <a className={styles.brand} href="#top" aria-label="RaidGuild home">
           <Sigil />
@@ -563,23 +595,27 @@ export default function HomeExperience() {
             <video
               className={styles.heroImage}
               poster="/images/neo/hero-light-poster.png"
-              src="/videos/venture/hero-light-pingpong.mp4"
               data-scene="light"
               muted
               loop
               playsInline
               preload="metadata"
-            />
+            >
+              <source media="(max-width: 900px)" src="/videos/venture/hero-light-mobile.mp4" type="video/mp4" />
+              <source src="/videos/venture/hero-light-pingpong.mp4" type="video/mp4" />
+            </video>
             <video
               className={`${styles.heroImage} ${styles.heroNightImage}`}
               poster="/images/neo/hero-dark-poster.png"
-              src="/videos/venture/hero-dark-pingpong.mp4"
               data-scene="dark"
               muted
               loop
               playsInline
               preload="metadata"
-            />
+            >
+              <source media="(max-width: 900px)" src="/videos/venture/hero-dark-mobile.mp4" type="video/mp4" />
+              <source src="/videos/venture/hero-dark-pingpong.mp4" type="video/mp4" />
+            </video>
           </div>
           <div className={styles.heroWash} />
           <div className={styles.heroWayfinding}>
@@ -768,7 +804,7 @@ export default function HomeExperience() {
       </section>
 
       <section className={styles.teamNetwork} id="team">
-        <TeamWall members={guildMembers} />
+        <TeamWall members={guildMembers} suspended={frontDoorOpen || portalOpen} />
         <div className={styles.teamCopy}>
           <p className={styles.sectionLabel}>[ THE TEAM ]</p>
           <h3>A WIDE NETWORK<br /><em>OF BUILDERS</em></h3>

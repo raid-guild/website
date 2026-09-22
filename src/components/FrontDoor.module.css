@@ -3,6 +3,10 @@
 /* Overlapping, feathered clusters retain a continuous canopy at rest.
    Each cluster bends away from its own root when the visitor steps through. */
 .cluster { position: absolute; inset: 0; mask-image: var(--leaf-mask); transform-origin: var(--root); transition: transform 1.25s cubic-bezier(.22,.68,.24,1), opacity .4s ease .9s; transition-delay: var(--delay, 0ms), .95s; }
+/* All clusters repeat the same canopy. Only composite the masked copies
+   during the reveal; one unmasked copy is enough at rest. */
+.door:not(.opening) .cluster:first-child { mask-image: none; }
+.door:not(.opening) .cluster:not(:first-child) { visibility: hidden; }
 .upperLeft { --leaf-mask: radial-gradient(ellipse 65% 60% at 8% 0%, #000 48%, transparent 90%); --root: 0% 0%; --spread: translate(-24%, -45%) rotate(-17deg) scale(1.2); --delay: 70ms; }
 .upperRight { --leaf-mask: radial-gradient(ellipse 65% 65% at 95% 0%, #000 48%, transparent 90%); --root: 100% 0%; --spread: translate(30%, -42%) rotate(13deg) scale(1.16); --delay: 140ms; }
 .middleLeft { --leaf-mask: radial-gradient(ellipse 62% 54% at 0% 48%, #000 45%, transparent 95%); --root: 0% 65%; --spread: translate(-52%, -5%) rotate(-12deg) scale(1.3); }

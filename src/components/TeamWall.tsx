@@ -1,36 +1,45 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 import type { Mercenary } from "@/lib/data/members";
 import styles from "./HomeExperience.module.css";
 
-export default function TeamWall({ members }: { members: Mercenary[] }) {
+export default function TeamWall({ members, suspended = false }: { members: Mercenary[]; suspended?: boolean }) {
   const viewport = useRef<HTMLDivElement>(null);
-  const paused = useRef(false);
   const hover = useRef(false);
   const focused = useRef(false);
   const drag = useRef<{ x: number; scroll: number; moved: boolean } | null>(null);
   const resumeAt = useRef(0);
   const suppressClick = useRef(false);
-  const [isPaused, setPaused] = useState(false);
 
   useEffect(() => {
     const element = viewport.current;
-    if (!element) return;
+    if (!element || suspended) return;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let visible = false;
     let frame = 0;
     let previous = 0;
     let position = element.scrollLeft;
-    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; });
+    const group = element.firstElementChild?.firstElementChild as HTMLElement | null;
+    let distance = 0;
+    const measure = () => { distance = group ? group.getBoundingClientRect().width + 14 : 0; };
+    const sizes = new ResizeObserver(measure);
+    if (group) sizes.observe(group);
+    measure();
+    const sync = () => {
+      cancelAnimationFrame(frame);
+      frame = 0;
+      previous = 0;
+      position = element.scrollLeft;
+      if (visible && !document.hidden && !motion.matches) frame = requestAnimationFrame(tick);
+    };
+    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; sync(); });
     observer.observe(element);
     const tick = (now: number) => {
-      const elapsed = Math.min(now - previous, 50);
+      const elapsed = previous ? Math.min(now - previous, 50) : 0;
       previous = now;
-      if (visible && !document.hidden && !motion.matches && !paused.current && !hover.current && !focused.current && !drag.current && now > resumeAt.current) {
-        const group = element.firstElementChild?.firstElementChild as HTMLElement | null;
-        const distance = group ? group.getBoundingClientRect().width + 14 : 0;
+      if (visible && !document.hidden && !motion.matches && !hover.current && !focused.current && !drag.current && now > resumeAt.current) {
         if (distance > 0) {
           position = (position + elapsed * .018) % distance;
           element.scrollLeft = position;
@@ -40,9 +49,16 @@ export default function TeamWall({ members }: { members: Mercenary[] }) {
       }
       frame = requestAnimationFrame(tick);
     };
-    frame = requestAnimationFrame(tick);
-    return () => { cancelAnimationFrame(frame); observer.disconnect(); };
-  }, []);
+    document.addEventListener("visibilitychange", sync);
+    motion.addEventListener("change", sync);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+      sizes.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+      motion.removeEventListener("change", sync);
+    };
+  }, [suspended]);
 
   return (
     <div className={styles.teamWall}>
@@ -92,9 +108,6 @@ export default function TeamWall({ members }: { members: Mercenary[] }) {
           ))}
         </div>
       </div>
-      <button className={styles.teamMotionToggle} type="button" aria-pressed={isPaused} onClick={() => { paused.current = !isPaused; setPaused(!isPaused); }}>
-        {isPaused ? "Resume movement" : "Pause movement"}
-      </button>
     </div>
   );
 }

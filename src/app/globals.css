@@ -4,6 +4,11 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* Keep the hero's width stable when entrance/modal scroll locks are released. */
+html {
+    scrollbar-gutter: stable;
+}
+
 @theme inline {
     /* Brand Colors - Moloch */
     --color-moloch-100: var(--moloch-100);
