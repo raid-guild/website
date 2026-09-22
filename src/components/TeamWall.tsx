@@ -99,7 +99,7 @@ export default function TeamWall({ members, suspended = false }: { members: Merc
           {[0, 1].map((copy) => (
             <div className={styles.memberRail} key={copy} aria-hidden={copy === 1 ? true : undefined}>
               {members.map((member) => {
-                const content = <><Image src={member.imagePath} alt="" width={58} height={58} draggable={false} /><span><strong>{member.name}</strong><small>{member.title}</small></span></>;
+                const content = <><Image src={member.imagePath} alt="" width={58} height={58} draggable={false} /><span><strong title={member.name}>{member.name}</strong><small title={member.title}>{member.title}</small></span></>;
                 return member.link
                   ? <a href={member.link} target="_blank" rel="noreferrer" key={member.name} tabIndex={copy === 1 ? -1 : undefined}>{content}<i>↗</i></a>
                   : <div key={member.name}>{content}</div>;

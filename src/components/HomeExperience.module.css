@@ -359,6 +359,9 @@
 .memberLoop { display: flex; gap: 14px; width: max-content; }
 .teamWall .memberRail { --brick-width: 230px; animation: none; transform: none; flex-shrink: 0; user-select: none; display: grid; grid-auto-flow: column; grid-auto-columns: var(--brick-width); grid-template-rows: repeat(2, 72px); gap: 8px 14px; }
 .teamWall .memberRail > a, .teamWall .memberRail > div { min-width: 0; }
+.teamWall .memberRail img, .teamWall .memberRail i { flex-shrink: 0; }
+.teamWall .memberRail span { flex: 1; min-width: 0; }
+.teamWall .memberRail strong, .teamWall .memberRail small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 3px; }
 .teamWall .memberRail > :nth-child(even) { transform: translateX(calc((var(--brick-width) + 14px) / 2)); }
 .memberRail > a:focus-visible { outline: 3px solid var(--coral); outline-offset: -4px; }
 :global(html[data-theme="dark"]) .site .teamNetwork { color: var(--paper); }
@@ -973,7 +976,7 @@
 /* Desktop composition pass: full-bleed worlds, contained readable modules.
    Keep this separate from mobile; do not emulate browser zoom on text or controls. */
 @media (min-width: 1000px) {
-  .site { --composition-gutter: max(40px, calc((100% - 1160px) / 2)); }
+  .site { --composition-gutter: max(40px, calc((100% - 1280px) / 2)); }
   .hero, .heroStage { height: clamp(680px, 85vh, 800px); min-height: 0; }
   .heroArt, .heroImage, .heroNightImage, .heroWash { height: 100%; }
   .heroCopy { top: 26%; width: 460px; }
@@ -1008,8 +1011,8 @@
 
   .practice { padding: 72px var(--composition-gutter); }
   .practiceHeading { max-width: none; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
-  .practice h2, .fieldIntro h2 { font-size: 44px; line-height: 1.06; }
-  .practice h2 em, .fieldIntro h2 b { font-size: 56px; line-height: 1.06; }
+  .practice h2, .fieldIntro h2 { font-size: 40px; line-height: 1.06; }
+  .practice h2 em, .fieldIntro h2 > em { font-size: 50px; line-height: 1.06; }
   .disciplineGrid { margin-top: 32px; max-width: none; }
   .spearGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .spearGrid .discipline { min-width: 0; padding: 24px 20px 30px; }

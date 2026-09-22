@@ -68,17 +68,18 @@ images. `tsc --noEmit` passes.
 
 ## Blockers
 
-1. **Grinder licence — decide before this can be published.** The three
-   `.woff2` carry **no copyright, trademark, licence or vendor string** in
-   their name table, and their version string says they were produced with
-   FontCreator, so they are not a vendor-original distribution. RaidGuild's own
-   `BRAND-ASSETS.md` documents only Mazius Display, EB Garamond and Ubuntu
-   Mono — Grinder is not in it. That may simply mean it was commissioned and
-   the docs are behind, but it cannot be told apart from a commercial font with
-   its metadata stripped. They are gitignored until someone produces the EULA
-   or the commission agreement. If it is a RaidGuild commission, re-injecting
-   copyright and licence into the name table before publishing would be worth
-   doing.
+1. **Grinder rights and refined delivery — updated September 22, 2026.**
+   Dekan reported that Louchi obtained rights for the font package and approved
+   the refined fonts for use and publication after a local review. This is a
+   user-provided rights confirmation, not an independent review of a licence;
+   retain the actual licence or purchase record with the project's records.
+   Louchi supplied `refined grinder.zip` with corrected AT/AR positioning.
+   Face 0 of `Grinder.ttc`, `Grinder-Italic.ttc`, and `Grinder-Retalic.ttc`
+   was converted with fontTools/Brotli to the corresponding
+   `public/fonts/Grinder-Refined-{Regular,Italic,Retalic}.woff2` on that date.
+   These are the active website fonts. The earlier WOFF2 files remain intact
+   for reference; native Italic and Retalic faces are used without CSS skew.
+   The font metadata does not itself provide licence terms.
 
 2. **Two hero/manifesto videos are low-resolution.** `hero-light.mp4` is
    760×472 and `manifesto.mp4` is 760×324, both scaled ~1.9× to 1440. They look

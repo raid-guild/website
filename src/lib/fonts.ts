@@ -1,18 +1,19 @@
 import { Ubuntu, Ubuntu_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
-// Supplied by Louchi, September 2026; user confirmed rights for this package.
+// Louchi's refined cuts, approved September 22, 2026; user confirmed rights.
+// Converted from the supplied TTC files to WOFF2. See HANDOFF.md for provenance.
 export const grinder = localFont({
   src: [
-    { path: "../../public/fonts/Grinder-Regular.woff2", weight: "400", style: "normal" },
-    { path: "../../public/fonts/Grinder-Italic.woff2", weight: "400", style: "italic" },
+    { path: "../../public/fonts/Grinder-Refined-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../../public/fonts/Grinder-Refined-Italic.woff2", weight: "400", style: "italic" },
   ],
   variable: "--font-grinder",
   display: "swap",
 });
 
 export const grinderRetalic = localFont({
-  src: "../../public/fonts/Grinder-Retalic.woff2",
+  src: "../../public/fonts/Grinder-Refined-Retalic.woff2",
   weight: "400",
   style: "normal",
   variable: "--font-grinder-retalic",
