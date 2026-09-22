@@ -7,6 +7,7 @@ import { UnchartedHunt, HuntMarker, HuntPixel } from "./UnchartedHunt";
 import TeamWall from "./TeamWall";
 import PortalEnergy from "./PortalEnergy";
 import LoopBand from "./LoopBand";
+import ArtifactGallery from "./ArtifactGallery";
 import HireUs from "@/components/HireUs";
 import { mercenaries } from "@/lib/data/members";
 import styles from "./HomeExperience.module.css";
@@ -47,61 +48,6 @@ const networkLogos = [
   { name: "DAOhaus", file: "logo-daohaus.svg" },
   { name: "Hypercerts", file: "logo-Hypercerts.svg" },
   { name: "Protocol Labs", file: "logo-Protocol.svg" },
-];
-
-const fieldNotes = [
-  {
-    issue: "07",
-    code: "RG—24.071",
-    image: "/images/neo/sky-citadel.png",
-    alt: "A cloaked traveler looks toward a floating coral citadel",
-    type: "PROTOCOL DESIGN · PRODUCT · ENGINEERING",
-    title: "Infrastructure for new worlds.",
-    abstract:
-      "How we turned complex coordination into an interface that feels inevitable—clear enough for day one, powerful enough for what comes next.",
-    status: "LIVE",
-    sector: "ONCHAIN",
-    crew: "08",
-  },
-  {
-    issue: "08",
-    code: "RG—25.014",
-    image: "/images/neo/field-protocol-garden.png",
-    alt: "A guild cartographer studies a living network city",
-    type: "SYSTEMS · IDENTITY · PROTOCOL",
-    title: "Gardens, not platforms.",
-    abstract:
-      "A field study in designing protocols that grow through participation: legible incentives, composable paths, and room for the unexpected.",
-    status: "ARCHIVED",
-    sector: "NETWORKS",
-    crew: "06",
-  },
-  {
-    issue: "09",
-    code: "RG—25.033",
-    image: "/images/neo/field-signal-commons.png",
-    alt: "A floating civic commons above the clouds",
-    type: "GOVERNANCE · RESEARCH · EXPERIENCE",
-    title: "A commons in the clouds.",
-    abstract:
-      "What changes when governance feels like a place? Notes on making collective decisions spatial, social, and unmistakably human.",
-    status: "TRANSMITTING",
-    sector: "COMMUNITIES",
-    crew: "11",
-  },
-  {
-    issue: "10",
-    code: "RG—26.002",
-    image: "/images/neo/field-autonomous-treasury.png",
-    alt: "Two engineers inspect a monumental autonomous treasury",
-    type: "TREASURY · AUTOMATION · AI",
-    title: "The machine that stewards itself.",
-    abstract:
-      "Inside an autonomous treasury: observable agents, bounded authority, and financial infrastructure designed to earn trust over time.",
-    status: "CLASSIFIED",
-    sector: "AUTONOMY",
-    crew: "05",
-  },
 ];
 
 const stewards = [
@@ -292,7 +238,6 @@ export default function HomeExperience() {
     focusTarget.focus({ preventScroll: true });
   }, [frontDoorOpen, entranceDestination]);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [activeField, setActiveField] = useState(0);
   const [portalOpen, setPortalOpen] = useState(false);
   const [portalForming, setPortalForming] = useState(false);
   const [portalClosing, setPortalClosing] = useState(false);
@@ -300,7 +245,6 @@ export default function HomeExperience() {
   const [isNight, setIsNight] = useState(false);
   const [arrivalTarget, setArrivalTarget] = useState<string | null>(null);
   const heroRef = useRef<HTMLElement>(null);
-  const fieldTrackRef = useRef<HTMLDivElement>(null);
   const spearTrackRef = useRef<HTMLDivElement>(null);
   const [activeSpear, setActiveSpear] = useState(0);
   const heroRevealTimerRef = useRef<number | null>(null);
@@ -439,9 +383,6 @@ export default function HomeExperience() {
       Math.abs(card.getBoundingClientRect().left - start) < Math.abs(cards[best].getBoundingClientRect().left - start)
         ? index
         : best, 0);
-  };
-  const updateActiveField = () => {
-    if (fieldTrackRef.current) setActiveField(closestCard(fieldTrackRef.current));
   };
   const moveCard = (track: HTMLDivElement | null, direction: number) => {
     if (!track) return;
@@ -903,54 +844,12 @@ export default function HomeExperience() {
           </div>
         </div>
 
-        <div className={styles.networkProof}>
-          <p>Across the network, we’ve built with and contributed to</p>
-          <ul aria-label="Clients, collaborators, and member-built projects">
-            {networkLogos.map((logo) => (
-              <li key={logo.name}>
-                <Image src={`/images/${logo.file}`} alt={logo.name} width={150} height={44} />
-              </li>
-            ))}
-          </ul>
-          <small>Clients, collaborators, and member-built projects.</small>
-        </div>
-
-        <div className={styles.fieldControls}>
-          <p><strong>{String(activeField + 1).padStart(2, "0")}</strong> / {String(fieldNotes.length).padStart(2, "0")}</p>
-          <div className={styles.carouselButtons}>
-            <button type="button" aria-label="Previous field note" disabled={activeField === 0} onClick={() => moveCard(fieldTrackRef.current, -1)}>←</button>
-            <button type="button" aria-label="Next field note" disabled={activeField === fieldNotes.length - 1} onClick={() => moveCard(fieldTrackRef.current, 1)}>→</button>
-          </div>
-        </div>
-
-        <div className={styles.fieldTrack} ref={fieldTrackRef} onScroll={updateActiveField}>
-          {fieldNotes.map((note) => (
-            <article className={styles.featuredMission} key={note.code}>
-              <div className={styles.missionArt}>
-                <Image
-                  src={note.image}
-                  alt={note.alt}
-                  fill
-                  sizes="(max-width: 800px) 88vw, 48vw"
-                  className={styles.missionImage}
-                />
-                <span className={styles.artBadge}>FIELD NOTE / {note.issue}</span>
-              </div>
-              <div className={styles.missionCopy}>
-                <span className={styles.missionNumber}>{note.code}</span>
-                <p className={styles.missionType}>{note.type}</p>
-                <h3>{note.title}</h3>
-                <p>{note.abstract}</p>
-                <a href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer">Read the field notes <span>↗</span></a>
-                <dl>
-                  <div><dt>STATUS</dt><dd>{note.status}</dd></div>
-                  <div><dt>SECTOR</dt><dd>{note.sector}</dd></div>
-                  <div><dt>CREW</dt><dd>{note.crew}</dd></div>
-                </dl>
-              </div>
-            </article>
-          ))}
-        </div>
+        <ArtifactGallery collaborators={networkLogos.map(logo => ({
+          id: `network-${logo.file.replace(".svg", "")}`, title: logo.name,
+          category: "Across the network", kind: "collaborator" as const,
+          description: "Part of the clients, collaborators, and member-built projects that our network has built with and contributed to.",
+          image: `/images/${logo.file}`,
+        }))} />
       </section>
 
       <section className={styles.creed}>
