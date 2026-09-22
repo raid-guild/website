@@ -2,7 +2,7 @@
 
 // Adapted from Dekan's elastic experiments gallery and the Portal gallery study.
 // Screenshots only: the live artifacts load in their own tab, never in this page.
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import styles from "./ArtifactGallery.module.css";
 
@@ -33,7 +33,6 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
   const grid = useRef<HTMLDivElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
   const previous = useRef<string | null>(null);
-  const before = useRef(new Map<string, DOMRect>());
   const zones = useRef<{ id: string; rect: DOMRect }[]>([]);
   useEffect(() => {
     const controller = new AbortController();
@@ -73,36 +72,27 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
     return () => controller.abort();
   }, []);
   useEffect(() => {
-    const mobile = matchMedia("(max-width: 600px)");
-    const tablet = matchMedia("(max-width: 999px)");
-    const update = () => { setColumns(mobile.matches ? 2 : tablet.matches ? 3 : 4); setPeek(null); zones.current = []; };
-    update(); mobile.addEventListener("change", update); tablet.addEventListener("change", update);
-    return () => { mobile.removeEventListener("change", update); tablet.removeEventListener("change", update); };
-  }, []);
-  const select = (id: string | null) => {
-    before.current = new Map(Array.from(grid.current?.querySelectorAll<HTMLElement>("[data-artifact]") || []).map(el => [el.dataset.artifact!, el.getBoundingClientRect()]));
-    setPeek(null); setSelected(id);
-  };
-  useLayoutEffect(() => {
     const root = grid.current;
     if (!root) return;
-    const anchor = selected || previous.current;
-    const first = before.current.get(previous.current || anchor || "");
-    const tile = root.querySelector<HTMLElement>(`[data-artifact="${anchor}"]`);
-    if (first && tile) window.scrollBy({ top: tile.getBoundingClientRect().top - first.top, behavior: "instant" });
-    if (!matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      root.querySelectorAll<HTMLElement>("[data-artifact]").forEach(el => {
-        const start = before.current.get(el.dataset.artifact!);
-        const end = el.getBoundingClientRect();
-        if (start?.width && end.width) el.animate([
-          { transform: `translate(${start.left-end.left}px, ${start.top-end.top}px) scale(${start.width/end.width}, ${start.height/end.height})` },
-          { transform: "none" },
-        ], { duration: 350, easing: "cubic-bezier(.2,.82,.2,1)" });
-      });
+    const observer = new ResizeObserver(([entry]) => {
+      setColumns(Math.max(2, Math.floor(entry.contentRect.width / 190)));
+      setPeek(null); zones.current = [];
+    });
+    observer.observe(root);
+    return () => observer.disconnect();
+  }, []);
+  const select = (id: string | null) => {
+    setPeek(null); setSelected(id);
+  };
+  useEffect(() => {
+    const root = grid.current;
+    if (!root) return;
+    if (selected) {
+      closeButton.current?.focus({ preventScroll: true });
+      if (matchMedia("(max-width: 800px)").matches) closeButton.current?.closest("aside")?.scrollIntoView({ block: "start", behavior: "instant" });
     }
-    if (selected) closeButton.current?.focus({ preventScroll: true });
     else if (previous.current) root.querySelector<HTMLButtonElement>(`[data-artifact="${previous.current}"] button`)?.focus({ preventScroll: true });
-    previous.current = selected; before.current.clear(); zones.current = [];
+    previous.current = selected; zones.current = [];
   }, [selected]);
   const active = artifacts.find(item => item.id === selected);
   const screenshot = (item: Artifact) => item.image === undefined ? `/images/artifacts/${item.id}.png` : item.image;
@@ -110,7 +100,7 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
     ? <Image className={item.kind === "collaborator" ? styles.logo : undefined} src={screenshot(item)!} alt={detail ? `Preview of ${item.title}` : ''} width={1280} height={720} unoptimized={screenshot(item)!.startsWith('https:')} sizes="(max-width: 600px) 90vw, (max-width: 999px) 45vw, 760px" />
     : <span className={styles.placeholder} aria-hidden="true">{item.category}<b>↗</b></span>;
   const card = (item: typeof artifacts[number]) => <article key={item.id} data-artifact={item.id} className={styles.card}>
-    <button type="button" aria-expanded={false} aria-label={`Unfold ${item.title}`} onClick={() => select(item.id)} onFocus={() => setPeek(item.id)} onBlur={() => setPeek(null)}>
+    <button type="button" aria-expanded={selected === item.id} aria-controls="artifact-detail" aria-label={`Unfold ${item.title}`} onClick={() => select(item.id)} onFocus={() => setPeek(item.id)} onBlur={() => setPeek(null)}>
       <span className={styles.visual}>{preview(item)}<b aria-hidden="true">+</b></span>
       <span className={styles.caption}><strong>{item.title}</strong><small>{item.category}</small></span>
     </button>
@@ -121,26 +111,28 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
   });
   return <section className={styles.section} aria-labelledby="artifact-heading">
     <h3 id="artifact-heading" className={styles.srOnly}>Explore the frontier collection</h3>
-    <div className={styles.filters} aria-label="Filter the collection">
-      {[["all", "Everything"], ["post", "Field notes"], ["experiment", "Experiments"], ["collaborator", "Built with"]].map(([value, label]) =>
-        <button key={value} type="button" aria-pressed={filter === value} onClick={() => { select(null); setFilter(value); zones.current = []; }}>{label}</button>)}
-    </div>
     <div className={styles.guide}><span>{String(artifacts.length).padStart(2, '0')} / DISCOVERIES</span><span>{active ? "Select a preview to switch" : "Select a tile to unfold"}</span></div>
     {postsState === "error" && <p>Community posts are temporarily unavailable. <a href="https://portal.raidguild.org/posts">Read them on Portal →</a></p>}
     {artifacts.length === 0 && <p>{filter === "post" && postsState === "loading" ? "Loading the latest public posts…" : "No entries in this collection."}</p>}
-    <div ref={grid} onKeyDown={event => { if (event.key === "Escape" && selected) { event.preventDefault(); select(null); } }} onPointerLeave={() => setPeek(null)} onPointerMove={event => {
+    <div className={styles.layout} onKeyDown={event => { if (event.key === "Escape" && selected) { event.preventDefault(); select(null); } }}>
+    <div ref={grid} className={styles.previews} onPointerLeave={() => setPeek(null)} onPointerMove={event => {
       if ((!active && columns === 1) || event.pointerType === "touch" || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
       if (!zones.current.length) zones.current = Array.from(grid.current!.querySelectorAll<HTMLElement>(`[data-artifact]:not([data-artifact="${selected}"])`)).map(el => ({ id: el.dataset.artifact!, rect: el.getBoundingClientRect() }));
       const hit = zones.current.find(({ rect }) => event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom);
       setPeek(hit?.id || null);
     }} onPointerEnter={() => { zones.current = []; }}>
+      {rows(artifacts)}
+    </div>
+    <aside className={styles.detail} id="artifact-detail" aria-label="Discovery details">
+      <div className={styles.filters} aria-label="Filter the collection">
+        {[["all", "Everything"], ["post", "Field notes"], ["experiment", "Experiments"], ["collaborator", "Built with"]].map(([value, label]) =>
+          <button key={value} type="button" aria-pressed={filter === value} onClick={() => { setSelected(null); previous.current = null; setFilter(value); setPeek(null); zones.current = []; }}>{label}</button>)}
+      </div>
       {active ? <>
-        <article className={styles.detail} data-artifact={active.id}>
           <button ref={closeButton} className={styles.back} onClick={() => select(null)}>← Back to the collection <span aria-hidden="true">×</span></button>
           <div className={styles.feature}>{preview(active, true)}<div><p>{active.category}</p><h4>{active.title}</h4><p>{active.description}</p>{active.kind !== "collaborator" && <a href={active.href || `https://portal-artifacts-production.up.railway.app/${active.id}/`} target="_blank" rel="noopener noreferrer">{active.kind === "post" ? "Read the post" : "Explore experiment"} ↗<small>Opens in a new tab</small></a>}</div></div>
-        </article>
-        <div className={styles.previews} aria-label="Other discoveries">{rows(artifacts.filter(item => item.id !== selected))}</div>
-      </> : rows(artifacts)}
+      </> : <div className={styles.empty}><span aria-hidden="true">↖</span><h4>Follow your curiosity.</h4><p>Select a card to explore a field note, a public experiment, or someone we’ve built with.</p><p>Choose a category above to narrow the collection.</p></div>}
+    </aside>
     </div>
     <p className={styles.footnote}>{catalogState === 'fallback' ? 'The live experiment catalog is unavailable. Showing selected experiments. ' : 'Field notes, public experiments, clients, collaborators, and member-built projects. '}<a href="https://portal.raidguild.org/modules" target="_blank" rel="noopener noreferrer">Browse Portal modules ↗</a></p>
   </section>;

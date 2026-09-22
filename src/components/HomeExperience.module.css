@@ -27,7 +27,8 @@
 .unchartedPortal { position: relative; margin-top: 16px; z-index: 10; }
 .unchartedPortal details[open] > div { position: absolute; bottom: 100%; left: 0; }
 .portalMessage .unchartedPortal button { display: inline-block; background: none; border: 0; border-radius: 0; margin: 0; padding: 10px 0; color: #efe9d7; font: inherit; letter-spacing: normal; text-transform: none; transform: none; }
-.unchartedShip { position: absolute; bottom: 24px; left: 24px; z-index: 12; }
+.unchartedShip { position: absolute; bottom: clamp(112px, 14svh, 160px); left: 160px; z-index: 12; }
+@media (max-width: 799px) { .unchartedShip { left: 24px; } }
 .unchartedShip details[open] > div { position: absolute; bottom: 100%; left: 0; }
 .unchartedWalker { position: relative; z-index: 3; display: flex; justify-content: center; margin-top: 16px; }
 .unchartedWalker details[open] > div { position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%); }
@@ -356,7 +357,9 @@
 .teamWall .memberMarquee:active { cursor: grabbing; }
 .memberMarquee:focus-visible { outline: 2px solid var(--coral); outline-offset: -2px; }
 .memberLoop { display: flex; gap: 14px; width: max-content; }
-.teamWall .memberRail { animation: none; transform: none; flex-shrink: 0; user-select: none; }
+.teamWall .memberRail { --brick-width: 230px; animation: none; transform: none; flex-shrink: 0; user-select: none; display: grid; grid-auto-flow: column; grid-auto-columns: var(--brick-width); grid-template-rows: repeat(2, 72px); gap: 8px 14px; }
+.teamWall .memberRail > a, .teamWall .memberRail > div { min-width: 0; }
+.teamWall .memberRail > :nth-child(even) { transform: translateX(calc((var(--brick-width) + 14px) / 2)); }
 .memberRail > a:focus-visible { outline: 3px solid var(--coral); outline-offset: -4px; }
 :global(html[data-theme="dark"]) .site .teamNetwork { color: var(--paper); }
 :global(html[data-theme="dark"]) .site .teamCopy h3,
@@ -480,11 +483,11 @@
 .site[data-motion-paused="true"] .orbit::after { animation-play-state: paused !important; }
 .siteGlitching::after { animation: glitchBands 3.4s steps(2, end) both; background: repeating-linear-gradient(0deg, transparent 0 8px, rgba(109,230,223,.12) 9px, transparent 10px 17px, rgba(238,60,120,.1) 18px, transparent 19px 26px); content: ""; inset: 0; mix-blend-mode: screen; pointer-events: none; position: fixed; z-index: 99; }
 
-.portalOverlay { background: #041618; color: var(--paper); inset: 0; isolation: isolate; overflow: hidden; position: fixed; z-index: 100; }
+.portalOverlay { background: var(--coral, #ee3d79); color: var(--paper); inset: 0; isolation: isolate; overflow: hidden; position: fixed; z-index: 100; }
 .portalOverlay::before { animation: portalReveal .8s cubic-bezier(.16,.76,.18,1) both; background: radial-gradient(ellipse at 59% 49%, rgba(238,60,120,.13), transparent 22%), radial-gradient(ellipse at 82% 49%, rgba(109,230,223,.12), transparent 22%), radial-gradient(ellipse at 71% 49%, transparent 10%, rgba(4,22,24,.2) 42%, rgba(2,12,14,.86) 88%); content: ""; inset: 0; pointer-events: none; position: absolute; z-index: 2; }
 .portalOverlay::after { background-image: linear-gradient(rgba(239,233,215,.025) 1px, transparent 1px), linear-gradient(90deg, rgba(239,233,215,.025) 1px, transparent 1px); background-size: 52px 52px; content: ""; inset: 0; -webkit-mask-image: radial-gradient(ellipse at 66% 50%, transparent 12%, #000 72%); mask-image: radial-gradient(ellipse at 66% 50%, transparent 12%, #000 72%); opacity: .5; pointer-events: none; position: absolute; z-index: 2; }
 .portalCanvas { inset: 0; position: absolute; z-index: 1; }
-.portalForming { animation: portalWorldForm 3.4s linear both; }
+.portalForming { background: var(--coral, #ee3d79); }
 .portalForming::before { animation: portalVignetteForm 3.4s ease-in both; }
 .portalForming::after { animation: gridForm 3.4s ease-in both; }
 .portalForming .portalAtmosphere { animation: atmosphereTurn 28s linear infinite, atmosphereIgnite 3.4s ease-in both; }
@@ -550,7 +553,6 @@
 .portalClosing .portalMessage, .portalClosing .portalBreach, .portalClosing .portalReadout, .portalClosing .portalCoordinates, .portalClosing .portalClose { animation: copyDeparture .35s ease forwards; }
 
 @keyframes portalReveal { from { opacity: 0; transform: scale(1.08); } to { opacity: 1; transform: scale(1); } }
-@keyframes portalWorldForm { 0%, 38% { background: rgba(4,22,24,0); } 56% { background: rgba(4,22,24,.12); } 72% { background: rgba(4,22,24,.48); } 88% { background: rgba(4,22,24,.88); } 100% { background: #041618; } }
 @keyframes portalVignetteForm { 0%, 30% { opacity: 0; } 55% { opacity: .18; } 76% { opacity: .62; } 100% { opacity: 1; } }
 @keyframes gridForm { 0%, 56% { opacity: 0; } 100% { opacity: .5; } }
 @keyframes atmosphereIgnite { 0%, 38% { opacity: 0; } 100% { opacity: .75; } }
@@ -568,7 +570,7 @@
 @keyframes breachSignal { 0%, 8%, 13%, 22%, 31%, 44% { opacity: 0; } 9%, 12%, 23%, 30%, 45%, 88% { opacity: .8; } 100% { opacity: 0; } }
 @keyframes copyDeparture { to { opacity: 0; transform: translateX(-50px); } }
 @keyframes machineDeparture { 35% { opacity: 1; transform: translate(-50%, -50%) scale(.9); } 100% { opacity: 0; transform: translate(-50%, -50%) scale(2.9); } }
-@keyframes portalDeparture { 0%, 45% { background: #041618; opacity: 1; } 78% { background: var(--paper); opacity: 1; } 100% { background: var(--paper); opacity: 0; } }
+@keyframes portalDeparture { 0%, 45% { background: var(--coral, #ee3d79); opacity: 1; } 78% { background: var(--paper); opacity: 1; } 100% { background: var(--paper); opacity: 0; } }
 
 /* Finalized 1440px Code Transfer composition. */
 @media (min-width: 1000px) {
@@ -672,6 +674,7 @@
   .teamWall { height: 384px; overflow: hidden; position: relative; width: 820px; }
   .memberMarquee { border: 0; height: 384px; margin: 0; overflow: hidden; padding: 0; }
   .memberRail { animation: none; column-gap: 14px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(4, 90px); row-gap: 8px; transform: translateX(-799.25px); width: max-content; }
+  .teamWall .memberRail { --brick-width: 290px; grid-template-rows: repeat(4, 90px); }
   .memberRail > a, .memberRail > div { border: 2px solid var(--coral); border-radius: 16px; gap: 16px; height: 90px; min-width: 213.75px; padding: 18px; }
   .memberRail img { border-radius: 27px; filter: none; height: 54px; width: 54px; }
   .memberRail strong { color: var(--coral); font-family: var(--font-display), sans-serif; font-size: 24px; font-style: italic; line-height: 32px; }
@@ -868,9 +871,9 @@
 .carouselButtons button:disabled { opacity: .3; cursor: default; }
 .spearControls { display: none; }
 /* Continuous, opposite-direction bands from the design walkthrough. */
-.loopBand { grid-column: 1 / -1; min-width: 0; overflow: hidden; position: relative; color: var(--paper); }
-.wordBand { background: var(--coral); }
-.metricBand { background: var(--deep); }
+.loopBand { grid-column: 1 / -1; min-width: 0; overflow: hidden; position: relative; color: var(--paper); width: 104%; margin: 2vw -2%; transform: rotate(2deg); transform-origin: center; }
+.wordBand { background: var(--coral); margin-top: calc(-2vw - 12px); z-index: 10; }
+.metricBand { background: var(--deep); transform: rotate(-2deg); }
 .loopViewport { overflow: hidden; }
 .loopTrack { display: flex; width: max-content; animation: bandDrift 60s linear infinite; }
 .loopGroup { display: flex; flex: 0 0 auto; align-items: center; justify-content: space-around; gap: 32px; padding: 20px 16px; min-width: 100vw; }
@@ -927,6 +930,7 @@
 .teamCopy > .pill, .practiceAside > .pill, .fieldAside > .pill { margin-top: 24px; }
 .pill > span { white-space: normal; }
 .contact, .fieldNotes, .keepers { height: auto; }
+.fieldNotes { padding-inline: 0; overflow: clip; }
 .contactFormShell { height: auto; min-height: 720px; }
 .contactDruid { object-fit: contain; }
 .contactFormShell :global(.hire-us-wizard) > div:first-child > div { height: auto; min-height: 32px; padding-top: 6px; padding-bottom: 6px; }
@@ -998,16 +1002,18 @@
   .stewardCard { min-height: 340px; padding: 18px; }
   .stewardPortrait { height: 132px; width: 132px; margin: 18px auto 12px; }
   .stewardCard > p { font-size: 13px; line-height: 20px; letter-spacing: 1px; }
-  .teamNetwork { height: auto; min-height: 0; padding: 20px var(--composition-gutter) 64px; gap: 32px; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); }
-  .teamCopy { padding: 0; }
+  .teamNetwork { height: auto; min-height: 0; padding: 20px 0 64px; gap: 40px; grid-template-columns: minmax(0, 1fr) minmax(0, 460px); }
+  .teamNetwork .teamWall { width: 100%; }
+  .teamCopy { padding: 0 40px 0 0; width: auto; }
 
   .practice { padding: 72px var(--composition-gutter); }
   .practiceHeading { max-width: none; grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr); }
   .practice h2, .fieldIntro h2 { font-size: 44px; line-height: 1.06; }
   .practice h2 em, .fieldIntro h2 b { font-size: 56px; line-height: 1.06; }
   .disciplineGrid { margin-top: 32px; max-width: none; }
-  .spearGrid .discipline { padding: 24px 30px 30px; }
-  .spearGrid .disciplineArt { height: 240px; margin-top: 12px; }
+  .spearGrid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .spearGrid .discipline { min-width: 0; padding: 24px 20px 30px; }
+  .spearGrid .disciplineArt { height: 180px; margin-top: 12px; }
   .disciplineTop { font-size: 16px; }
 
   .fieldNotes { padding: 72px 0 56px; }
@@ -1075,3 +1081,30 @@
   .missionImage { transition: none; }
   .portalAtmosphere, .portalMachine::before, .portalMachine::after, .portalHalo, .portalHalo::before, .portalThreshold, .portalThreshold::after, .portalMessage > p span { animation: none; }
 }
+/* Transit windows lead; the invitation sits quietly beneath them. */
+.portalOverlay::before { background: radial-gradient(ellipse at 50% 40%, transparent 30%, rgba(40,15,12,.28) 100%); }
+.portalMachine { top: 39%; height: min(57dvh, 600px); width: min(30vw, 400px); }
+.portalSpear { left: 20%; }
+.portalProblem { left: 50%; }
+.portalJoin { left: 80%; }
+.portalChoiceLabel { color: var(--paper); bottom: -36px; font-size: clamp(16px, 1.8vw, 26px); }
+.portalChoiceLabel small, .portalChoiceLabel b { opacity: .9; }
+.portalMessage { animation: portalInvitationIn .7s ease both; top: auto; bottom: 20px; left: 24px; width: calc(100% - 48px); transform: none; text-align: center; }
+.portalMessage h2 { font-size: clamp(22px, 2.8vw, 40px); line-height: 1.2; letter-spacing: -.02em; text-shadow: none; }
+.portalMessage h2 em { color: var(--paper); }
+.portalMessage .unchartedPortal { margin-top: 8px; }
+.portalCoordinates { display: none; }
+@keyframes portalInvitationIn { from { opacity: 0; } to { opacity: 1; } }
+@media (max-width: 700px) {
+  .portalMachine { top: 38%; height: 44dvh; width: 29vw; }
+  .portalChoiceLabel { bottom: -48px; font-size: 14px; line-height: 1.2; }
+  .portalChoiceLabel b { display: none; }
+  .portalMessage { bottom: 24px; }
+}
+@media (max-height: 550px) {
+  .portalMachine { top: 36%; height: 42dvh; }
+  .portalChoiceLabel { bottom: -24px; }
+  .portalChoiceLabel b { display: none; }
+  .portalMessage { bottom: 8px; }
+}
+@media (prefers-reduced-motion: reduce) { .portalMessage { animation: none; } }

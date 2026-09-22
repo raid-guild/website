@@ -149,8 +149,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         disabled={closing}
         aria-label="Explore independent RaidGuild practices"
       >
-        <PortalEnergy energized={energized === "Spear"} />
-        <span className={styles.portalThreshold}><Sigil /></span>
+        <PortalEnergy energized={energized === "Spear"} destinationSrc="/images/neo/field-protocol-garden.png" />
         <span className={styles.portalChoiceLabel}>
           <small>01 / EXPLORE</small>
           <strong>EXPLORE PRACTICES</strong>
@@ -169,8 +168,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         disabled={closing}
         aria-label="Start a project with RaidGuild"
       >
-        <PortalEnergy energized={energized === "Problem"} />
-        <span className={styles.portalThreshold}><Sigil /></span>
+        <PortalEnergy energized={energized === "Problem"} destinationSrc="/images/neo/sky-citadel.png" />
         <span className={styles.portalChoiceLabel}>
           <small>02 / INQUIRE</small>
           <strong>START A PROJECT</strong>
@@ -189,8 +187,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         disabled={closing}
         aria-label="Join the RaidGuild builder community in a new tab"
       >
-        <PortalEnergy energized={energized === "Join"} />
-        <span className={styles.portalThreshold}><Sigil /></span>
+        <PortalEnergy energized={energized === "Join"} destinationSrc="/images/neo/hero-dark-poster.png" />
         <span className={styles.portalChoiceLabel}>
           <small>03 / JOIN</small>
           <strong>JOIN THE GUILD</strong>
@@ -208,10 +205,7 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
       {forming && <p className={styles.portalBreach}>[ SPATIAL BREACH DETECTED ]</p>}
       {!forming && (
         <div className={styles.portalMessage}>
-          <p><span /> Three transit windows open</p>
-          <h2>CHOOSE YOUR<br /><em>PORTAL.</em></h2>
-          <small>EXPLORE PRACTICES · START A PROJECT · JOIN THE GUILD</small>
-          <b>Independent minds. Shared ambition.<br />Different ways to connect with one network.</b>
+          <h2>CHOOSE YOUR <em>PORTAL.</em></h2>
           <div className={styles.unchartedPortal}><HuntPixel artifact="portal" /><HuntMarker artifact="portal" label="Follow the rabbit" rabbit /></div>
         </div>
       )}

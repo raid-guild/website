@@ -62,7 +62,7 @@ export default function PortalEnergy({ energized = false, destinationSrc }: { en
         const v=view.getContext('2d');if(!v)return;
         const cover=Math.max(1008/destination.naturalWidth,1008/destination.naturalHeight);
         const iw=destination.naturalWidth*cover,ih=destination.naturalHeight*cover;
-        v.filter=`blur(${i===0?10:2}px)`;
+        v.filter=`blur(${i===0?2:0}px)`;
         v.drawImage(destination,(960-iw)/2,(960-ih)/2,iw,ih);
       }
       destinationReady=true;invalidate();
