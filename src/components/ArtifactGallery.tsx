@@ -74,8 +74,14 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
   useEffect(() => {
     const root = grid.current;
     if (!root) return;
+    let lastWidth = -1;
     const observer = new ResizeObserver(([entry]) => {
-      setColumns(Math.max(2, Math.floor(entry.contentRect.width / 190)));
+      const width = entry.contentRect.width;
+      // Elastic title wrapping can resize the height; that is not a breakpoint
+      // change and must not cancel the hover that caused it.
+      if (Math.abs(width - lastWidth) < 1) return;
+      lastWidth = width;
+      setColumns(Math.max(2, Math.floor(width / 190)));
       setPeek(null); zones.current = [];
     });
     observer.observe(root);
@@ -107,7 +113,7 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
   </article>;
   const rows = (items: GalleryItem[]) => Array.from({ length: Math.ceil(items.length / columns) }, (_, row) => {
     const itemsInRow = items.slice(row * columns, (row + 1) * columns);
-    return <div key={row} className={styles.row} style={{ gridTemplateColumns: Array.from({ length: columns }, (_, index) => itemsInRow[index]?.id === peek ? "1.5fr" : "1fr").join(" ") }}>{itemsInRow.map(card)}</div>;
+    return <div key={row} data-elastic-row className={styles.row} style={{ gridTemplateColumns: Array.from({ length: columns }, (_, index) => itemsInRow[index]?.id === peek ? "minmax(0, 1.5fr)" : "minmax(0, 1fr)").join(" ") }}>{itemsInRow.map(card)}</div>;
   });
   return <section className={styles.section} aria-labelledby="artifact-heading">
     <h3 id="artifact-heading" className={styles.srOnly}>Explore the frontier collection</h3>
@@ -117,7 +123,15 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
     <div className={styles.layout} onKeyDown={event => { if (event.key === "Escape" && selected) { event.preventDefault(); select(null); } }}>
     <div ref={grid} className={styles.previews} onPointerLeave={() => setPeek(null)} onPointerMove={event => {
       if ((!active && columns === 1) || event.pointerType === "touch" || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-      if (!zones.current.length) zones.current = Array.from(grid.current!.querySelectorAll<HTMLElement>(`[data-artifact]:not([data-artifact="${selected}"])`)).map(el => ({ id: el.dataset.artifact!, rect: el.getBoundingClientRect() }));
+      // Use each row's resting, equal-width slots rather than the moving card
+      // edges. Re-entering during a transition cannot shift the hit boundaries.
+      if (!zones.current.length) zones.current = Array.from(grid.current!.querySelectorAll<HTMLElement>("[data-elastic-row]")).flatMap(row => {
+        const bounds = row.getBoundingClientRect();
+        const width = bounds.width / columns;
+        return Array.from(row.querySelectorAll<HTMLElement>("[data-artifact]")).map((el, index) => ({
+          id: el.dataset.artifact!, rect: new DOMRect(bounds.left + index * width, bounds.top, width, bounds.height),
+        }));
+      });
       const hit = zones.current.find(({ rect }) => event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom);
       setPeek(hit?.id || null);
     }} onPointerEnter={() => { zones.current = []; }}>

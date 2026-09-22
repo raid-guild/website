@@ -24,8 +24,8 @@
 .placeholder > b { font-size: 40px; }
 .visual b { position: absolute; right: 12px; top: 12px; border-radius: 50%; background: var(--paper); color: var(--ink); width: 30px; height: 30px; display: grid; place-items: center; }
 .caption { display: block; padding: 12px; }
-.caption strong { display: block; font-size: 16px; line-height: 1.25; overflow-wrap: anywhere; }
-.caption small { display: block; font-size: 13px; margin-top: 5px; }
+.caption strong { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; height: 3.75em; overflow: hidden; font-size: 16px; line-height: 1.25; overflow-wrap: anywhere; }
+.caption small { display: block; font-size: 13px; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .detail { border: 1px solid currentColor; padding: 24px; min-width: 0; position: sticky; top: 100px; max-height: calc(100dvh - 120px); overflow-y: auto; }
 .empty { min-height: 300px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
 .empty > span { color: var(--coral); font-size: 48px; }
