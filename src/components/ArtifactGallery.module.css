@@ -1,4 +1,4 @@
-.section { --gallery-card-surface: var(--paper); --gallery-card-ink: var(--ink); --gallery-card-border: var(--ink); --gallery-logo-surface: #12302d; --gallery-placeholder-surface: var(--deep); --gallery-detail-surface: transparent; --gallery-detail-border: currentColor; margin: 32px 0 0; color: var(--ink); width: 100%; min-width: 0; }
+.section { --gallery-card-surface: var(--paper); --gallery-card-ink: var(--ink); --gallery-card-border: rgba(16,45,44,.45); --gallery-logo-surface: #12302d; --gallery-placeholder-surface: var(--deep); --gallery-detail-surface: transparent; --gallery-detail-border: currentColor; margin: 32px 0 0; color: var(--ink); width: 100%; min-width: 0; }
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) clamp(300px, 30vw, 460px); align-items: start; }
 .srOnly { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
@@ -7,6 +7,8 @@
 .visual img.logo, .feature > img.logo { object-fit: contain; padding: 36px; background: var(--gallery-logo-surface); height: 100%; min-height: 0; }
 .feature > img.logo { height: 300px; }
 .previews .visual img.logo { padding: 16px; }
+.previews .visual img.logo.compactLogo { padding: 44px 56px; }
+.feature > img.logo.compactLogo { padding: 100px 80px; }
 .heading { display: flex; align-items: end; justify-content: space-between; gap: 32px; margin-bottom: 28px; }
 .heading > div > p, .guide { font: 12px/1.5 var(--font-mono), monospace; letter-spacing: .08em; }
 .heading > div > p { color: var(--coral); margin-bottom: 12px; }
@@ -16,22 +18,25 @@
 .guide { display: flex; justify-content: space-between; gap: 16px; margin-bottom: 16px; }
 .row { display: grid; gap: 0; margin-bottom: 0; transition: grid-template-columns 350ms cubic-bezier(.2,.82,.2,1); }
 .card { min-width: 0; transform-origin: top left; }
-.card button { background: var(--gallery-card-surface); color: var(--gallery-card-ink); border: 1px solid var(--gallery-card-border); cursor: pointer; width: 100%; padding: 0; text-align: left; font: inherit; height: 100%; }
+.card button { background: var(--gallery-card-surface); color: var(--gallery-card-ink); border: 0; cursor: pointer; width: 100%; padding: 0; text-align: left; font: inherit; height: 100%; position: relative; display: block; overflow: hidden; }
+.card button::after { box-shadow: inset 0 0 0 2px var(--gallery-card-border), inset 0 0 18px rgba(0,0,0,.2); content: ""; inset: 0; pointer-events: none; position: absolute; z-index: 3; }
 .visual { display: block; height: 140px; overflow: hidden; position: relative; }
 .visual img { width: 100%; height: 100%; object-fit: cover; }
 .placeholder { display: flex; min-height: 0; height: 100%; align-items: center; justify-content: center; gap: 24px; background: var(--gallery-placeholder-surface); color: var(--paper); text-transform: uppercase; font-family: var(--font-mono), monospace; }
 .feature > .placeholder { min-height: 220px; }
 .placeholder > b { font-size: 40px; }
-.visual b { position: absolute; right: 12px; top: 12px; border-radius: 50%; background: var(--paper); color: var(--ink); width: 30px; height: 30px; display: grid; place-items: center; }
-.caption { display: block; padding: 12px; }
-.caption strong { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; height: 3.75em; overflow: hidden; font-size: 16px; line-height: 1.25; overflow-wrap: anywhere; }
-.caption small { display: block; font-size: 13px; margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.visual b { position: absolute; right: 12px; top: 12px; border-radius: 50%; background: var(--paper); color: var(--ink); width: 30px; height: 30px; display: grid; place-items: center; z-index: 2; }
+.caption { background: linear-gradient(transparent, rgba(5,27,28,.93) 42%); color: var(--paper); display: flex; flex-direction: column; justify-content: flex-end; inset: 0; opacity: 0; padding: 32px 12px 12px; pointer-events: none; position: absolute; transition: opacity .18s ease; z-index: 1; }
+.card[data-peek="true"] .caption, .card:focus-within .caption { opacity: 1; }
+.caption strong { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 15px; line-height: 1.18; overflow-wrap: anywhere; }
+.caption small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 11px; line-height: 1.2; margin-top: 4px; overflow: hidden; overflow-wrap: anywhere; }
 .detail { background: var(--gallery-detail-surface); border: 1px solid var(--gallery-detail-border); padding: 24px; min-width: 0; position: sticky; top: 100px; max-height: calc(100dvh - 120px); overflow-y: auto; }
 .empty { min-height: 300px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
 .empty > span { color: var(--coral); font-size: 48px; }
 .empty h4 { font: 28px/1.2 var(--font-display), sans-serif; }
 .empty p { font-size: 16px; line-height: 1.5; }
-.card button[aria-expanded="true"] { box-shadow: inset 0 0 0 3px var(--coral); }
+.card button[aria-expanded="true"]::after { box-shadow: inset 0 0 0 3px var(--coral), inset 0 0 18px rgba(0,0,0,.2); }
+.card[data-peek="true"] button::after { box-shadow: inset 0 0 0 2px var(--coral), inset 0 0 18px rgba(0,0,0,.2); }
 .back { background: transparent; border: 0; color: inherit; cursor: pointer; font: inherit; display: flex; justify-content: space-between; width: 100%; padding: 0 0 20px; }
 .feature { display: grid; grid-template-columns: minmax(0, 1fr); align-items: center; gap: 16px; }
 .feature > img { width: 100%; height: 220px; object-fit: cover; }
@@ -44,6 +49,8 @@
 .footnote { font-size: 14px; margin-top: 20px; }
 .footnote a { text-decoration: underline; text-underline-offset: 4px; }
 .section button:focus-visible, .section a:focus-visible { outline: 3px solid var(--coral); outline-offset: 4px; }
+.card button:focus-visible { outline: none; }
+.card button:focus-visible::after { box-shadow: inset 0 0 0 4px var(--coral), inset 0 0 18px rgba(0,0,0,.2); }
 :global(html[data-theme="dark"]) .section { --gallery-card-surface: #252a61; --gallery-card-ink: var(--paper); --gallery-card-border: rgba(239,233,215,.22); --gallery-logo-surface: #252a61; --gallery-placeholder-surface: #252a61; --gallery-detail-surface: #191e4e; --gallery-detail-border: rgba(239,233,215,.22); color: var(--paper); }
 @media (max-width: 700px) { .heading { display: block; } .heading > p { margin-top: 20px; } .feature { grid-template-columns: 1fr; } .guide { font-size: 10px; } .heading h3 { font-size: 32px; } }
 @media (max-width: 800px) {
@@ -55,8 +62,9 @@
 @media (max-width: 600px) {
   .visual { height: 100px; }
   .visual img.logo { padding: 16px; }
-  .caption { padding: 10px; }
-  .caption strong { font-size: 14px; }
-  .caption small { font-size: 11px; }
+  .previews .visual img.logo.compactLogo { padding: 28px 40px; }
+  .caption { padding: 24px 9px 9px; }
+  .caption strong { font-size: 13px; }
+  .caption small { font-size: 10px; }
 }
-@media (prefers-reduced-motion: reduce) { .row { transition: none; } }
+@media (prefers-reduced-motion: reduce) { .row, .caption { transition: none; } }

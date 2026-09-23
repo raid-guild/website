@@ -23,7 +23,11 @@ export default function TeamWall({ members, suspended = false }: { members: Merc
     let position = element.scrollLeft;
     const group = element.firstElementChild?.firstElementChild as HTMLElement | null;
     let distance = 0;
-    const measure = () => { distance = group ? group.getBoundingClientRect().width + 14 : 0; };
+    const measure = () => {
+      const loop = group?.parentElement;
+      const gap = loop ? parseFloat(getComputedStyle(loop).columnGap) || 0 : 0;
+      distance = group ? group.getBoundingClientRect().width + gap : 0;
+    };
     const sizes = new ResizeObserver(measure);
     if (group) sizes.observe(group);
     measure();

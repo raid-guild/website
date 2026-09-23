@@ -103,12 +103,12 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
   const active = artifacts.find(item => item.id === selected);
   const screenshot = (item: Artifact) => item.image === undefined ? `/images/artifacts/${item.id}.png` : item.image;
   const preview = (item: Artifact, detail = false) => screenshot(item)
-    ? <Image className={item.kind === "collaborator" ? styles.logo : undefined} src={screenshot(item)!} alt={detail ? `Preview of ${item.title}` : ''} width={1280} height={720} unoptimized={screenshot(item)!.startsWith('https:')} sizes="(max-width: 600px) 90vw, (max-width: 999px) 45vw, 760px" />
+    ? <Image className={item.kind === "collaborator" ? `${styles.logo} ${["network-logo-Daedalus", "network-logo-LX2"].includes(item.id) ? styles.compactLogo : ""}` : undefined} src={screenshot(item)!} alt={detail ? `Preview of ${item.title}` : ''} width={1280} height={720} unoptimized={screenshot(item)!.startsWith('https:')} sizes="(max-width: 600px) 90vw, (max-width: 999px) 45vw, 760px" />
     : <span className={styles.placeholder} aria-hidden="true">{item.category}<b>↗</b></span>;
-  const card = (item: typeof artifacts[number]) => <article key={item.id} data-artifact={item.id} className={styles.card}>
-    <button type="button" aria-expanded={selected === item.id} aria-controls="artifact-detail" aria-label={`Unfold ${item.title}`} onClick={() => select(item.id)} onFocus={() => setPeek(item.id)} onBlur={() => setPeek(null)}>
+  const card = (item: typeof artifacts[number]) => <article key={item.id} data-artifact={item.id} data-peek={peek === item.id} className={styles.card}>
+    <button type="button" aria-expanded={selected === item.id} aria-controls="artifact-detail" aria-label={`Unfold ${item.title}. ${item.description}`} onClick={() => select(item.id)} onFocus={() => setPeek(item.id)} onBlur={() => setPeek(null)}>
       <span className={styles.visual}>{preview(item)}<b aria-hidden="true">+</b></span>
-      <span className={styles.caption}><strong>{item.title}</strong><small>{item.category}</small></span>
+      <span className={styles.caption} aria-hidden="true"><strong>{item.title}</strong><small>{item.description}</small></span>
     </button>
   </article>;
   const rows = (items: GalleryItem[]) => Array.from({ length: Math.ceil(items.length / columns) }, (_, row) => {
@@ -144,7 +144,7 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
       </div>
       {active ? <>
           <button ref={closeButton} className={styles.back} onClick={() => select(null)}>← Back to the collection <span aria-hidden="true">×</span></button>
-          <div className={styles.feature}>{preview(active, true)}<div><p>{active.category}</p><h4>{active.title}</h4><p>{active.description}</p>{active.kind !== "collaborator" && <a href={active.href || `https://portal-artifacts-production.up.railway.app/${active.id}/`} target="_blank" rel="noopener noreferrer">{active.kind === "post" ? "Read the post" : "Explore experiment"} ↗<small>Opens in a new tab</small></a>}</div></div>
+          <div className={styles.feature}>{preview(active, true)}<div><p>{active.category}</p><h4>{active.title}</h4><p>{active.description}</p>{(active.href || active.kind !== "collaborator") && <a href={active.href || `https://portal-artifacts-production.up.railway.app/${active.id}/`} target="_blank" rel="noopener noreferrer">{active.kind === "collaborator" ? `Visit ${active.title}` : active.kind === "post" ? "Read the post" : "Explore experiment"} ↗<small>Opens in a new tab</small></a>}</div></div>
       </> : <div className={styles.empty}><span aria-hidden="true">↖</span><h4>Follow your curiosity.</h4><p>Select a card to explore a field note, a public experiment, or someone we’ve built with.</p><p>Choose a category above to narrow the collection.</p></div>}
     </aside>
     </div>

@@ -226,9 +226,8 @@
 .rosterAside a:not(.pill) { align-items: center; border-bottom: 1px solid currentColor; color: inherit; display: flex; font-size: 8px; font-weight: 700; justify-content: space-between; letter-spacing: .14em; margin-top: 23px; padding-bottom: 10px; text-decoration: none; text-transform: uppercase; }
 .rosterAside a span { font-size: 15px; transition: transform .2s; }
 .rosterAside a:hover span { transform: translate(3px, -3px); }
-.stewardTrack { display: grid; grid-template-columns: repeat(5, minmax(190px, 1fr)); margin-top: 55px; overflow-x: auto; padding-bottom: 14px; scrollbar-width: thin; }
-.stewardCard { border-bottom: 1px solid rgba(16,45,44,.35); border-left: 1px solid rgba(16,45,44,.35); color: inherit; display: block; min-width: 190px; padding: 18px; text-decoration: none; transition: background .25s, color .25s, transform .25s; }
-.stewardCard:last-child { border-right: 1px solid rgba(16,45,44,.35); }
+.stewardTrack { display: grid; gap: 16px; grid-template-columns: repeat(5, minmax(190px, 1fr)); margin-top: 55px; overflow-x: auto; padding: 12px 2px 14px; scroll-padding-inline: 2px; scrollbar-width: thin; }
+.stewardCard { box-shadow: inset 0 0 0 2px rgba(16,45,44,.35); color: inherit; display: block; min-width: 190px; padding: 18px; text-decoration: none; transition: background .25s, color .25s, transform .25s; }
 .stewardCard:hover { background: var(--deep); color: var(--paper); transform: translateY(-8px); }
 .stewardTop { display: flex; font-size: 8px; justify-content: space-between; letter-spacing: .15em; }
 .stewardTop i { font-size: 16px; font-style: normal; }
@@ -240,10 +239,10 @@
 .stewardCard > small { font-size: 7px; letter-spacing: .12em; opacity: .65; }
 .memberMarquee { border-bottom: 1px solid rgba(16,45,44,.3); margin-top: 68px; overflow-x: auto; padding: 16px 0; scrollbar-width: none; }
 .memberMarquee::-webkit-scrollbar { display: none; }
-.memberRail { animation: memberDrift 68s linear infinite; display: flex; gap: 14px; width: max-content; }
+.memberRail { animation: memberDrift 68s linear infinite; display: flex; gap: 16px; width: max-content; }
 .memberMarquee:hover .memberRail { animation-play-state: paused; }
-.memberRail > a, .memberRail > div { align-items: center; border: 1px solid rgba(16,45,44,.28); color: inherit; display: flex; flex: 0 0 auto; gap: 11px; min-width: 190px; padding: 7px 12px 7px 7px; text-decoration: none; transition: background .2s, color .2s; }
-.memberRail > a:hover { background: var(--coral); border-color: var(--coral); color: var(--paper); }
+.memberRail > a, .memberRail > div { align-items: center; box-shadow: inset 0 0 0 2px rgba(16,45,44,.28); color: inherit; display: flex; flex: 0 0 auto; gap: 11px; min-width: 190px; padding: 7px 12px 7px 7px; text-decoration: none; transition: background .2s, color .2s; }
+.memberRail > a:hover { background: var(--coral); color: var(--paper); }
 .memberRail img { background: var(--sky); border-radius: 50%; filter: saturate(.65); height: 48px; object-fit: cover; width: 48px; }
 .memberRail span { display: flex; flex-direction: column; min-width: 95px; }
 .memberRail strong { font-family: var(--font-display), serif; font-size: 17px; font-weight: 500; line-height: 1; }
@@ -356,13 +355,14 @@
 .teamWall .memberMarquee { cursor: grab; overflow-x: auto; overscroll-behavior-x: contain; scroll-behavior: auto; }
 .teamWall .memberMarquee:active { cursor: grabbing; }
 .memberMarquee:focus-visible { outline: 2px solid var(--coral); outline-offset: -2px; }
-.memberLoop { display: flex; gap: 14px; width: max-content; }
-.teamWall .memberRail { --brick-width: 230px; animation: none; transform: none; flex-shrink: 0; user-select: none; display: grid; grid-auto-flow: column; grid-auto-columns: var(--brick-width); grid-template-rows: repeat(2, 72px); gap: 8px 14px; }
+.memberLoop { display: flex; gap: 16px; width: max-content; }
+.teamWall .memberRail { --brick-width: 230px; animation: none; transform: none; flex-shrink: 0; user-select: none; display: grid; grid-auto-flow: column; grid-auto-columns: var(--brick-width); grid-template-rows: repeat(2, 72px); gap: 16px; }
+.teamWall .memberMarquee { -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); }
 .teamWall .memberRail > a, .teamWall .memberRail > div { min-width: 0; }
 .teamWall .memberRail img, .teamWall .memberRail i { flex-shrink: 0; }
 .teamWall .memberRail span { flex: 1; min-width: 0; }
 .teamWall .memberRail strong, .teamWall .memberRail small { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-right: 3px; }
-.teamWall .memberRail > :nth-child(even) { transform: translateX(calc((var(--brick-width) + 14px) / 2)); }
+.teamWall .memberRail > :nth-child(even) { transform: translateX(calc((var(--brick-width) + 16px) / 2)); }
 .memberRail > a:focus-visible { outline: 3px solid var(--coral); outline-offset: -4px; }
 :global(html[data-theme="dark"]) .site .teamNetwork { color: var(--paper); }
 :global(html[data-theme="dark"]) .site .teamCopy h3,
@@ -427,15 +427,11 @@
   color: var(--color-cream);
 }
 :global(html[data-theme="dark"]) .site .statsBand { background: var(--color-navy); }
-:global(html[data-theme="dark"]) .site .keepers .stewardCard,
-:global(html[data-theme="dark"]) .site .teamNetwork .memberRail > a,
-:global(html[data-theme="dark"]) .site .teamNetwork .memberRail > div { border-color: rgba(239,233,215,.25); }
 :global(html[data-theme="dark"]) .site .prologue::before { border-color: rgba(184,224,223,.13); }
 :global(html[data-theme="dark"]) .site .prologue::after { background: radial-gradient(circle at 50% 50%, transparent 0 21px, rgba(184,224,223,.14) 22px 23px, transparent 24px 49px, rgba(184,224,223,.08) 50px 51px, transparent 52px), linear-gradient(90deg, transparent calc(50% - .5px), rgba(239,233,215,.09) 50%, transparent calc(50% + .5px)), linear-gradient(transparent calc(50% - .5px), rgba(239,233,215,.09) 50%, transparent calc(50% + .5px)); }
 :global(html[data-theme="dark"]) .site .orbit { border-color: rgba(184,224,223,.42); }
 :global(html[data-theme="dark"]) .site .orbit::before { border-color: rgba(239,233,215,.18); }
 :global(html[data-theme="dark"]) .site .prologueBody, :global(html[data-theme="dark"]) .site .rosterHeading, :global(html[data-theme="dark"]) .site .memberMarquee { border-color: rgba(239,233,215,.22); }
-:global(html[data-theme="dark"]) .site .stewardCard, :global(html[data-theme="dark"]) .site .stewardCard:last-child, :global(html[data-theme="dark"]) .site .memberRail > a, :global(html[data-theme="dark"]) .site .memberRail > div { border-color: rgba(239,233,215,.2); }
 :global(html[data-theme="dark"]) .site .stewardCard:hover { background: var(--color-dark-green); color: var(--color-cream); }
 :global(html[data-theme="dark"]) .site .stewardPortrait, :global(html[data-theme="dark"]) .site .memberRail img { background: var(--color-cyan); }
 :global(html[data-theme="dark"]) .site .stewardPortrait::after { border-color: rgba(184,224,223,.28); }
@@ -664,9 +660,8 @@
   .rosterHeading > div > p:last-child { font-family: var(--font-body), serif; font-size: 16px; letter-spacing: 1px; line-height: 24px; margin: 8px 0 0; width: 671px; }
   .rosterAside { width: 268px; }
   .rosterAside a:not(.pill) { font-size: 14px; height: 56px; letter-spacing: 1px; margin: 0; }
-  .stewardTrack { grid-template-columns: repeat(5, 243.2px); margin-top: 0; overflow: visible; padding: 24px 0; }
-  .stewardCard { border: 2px solid var(--coral); border-radius: 16px; height: 411px; min-width: 0; padding: 26px; }
-  .stewardCard:last-child { border-right: 1px solid rgba(16,45,44,.35); }
+  .stewardTrack { grid-template-columns: repeat(5, minmax(0, 1fr)); margin-top: 0; overflow: visible; padding: 24px 2px; }
+  .stewardCard { box-shadow: inset 0 0 0 2px var(--coral), inset 0 0 16px rgba(16,45,44,.08); border-radius: 16px; height: 411px; min-width: 0; padding: 26px; }
   .stewardPortrait { height: 169px; margin: 24px auto 8px; max-width: none; width: 169px; }
   .stewardCard > p { font-size: 16px; letter-spacing: 2px; line-height: 24px; margin: 0; }
   .stewardCard h4 { font-size: 24px; line-height: 32px; margin: 8px 0; }
@@ -675,10 +670,10 @@
 
   .teamNetwork { align-items: center; background: var(--paper); color: var(--ink); display: grid; grid-template-columns: 839px 1fr; height: 444px; overflow: hidden; }
   .teamWall { height: 384px; overflow: hidden; position: relative; width: 820px; }
-  .memberMarquee { border: 0; height: 384px; margin: 0; overflow: hidden; padding: 0; }
-  .memberRail { animation: none; column-gap: 14px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(4, 90px); row-gap: 8px; transform: translateX(-799.25px); width: max-content; }
+  .memberMarquee { border: 0; height: 408px; margin: 0; overflow: hidden; padding: 0; }
+  .memberRail { animation: none; column-gap: 16px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(4, 90px); row-gap: 16px; transform: translateX(-799.25px); width: max-content; }
   .teamWall .memberRail { --brick-width: 290px; grid-template-rows: repeat(4, 90px); }
-  .memberRail > a, .memberRail > div { border: 2px solid var(--coral); border-radius: 16px; gap: 16px; height: 90px; min-width: 213.75px; padding: 18px; }
+  .memberRail > a, .memberRail > div { box-shadow: inset 0 0 0 2px var(--coral), inset 0 0 14px rgba(16,45,44,.08); border-radius: 16px; gap: 16px; height: 90px; min-width: 213.75px; padding: 18px; }
   .memberRail img { border-radius: 27px; filter: none; height: 54px; width: 54px; }
   .memberRail strong { color: var(--coral); font-family: var(--font-display), sans-serif; font-size: 24px; font-style: italic; line-height: 32px; }
   .memberRail small { color: var(--color-dark-green); font-size: 14px; font-weight: 700; letter-spacing: 1px; line-height: 16px; margin-top: 5.625px; opacity: 1; }
@@ -898,6 +893,11 @@
 :global(html[data-theme="dark"]) .site .memberRail > a,
 :global(html[data-theme="dark"]) .site .memberRail > div,
 :global(html[data-theme="dark"]) .site .discipline { background: rgba(185,224,223,.055); }
+:global(html[data-theme="dark"]) .site .keepers .stewardCard,
+:global(html[data-theme="dark"]) .site .teamNetwork .memberRail > a,
+:global(html[data-theme="dark"]) .site .teamNetwork .memberRail > div { box-shadow: inset 0 0 0 2px rgba(239,233,215,.32), inset 0 0 18px rgba(0,0,0,.18); }
+:global(html[data-theme="dark"]) .site .keepers .stewardCard:is(:hover, :focus-visible),
+:global(html[data-theme="dark"]) .site .teamNetwork .memberRail > a:is(:hover, :focus-visible) { box-shadow: inset 0 0 0 2px var(--coral), inset 0 0 18px rgba(0,0,0,.18); }
 :global(html[data-theme="dark"]) .site .stewardCard:hover,
 :global(html[data-theme="dark"]) .site .stewardCard:focus-visible,
 :global(html[data-theme="dark"]) .site .memberRail > a:hover,
@@ -1001,7 +1001,8 @@
 
   .keepers { padding: 64px var(--composition-gutter) 16px; }
   .rosterHeading { min-height: 0; padding: 0 0 28px; gap: 32px; }
-  .stewardTrack { padding: 0 0 20px; }
+  /* Reserve room for the card's 8px hover lift inside the scroll container. */
+  .stewardTrack { padding: 12px 2px 20px; }
   .stewardCard { min-height: 340px; padding: 18px; }
   .stewardPortrait { height: 132px; width: 132px; margin: 18px auto 12px; }
   .stewardCard > p { font-size: 13px; line-height: 20px; letter-spacing: 1px; }
