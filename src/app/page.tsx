@@ -7,16 +7,16 @@ const publicAssetOrigin = process.env.RAILWAY_PUBLIC_DOMAIN
 
 export const metadata: Metadata = {
   alternates: { canonical: "/" },
-  title: "RaidGuild — Venture Beyond",
+  title: { absolute: "RaidGuild — Venture Beyond" },
   description:
-    "Explore RaidGuild, a builder-owned community of creative and technical people learning, experimenting, and building together.",
+    "Meet RaidGuild, a builder-owned community of designers, engineers, researchers, strategists, and operators exploring emerging technology together, from applied AI to onchain systems.",
   openGraph: {
     type: "website",
     url: "https://www.raidguild.org",
     siteName: "RaidGuild",
     title: "RaidGuild — Venture Beyond",
     description:
-      "Independent minds. Shared ambition. Explore the people, ideas, and specialist practices growing from the RaidGuild community.",
+      "Meet the builder-owned RaidGuild community and explore its people, experiments, and independent practices in applied AI and onchain systems.",
     images: [
       {
         url: `${publicAssetOrigin}/opengraph-image.png`,
@@ -30,7 +30,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "RaidGuild — Venture Beyond",
     description:
-      "Independent minds. Shared ambition. Explore the people, ideas, and specialist practices growing from the RaidGuild community.",
+      "Meet the builder-owned RaidGuild community and explore its people, experiments, and independent practices in applied AI and onchain systems.",
     images: [`${publicAssetOrigin}/opengraph-image.png`],
   },
 };
@@ -42,6 +42,7 @@ const organizationSchema = {
   "@type": "Organization",
   name: "RaidGuild",
   url: "https://www.raidguild.org",
+  logo: "https://www.raidguild.org/images/raidguild-logo.svg",
   description:
     "A builder-owned community of creative and technical people sharing knowledge, exploring technology, and building together since 2019.",
   foundingDate: "2019",

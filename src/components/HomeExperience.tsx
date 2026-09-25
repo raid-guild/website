@@ -1,9 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
+import { useEffect, useRef, useState, type MouseEvent } from "react";
 import Image from "next/image";
 import * as Dialog from "@radix-ui/react-dialog";
-import FrontDoor from "./FrontDoor";
 import { UnchartedHunt, HuntMarker, HuntPixel } from "./UnchartedHunt";
 import TeamWall from "./TeamWall";
 import PortalEnergy from "./PortalEnergy";
@@ -11,6 +10,7 @@ import LoopBand from "./LoopBand";
 import ArtifactGallery from "./ArtifactGallery";
 import HireUs from "@/components/HireUs";
 import { mercenaries } from "@/lib/data/members";
+import { featuredDiscoveries } from "@/lib/data/featuredDiscoveries";
 import styles from "./HomeExperience.module.css";
 
 const activeSpears = [
@@ -138,15 +138,17 @@ function PortalOverlay({ open, forming, closing, container, onClose, onSpears, o
       className={`${styles.portalOverlay} ${forming ? styles.portalForming : ""} ${closing ? styles.portalClosing : ""}`}
       onOpenAutoFocus={(event) => {
         event.preventDefault();
-        firstChoiceRef.current?.focus();
+        const rabbit = document.querySelector<HTMLElement>('[role="dialog"] [aria-label="Follow the rabbit"]');
+        if (rabbit) rabbit.focus();
+        else firstChoiceRef.current?.focus();
       }}
       onEscapeKeyDown={(event) => {
         event.preventDefault();
         onClose();
       }}
     >
-      <Dialog.Title className="sr-only">Choose your RaidGuild portal</Dialog.Title>
-      <Dialog.Description className="sr-only">Choose a practice to explore, start a project, or join the Guild.</Dialog.Description>
+      <Dialog.Title className="sr-only">The RaidGuild Portal and discovery trail</Dialog.Title>
+      <Dialog.Description className="sr-only">Follow the rabbit to begin the three-clue hunt, or choose a destination.</Dialog.Description>
       <div className={styles.portalAtmosphere} aria-hidden="true" />
       <button
         ref={firstChoiceRef}
@@ -216,10 +218,11 @@ function PortalOverlay({ open, forming, closing, container, onClose, onSpears, o
       {forming && <p className={styles.portalBreach}>[ SPATIAL BREACH DETECTED ]</p>}
       {!forming && (
         <div className={styles.portalMessage}>
-          <h2>CHOOSE YOUR <em>PORTAL.</em></h2>
-          <div className={styles.unchartedPortal}><HuntPixel artifact="portal" /><HuntMarker artifact="portal" label="Follow the rabbit" rabbit /></div>
+          <h2>THE HUNT <em>STARTS HERE.</em></h2>
+          <p className={styles.portalHuntIntro}>Follow the rabbit for the first clue. Then find a signal near the Guild inquiry and a mark beneath the Creed.</p>
         </div>
       )}
+      {!forming && <div className={styles.unchartedPortal}><HuntPixel artifact="portal" /><HuntMarker artifact="portal" label="Follow the rabbit" rabbit /></div>}
       <p className={styles.portalCoordinates}>39°44′N / 104°59′W<br />DESTINATION: UNMAPPED</p>
     </Dialog.Content>
     </Dialog.Portal>
@@ -227,34 +230,17 @@ function PortalOverlay({ open, forming, closing, container, onClose, onSpears, o
 }
 
 export default function HomeExperience() {
-  const [frontDoorOpen, setFrontDoorOpen] = useState(true);
-  const [entranceDestination, setEntranceDestination] = useState<string | null>(null);
-  const enterFromFrontDoor = useCallback((destination: string) => {
-    setEntranceDestination(destination);
-    setFrontDoorOpen(false);
-  }, []);
-
-  useEffect(() => {
-    if (frontDoorOpen || !entranceDestination) return;
-    const target = document.getElementById(entranceDestination);
-    if (!target) return;
-    target.scrollIntoView({ behavior: "instant", block: "start" });
-    const focusTarget = target.querySelector<HTMLElement>("input, a, button") || target;
-    if (!focusTarget.hasAttribute("tabindex") && focusTarget === target) focusTarget.setAttribute("tabindex", "-1");
-    focusTarget.focus({ preventScroll: true });
-  }, [frontDoorOpen, entranceDestination]);
+  const [communityExpanded, setCommunityExpanded] = useState(false);
+  const [galleryExpanded, setGalleryExpanded] = useState(false);
+  const [inquiryExpanded, setInquiryExpanded] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [portalOpen, setPortalOpen] = useState(false);
   const [portalForming, setPortalForming] = useState(false);
   const [portalClosing, setPortalClosing] = useState(false);
-  const [heroRevealed, setHeroRevealed] = useState(false);
   const [isNight, setIsNight] = useState(false);
   const [arrivalTarget, setArrivalTarget] = useState<string | null>(null);
   const heroRef = useRef<HTMLElement>(null);
   const siteRef = useRef<HTMLDivElement>(null);
-  const spearTrackRef = useRef<HTMLDivElement>(null);
-  const [activeSpear, setActiveSpear] = useState(0);
-  const heroRevealTimerRef = useRef<number | null>(null);
   const portalTimerRef = useRef<number | null>(null);
   const portalFormTimerRef = useRef<number | null>(null);
   const arrivalTimerRef = useRef<number | null>(null);
@@ -266,7 +252,7 @@ export default function HomeExperience() {
     const update = () => videos.forEach((video) => {
       const scene = video.dataset.scene;
       const matchesTheme = scene === "manifesto" || scene === (isNight ? "dark" : "light");
-      if (!frontDoorOpen && !portalOpen && !document.hidden && !preference.matches && matchesTheme && visible.has(video)) {
+      if (!portalOpen && !document.hidden && !preference.matches && matchesTheme && visible.has(video)) {
         void video.play().catch(() => { /* Poster remains available if autoplay is blocked. */ });
       } else video.pause();
     });
@@ -287,17 +273,7 @@ export default function HomeExperience() {
       preference.removeEventListener("change", update);
       document.removeEventListener("visibilitychange", update);
     };
-  }, [frontDoorOpen, portalOpen, isNight]);
-
-  const revealHero = () => {
-    if (heroRevealTimerRef.current) window.clearTimeout(heroRevealTimerRef.current);
-    setHeroRevealed(true);
-  };
-
-  const restHero = () => {
-    if (heroRevealTimerRef.current) window.clearTimeout(heroRevealTimerRef.current);
-    heroRevealTimerRef.current = window.setTimeout(() => setHeroRevealed(false), 2200);
-  };
+  }, [portalOpen, isNight]);
 
   const scrollToSection = (destination: "guild" | "spears" | "work" | "contact") => {
     const target = document.getElementById(destination);
@@ -309,25 +285,68 @@ export default function HomeExperience() {
     arrivalTimerRef.current = window.setTimeout(() => setArrivalTarget(null), reduceMotion ? 0 : 1800);
   };
 
+  useEffect(() => {
+    let revealTimer: number | undefined;
+    const revealHash = () => {
+      const hash = decodeURIComponent(window.location.hash.slice(1));
+      setCommunityExpanded(hash === "team");
+      setGalleryExpanded(hash === "gallery" || hash === "uncharted");
+      setInquiryExpanded(hash === "project-inquiry");
+      if (revealTimer) window.clearTimeout(revealTimer);
+      if (["team", "gallery", "uncharted", "project-inquiry"].includes(hash)) {
+        revealTimer = window.setTimeout(() => {
+          const target = document.getElementById(hash);
+          target?.scrollIntoView({ block: "start" });
+          if (hash === "project-inquiry") target?.focus({ preventScroll: true });
+        }, 80);
+      }
+    };
+    revealHash();
+    window.addEventListener("hashchange", revealHash);
+    window.addEventListener("popstate", revealHash);
+    return () => {
+      if (revealTimer) window.clearTimeout(revealTimer);
+      window.removeEventListener("hashchange", revealHash);
+      window.removeEventListener("popstate", revealHash);
+    };
+  }, []);
+
   const followSectionLink = (
     event: MouseEvent<HTMLAnchorElement>,
     destination: "guild" | "spears" | "work" | "contact",
-    departHero = false,
   ) => {
     event.preventDefault();
-    if (departHero) setHeroRevealed(false);
+    window.history.replaceState(null, "", `#${destination}`);
     scrollToSection(destination);
+  };
+
+  const revealInquiry = (pushHistory = false) => {
+    setInquiryExpanded(true);
+    window.history[pushHistory ? "pushState" : "replaceState"](null, "", "#project-inquiry");
+    // Wait for the disclosure to open before scrolling and moving keyboard focus.
+    window.setTimeout(() => {
+      const inquiry = document.getElementById("project-inquiry");
+      inquiry?.scrollIntoView({
+        behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
+        block: "start",
+      });
+      inquiry?.focus({ preventScroll: true });
+    }, 80);
+  };
+
+  const followInquiryLink = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    revealInquiry(true);
   };
 
   const openPortal = () => {
     if (portalFormTimerRef.current) window.clearTimeout(portalFormTimerRef.current);
     setPortalOpen(true);
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    setPortalForming(!reduced);
-    if (!reduced) portalFormTimerRef.current = window.setTimeout(() => setPortalForming(false), 3400);
+    // The rabbit and first clue must be available as soon as the gallery entry opens.
+    setPortalForming(false);
   };
 
-  const dismissPortal = (destination?: "contact" | "spears") => {
+  const dismissPortal = (destination?: "project-inquiry" | "spears") => {
     if (portalClosing) return;
     if (portalFormTimerRef.current) window.clearTimeout(portalFormTimerRef.current);
     setPortalForming(false);
@@ -335,17 +354,18 @@ export default function HomeExperience() {
     portalTimerRef.current = window.setTimeout(() => {
       setPortalOpen(false);
       setPortalClosing(false);
-      if (destination) scrollToSection(destination);
+      if (destination === "project-inquiry") {
+        revealInquiry();
+      } else if (destination) scrollToSection(destination);
     }, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 0 : destination ? 920 : 620);
   };
 
   const joinGuild = () => {
-    window.open("https://portal.raidguild.org", "_blank", "noopener,noreferrer");
+    window.open("https://portal.raidguild.org/join", "_blank", "noopener,noreferrer");
     dismissPortal();
   };
 
   useEffect(() => () => {
-    if (heroRevealTimerRef.current) window.clearTimeout(heroRevealTimerRef.current);
     if (portalTimerRef.current) window.clearTimeout(portalTimerRef.current);
     if (portalFormTimerRef.current) window.clearTimeout(portalFormTimerRef.current);
     if (arrivalTimerRef.current) window.clearTimeout(arrivalTimerRef.current);
@@ -383,25 +403,9 @@ export default function HomeExperience() {
     setIsNight(theme === "dark");
   };
 
-  const closestCard = (track: HTMLDivElement) => {
-    const cards = Array.from(track.children) as HTMLElement[];
-    const start = track.getBoundingClientRect().left + parseFloat(getComputedStyle(track).paddingLeft);
-    return cards.reduce((best, card, index) =>
-      Math.abs(card.getBoundingClientRect().left - start) < Math.abs(cards[best].getBoundingClientRect().left - start)
-        ? index
-        : best, 0);
-  };
-  const moveCard = (track: HTMLDivElement | null, direction: number) => {
-    if (!track) return;
-    const cards = Array.from(track.children) as HTMLElement[];
-    const next = Math.max(0, Math.min(cards.length - 1, closestCard(track) + direction));
-    const left = cards[next].getBoundingClientRect().left - track.getBoundingClientRect().left + track.scrollLeft - parseFloat(getComputedStyle(track).paddingLeft);
-    track.scrollTo({ left, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
-  };
-
   useEffect(() => {
     const root = heroRef.current;
-    if (!root || frontDoorOpen || portalOpen) return;
+    if (!root || portalOpen) return;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const finePointer = window.matchMedia("(pointer: fine)");
     let frame = 0;
@@ -426,11 +430,11 @@ export default function HomeExperience() {
       cancelAnimationFrame(frame);
       reset();
     };
-  }, [frontDoorOpen, portalOpen]);
+  }, [portalOpen]);
 
   useEffect(() => {
     const hero = heroRef.current;
-    if (!hero || frontDoorOpen || portalOpen) return;
+    if (!hero || portalOpen) return;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     let visible = false;
     let frame = 0;
@@ -477,14 +481,13 @@ export default function HomeExperience() {
       window.removeEventListener("resize", resize);
       if (frame) window.cancelAnimationFrame(frame);
     };
-  }, [frontDoorOpen, portalOpen]);
+  }, [portalOpen]);
 
   return (
     <Dialog.Root open={portalOpen} onOpenChange={(open) => { if (!open) dismissPortal(); }}>
     <UnchartedHunt>
-    {frontDoorOpen && <FrontDoor onEnter={enterFromFrontDoor} isNight={isNight} />}
     <div className={styles.site} ref={siteRef}>
-    <main inert={frontDoorOpen || portalOpen} data-motion-paused={frontDoorOpen || portalOpen} className={portalForming ? styles.siteGlitching : ""}>
+    <main inert={portalOpen} data-motion-paused={portalOpen} className={portalForming ? styles.siteGlitching : ""}>
       <header className={styles.header}>
         <a className={styles.brand} href="#top" aria-label="RaidGuild home">
           <Sigil />
@@ -492,18 +495,10 @@ export default function HomeExperience() {
         </a>
 
         <nav className={`${styles.nav} ${menuOpen ? styles.navOpen : ""}`} aria-label="Primary navigation">
-          <a href="#guild" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "guild"); }}>The guild</a>
-          <a href="#spears" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "spears"); }}>Active spears</a>
-          <a href="#work" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "work"); }}>Field notes</a>
-          <a
-            className={styles.brandArchiveLink}
-            href="https://raidguild-brand-guide-production.up.railway.app/"
-            target="_blank"
-            rel="noreferrer"
-            onClick={() => setMenuOpen(false)}
-          >
-            Brand archive <span>↗</span>
-          </a>
+          <a href="#guild" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "guild"); }}>Guild</a>
+          <a href="#work" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "work"); }}>Community stories</a>
+          <a href="#spears" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "spears"); }}>Practices</a>
+          <a href="https://portal.raidguild.org/join" onClick={() => setMenuOpen(false)}>Join through Portal ↗</a>
         </nav>
 
         <button
@@ -530,11 +525,7 @@ export default function HomeExperience() {
       </header>
 
       <section className={styles.hero} id="top" ref={heroRef}>
-        <Dialog.Trigger asChild><button className={styles.portalTrigger} type="button" onClick={openPortal}>
-          <span className={styles.portalTriggerMark}><b className={styles.iconPortal} /><i /></span>
-          <span className={styles.portalTriggerCopy}><small>TRANSIT READY</small>OPEN A PORTAL</span>
-        </button></Dialog.Trigger>
-        <div className={`${styles.heroStage} ${heroRevealed ? styles.heroExploring : ""}`}>
+        <div className={styles.heroStage}>
           <div className={styles.heroCelestial} aria-hidden="true">
             <span className={styles.moonLarge} />
             <span className={styles.moonSmall} />
@@ -567,75 +558,21 @@ export default function HomeExperience() {
             </video>
           </div>
           <div className={styles.heroWash} />
-          <div className={styles.heroWayfinding}>
-            <svg className={styles.heroOrbitMap} viewBox="0 0 1000 700" aria-hidden="true" preserveAspectRatio="none">
-              <ellipse cx="535" cy="345" rx="286" ry="190" />
-              <path d="M535 345C440 388 357 440 276 512" />
-              <path d="M535 345C611 290 670 232 716 172" />
-              <path d="M535 345C548 405 560 460 570 518" />
-            </svg>
-
-            <div className={styles.heroHub} aria-hidden="true">
-              <i />
-              <span>RAIDGUILD<br /><small>CENTER OF GRAVITY</small></span>
-            </div>
-
-            <a className={`${styles.heroWaypoint} ${styles.waypointShip}`} href="#contact" data-route="BRING A CHALLENGE" onClick={(event) => followSectionLink(event, "contact", true)} onMouseEnter={revealHero} onMouseLeave={restHero} onFocus={revealHero} onBlur={restHero}>
-              <i />
-              <span className={styles.waypointLabel}>
-                <small>01 / SHARED INTAKE</small>
-                <strong>Bring a challenge</strong>
-                <em>Find a starting point for a project.</em>
-              </span>
-            </a>
-
-            <a className={`${styles.heroWaypoint} ${styles.waypointCitadel}`} href="#spears" data-route="EXPLORE PRACTICES" onClick={(event) => followSectionLink(event, "spears", true)} onMouseEnter={revealHero} onMouseLeave={restHero} onFocus={revealHero} onBlur={restHero}>
-              <i />
-              <span className={styles.waypointLabel}>
-                <small>02 / ACTIVE SPEARS</small>
-                <strong>Explore practices</strong>
-                <em>Specialists working at the applied edge.</em>
-              </span>
-            </a>
-
-            <a
-              className={`${styles.heroWaypoint} ${styles.waypointProcession}`}
-              href="#guild"
-              data-route="MEET THE GUILD"
-              onClick={(event) => followSectionLink(event, "guild", true)}
-              onMouseEnter={revealHero}
-              onMouseLeave={restHero}
-              onFocus={revealHero}
-              onBlur={restHero}
-            >
-              <i />
-              <span className={styles.waypointLabel}>
-                <small>03 / COMMUNITY</small>
-                <strong>Meet the Guild</strong>
-                <em>Discover the network, then enter through Portal.</em>
-              </span>
-            </a>
-          </div>
-          <div className={styles.unchartedShip}><HuntPixel artifact="ship" /><HuntMarker artifact="ship" label="A signal from the ship" /></div>
           <div className={styles.heroCopy}>
             <p className={styles.eyebrow}><span /> Independent digital mercenaries</p>
-            <div
-              className={styles.heroTitle}
-              onMouseEnter={revealHero}
-              onMouseLeave={restHero}
-            >
-              <h1 tabIndex={0} onFocus={revealHero} onBlur={restHero}><span>VENTURE</span><br /><em>BEYOND</em></h1>
-              <span>{heroRevealed ? "THE WORLD IS OPEN" : "HOVER TO LOOK BEYOND"}</span>
+            <div className={styles.heroTitle}>
+              <h1><span>VENTURE</span><br /><em>BEYOND</em></h1>
             </div>
           </div>
           <div className={styles.heroSupplement}>
             <p className={styles.heroDek}>
-              A network of creative and technical people learning, experimenting, and building together. Independent minds. Shared ambition.
+              RaidGuild is a builder-owned community where creative and technical people explore emerging technology and build together.
             </p>
-            <a href="#guild" className={styles.discover} onClick={(event) => followSectionLink(event, "guild", true)}>
-              <span>Enter the world</span>
-              <i>↓</i>
-            </a>
+            <div className={styles.heroPaths} aria-label="Ways into RaidGuild">
+              <a className={`${styles.pill} ${styles.pillFilled} ${styles.heroPrimaryPath}`} href="#guild" onClick={(event) => followSectionLink(event, "guild")}><span>Explore the Guild</span><i className={styles.pillIcon} aria-hidden="true">↓</i></a>
+              <a className={`${styles.pill} ${styles.pillOutline}`} href="https://portal.raidguild.org/join"><span>Join through Portal</span><i className={styles.pillIcon} aria-hidden="true">↗</i></a>
+              <a className={`${styles.pill} ${styles.pillOutline}`} href="#spears" onClick={(event) => followSectionLink(event, "spears")}><span>Bring a project</span><i className={styles.pillIcon} aria-hidden="true">↓</i></a>
+            </div>
           </div>
           <div className={styles.heroIndex}>
             <span>TRANSMISSION</span>
@@ -689,10 +626,10 @@ export default function HomeExperience() {
               <strong>RaidGuild</strong> is a builder-owned community exploring emerging technology together.{" "}
               <strong>Designers, engineers, researchers, strategists, and operators</strong> share knowledge, reputation, and infrastructure.
             </p>
-            <p>We learn from one another, test ideas, and build lasting relationships. Shared work grows from those connections, from open experiments to independent specialist practices.</p>
+            <p>We learn from one another, test ideas, and build lasting relationships. Shared work grows from those connections, from open experiments to independent practices in applied AI and onchain systems.</p>
           </div>
           <div className={styles.guildActions}>
-            <a className={`${styles.pill} ${styles.pillFilled}`} href="https://portal.raidguild.org" target="_blank" rel="noreferrer">
+            <a className={`${styles.pill} ${styles.pillFilled}`} href="https://portal.raidguild.org/join" target="_blank" rel="noreferrer">
               <span>Join the Guild</span>
               <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
             </a>
@@ -703,14 +640,16 @@ export default function HomeExperience() {
           </div>
           <a className={styles.handbookLink} href="https://handbook.raidguild.org/docs/overview/what-is-raidguild" target="_blank" rel="noreferrer">Read the handbook ↗</a>
         </div>
-        <LoopBand label="RaidGuild statistics" reverse>
-          <div className={styles.metricItem}><strong>150</strong><span>GLOBAL MEMBERS</span></div>
-          <div className={styles.metricItem}><strong>88+</strong><span>RAIDS SHIPPED ACROSS THE FRONTIER</span></div>
+        <LoopBand label="Guild signals" reverse>
+          <div className={styles.metricItem}><strong>RG</strong><span>BUILDER-OWNED COMMUNITY</span></div>
+          <div className={styles.metricItem}><strong>↗</strong><span>SHARED KNOWLEDGE AND OPEN EXPERIMENTS</span></div>
           <div className={styles.metricItem}><strong>∞</strong><span>QUESTIONS TO EXPLORE</span></div>
           <div className={styles.metricItem}><strong>2019</strong><span>BUILDING TOGETHER SINCE</span></div>
         </LoopBand>
       </section>
 
+      <details className={styles.moreCommunity} open={communityExpanded} onToggle={(event) => setCommunityExpanded(event.currentTarget.open)}>
+        <summary>Meet the people behind the Guild <span>Explore the roster and stewards ↓</span></summary>
       <section className={styles.keepers}>
         <div className={styles.guildRoster}>
           <div className={styles.rosterHeading}>
@@ -753,7 +692,7 @@ export default function HomeExperience() {
       </section>
 
       <section className={styles.teamNetwork} id="team">
-        <TeamWall members={guildMembers} suspended={frontDoorOpen || portalOpen} />
+        <TeamWall members={guildMembers} suspended={portalOpen} />
         <div className={styles.teamCopy}>
           <p className={styles.sectionLabel}>[ THE TEAM ]</p>
           <h3>A WIDE NETWORK<br /><em>OF BUILDERS</em></h3>
@@ -765,99 +704,88 @@ export default function HomeExperience() {
         </div>
       </section>
 
+      </details>
+
+      <section className={`${styles.fieldNotes} ${arrivalTarget === "work" ? styles.sectionArriving : ""}`} id="work">
+        <div className={styles.fieldIntro}>
+          <p className={styles.sectionLabel}>[ FROM THE GUILD ]</p>
+          <h2>Curiosity in<br /><em>company</em></h2>
+          <div className={styles.fieldAside}>
+            <p>Members share proposals, build tools together, and report what they learn. These public notes show the community in motion.</p>
+            <a className={`${styles.pill} ${styles.pillOutlineGreen}`} href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer"><span>Read more field notes</span><i className={styles.pillIcon}><b className={styles.iconLogo} /></i></a>
+          </div>
+        </div>
+        <div className={styles.storyGrid}>
+          <article><small>IDEA / COLLABORATION</small><h3>How to build together</h3><p>ECWireless proposes collaborative internal tools as a way to keep building together when working alone has become easy.</p><a href="https://portal.raidguild.org/posts/how-to-build-together-when-its-so-easy-to-vibe-code-alone" target="_blank" rel="noreferrer">Read the proposal ↗</a></article>
+          <article><small>EXPERIMENT / COORDINATION</small><h3>From play to signal maps</h3><p>Guild builders turned a playful experiment into tools for seeing and coordinating community activity.</p><a href="https://portal.raidguild.org/posts/from-daily-dust-to-alliance-signal-maps" target="_blank" rel="noreferrer">Read the field note ↗</a></article>
+          <article><small>FIELD NOTE / PILOT</small><h3>Testing an agentic operating layer</h3><p>Several developers used a two-hour spike to deploy, fix, and learn from a pilot with Buzz. The note records the experiment, not a Guild-wide rollout.</p><a href="https://portal.raidguild.org/posts/field-note-testing-raidguilds-agentic-operating-layer-with-buzz" target="_blank" rel="noreferrer">Read the field note ↗</a></article>
+        </div>
+        <details className={styles.galleryMore} open={galleryExpanded} onToggle={(event) => setGalleryExpanded(event.currentTarget.open)} id="gallery">
+          <summary>Explore the full collection <span>Experiments, field notes, and network ↘</span></summary>
+          <div className={styles.curatedDiscoveries} id="uncharted">
+            <h3>Selected discoveries</h3>
+            <p>Public experiments from Guild members, selected as starting points for further exploration.</p>
+            <div>{featuredDiscoveries.map((item) => <article key={item.href}>
+              <small>{item.category}</small>
+              <h4><a href={item.href} target="_blank" rel="noreferrer">{item.title} ↗</a></h4>
+              <p>{item.summary}</p>
+            </article>)}</div>
+          </div>
+          {galleryExpanded && <ArtifactGallery showFeatured={false} onOpenPortal={openPortal} collaborators={networkLogos.map(logo => ({
+            id: `network-${logo.file.replace(/\.(svg|png)$/, "")}`, title: logo.name,
+            category: "Across the network", kind: "collaborator" as const,
+            description: logo.description, href: logo.href,
+            image: `/images/${logo.file}`,
+          }))} />}
+        </details>
+      </section>
+
       <section className={`${styles.practice} ${arrivalTarget === "spears" ? styles.sectionArriving : ""}`} id="spears">
         <div className={styles.practiceHeading}>
           <p className={styles.sectionLabel}>[ ACTIVE SPEARS ]</p>
           <h2>Specialized at<br /><em>the applied edge</em></h2>
           <div className={styles.practiceAside}>
             <p>The Guild is the center of gravity. These independently led practices are its tips of the spear, turning shared experience into focused offerings with their own teams and direction.</p>
-            <a className={`${styles.pill} ${styles.pillOutlineNavy}`} href="#contact">
-              <span>Find your starting point</span>
+            <a className={`${styles.pill} ${styles.pillOutlineNavy}`} href="#project-inquiry" onClick={followInquiryLink}>
+              <span>Open a Guild inquiry</span>
               <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
             </a>
           </div>
         </div>
-        <div className={`${styles.fieldControls} ${styles.spearControls}`}>
-          <p><strong>{String(activeSpear + 1).padStart(2, "0")}</strong> / 04</p>
-          <div className={styles.carouselButtons}>
-            <button type="button" aria-label="Previous spear" disabled={activeSpear === 0} onClick={() => moveCard(spearTrackRef.current, -1)}>←</button>
-            <button type="button" aria-label="Next spear" disabled={activeSpear === 3} onClick={() => moveCard(spearTrackRef.current, 1)}>→</button>
-          </div>
-        </div>
-        <div className={`${styles.disciplineGrid} ${styles.spearGrid}`} ref={spearTrackRef} onScroll={() => { if (spearTrackRef.current) setActiveSpear(closestCard(spearTrackRef.current)); }}>
+        <div className={styles.practiceCards}>
           {activeSpears.map((item) => (
-            <article className={styles.discipline} key={item.index}>
-              <div className={styles.disciplineTop}>
-                <span>SP—{item.index}</span>
-                <i>{item.status}</i>
-              </div>
-              <div className={styles.disciplineArt}>
-                <Image src={item.art} alt={item.artAlt} width={1024} height={768} />
-              </div>
-              <p className={styles.spearEndorsement}><Sigil /> RAIDGUILD PRACTICE / VERIFIED SPEAR</p>
-              <p className={styles.disciplineTag}>{item.tag}</p>
-              <h3>{item.title}</h3>
-              <p>{item.copy}</p>
-              <div className={styles.spearActions}>
-                <a href={item.href} target="_blank" rel="noreferrer">{item.cta} <span>↗</span><small>OPENS THE SPECIALIST PRACTICE SITE</small></a>
-                <a href="#contact">Not sure where to start? <span>↘</span></a>
+            <article className={styles.practiceCard} key={item.index}>
+              <Image src={item.art} alt={item.artAlt} width={1024} height={768} />
+              <div>
+                <p className={styles.disciplineTag}>{item.tag}</p>
+                <h3>{item.title}</h3>
+                <p>{item.copy}</p>
+                <a href={item.href} target="_blank" rel="noreferrer">{item.cta} <span>↗</span></a>
               </div>
             </article>
           ))}
-          <article className={styles.discipline} id="placement" style={{ scrollMarginTop: "80px" }}>
-            <div className={styles.disciplineTop}><span>SP—03</span><i>PROPOSED</i></div>
-            <div className={styles.disciplineArt}>
-              <Image src="/images/neo/guild-builders-v1.png" alt="Creative and technical specialists working together" width={1024} height={768} />
-            </div>
-            <p className={styles.spearEndorsement}><Sigil /> RAIDGUILD NETWORK / PROPOSED SPEAR</p>
-            <p className={styles.disciplineTag}>TALENT / PLACEMENT SERVICES</p>
-            <h3>Talent &amp; Placement</h3>
-            <p>A proposed practice connecting people in the Guild with teams beyond it. Share the skills you’re looking for and help us explore where the network can make a useful connection.</p>
-            <div className={styles.spearActions}>
-              <a href="#project-inquiry" onClick={(event) => {
-                event.preventDefault();
-                document.getElementById("project-inquiry")?.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth", block: "start" });
-              }}>Find people for your team <span>↘</span><small>START A PLACEMENT INQUIRY</small></a>
-            </div>
-          </article>
-          <article className={`${styles.discipline} ${styles.problemSpear}`}>
-            <div className={styles.disciplineTop}><span>SP—??</span><i>UNMAPPED</i></div>
-            <div className={styles.disciplineArt}>
-              <Image
-                src="/images/neo/spear-edge-problem-v1.webp"
-                alt="A crew investigating an unfamiliar machine at the applied edge"
-                width={1024}
-                height={768}
-              />
-            </div>
-            <p className={styles.spearEndorsement}><Sigil /> RAIDGUILD NETWORK / SHARED INTAKE</p>
-            <p className={styles.disciplineTag}>GUILD-LEVEL DISCOVERY</p>
-            <h3>A new direction</h3>
-            <p>Not every project fits an existing practice. Share what you&apos;re exploring and we can help you find a conversation to start within the network.</p>
-            <a href="#contact">Start a transmission <span>↘</span></a>
-          </article>
         </div>
+        <p className={styles.practiceGeneral}>Not sure which practice fits? <a href="#project-inquiry" onClick={followInquiryLink}>Open the Guild inquiry form →</a></p>
       </section>
 
-      <section className={`${styles.fieldNotes} ${arrivalTarget === "work" ? styles.sectionArriving : ""}`} id="work">
-        <div className={styles.fieldIntro}>
-          <p className={styles.sectionLabel}>[ SELECTED EXPEDITIONS ]</p>
-          <h2>Proof from<br /><em>the frontier</em></h2>
-          <div className={styles.fieldAside}>
-            <p>Work and ideas emerging from the network. Explore what members build, the questions they follow, and what they learn along the way.</p>
-            <a className={`${styles.pill} ${styles.pillOutlineGreen}`} href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer">
-              <span>Read community posts</span>
-              <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
-            </a>
-          </div>
-        </div>
 
-        <ArtifactGallery collaborators={networkLogos.map(logo => ({
-          id: `network-${logo.file.replace(/\.(svg|png)$/, "")}`, title: logo.name,
-          category: "Across the network", kind: "collaborator" as const,
-          description: logo.description, href: logo.href,
-          image: `/images/${logo.file}`,
-        }))} />
+      <section className={`${styles.contact} ${inquiryExpanded ? styles.contactExpanded : ""} ${arrivalTarget === "contact" ? styles.sectionArriving : ""}`} id="contact">
+        <div className={styles.contactIntro}>
+          <div className={styles.contactCopy}>
+            <p className={styles.sectionLabel}>[ HAVE A PROJECT? ]</p>
+            <h2 className={styles.contactHeadline}>Find your <em>starting point.</em></h2>
+            <p className={styles.contactDek}>Start with a specialist practice above. If the fit is unclear, send the Guild a short inquiry.</p>
+            <div className={styles.contactClue}><HuntPixel artifact="signal" /><HuntMarker artifact="signal" label="A signal near the inquiry" /></div>
+          </div>
+          <Image className={styles.contactDruid} src="/images/neo/contact-druid-transparent.png" alt="Four Guild characters with maps, tools, and a staff" width={768} height={1024} sizes="(max-width: 600px) 60vw, 260px" />
+        </div>
+        <details className={styles.inquiryMore} id="project-inquiry" tabIndex={-1} open={inquiryExpanded} onToggle={(event) => setInquiryExpanded(event.currentTarget.open)}>
+          <summary>Start a Guild inquiry <span>{inquiryExpanded ? "Close the inquiry ↑" : "Share a project or question ↓"}</span></summary>
+          <div className={styles.contactFormShell}>
+            <div className={styles.formCoordinates}><span>RG—INTAKE / 001</span><span>ENCRYPTION: OPEN</span></div>
+            <HireUs />
+          </div>
+        </details>
       </section>
 
       <section className={styles.creed}>
@@ -873,45 +801,10 @@ export default function HomeExperience() {
           aria-hidden="true"
         />
         <p className={styles.sectionLabel}>[ THE RAIDGUILD CREED ]</p>
-        <blockquote>
-          The future is not<br />something to predict.<br />It is something to <em>build.</em>
-        </blockquote>
-        <div className={styles.creedFooter}>
-          <span>NO SPECTATORS</span>
-          <Sigil />
-          <span>OPEN TERRITORY</span>
-        </div>
+        <blockquote>The future is not something to predict. It is something to <em>build.</em></blockquote>
         <div className={styles.unchartedWalker}><HuntPixel artifact="walker" /><HuntMarker artifact="walker" label="A mark left by the walker" /></div>
       </section>
 
-      <section className={`${styles.contact} ${arrivalTarget === "contact" ? styles.sectionArriving : ""}`} id="contact">
-        <div className={styles.contactIntro}>
-          <Image
-            className={styles.contactDruid}
-            src="/images/neo/contact-druid-transparent.png"
-            alt=""
-            width={768}
-            height={1024}
-            sizes="506px"
-            aria-hidden="true"
-          />
-          <p className={styles.sectionLabel}>[ BEGIN A TRANSMISSION ]</p>
-          <h2 className={styles.contactHeadline}>
-            <span>What impossible thing</span>
-            <em>are you building?</em>
-          </h2>
-          <p className={styles.contactDek}>Have a project in mind but aren&apos;t sure where it belongs? Share a little context so we can help you find the right people or practice. To meet the community, head to Portal or Discord.</p>
-          <dl className={styles.contactProtocol}>
-            <div><dt>PURPOSE</dt><dd>PROJECT CONNECTIONS</dd></div>
-            <div><dt>CHANNEL</dt><dd>GUILD INQUIRY</dd></div>
-            <div><dt>STATUS</dt><dd><span /> RECEIVING</dd></div>
-          </dl>
-        </div>
-        <div className={styles.contactFormShell} id="project-inquiry" style={{ scrollMarginTop: "30px" }}>
-          <div className={styles.formCoordinates}><span>RG—INTAKE / 001</span><span>ENCRYPTION: OPEN</span></div>
-          <HireUs />
-        </div>
-      </section>
 
       <footer className={styles.footer}>
         <a className={styles.brand} href="#top"><Sigil /><span>RAID<br />GUILD</span></a>
@@ -920,6 +813,7 @@ export default function HomeExperience() {
           <a href="https://github.com/raid-guild">GITHUB</a>
           <a href="https://x.com/RaidGuild">X / TWITTER</a>
           <a href="https://discord.gg/2vx47gT95y">DISCORD</a>
+          <a href="https://raidguild-brand-guide-production.up.railway.app/">BRAND ARCHIVE</a>
         </div>
         <small>© 2019—2026 RAIDGUILD · EARTH &amp; ELSEWHERE</small>
       </footer>
@@ -932,7 +826,7 @@ export default function HomeExperience() {
         container={siteRef.current}
         onClose={() => dismissPortal()}
         onSpears={() => dismissPortal("spears")}
-        onProblem={() => dismissPortal("contact")}
+        onProblem={() => dismissPortal("project-inquiry")}
         onJoin={joinGuild}
       />
     </div>

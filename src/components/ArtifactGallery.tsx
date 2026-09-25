@@ -4,10 +4,17 @@
 // Screenshots only: the live artifacts load in their own tab, never in this page.
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import * as Dialog from "@radix-ui/react-dialog";
+import { featuredDiscoveries } from "@/lib/data/featuredDiscoveries";
 import styles from "./ArtifactGallery.module.css";
 
 export type GalleryItem = { id: string; title: string; category: string; description: string; image?: string | null; href?: string; kind?: "post" | "collaborator" | "experiment" };
 type Artifact = GalleryItem;
+const guildPortal: Artifact = {
+  id: "raidguild-portal", title: "The Portal", category: "Interactive experience",
+  description: "Step into RaidGuild's world and follow the rabbit to begin a three-clue discovery trail through the site.",
+  image: "/images/neo/hero-dark-poster.png", kind: "experiment",
+};
 const fallbackArtifacts: Artifact[] = [
   { id: "sirocco-oasis", title: "Sirocco Oasis", category: "3D world", description: "A desert reverie with rippling water, wind-driven palms, and a passing airship. Take a moment to explore." },
   { id: "lunar-republic", title: "Lunar Republic", category: "Game", description: "A lunar catapult game with allied cities, freight, upgrades, and a landscape that changes as you play." },
@@ -17,14 +24,14 @@ const fallbackArtifacts: Artifact[] = [
   { id: "desert-walker", title: "Desert Walker", category: "3D vignette", description: "A dieselpunk survey walker in a procedural desert. Orbit the scene and explore its ambient motion." },
 ];
 
-export default function ArtifactGallery({ collaborators = [] }: { collaborators?: GalleryItem[] }) {
+export default function ArtifactGallery({ collaborators = [], showFeatured = true, onOpenPortal }: { collaborators?: GalleryItem[]; showFeatured?: boolean; onOpenPortal?: () => void }) {
   const [posts, setPosts] = useState<GalleryItem[]>([]);
   const [postsState, setPostsState] = useState<"loading" | "live" | "error">("loading");
   const [modules, setArtifacts] = useState(fallbackArtifacts);
   const [filter, setFilter] = useState("all");
   const experiments = modules.map(item => ({ ...item, kind: "experiment" as const }));
-  const collection = Array.from({ length: Math.max(posts.length, collaborators.length, experiments.length) }, (_, index) =>
-    [posts[index], experiments[index], collaborators[index]].filter(Boolean)).flat();
+  const collection = [guildPortal, ...Array.from({ length: Math.max(posts.length, collaborators.length, experiments.length) }, (_, index) =>
+    [posts[index], experiments[index], collaborators[index]].filter(Boolean)).flat()];
   const artifacts = collection.filter(item => filter === "all" || item.kind === filter);
   const [catalogState, setCatalogState] = useState<'loading' | 'live' | 'fallback'>('loading');
   const [selected, setSelected] = useState<string | null>(null);
@@ -65,7 +72,7 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
       .then(response => { if (!response.ok) throw new Error('Unavailable'); return response.json(); })
       .then(({ docs }) => {
         if (!Array.isArray(docs)) throw new Error('Invalid catalog');
-        setArtifacts(docs); setSelected(null); setPeek(null); zones.current = [];
+        setArtifacts(docs); setPeek(null); zones.current = [];
         setCatalogState('live');
       })
       .catch(() => { if (!controller.signal.aborted) setCatalogState('fallback'); });
@@ -105,10 +112,10 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
   const preview = (item: Artifact, detail = false) => screenshot(item)
     ? <Image className={item.kind === "collaborator" ? `${styles.logo} ${["network-logo-Daedalus", "network-logo-LX2"].includes(item.id) ? styles.compactLogo : ""}` : undefined} src={screenshot(item)!} alt={detail ? `Preview of ${item.title}` : ''} width={1280} height={720} unoptimized={screenshot(item)!.startsWith('https:')} sizes="(max-width: 600px) 90vw, (max-width: 999px) 45vw, 760px" />
     : <span className={styles.placeholder} aria-hidden="true">{item.category}<b>↗</b></span>;
-  const card = (item: typeof artifacts[number]) => <article key={item.id} data-artifact={item.id} data-peek={peek === item.id} className={styles.card}>
+  const card = (item: typeof artifacts[number]) => <article key={item.id} data-artifact={item.id} data-peek={peek === item.id} className={`${styles.card} ${item.id === guildPortal.id ? styles.portalCard : ""}`}>
     <button type="button" aria-expanded={selected === item.id} aria-controls="artifact-detail" aria-label={`Unfold ${item.title}. ${item.description}`} onClick={() => select(item.id)} onFocus={() => setPeek(item.id)} onBlur={() => setPeek(null)}>
       <span className={styles.visual}>{preview(item)}<b aria-hidden="true">+</b></span>
-      <span className={styles.caption} aria-hidden="true"><strong>{item.title}</strong><small>{item.description}</small></span>
+      <span className={styles.caption} aria-hidden="true"><strong>{item.title}</strong><small>{item.id === guildPortal.id ? "Open the experience · Start the hunt" : item.description}</small></span>
     </button>
   </article>;
   const rows = (items: GalleryItem[]) => Array.from({ length: Math.ceil(items.length / columns) }, (_, row) => {
@@ -117,6 +124,21 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
   });
   return <section className={styles.section} aria-labelledby="artifact-heading">
     <h3 id="artifact-heading" className={styles.srOnly}>Explore the frontier collection</h3>
+    {showFeatured && <div className={styles.featured} aria-labelledby="featured-discoveries-heading">
+      <div className={styles.featuredHeading}>
+        <h4 id="featured-discoveries-heading">Selected discoveries</h4>
+        <p>Public experiments from the network. Explore a few starting points, then browse the live collection below.</p>
+      </div>
+      <div className={styles.featuredGrid}>
+        {featuredDiscoveries.map((item) => (
+          <article key={item.href} className={styles.featuredCard}>
+            <span>{item.category}</span>
+            <h5><a href={item.href} target="_blank" rel="noopener noreferrer">{item.title} ↗</a></h5>
+            <p>{item.summary}</p>
+          </article>
+        ))}
+      </div>
+    </div>}
     <div className={styles.guide}><span>{String(artifacts.length).padStart(2, '0')} / DISCOVERIES</span><span>{active ? "Select a preview to switch" : "Select a tile to unfold"}</span></div>
     {postsState === "error" && <p>Community posts are temporarily unavailable. <a href="https://portal.raidguild.org/posts">Read them on Portal →</a></p>}
     {artifacts.length === 0 && <p>{filter === "post" && postsState === "loading" ? "Loading the latest public posts…" : "No entries in this collection."}</p>}
@@ -144,7 +166,7 @@ export default function ArtifactGallery({ collaborators = [] }: { collaborators?
       </div>
       {active ? <>
           <button ref={closeButton} className={styles.back} onClick={() => select(null)}>← Back to the collection <span aria-hidden="true">×</span></button>
-          <div className={styles.feature}>{preview(active, true)}<div><p>{active.category}</p><h4>{active.title}</h4><p>{active.description}</p>{(active.href || active.kind !== "collaborator") && <a href={active.href || `https://portal-artifacts-production.up.railway.app/${active.id}/`} target="_blank" rel="noopener noreferrer">{active.kind === "collaborator" ? `Visit ${active.title}` : active.kind === "post" ? "Read the post" : "Explore experiment"} ↗<small>Opens in a new tab</small></a>}</div></div>
+          <div className={styles.feature}>{preview(active, true)}<div><p>{active.category}</p><h4>{active.title}</h4><p>{active.description}</p>{active.id === guildPortal.id ? <Dialog.Trigger asChild><button className={styles.portalLaunch} type="button" onClick={onOpenPortal}>Open the Portal · Begin the hunt ↗<small>Opens an experience on this page</small></button></Dialog.Trigger> : (active.href || active.kind !== "collaborator") && <a href={active.href || `https://portal-artifacts-production.up.railway.app/${active.id}/`} target="_blank" rel="noopener noreferrer">{active.kind === "collaborator" ? `Visit ${active.title}` : active.kind === "post" ? "Read the post" : "Explore experiment"} ↗<small>Opens in a new tab</small></a>}</div></div>
       </> : <div className={styles.empty}><span aria-hidden="true">↖</span><h4>Follow your curiosity.</h4><p>Select a card to explore a field note, a public experiment, or someone we’ve built with.</p><p>Choose a category above to narrow the collection.</p></div>}
     </aside>
     </div>

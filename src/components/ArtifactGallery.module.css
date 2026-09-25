@@ -1,4 +1,14 @@
 .section { --gallery-card-surface: var(--paper); --gallery-card-ink: var(--ink); --gallery-card-border: rgba(16,45,44,.45); --gallery-logo-surface: #12302d; --gallery-placeholder-surface: var(--deep); --gallery-detail-surface: transparent; --gallery-detail-border: currentColor; margin: 32px 0 0; color: var(--ink); width: 100%; min-width: 0; }
+.featured { max-width: 1300px; margin: 0 auto 72px; padding: 0 24px; }
+.featuredHeading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 22px; }
+.featuredHeading h4 { font: 32px/1.1 var(--font-display), sans-serif; margin: 0; }
+.featuredHeading p { max-width: 450px; font: 15px/1.5 var(--font-body), sans-serif; margin: 0; }
+.featuredGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.featuredCard { background: var(--paper); border: 1px solid currentColor; padding: 20px; min-width: 0; }
+.featuredCard > span { color: var(--coral); font: 11px/1.3 var(--font-mono), monospace; letter-spacing: .08em; text-transform: uppercase; }
+.featuredCard h5 { font: 23px/1.15 var(--font-display), sans-serif; margin: 14px 0 10px; }
+.featuredCard a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
+.featuredCard p { font: 14px/1.45 var(--font-body), sans-serif; margin: 0; }
 .layout { display: grid; grid-template-columns: minmax(0, 1fr) clamp(300px, 30vw, 460px); align-items: start; }
 .srOnly { position: absolute; width: 1px; height: 1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 24px; }
@@ -30,6 +40,8 @@
 .card[data-peek="true"] .caption, .card:focus-within .caption { opacity: 1; }
 .caption strong { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; font-size: 15px; line-height: 1.18; overflow-wrap: anywhere; }
 .caption small { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; font-size: 11px; line-height: 1.2; margin-top: 4px; overflow: hidden; overflow-wrap: anywhere; }
+.portalCard .caption { opacity: 1; }
+.portalCard .visual img { object-position: center 40%; }
 .detail { background: var(--gallery-detail-surface); border: 1px solid var(--gallery-detail-border); padding: 24px; min-width: 0; position: sticky; top: 100px; max-height: calc(100dvh - 120px); overflow-y: auto; }
 .empty { min-height: 300px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
 .empty > span { color: var(--coral); font-size: 48px; }
@@ -43,6 +55,7 @@
 .feature h4 { font: 28px/1.2 var(--font-display), sans-serif; margin: 12px 0 16px; }
 .feature p { font-size: 16px; line-height: 1.5; }
 .feature a { display: block; color: var(--ink); background: var(--paper); padding: 14px 18px; margin-top: 24px; }
+.feature .portalLaunch { display: block; width: 100%; border: 0; background: var(--coral); color: var(--paper); cursor: pointer; font: 700 14px/1.4 var(--font-mono), monospace; margin-top: 24px; padding: 14px 18px; text-align: left; }
 .feature small { display: block; font-size: 12px; margin-top: 6px; }
 .previews { padding-top: 0; min-width: 0; }
 .guide, .footnote { padding-inline: 24px; }
@@ -52,6 +65,9 @@
 .card button:focus-visible { outline: none; }
 .card button:focus-visible::after { box-shadow: inset 0 0 0 4px var(--coral), inset 0 0 18px rgba(0,0,0,.2); }
 :global(html[data-theme="dark"]) .section { --gallery-card-surface: #252a61; --gallery-card-ink: var(--paper); --gallery-card-border: rgba(239,233,215,.22); --gallery-logo-surface: #252a61; --gallery-placeholder-surface: #252a61; --gallery-detail-surface: #191e4e; --gallery-detail-border: rgba(239,233,215,.22); color: var(--paper); }
+:global(html[data-theme="dark"]) .featuredCard { background: #191e4e; }
+@media (max-width: 950px) { .featuredGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 600px) { .featuredHeading { display: block; } .featuredHeading p { margin-top: 12px; } .featuredGrid { grid-template-columns: 1fr; } .featured { margin-bottom: 48px; } }
 @media (max-width: 700px) { .heading { display: block; } .heading > p { margin-top: 20px; } .feature { grid-template-columns: 1fr; } .guide { font-size: 10px; } .heading h3 { font-size: 32px; } }
 @media (max-width: 800px) {
   .layout { grid-template-columns: minmax(0, 1fr); }

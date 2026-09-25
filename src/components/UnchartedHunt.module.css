@@ -4,7 +4,7 @@
 .marker summary span { font-size: 10px; }
 .marker summary:hover, .marker summary:focus-visible { color: #d7e34d; }
 .rabbit summary { display: flex; align-items: center; gap: 8px; min-width: 44px; min-height: 44px; padding: 6px; }
-.rabbit summary span { opacity: 0; transition: opacity .2s; }
+.rabbit summary span { opacity: 1; transition: opacity .2s; }
 .rabbit summary:hover span, .rabbit summary:focus-visible span, .rabbit[open] summary span { opacity: 1; }
 .rabbit summary:focus-visible { outline: 2px solid #d7e34d; outline-offset: 3px; border-radius: 4px; }
 @media (hover: none) { .rabbit summary span { opacity: .7; } }
