@@ -640,9 +640,9 @@ export default function HomeExperience() {
           </div>
           <a className={styles.handbookLink} href="https://handbook.raidguild.org/docs/overview/what-is-raidguild" target="_blank" rel="noopener noreferrer">Read the handbook ↗</a>
         </div>
-        <LoopBand label="Guild signals" reverse>
-          <div className={styles.metricItem}><strong>RG</strong><span>BUILDER-OWNED COMMUNITY</span></div>
-          <div className={styles.metricItem}><strong>↗</strong><span>SHARED KNOWLEDGE AND OPEN EXPERIMENTS</span></div>
+        <LoopBand label="RaidGuild statistics" reverse>
+          <div className={styles.metricItem}><strong>150</strong><span>GLOBAL MEMBERS</span></div>
+          <div className={styles.metricItem}><strong>88+</strong><span>RAIDS SHIPPED ACROSS THE FRONTIER</span></div>
           <div className={styles.metricItem}><strong>∞</strong><span>QUESTIONS TO EXPLORE</span></div>
           <div className={styles.metricItem}><strong>2019</strong><span>BUILDING TOGETHER SINCE</span></div>
         </LoopBand>

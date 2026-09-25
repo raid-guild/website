@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import * as Dialog from "@radix-ui/react-dialog";
 import { featuredDiscoveries } from "@/lib/data/featuredDiscoveries";
+import { resolveArtifactPreview } from "@/lib/data/artifactPreviews";
 import styles from "./ArtifactGallery.module.css";
 
 export type GalleryItem = { id: string; title: string; category: string; description: string; image?: string | null; href?: string; kind?: "post" | "collaborator" | "experiment" };
@@ -108,10 +109,12 @@ export default function ArtifactGallery({ collaborators = [], showFeatured = tru
     previous.current = selected; zones.current = [];
   }, [selected]);
   const active = artifacts.find(item => item.id === selected);
-  const screenshot = (item: Artifact) => item.image === undefined ? `/images/artifacts/${item.id}.png` : item.image;
-  const preview = (item: Artifact, detail = false) => screenshot(item)
-    ? <Image className={item.kind === "collaborator" ? `${styles.logo} ${["network-logo-Daedalus", "network-logo-LX2"].includes(item.id) ? styles.compactLogo : ""}` : undefined} src={screenshot(item)!} alt={detail ? `Preview of ${item.title}` : ''} width={1280} height={720} unoptimized={screenshot(item)!.startsWith('https:')} sizes="(max-width: 600px) 90vw, (max-width: 999px) 45vw, 760px" />
-    : <span className={styles.placeholder} aria-hidden="true">{item.category}<b>↗</b></span>;
+  const preview = (item: Artifact, detail = false) => {
+    const screenshot = resolveArtifactPreview(item.id, item.image);
+    return screenshot
+      ? <Image className={item.kind === "collaborator" ? `${styles.logo} ${["network-logo-Daedalus", "network-logo-LX2"].includes(item.id) ? styles.compactLogo : ""}` : undefined} src={screenshot} alt={detail ? `Preview of ${item.title}` : ''} width={1280} height={720} unoptimized={screenshot.startsWith('https:')} sizes="(max-width: 600px) 90vw, (max-width: 999px) 45vw, 760px" />
+      : <span className={styles.placeholder} aria-hidden="true">{item.category}<b>↗</b></span>;
+  };
   const card = (item: typeof artifacts[number]) => <article key={item.id} data-artifact={item.id} data-peek={peek === item.id} className={`${styles.card} ${item.id === guildPortal.id ? styles.portalCard : ""}`}>
     <button type="button" aria-expanded={selected === item.id} aria-controls="artifact-detail" aria-label={`Unfold ${item.title}. ${item.description}`} onClick={() => select(item.id)} onFocus={() => setPeek(item.id)} onBlur={() => setPeek(null)}>
       <span className={styles.visual}>{preview(item)}<b aria-hidden="true">+</b></span>
