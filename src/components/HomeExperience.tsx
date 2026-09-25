@@ -498,7 +498,7 @@ export default function HomeExperience() {
           <a href="#guild" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "guild"); }}>Guild</a>
           <a href="#work" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "work"); }}>Community stories</a>
           <a href="#spears" onClick={(event) => { setMenuOpen(false); followSectionLink(event, "spears"); }}>Practices</a>
-          <a href="https://portal.raidguild.org/join" onClick={() => setMenuOpen(false)}>Join through Portal ↗</a>
+          <a href="https://portal.raidguild.org/join" target="_blank" rel="noopener noreferrer" onClick={() => setMenuOpen(false)}>Join through Portal ↗</a>
         </nav>
 
         <button
@@ -570,7 +570,7 @@ export default function HomeExperience() {
             </p>
             <div className={styles.heroPaths} aria-label="Ways into RaidGuild">
               <a className={`${styles.pill} ${styles.pillFilled} ${styles.heroPrimaryPath}`} href="#guild" onClick={(event) => followSectionLink(event, "guild")}><span>Explore the Guild</span><i className={styles.pillIcon} aria-hidden="true">↓</i></a>
-              <a className={`${styles.pill} ${styles.pillOutline}`} href="https://portal.raidguild.org/join"><span>Join through Portal</span><i className={styles.pillIcon} aria-hidden="true">↗</i></a>
+              <a className={`${styles.pill} ${styles.pillOutline}`} href="https://portal.raidguild.org/join" target="_blank" rel="noopener noreferrer"><span>Join through Portal</span><i className={styles.pillIcon} aria-hidden="true">↗</i></a>
               <a className={`${styles.pill} ${styles.pillOutline}`} href="#spears" onClick={(event) => followSectionLink(event, "spears")}><span>Bring a project</span><i className={styles.pillIcon} aria-hidden="true">↓</i></a>
             </div>
           </div>
@@ -629,16 +629,16 @@ export default function HomeExperience() {
             <p>We learn from one another, test ideas, and build lasting relationships. Shared work grows from those connections, from open experiments to independent practices in applied AI and onchain systems.</p>
           </div>
           <div className={styles.guildActions}>
-            <a className={`${styles.pill} ${styles.pillFilled}`} href="https://portal.raidguild.org/join" target="_blank" rel="noreferrer">
+            <a className={`${styles.pill} ${styles.pillFilled}`} href="https://portal.raidguild.org/join" target="_blank" rel="noopener noreferrer">
               <span>Join the Guild</span>
               <i className={styles.pillIcon}><b className={styles.iconLogo} /></i>
             </a>
-            <a className={`${styles.pill} ${styles.pillOutline}`} href="https://discord.gg/2vx47gT95y" target="_blank" rel="noreferrer">
+            <a className={`${styles.pill} ${styles.pillOutline}`} href="https://discord.gg/2vx47gT95y" target="_blank" rel="noopener noreferrer">
               <span>Enter Discord</span>
               <i className={styles.pillIcon}><b className={styles.iconDiscord} /></i>
             </a>
           </div>
-          <a className={styles.handbookLink} href="https://handbook.raidguild.org/docs/overview/what-is-raidguild" target="_blank" rel="noreferrer">Read the handbook ↗</a>
+          <a className={styles.handbookLink} href="https://handbook.raidguild.org/docs/overview/what-is-raidguild" target="_blank" rel="noopener noreferrer">Read the handbook ↗</a>
         </div>
         <LoopBand label="Guild signals" reverse>
           <div className={styles.metricItem}><strong>RG</strong><span>BUILDER-OWNED COMMUNITY</span></div>
@@ -659,7 +659,7 @@ export default function HomeExperience() {
               <p>Stewards help care for the Guild’s shared knowledge, infrastructure, coordination, and public voice.</p>
             </div>
             <div className={styles.rosterAside}>
-              <a href="https://portal.raidguild.org" target="_blank" rel="noreferrer">Explore all members <span>↗</span></a>
+              <a href="https://portal.raidguild.org" target="_blank" rel="noopener noreferrer">Explore all members <span>↗</span></a>
             </div>
           </div>
 
@@ -681,7 +681,7 @@ export default function HomeExperience() {
               );
 
               return steward.href ? (
-                <a className={styles.stewardCard} href={steward.href} target="_blank" rel="noreferrer" key={steward.name}>{card}</a>
+                <a className={styles.stewardCard} href={steward.href} target="_blank" rel="noopener noreferrer" key={steward.name}>{card}</a>
               ) : (
                 <div className={styles.stewardCard} key={steward.name}>{card}</div>
               );
@@ -697,7 +697,7 @@ export default function HomeExperience() {
           <p className={styles.sectionLabel}>[ THE TEAM ]</p>
           <h3>A WIDE NETWORK<br /><em>OF BUILDERS</em></h3>
           <p>Different skills, backgrounds, and curiosities. Get to know the people who share what they learn and make more possible together.</p>
-          <a className={`${styles.pill} ${styles.pillOutline}`} href="https://discord.gg/2vx47gT95y" target="_blank" rel="noreferrer">
+          <a className={`${styles.pill} ${styles.pillOutline}`} href="https://discord.gg/2vx47gT95y" target="_blank" rel="noopener noreferrer">
             <span>Enter Discord</span>
             <i className={styles.pillIcon}><b className={styles.iconDiscord} /></i>
           </a>
@@ -712,13 +712,13 @@ export default function HomeExperience() {
           <h2>Curiosity in<br /><em>company</em></h2>
           <div className={styles.fieldAside}>
             <p>Members share proposals, build tools together, and report what they learn. These public notes show the community in motion.</p>
-            <a className={`${styles.pill} ${styles.pillOutlineGreen}`} href="https://portal.raidguild.org/posts" target="_blank" rel="noreferrer"><span>Read more field notes</span><i className={styles.pillIcon}><b className={styles.iconLogo} /></i></a>
+            <a className={`${styles.pill} ${styles.pillOutlineGreen}`} href="https://portal.raidguild.org/posts" target="_blank" rel="noopener noreferrer"><span>Read more field notes</span><i className={styles.pillIcon}><b className={styles.iconLogo} /></i></a>
           </div>
         </div>
         <div className={styles.storyGrid}>
-          <article><small>IDEA / COLLABORATION</small><h3>How to build together</h3><p>ECWireless proposes collaborative internal tools as a way to keep building together when working alone has become easy.</p><a href="https://portal.raidguild.org/posts/how-to-build-together-when-its-so-easy-to-vibe-code-alone" target="_blank" rel="noreferrer">Read the proposal ↗</a></article>
-          <article><small>EXPERIMENT / COORDINATION</small><h3>From play to signal maps</h3><p>Guild builders turned a playful experiment into tools for seeing and coordinating community activity.</p><a href="https://portal.raidguild.org/posts/from-daily-dust-to-alliance-signal-maps" target="_blank" rel="noreferrer">Read the field note ↗</a></article>
-          <article><small>FIELD NOTE / PILOT</small><h3>Testing an agentic operating layer</h3><p>Several developers used a two-hour spike to deploy, fix, and learn from a pilot with Buzz. The note records the experiment, not a Guild-wide rollout.</p><a href="https://portal.raidguild.org/posts/field-note-testing-raidguilds-agentic-operating-layer-with-buzz" target="_blank" rel="noreferrer">Read the field note ↗</a></article>
+          <article><small>IDEA / COLLABORATION</small><h3>How to build together</h3><p>ECWireless proposes collaborative internal tools as a way to keep building together when working alone has become easy.</p><a href="https://portal.raidguild.org/posts/how-to-build-together-when-its-so-easy-to-vibe-code-alone" target="_blank" rel="noopener noreferrer">Read the proposal ↗</a></article>
+          <article><small>EXPERIMENT / COORDINATION</small><h3>From play to signal maps</h3><p>Guild builders turned a playful experiment into tools for seeing and coordinating community activity.</p><a href="https://portal.raidguild.org/posts/from-daily-dust-to-alliance-signal-maps" target="_blank" rel="noopener noreferrer">Read the field note ↗</a></article>
+          <article><small>FIELD NOTE / PILOT</small><h3>Testing an agentic operating layer</h3><p>Several developers used a two-hour spike to deploy, fix, and learn from a pilot with Buzz. The note records the experiment, not a Guild-wide rollout.</p><a href="https://portal.raidguild.org/posts/field-note-testing-raidguilds-agentic-operating-layer-with-buzz" target="_blank" rel="noopener noreferrer">Read the field note ↗</a></article>
         </div>
         <details className={styles.galleryMore} open={galleryExpanded} onToggle={(event) => setGalleryExpanded(event.currentTarget.open)} id="gallery">
           <summary>Explore the full collection <span>Experiments, field notes, and network ↘</span></summary>
@@ -727,7 +727,7 @@ export default function HomeExperience() {
             <p>Public experiments from Guild members, selected as starting points for further exploration.</p>
             <div>{featuredDiscoveries.map((item) => <article key={item.href}>
               <small>{item.category}</small>
-              <h4><a href={item.href} target="_blank" rel="noreferrer">{item.title} ↗</a></h4>
+              <h4><a href={item.href} target="_blank" rel="noopener noreferrer">{item.title} ↗</a></h4>
               <p>{item.summary}</p>
             </article>)}</div>
           </div>
@@ -760,7 +760,7 @@ export default function HomeExperience() {
                 <p className={styles.disciplineTag}>{item.tag}</p>
                 <h3>{item.title}</h3>
                 <p>{item.copy}</p>
-                <a href={item.href} target="_blank" rel="noreferrer">{item.cta} <span>↗</span></a>
+                <a href={item.href} target="_blank" rel="noopener noreferrer">{item.cta} <span>↗</span></a>
               </div>
             </article>
           ))}
@@ -810,10 +810,10 @@ export default function HomeExperience() {
         <a className={styles.brand} href="#top"><Sigil /><span>RAID<br />GUILD</span></a>
         <p>INDEPENDENT MINDS.<br />WE GO FURTHER TOGETHER.</p>
         <div className={styles.socials}>
-          <a href="https://github.com/raid-guild">GITHUB</a>
-          <a href="https://x.com/RaidGuild">X / TWITTER</a>
-          <a href="https://discord.gg/2vx47gT95y">DISCORD</a>
-          <a href="https://raidguild-brand-guide-production.up.railway.app/">BRAND ARCHIVE</a>
+          <a href="https://github.com/raid-guild" target="_blank" rel="noopener noreferrer">GITHUB</a>
+          <a href="https://x.com/RaidGuild" target="_blank" rel="noopener noreferrer">X / TWITTER</a>
+          <a href="https://discord.gg/2vx47gT95y" target="_blank" rel="noopener noreferrer">DISCORD</a>
+          <a href="https://raidguild-brand-guide-production.up.railway.app/" target="_blank" rel="noopener noreferrer">BRAND ARCHIVE</a>
         </div>
         <small>© 2019—2026 RAIDGUILD · EARTH &amp; ELSEWHERE</small>
       </footer>

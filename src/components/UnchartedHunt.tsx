@@ -115,10 +115,10 @@ export function HuntMarker({ artifact, label, rabbit = false }: { artifact: Key;
       {!unlocked ? <form onSubmit={event => { event.preventDefault(); setMessage(hunt.solve(artifact, answer)); }}>
         <label>Your answer<input value={answer} onChange={event => setAnswer(event.target.value)} autoComplete="off" /></label>
         <button type="submit">Try the signal</button>
-      </form> : artifact === "portal" ? <p>First clue found. Find a signal near the Guild inquiry for the next clue.</p> : artifact === "signal" ? <p>Second clue found. Look for the final mark beneath the Creed.</p> : <a href={artifacts[artifact].url} target="_blank" rel="noreferrer">Explore {artifacts[artifact].name} ↗</a>}
+      </form> : artifact === "portal" ? <p>First clue found. Find a signal near the Guild inquiry for the next clue.</p> : artifact === "signal" ? <p>Second clue found. Look for the final mark beneath the Creed.</p> : <a href={artifacts[artifact].url} target="_blank" rel="noopener noreferrer">Explore {artifacts[artifact].name} ↗</a>}
       <p role="status">{unlocked ? `Artifact discovered. ${hunt.found.length}/3 found.` : message}</p>
       <small>{artifact === "walker" ? "The linked experiment opens in another tab. Visiting is optional." : "The trail stays on this page."} Progress stays on this device.</small>
-      {hunt.found.length === 3 && <p>The uncharted path is yours. <a href="https://portal.raidguild.org/modules?view=arcade" target="_blank" rel="noreferrer">Discover the arcade ↗</a> Games may require Portal membership.</p>}
+      {hunt.found.length === 3 && <p>The uncharted path is yours. <a href="https://portal.raidguild.org/modules?view=arcade" target="_blank" rel="noopener noreferrer">Discover the arcade ↗</a> Games may require Portal membership.</p>}
       <button type="button" onClick={() => { hunt.reset(); setMessage(""); setAnswer(""); }}>Reset discoveries</button>
     </div>
   </details>;

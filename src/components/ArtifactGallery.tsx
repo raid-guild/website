@@ -140,7 +140,7 @@ export default function ArtifactGallery({ collaborators = [], showFeatured = tru
       </div>
     </div>}
     <div className={styles.guide}><span>{String(artifacts.length).padStart(2, '0')} / DISCOVERIES</span><span>{active ? "Select a preview to switch" : "Select a tile to unfold"}</span></div>
-    {postsState === "error" && <p>Community posts are temporarily unavailable. <a href="https://portal.raidguild.org/posts">Read them on Portal →</a></p>}
+    {postsState === "error" && <p>Community posts are temporarily unavailable. <a href="https://portal.raidguild.org/posts" target="_blank" rel="noopener noreferrer">Read them on Portal →</a></p>}
     {artifacts.length === 0 && <p>{filter === "post" && postsState === "loading" ? "Loading the latest public posts…" : "No entries in this collection."}</p>}
     <div className={styles.layout} onKeyDown={event => { if (event.key === "Escape" && selected) { event.preventDefault(); select(null); } }}>
     <div ref={grid} className={styles.previews} onPointerLeave={() => setPeek(null)} onPointerMove={event => {

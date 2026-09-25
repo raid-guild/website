@@ -802,7 +802,7 @@
 .spearControls { display: none; }
 /* Continuous, opposite-direction bands from the design walkthrough. */
 .loopBand { grid-column: 1 / -1; min-width: 0; overflow: hidden; position: relative; color: var(--paper); width: 104%; margin: 2vw -2%; transform: rotate(2deg); transform-origin: center; }
-.wordBand { background: var(--coral); margin-top: calc(-2vw - 12px); z-index: 10; }
+.wordBand { background: var(--coral); margin-top: calc(-2vw - 12px); margin-bottom: -1vw; transform: rotate(1deg); z-index: 10; }
 .metricBand { background: var(--deep); transform: rotate(-2deg); }
 .loopViewport { overflow: hidden; }
 .loopTrack { display: flex; width: max-content; animation: bandDrift 60s linear infinite; }
@@ -1045,7 +1045,7 @@
 /* Direct-entry homepage experiment: visible paths, compact evidence, optional depth. */
 .hero, .heroStage { height: min(860px, 100svh); min-height: 680px; }
 .heroStage { position: relative; top: auto; }
-.heroCopy { top: clamp(140px, 20vh, 220px); }
+.heroCopy { top: clamp(140px, 20vh, 220px); z-index: 7; }
 .heroTitle { transform: none; }
 .heroSupplement { bottom: auto; top: clamp(340px, 47vh, 420px); opacity: 1; pointer-events: auto; width: min(580px, 80vw); }
 .heroDek { margin: 0; max-width: 560px; }

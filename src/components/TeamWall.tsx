@@ -105,7 +105,7 @@ export default function TeamWall({ members, suspended = false }: { members: Merc
               {members.map((member) => {
                 const content = <><Image src={member.imagePath} alt="" width={58} height={58} draggable={false} /><span><strong title={member.name}>{member.name}</strong><small title={member.title}>{member.title}</small></span></>;
                 return member.link
-                  ? <a href={member.link} target="_blank" rel="noreferrer" key={member.name} tabIndex={copy === 1 ? -1 : undefined}>{content}<i>↗</i></a>
+                  ? <a href={member.link} target="_blank" rel="noopener noreferrer" key={member.name} tabIndex={copy === 1 ? -1 : undefined}>{content}<i>↗</i></a>
                   : <div key={member.name}>{content}</div>;
               })}
             </div>
