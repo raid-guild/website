@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from "react";
 import Image from "next/image";
+import * as Dialog from "@radix-ui/react-dialog";
 import FrontDoor from "./FrontDoor";
 import { UnchartedHunt, HuntMarker, HuntPixel } from "./UnchartedHunt";
 import TeamWall from "./TeamWall";
@@ -107,43 +108,48 @@ type PortalOverlayProps = {
   open: boolean;
   forming: boolean;
   closing: boolean;
+  container: HTMLElement | null;
   onClose: () => void;
   onSpears: () => void;
   onProblem: () => void;
   onJoin: () => void;
 };
 
-function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, onJoin }: PortalOverlayProps) {
+function PortalOverlay({ open, forming, closing, container, onClose, onSpears, onProblem, onJoin }: PortalOverlayProps) {
   const [energized, setEnergized] = useState<string | null>(null);
+  const firstChoiceRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     if (!open) return;
 
     const previousOverflow = document.body.style.overflow;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-
     document.body.style.overflow = "hidden";
-    window.addEventListener("keydown", handleKeyDown);
     return () => {
       document.body.style.overflow = previousOverflow;
-      window.removeEventListener("keydown", handleKeyDown);
     };
-  }, [open, onClose]);
+  }, [open]);
 
 
   if (!open) return null;
 
   return (
-    <div
+    <Dialog.Portal container={container ?? undefined}>
+    <Dialog.Content
       className={`${styles.portalOverlay} ${forming ? styles.portalForming : ""} ${closing ? styles.portalClosing : ""}`}
-      role="dialog"
-      aria-modal="true"
-      aria-label="RaidGuild transit portal"
+      onOpenAutoFocus={(event) => {
+        event.preventDefault();
+        firstChoiceRef.current?.focus();
+      }}
+      onEscapeKeyDown={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
     >
+      <Dialog.Title className="sr-only">Choose your RaidGuild portal</Dialog.Title>
+      <Dialog.Description className="sr-only">Choose a practice to explore, start a project, or join the Guild.</Dialog.Description>
       <div className={styles.portalAtmosphere} aria-hidden="true" />
       <button
+        ref={firstChoiceRef}
         className={`${styles.portalMachine} ${styles.portalSpear}`}
         onPointerEnter={() => setEnergized("Spear")}
         onPointerLeave={() => setEnergized(null)}
@@ -215,7 +221,8 @@ function PortalOverlay({ open, forming, closing, onClose, onSpears, onProblem, o
         </div>
       )}
       <p className={styles.portalCoordinates}>39°44′N / 104°59′W<br />DESTINATION: UNMAPPED</p>
-    </div>
+    </Dialog.Content>
+    </Dialog.Portal>
   );
 }
 
@@ -244,6 +251,7 @@ export default function HomeExperience() {
   const [isNight, setIsNight] = useState(false);
   const [arrivalTarget, setArrivalTarget] = useState<string | null>(null);
   const heroRef = useRef<HTMLElement>(null);
+  const siteRef = useRef<HTMLDivElement>(null);
   const spearTrackRef = useRef<HTMLDivElement>(null);
   const [activeSpear, setActiveSpear] = useState(0);
   const heroRevealTimerRef = useRef<number | null>(null);
@@ -472,10 +480,11 @@ export default function HomeExperience() {
   }, [frontDoorOpen, portalOpen]);
 
   return (
-    <>
+    <Dialog.Root open={portalOpen} onOpenChange={(open) => { if (!open) dismissPortal(); }}>
     <UnchartedHunt>
     {frontDoorOpen && <FrontDoor onEnter={enterFromFrontDoor} isNight={isNight} />}
-    <main inert={frontDoorOpen} data-motion-paused={frontDoorOpen || portalOpen} className={`${styles.site} ${portalForming ? styles.siteGlitching : ""}`}>
+    <div className={styles.site} ref={siteRef}>
+    <main inert={frontDoorOpen || portalOpen} data-motion-paused={frontDoorOpen || portalOpen} className={portalForming ? styles.siteGlitching : ""}>
       <header className={styles.header}>
         <a className={styles.brand} href="#top" aria-label="RaidGuild home">
           <Sigil />
@@ -521,10 +530,10 @@ export default function HomeExperience() {
       </header>
 
       <section className={styles.hero} id="top" ref={heroRef}>
-        <button className={styles.portalTrigger} type="button" onClick={openPortal}>
+        <Dialog.Trigger asChild><button className={styles.portalTrigger} type="button" onClick={openPortal}>
           <span className={styles.portalTriggerMark}><b className={styles.iconPortal} /><i /></span>
           <span className={styles.portalTriggerCopy}><small>TRANSIT READY</small>OPEN A PORTAL</span>
-        </button>
+        </button></Dialog.Trigger>
         <div className={`${styles.heroStage} ${heroRevealed ? styles.heroExploring : ""}`}>
           <div className={styles.heroCelestial} aria-hidden="true">
             <span className={styles.moonLarge} />
@@ -915,17 +924,19 @@ export default function HomeExperience() {
         <small>© 2019—2026 RAIDGUILD · EARTH &amp; ELSEWHERE</small>
       </footer>
 
+    </main>
       <PortalOverlay
         open={portalOpen}
         forming={portalForming}
         closing={portalClosing}
+        container={siteRef.current}
         onClose={() => dismissPortal()}
         onSpears={() => dismissPortal("spears")}
         onProblem={() => dismissPortal("contact")}
         onJoin={joinGuild}
       />
-    </main>
+    </div>
     </UnchartedHunt>
-    </>
+    </Dialog.Root>
   );
 }
