@@ -699,6 +699,10 @@ export default function HomeExperience() {
       </div>
 
       <section className={`${styles.fieldNotes} ${arrivalTarget === "work" ? styles.sectionArriving : ""}`} id="work">
+        <header className={styles.collectionHeading}>
+          <p className={styles.sectionLabel}>[ EXPLORE ]</p>
+          <h2>Wall of<br /><em>curiosities</em></h2>
+        </header>
         <div id="uncharted" className={styles.collectionAnchor}>
           <div id="gallery" className={styles.collectionAnchor}>
             <ArtifactGallery showFeatured={false} onOpenPortal={openPortal} collaborators={networkLogos.map(logo => ({

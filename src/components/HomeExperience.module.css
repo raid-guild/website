@@ -1074,6 +1074,11 @@
 
 .galleryMore { max-width: 1280px; margin: 32px auto 0; scroll-margin-top: 80px; }
 .collectionAnchor { min-width: 0; scroll-margin-top: 80px; }
+.collectionHeading { margin-bottom: 32px; }
+.collectionHeading .sectionLabel { color: var(--coral); font-size: clamp(14px, 1.5vw, 18px); line-height: 1.4; margin-bottom: 16px; }
+.collectionHeading h2 { color: var(--ink); font: italic 400 clamp(32px, 4vw, 50px)/1.12 var(--font-display), sans-serif; margin: 0; text-transform: uppercase; }
+.collectionHeading h2 em { color: var(--coral); font-family: var(--font-retalic), sans-serif; font-style: normal; }
+:global(html[data-theme="dark"]) .site .collectionHeading h2 { color: var(--paper); }
 .galleryMore > summary { padding: 20px 24px; }
 .featuredShelf#uncharted { scroll-margin-top: 80px; }
 .practice { height: auto; min-height: 0; padding: 80px clamp(24px, 6vw, 96px); }
