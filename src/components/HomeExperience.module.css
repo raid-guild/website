@@ -1073,8 +1073,9 @@
 .storyGrid a { color: inherit; margin-top: auto; font: 700 12px/1.3 var(--font-mono), monospace; text-underline-offset: 5px; }
 
 .galleryMore { max-width: 1280px; margin: 32px auto 0; scroll-margin-top: 80px; }
+.collectionAnchor { min-width: 0; scroll-margin-top: 80px; }
 .galleryMore > summary { padding: 20px 24px; }
-.curatedDiscoveries#uncharted { scroll-margin-top: 80px; }
+.featuredShelf#uncharted { scroll-margin-top: 80px; }
 .practice { height: auto; min-height: 0; padding: 80px clamp(24px, 6vw, 96px); }
 .practiceHeading { max-width: 1280px; margin-bottom: 30px; }
 .practiceCards { max-width: 1280px; margin: 0 auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
@@ -1125,17 +1126,40 @@
 }
 @media (prefers-reduced-motion: reduce) { .heroPaths .pill { transition: none; } }
 
-.curatedDiscoveries { padding: 30px 0; }
-.curatedDiscoveries > h3 { font: 500 28px/1.1 var(--font-display), sans-serif; margin: 0 0 8px; }
-.curatedDiscoveries > p { font: 15px/1.4 var(--font-body), sans-serif; margin: 0 0 22px; }
-.curatedDiscoveries > div { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-.curatedDiscoveries article { border: 1px solid currentColor; padding: 18px; min-width: 0; }
-.curatedDiscoveries small { color: var(--coral); font: 700 10px/1.3 var(--font-mono), monospace; text-transform: uppercase; }
-.curatedDiscoveries h4 { font: 500 22px/1.15 var(--font-display), sans-serif; margin: 10px 0; }
-.curatedDiscoveries a { color: inherit; text-underline-offset: 4px; }
-.curatedDiscoveries article p { font: 14px/1.45 var(--font-body), sans-serif; margin: 0; }
-@media (max-width: 900px) { .curatedDiscoveries > div { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 600px) { .curatedDiscoveries > div { grid-template-columns: 1fr; } }
+.featuredShelf { max-width: 1280px; margin: 42px auto 0; }
+.featuredShelfHeading { display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 1fr); align-items: end; gap: 8px 40px; margin-bottom: 24px; }
+.featuredShelfHeading .sectionLabel { grid-column: 1 / -1; margin: 0; }
+.featuredShelfHeading h3 { font: 500 clamp(30px, 4vw, 52px)/1 var(--font-display), sans-serif; margin: 0; }
+.featuredShelfHeading > p:last-child { font: 16px/1.45 var(--font-body), sans-serif; margin: 0; max-width: 490px; }
+.featuredShelfGrid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; padding-bottom: 16px; }
+.discoveryCard { background: var(--deep); border: 1px solid rgba(16,45,44,.5); color: var(--paper); display: flex; flex-direction: column; min-width: 0; text-decoration: none; transition: transform .25s ease, box-shadow .25s ease; }
+.discoveryCard:nth-child(even) { transform: translateY(16px); }
+.discoveryCard:hover, .discoveryCard:focus-visible { box-shadow: 7px 7px 0 var(--coral); transform: translate(-3px, -3px); }
+.discoveryCard:nth-child(even):hover, .discoveryCard:nth-child(even):focus-visible { transform: translate(-3px, 13px); }
+.discoveryCard:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+.discoveryImage { aspect-ratio: 4 / 3; overflow: hidden; position: relative; }
+.discoveryImage::after { background: linear-gradient(180deg, rgba(16,45,44,.6), transparent 35%); content: ""; inset: 0; pointer-events: none; position: absolute; }
+.discoveryImage img { object-fit: cover; transition: transform .35s ease; }
+.discoveryCard:hover .discoveryImage img, .discoveryCard:focus-visible .discoveryImage img { transform: scale(1.04); }
+.discoveryIndex { color: var(--paper); font: 700 10px/1 var(--font-mono), monospace; left: 14px; letter-spacing: .1em; position: absolute; top: 14px; z-index: 1; }
+.discoveryCopy { display: flex; flex: 1; flex-direction: column; padding: 20px; }
+.discoveryCopy small { color: var(--coral); font: 700 11px/1.3 var(--font-mono), monospace; letter-spacing: .08em; text-transform: uppercase; }
+.discoveryCopy h4 { font: 500 clamp(23px, 2vw, 30px)/1.08 var(--font-display), sans-serif; margin: 10px 0; }
+.discoveryCopy p { font: 14px/1.45 var(--font-body), sans-serif; margin: 0 0 20px; }
+.discoveryAction { align-items: center; border-top: 1px solid rgba(239,233,215,.3); color: var(--paper); display: flex; font: 700 11px/1.3 var(--font-mono), monospace; gap: 8px; justify-content: space-between; margin-top: auto; padding-top: 14px; text-transform: uppercase; }
+.discoveryAction span { color: var(--coral); font-size: 18px; }
+.galleryMore > summary .gallerySummaryTitle { color: var(--paper); font: inherit; text-transform: none; }
+.galleryMore > summary .gallerySummaryAside { color: var(--coral); max-width: 290px; }
+@media (max-width: 900px) { .featuredShelfGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 28px; } }
+@media (max-width: 600px) {
+  .featuredShelfHeading { grid-template-columns: 1fr; }
+  .featuredShelfHeading .sectionLabel { grid-column: auto; }
+  .featuredShelfGrid { grid-template-columns: 1fr; gap: 14px; padding-bottom: 0; }
+  .discoveryCard:nth-child(even) { transform: none; }
+  .discoveryCard:nth-child(even):hover, .discoveryCard:nth-child(even):focus-visible { transform: translate(-3px, -3px); }
+  .discoveryImage { aspect-ratio: 16 / 9; }
+}
+@media (prefers-reduced-motion: reduce) { .discoveryCard, .discoveryImage img { transition: none; } }
 
 /* Review pass: a compact default journey with the playful layers on demand. */
 .contact { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 24px; min-height: 0; height: auto; padding: 32px clamp(24px, 6vw, 96px); overflow: visible; }
@@ -1207,7 +1231,6 @@
 .unchartedPortal details[open] > div { bottom: calc(100% + 12px); color: var(--paper); left: 12px; position: absolute; width: min(320px, calc(100vw - 24px)); }
 .unchartedPortal details[open] > div button { background: none; border: 0; color: var(--paper); cursor: pointer; font: inherit; padding: 10px 0; text-decoration: underline; text-underline-offset: 4px; }
 
-.curatedDiscoveries#uncharted { scroll-margin-top: 80px; }
 .contactIntro { align-items: center; display: grid; gap: clamp(12px, 2vw, 28px); grid-template-columns: minmax(0, 1fr) minmax(120px, 180px); }
 .contactCopy { min-width: 0; }
 .contactDruid { height: auto; margin: 0; max-height: 240px; max-width: 180px; object-fit: contain; object-position: center bottom; width: 100%; }

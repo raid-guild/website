@@ -10,7 +10,6 @@ import LoopBand from "./LoopBand";
 import ArtifactGallery from "./ArtifactGallery";
 import HireUs from "@/components/HireUs";
 import { mercenaries } from "@/lib/data/members";
-import { featuredDiscoveries } from "@/lib/data/featuredDiscoveries";
 import styles from "./HomeExperience.module.css";
 
 const activeSpears = [
@@ -230,8 +229,6 @@ function PortalOverlay({ open, forming, closing, container, onClose, onSpears, o
 }
 
 export default function HomeExperience() {
-  const [communityExpanded, setCommunityExpanded] = useState(false);
-  const [galleryExpanded, setGalleryExpanded] = useState(false);
   const [inquiryExpanded, setInquiryExpanded] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [portalOpen, setPortalOpen] = useState(false);
@@ -289,8 +286,6 @@ export default function HomeExperience() {
     let revealTimer: number | undefined;
     const revealHash = () => {
       const hash = decodeURIComponent(window.location.hash.slice(1));
-      setCommunityExpanded(hash === "team");
-      setGalleryExpanded(hash === "gallery" || hash === "uncharted");
       setInquiryExpanded(hash === "project-inquiry");
       if (revealTimer) window.clearTimeout(revealTimer);
       if (["team", "gallery", "uncharted", "project-inquiry"].includes(hash)) {
@@ -648,8 +643,7 @@ export default function HomeExperience() {
         </LoopBand>
       </section>
 
-      <details className={styles.moreCommunity} open={communityExpanded} onToggle={(event) => setCommunityExpanded(event.currentTarget.open)}>
-        <summary>Meet the people behind the Guild <span>Explore the roster and stewards ↓</span></summary>
+      <div className={styles.moreCommunity}>
       <section className={styles.keepers}>
         <div className={styles.guildRoster}>
           <div className={styles.rosterHeading}>
@@ -704,40 +698,27 @@ export default function HomeExperience() {
         </div>
       </section>
 
-      </details>
+      </div>
 
       <section className={`${styles.fieldNotes} ${arrivalTarget === "work" ? styles.sectionArriving : ""}`} id="work">
         <div className={styles.fieldIntro}>
           <p className={styles.sectionLabel}>[ FROM THE GUILD ]</p>
           <h2>Curiosity in<br /><em>company</em></h2>
           <div className={styles.fieldAside}>
-            <p>Members share proposals, build tools together, and report what they learn. These public notes show the community in motion.</p>
+            <p>Explore the games, tools, experiments, field notes, and collaborations Guild members make together.</p>
             <a className={`${styles.pill} ${styles.pillOutlineGreen}`} href="https://portal.raidguild.org/posts" target="_blank" rel="noopener noreferrer"><span>Read more field notes</span><i className={styles.pillIcon}><b className={styles.iconLogo} /></i></a>
           </div>
         </div>
-        <div className={styles.storyGrid}>
-          <article><small>IDEA / COLLABORATION</small><h3>How to build together</h3><p>ECWireless proposes collaborative internal tools as a way to keep building together when working alone has become easy.</p><a href="https://portal.raidguild.org/posts/how-to-build-together-when-its-so-easy-to-vibe-code-alone" target="_blank" rel="noopener noreferrer">Read the proposal ↗</a></article>
-          <article><small>EXPERIMENT / COORDINATION</small><h3>From play to signal maps</h3><p>Guild builders turned a playful experiment into tools for seeing and coordinating community activity.</p><a href="https://portal.raidguild.org/posts/from-daily-dust-to-alliance-signal-maps" target="_blank" rel="noopener noreferrer">Read the field note ↗</a></article>
-          <article><small>FIELD NOTE / PILOT</small><h3>Testing an agentic operating layer</h3><p>Several developers used a two-hour spike to deploy, fix, and learn from a pilot with Buzz. The note records the experiment, not a Guild-wide rollout.</p><a href="https://portal.raidguild.org/posts/field-note-testing-raidguilds-agentic-operating-layer-with-buzz" target="_blank" rel="noopener noreferrer">Read the field note ↗</a></article>
-        </div>
-        <details className={styles.galleryMore} open={galleryExpanded} onToggle={(event) => setGalleryExpanded(event.currentTarget.open)} id="gallery">
-          <summary>Explore the full collection <span>Experiments, field notes, and network ↘</span></summary>
-          <div className={styles.curatedDiscoveries} id="uncharted">
-            <h3>Selected discoveries</h3>
-            <p>Public experiments from Guild members, selected as starting points for further exploration.</p>
-            <div>{featuredDiscoveries.map((item) => <article key={item.href}>
-              <small>{item.category}</small>
-              <h4><a href={item.href} target="_blank" rel="noopener noreferrer">{item.title} ↗</a></h4>
-              <p>{item.summary}</p>
-            </article>)}</div>
-          </div>
-          {galleryExpanded && <ArtifactGallery showFeatured={false} onOpenPortal={openPortal} collaborators={networkLogos.map(logo => ({
+        <div id="uncharted" className={styles.collectionAnchor}>
+          <div id="gallery" className={styles.collectionAnchor}>
+            <ArtifactGallery showFeatured={false} onOpenPortal={openPortal} collaborators={networkLogos.map(logo => ({
             id: `network-${logo.file.replace(/\.(svg|png)$/, "")}`, title: logo.name,
             category: "Across the network", kind: "collaborator" as const,
             description: logo.description, href: logo.href,
             image: `/images/${logo.file}`,
-          }))} />}
-        </details>
+            }))} />
+          </div>
+        </div>
       </section>
 
       <section className={`${styles.practice} ${arrivalTarget === "spears" ? styles.sectionArriving : ""}`} id="spears">
