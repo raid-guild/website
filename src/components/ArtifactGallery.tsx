@@ -42,6 +42,36 @@ export default function ArtifactGallery({ collaborators = [], showFeatured = tru
   const closeButton = useRef<HTMLButtonElement>(null);
   const previous = useRef<string | null>(null);
   const zones = useRef<{ id: string; rect: DOMRect }[]>([]);
+  const pointer = useRef<{ x: number; y: number } | null>(null);
+  const hoverFrame = useRef<number | null>(null);
+  const focusedCard = () => grid.current?.querySelector<HTMLElement>("[data-artifact]:focus-within")?.dataset.artifact || null;
+  const reconcileHover = () => {
+    hoverFrame.current = null;
+    const root = grid.current;
+    if (!root) return;
+    const position = pointer.current;
+    if (!position) {
+      const focused = focusedCard();
+      setPeek(current => current === focused ? current : focused);
+      return;
+    }
+    // Hit zones follow the equal-width resting slots, not animated card edges.
+    if (!zones.current.length) zones.current = Array.from(root.querySelectorAll<HTMLElement>("[data-elastic-row]")).flatMap(row => {
+      const bounds = row.getBoundingClientRect();
+      const width = bounds.width / columns;
+      return Array.from(row.querySelectorAll<HTMLElement>("[data-artifact]")).map((el, index) => ({
+        id: el.dataset.artifact!, rect: new DOMRect(bounds.left + index * width, bounds.top, width, bounds.height),
+      }));
+    });
+    const hit = zones.current.find(({ rect }) => position.x >= rect.left && position.x <= rect.right && position.y >= rect.top && position.y <= rect.bottom);
+    const next = hit?.id || null;
+    setPeek(current => current === next ? current : next);
+  };
+  const scheduleHover = () => {
+    if (hoverFrame.current === null) hoverFrame.current = requestAnimationFrame(reconcileHover);
+  };
+  const scheduleHoverRef = useRef(scheduleHover);
+  scheduleHoverRef.current = scheduleHover;
   useEffect(() => {
     const controller = new AbortController();
     fetch("/api/posts", { signal: controller.signal })
@@ -58,13 +88,15 @@ export default function ArtifactGallery({ collaborators = [], showFeatured = tru
     // even while the pointer remains inside the gallery.
     const invalidateZones = () => {
       zones.current = [];
-      setPeek(null);
+      scheduleHoverRef.current();
     };
     window.addEventListener("scroll", invalidateZones, { capture: true, passive: true });
     window.addEventListener("resize", invalidateZones);
     return () => {
       window.removeEventListener("scroll", invalidateZones, true);
       window.removeEventListener("resize", invalidateZones);
+      if (hoverFrame.current !== null) cancelAnimationFrame(hoverFrame.current);
+      hoverFrame.current = null;
     };
   }, []);
   useEffect(() => {
@@ -146,19 +178,14 @@ export default function ArtifactGallery({ collaborators = [], showFeatured = tru
     {postsState === "error" && <p>Community posts are temporarily unavailable. <a href="https://portal.raidguild.org/posts" target="_blank" rel="noopener noreferrer">Read them on Portal →</a></p>}
     {artifacts.length === 0 && <p>{filter === "post" && postsState === "loading" ? "Loading the latest public posts…" : "No entries in this collection."}</p>}
     <div className={styles.layout} onKeyDown={event => { if (event.key === "Escape" && selected) { event.preventDefault(); select(null); } }}>
-    <div ref={grid} className={styles.previews} onPointerLeave={() => setPeek(null)} onPointerMove={event => {
+    <div ref={grid} className={styles.previews} onPointerLeave={() => {
+      pointer.current = null;
+      const focused = focusedCard();
+      setPeek(current => current === focused ? current : focused);
+    }} onPointerMove={event => {
       if ((!active && columns === 1) || event.pointerType === "touch" || !matchMedia("(hover: hover) and (pointer: fine)").matches) return;
-      // Use each row's resting, equal-width slots rather than the moving card
-      // edges. Re-entering during a transition cannot shift the hit boundaries.
-      if (!zones.current.length) zones.current = Array.from(grid.current!.querySelectorAll<HTMLElement>("[data-elastic-row]")).flatMap(row => {
-        const bounds = row.getBoundingClientRect();
-        const width = bounds.width / columns;
-        return Array.from(row.querySelectorAll<HTMLElement>("[data-artifact]")).map((el, index) => ({
-          id: el.dataset.artifact!, rect: new DOMRect(bounds.left + index * width, bounds.top, width, bounds.height),
-        }));
-      });
-      const hit = zones.current.find(({ rect }) => event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom);
-      setPeek(hit?.id || null);
+      pointer.current = { x: event.clientX, y: event.clientY };
+      scheduleHover();
     }} onPointerEnter={() => { zones.current = []; }}>
       {rows(artifacts)}
     </div>

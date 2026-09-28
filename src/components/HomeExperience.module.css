@@ -128,7 +128,7 @@
 .discover { align-items: center; color: inherit; display: flex; font-size: 10px; gap: 18px; letter-spacing: .16em; margin-top: 40px; text-decoration: none; text-transform: uppercase; width: max-content; }
 .discover i { align-items: center; border: 1px solid rgba(255,255,255,.5); border-radius: 50%; display: flex; font-style: normal; height: 42px; justify-content: center; transition: transform .25s, background .25s; width: 42px; }
 .discover:hover i { background: var(--coral); border-color: var(--coral); transform: translateY(5px); }
-.heroIndex { bottom: 44px; display: grid; grid-template-columns: auto auto; opacity: var(--neo-meta-opacity, 1); position: absolute; right: clamp(24px, 4vw, 72px); text-align: right; transform: translateY(var(--neo-meta-y, 0)); z-index: 7; }
+.heroIndex { bottom: 44px; display: grid; grid-template-columns: auto auto; position: absolute; right: clamp(24px, 4vw, 72px); text-align: right; z-index: 7; }
 .heroIndex span { font-size: 8px; letter-spacing: .18em; padding-top: 8px; }
 .heroIndex strong { font-family: var(--font-display), serif; font-size: 44px; font-weight: 400; grid-row: span 2; line-height: 1; margin-left: 15px; }
 .heroScrollCue { display: none; margin: 0; }

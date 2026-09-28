@@ -450,9 +450,7 @@ export default function HomeExperience() {
           root.style.setProperty("--neo-sky-y", `${(distance * 0.035).toFixed(1)}px`);
           root.style.setProperty("--neo-fore-y", `${(distance * -0.34).toFixed(1)}px`);
           root.style.setProperty("--neo-copy-y", `${(distance * -0.3).toFixed(1)}px`);
-          root.style.setProperty("--neo-meta-y", `${(distance * -0.18).toFixed(1)}px`);
       root.style.setProperty("--neo-copy-opacity", (1 - progress * 0.72).toFixed(3));
-      root.style.setProperty("--neo-meta-opacity", (1 - progress).toFixed(3));
         }
       });
     };
@@ -701,14 +699,6 @@ export default function HomeExperience() {
       </div>
 
       <section className={`${styles.fieldNotes} ${arrivalTarget === "work" ? styles.sectionArriving : ""}`} id="work">
-        <div className={styles.fieldIntro}>
-          <p className={styles.sectionLabel}>[ FROM THE GUILD ]</p>
-          <h2>Curiosity in<br /><em>company</em></h2>
-          <div className={styles.fieldAside}>
-            <p>Explore the games, tools, experiments, field notes, and collaborations Guild members make together.</p>
-            <a className={`${styles.pill} ${styles.pillOutlineGreen}`} href="https://portal.raidguild.org/posts" target="_blank" rel="noopener noreferrer"><span>Read more field notes</span><i className={styles.pillIcon}><b className={styles.iconLogo} /></i></a>
-          </div>
-        </div>
         <div id="uncharted" className={styles.collectionAnchor}>
           <div id="gallery" className={styles.collectionAnchor}>
             <ArtifactGallery showFeatured={false} onOpenPortal={openPortal} collaborators={networkLogos.map(logo => ({
