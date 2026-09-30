@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
-import { maziusDisplay, ebGaramond, ubuntuMono } from "@/lib/fonts";
+import {
+  afacadFlux,
+  grinder,
+  grinderRetalic,
+  ebGaramond,
+  maziusDisplay,
+  ubuntu,
+  ubuntuMono,
+} from "@/lib/fonts";
 import "./globals.css";
 // import { ThemeProvider } from "next-themes";
 import { Providers } from "@/providers/providers";
@@ -8,24 +16,24 @@ import VercelAnalytics from "@/components/VercelAnalytics";
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.raidguild.org"),
   title: {
-    default: "RaidGuild — Web3 Design & Development Collective",
+    default: "RaidGuild — A Builder-Owned Community",
     template: "%s | RaidGuild",
   },
   description:
-    "A builder-owned collective shipping smart contracts, dApps, AI systems, and DAO tooling since 2019. Clients include Gitcoin, Gnosis, Pocket Network, and Unlock Protocol.",
+    "A builder-owned community of creative and technical people sharing knowledge, exploring technology, and building together since 2019.",
   openGraph: {
     siteName: "RaidGuild",
     type: "website",
     url: "https://www.raidguild.org",
-    title: "RaidGuild — Web3 Design & Development Collective",
+    title: "RaidGuild — A Builder-Owned Community",
     description:
-      "A builder-owned collective shipping smart contracts, dApps, AI systems, and DAO tooling since 2019.",
+      "Explore the people, ideas, and independent specialist practices growing from the RaidGuild community.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "RaidGuild — Web3 Design & Development Collective",
+    title: "RaidGuild — A Builder-Owned Community",
     description:
-      "A builder-owned collective shipping smart contracts, dApps, AI systems, and DAO tooling since 2019.",
+      "Explore the people, ideas, and independent specialist practices growing from the RaidGuild community.",
   },
 };
 
@@ -38,6 +46,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var k="raidguild-theme",s=localStorage.getItem(k),t=s==="light"||s==="dark"?s:(matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light");document.documentElement.dataset.theme=t;document.documentElement.style.colorScheme=t}catch(e){document.documentElement.dataset.theme="light"}})();`,
+          }}
+        />
+        <script
           async
           src="https://plausible-production-78b3.up.railway.app/js/pa-FkymWO7gixkQ6_9ux01Qn.js"
         />
@@ -49,7 +62,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${maziusDisplay.variable} ${ebGaramond.variable} ${ubuntuMono.variable} antialiased`}
+        className={`${grinder.variable} ${grinderRetalic.variable} ${afacadFlux.variable} ${ebGaramond.variable} ${maziusDisplay.variable} ${ubuntu.variable} ${ubuntuMono.variable} antialiased`}
       >
         <VercelAnalytics />
         {/* <ThemeProvider

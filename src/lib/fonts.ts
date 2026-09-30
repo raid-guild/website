@@ -1,6 +1,35 @@
-import { EB_Garamond, Ubuntu_Mono } from "next/font/google";
+import { Ubuntu, Ubuntu_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
+// Louchi's refined cuts, approved September 22, 2026; user confirmed rights.
+// Converted from the supplied TTC files to WOFF2. See HANDOFF.md for provenance.
+export const grinder = localFont({
+  src: [
+    { path: "../../public/fonts/Grinder-Refined-Regular.woff2", weight: "400", style: "normal" },
+    { path: "../../public/fonts/Grinder-Refined-Italic.woff2", weight: "400", style: "italic" },
+  ],
+  variable: "--font-grinder",
+  display: "swap",
+});
+
+export const grinderRetalic = localFont({
+  src: "../../public/fonts/Grinder-Refined-Retalic.woff2",
+  weight: "400",
+  style: "normal",
+  variable: "--font-grinder-retalic",
+  display: "swap",
+});
+
+// Openly licensed display alternative; preserve legacy typography on other routes.
+export const afacadFlux = localFont({
+  src: "../../public/fonts/AfacadFlux-Variable.ttf",
+  weight: "100 1000",
+  style: "normal",
+  variable: "--font-afacad",
+  display: "swap",
+});
+
+// Legacy display face, still used by the pre-redesign pages.
 // Primary Display Font - Mazius Display
 export const maziusDisplay = localFont({
   src: [
@@ -19,12 +48,21 @@ export const maziusDisplay = localFont({
   display: "swap",
 });
 
-// Secondary Body Font - EB Garamond
-export const ebGaramond = EB_Garamond({
-  subsets: ["latin"],
+// Secondary Body Font - EB Garamond (bundled to keep production builds deterministic)
+export const ebGaramond = localFont({
+  src: [
+    {
+      path: "../../public/fonts/EBGaramond-VariableFont_wght.ttf",
+      weight: "400 800",
+      style: "normal",
+    },
+    {
+      path: "../../public/fonts/EBGaramond-Italic-VariableFont_wght.ttf",
+      weight: "400 800",
+      style: "italic",
+    },
+  ],
   variable: "--font-body",
-  weight: ["400", "500", "600", "700"],
-  style: ["normal", "italic"],
   display: "swap",
 });
 
@@ -32,5 +70,15 @@ export const ubuntuMono = Ubuntu_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
   weight: ["400", "700"],
+  display: "swap",
+});
+
+// Figma's supporting/body face. Kept separate from the display fallback so the
+// hierarchy remains stable when the proprietary Grinder family is unavailable.
+export const ubuntu = Ubuntu({
+  subsets: ["latin"],
+  variable: "--font-ubuntu",
+  weight: ["400", "500", "700"],
+  style: ["normal", "italic"],
   display: "swap",
 });

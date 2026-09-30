@@ -562,6 +562,7 @@ export default function HireUs() {
         className="text-body-md hover:text-moloch-500 transition-colors"
         href={DISCORD_INVITE_URL}
         target="_blank"
+        rel="noopener noreferrer"
       >
         Introduce yourself in Discord
       </a>
@@ -693,6 +694,7 @@ export default function HireUs() {
             <LoadingIndicator />
           ) : (
             <Wizard
+              className="hire-us-wizard"
               steps={wizardSteps}
               onComplete={handleWizardComplete}
               showProgress={false}
