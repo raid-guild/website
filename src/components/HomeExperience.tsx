@@ -619,7 +619,10 @@ export default function HomeExperience() {
               <strong>RaidGuild</strong> is a builder-owned community exploring emerging technology together.{" "}
               <strong>Designers, engineers, researchers, strategists, and operators</strong> share knowledge, reputation, and infrastructure.
             </p>
-            <p>We learn from one another, test ideas, and build lasting relationships. Shared work grows from those connections, from open experiments to independent practices in applied AI and onchain systems.</p>
+            <details className={styles.guildMore}>
+              <summary>See more <span aria-hidden="true">↗</span></summary>
+              <p>We learn from one another, test ideas, and build lasting relationships. Shared work grows from those connections, from open experiments to independent practices in applied AI and onchain systems.</p>
+            </details>
           </div>
           <div className={styles.guildActions}>
             <a className={`${styles.pill} ${styles.pillFilled}`} href="https://portal.raidguild.org/join" target="_blank" rel="noopener noreferrer">
@@ -698,6 +701,7 @@ export default function HomeExperience() {
 
       </div>
 
+      <div className={`${styles.sectionSlope} ${styles.slopeCommunityField}`} aria-hidden="true" />
       <section className={`${styles.fieldNotes} ${arrivalTarget === "work" ? styles.sectionArriving : ""}`} id="work">
         <header className={styles.collectionHeading}>
           <p className={styles.sectionLabel}>[ EXPLORE ]</p>
@@ -715,6 +719,7 @@ export default function HomeExperience() {
         </div>
       </section>
 
+      <div className={`${styles.sectionSlope} ${styles.slopeFieldPractice}`} aria-hidden="true" />
       <section className={`${styles.practice} ${arrivalTarget === "spears" ? styles.sectionArriving : ""}`} id="spears">
         <div className={styles.practiceHeading}>
           <p className={styles.sectionLabel}>[ ACTIVE SPEARS ]</p>
@@ -743,16 +748,17 @@ export default function HomeExperience() {
         <p className={styles.practiceGeneral}>Not sure which practice fits? <a href="#project-inquiry" onClick={followInquiryLink}>Open the Guild inquiry form →</a></p>
       </section>
 
+      <div className={`${styles.sectionSlope} ${styles.slopePracticeContact}`} aria-hidden="true" />
 
       <section className={`${styles.contact} ${inquiryExpanded ? styles.contactExpanded : ""} ${arrivalTarget === "contact" ? styles.sectionArriving : ""}`} id="contact">
         <div className={styles.contactIntro}>
+          <Image className={styles.contactDruid} src="/images/neo/contact-druid-transparent.png" alt="Four Guild characters with maps, tools, and a staff" width={768} height={1024} sizes="(max-width: 600px) 70vw, 420px" />
           <div className={styles.contactCopy}>
-            <p className={styles.sectionLabel}>[ HAVE A PROJECT? ]</p>
+            <p className={styles.sectionLabel}>[ BEGIN A TRANSMISSION ]</p>
             <h2 className={styles.contactHeadline}>Find your <em>starting point.</em></h2>
             <p className={styles.contactDek}>Start with a specialist practice above. If the fit is unclear, send the Guild a short inquiry.</p>
             <div className={styles.contactClue}><HuntPixel artifact="signal" /><HuntMarker artifact="signal" label="A signal near the inquiry" /></div>
           </div>
-          <Image className={styles.contactDruid} src="/images/neo/contact-druid-transparent.png" alt="Four Guild characters with maps, tools, and a staff" width={768} height={1024} sizes="(max-width: 600px) 60vw, 260px" />
         </div>
         <details className={styles.inquiryMore} id="project-inquiry" tabIndex={-1} open={inquiryExpanded} onToggle={(event) => setInquiryExpanded(event.currentTarget.open)}>
           <summary>Start a Guild inquiry <span>{inquiryExpanded ? "Close the inquiry ↑" : "Share a project or question ↓"}</span></summary>
@@ -775,8 +781,10 @@ export default function HomeExperience() {
           preload="metadata"
           aria-hidden="true"
         />
-        <p className={styles.sectionLabel}>[ THE RAIDGUILD CREED ]</p>
-        <blockquote>The future is not something to predict. It is something to <em>build.</em></blockquote>
+        <div className={styles.creedContent}>
+          <p className={styles.sectionLabel}>[ THE RAIDGUILD CREED ]</p>
+          <blockquote>The future is not something to predict. It is something to <em>build.</em></blockquote>
+        </div>
         <div className={styles.unchartedWalker}><HuntPixel artifact="walker" /><HuntMarker artifact="walker" label="A mark left by the walker" /></div>
       </section>
 
