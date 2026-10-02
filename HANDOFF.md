@@ -68,18 +68,26 @@ images. `tsc --noEmit` passes.
 
 ## Blockers
 
-1. **Grinder rights and refined delivery — updated September 22, 2026.**
+1. **Grinder rights and refined delivery — updated September 30, 2026.**
    Dekan reported that Louchi obtained rights for the font package and approved
    the refined fonts for use and publication after a local review. This is a
    user-provided rights confirmation, not an independent review of a licence;
    retain the actual licence or purchase record with the project's records.
-   Louchi supplied `refined grinder.zip` with corrected AT/AR positioning.
-   Face 0 of `Grinder.ttc`, `Grinder-Italic.ttc`, and `Grinder-Retalic.ttc`
-   was converted with fontTools/Brotli to the corresponding
-   `public/fonts/Grinder-Refined-{Regular,Italic,Retalic}.woff2` on that date.
-   These are the active website fonts. The earlier WOFF2 files remain intact
-   for reference; native Italic and Retalic faces are used without CSS skew.
-   The font metadata does not itself provide licence terms.
+   Louchi subsequently supplied `grinder-reloaded.zip` (SHA-256
+   `9ca7786d4a92d0e79975d09404434349502bcbffadc191f79679a43b9b2684ae`).
+   Each TTC contains all three family faces in a different order; face 0 is the
+   intended cut named by that TTC (`Grinder`, `Grinder-Italic`, or
+   `Grinder-Retalic`). A mapped-glyph and shaping comparison confirmed revised
+   outlines in all three cuts plus advance changes in Regular and Italic.
+   On September 30, face 0 of each TTC was converted losslessly with
+   fontTools/Brotli to the corresponding active
+   `public/fonts/Grinder-Refined-{Regular,Italic,Retalic}.woff2`. Their SHA-256
+   values are `f0a18f1898aa4f5feda44c223d4ad4fa0ef2944a36d4b1eecd72d552eabb5172`,
+   `11168b3ba10ed4a8ee8de1bc8db4c8d1ee301e9cd5b491de5e710044bf30eef1`,
+   and `0beeaeca1d03fef9ea54813ffb0fb7566c3315a042af5784b06d40150cb81a99`
+   respectively. The earlier non-refined WOFF2 files remain intact for
+   reference; native Italic and Retalic faces are used without CSS skew. The
+   font metadata does not itself provide licence terms.
 
 2. **Two hero/manifesto videos are low-resolution.** `hero-light.mp4` is
    760×472 and `manifesto.mp4` is 760×324, both scaled ~1.9× to 1440. They look

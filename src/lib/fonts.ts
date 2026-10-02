@@ -1,8 +1,8 @@
 import { Ubuntu, Ubuntu_Mono } from "next/font/google";
 import localFont from "next/font/local";
 
-// Louchi's refined cuts, approved September 22, 2026; user confirmed rights.
-// Converted from the supplied TTC files to WOFF2. See HANDOFF.md for provenance.
+// Louchi's revised cuts, validated September 30, 2026; user confirmed rights.
+// Converted from grinder-reloaded.zip face 0 to WOFF2. See HANDOFF.md for provenance.
 export const grinder = localFont({
   src: [
     { path: "../../public/fonts/Grinder-Refined-Regular.woff2", weight: "400", style: "normal" },
