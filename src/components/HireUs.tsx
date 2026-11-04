@@ -132,15 +132,20 @@ const PersonalInfoStep = ({ form, isActive }: StepProps) => {
                     defaultValue={dropdownField.value}
                   >
                     <FormControl>
-                      <SelectTrigger className="!rounded-l-none w-32">
+                      <SelectTrigger className="!rounded-l-none w-36 contact-channel-trigger" aria-label="Channel">
                         <SelectValue placeholder="Discord" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="contact-channel-menu">
                       {CONTACT_CHANNEL_OPTIONS.map((o) => {
+                        // October 30: each channel shows its mark (Discord,
+                        // a paper plane for Telegram); the label names it.
                         return (
                           <SelectItem key={o.value} value={o.value}>
-                            {o.label}
+                            <span className="contact-channel">
+                              <span className="contact-channel-icon" data-channel={o.value} aria-hidden="true" />
+                              {o.label}
+                            </span>
                           </SelectItem>
                         );
                       })}
@@ -367,7 +372,9 @@ const RequirementsStep = ({ form, isActive }: StepProps) => {
   );
 };
 
-export default function HireUs() {
+// `guided` is the October 23 form (40f3910) used by the audience routes: plain
+// step names, a short introduction and the progress indicator.
+export default function HireUs({ guided = false, onExit }: { guided?: boolean; onExit?: () => void }) {
   // State management for user feedback
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submissionStatus, setSubmissionStatus] = useState<
@@ -621,7 +628,7 @@ export default function HireUs() {
   const wizardSteps: WizardStep[] = [
     {
       id: "personal-info",
-      title: "Contact Info",
+      title: guided ? "About you" : "Contact Info",
       // description: "Tell us about yourself",
       component: <PersonalInfoStep form={form} />,
       validation: validatePersonalInfo,
@@ -635,7 +642,7 @@ export default function HireUs() {
     },
     {
       id: "project-description",
-      title: "Project Description",
+      title: guided ? "Your project" : "Project Description",
       // description: "Describe your project requirements",
       component: <ProjectDetailsStep form={form} />,
       validation: validateProjectDetails,
@@ -649,7 +656,7 @@ export default function HireUs() {
     },
     {
       id: "requirements",
-      title: "Requirements & Timeline",
+      title: guided ? "Scope & timing" : "Requirements & Timeline",
       // description: "Specific requirements and timeline details",
       component: <RequirementsStep form={form} />,
       validation: validateRequirements,
@@ -676,6 +683,11 @@ export default function HireUs() {
               touch with you shortly to discuss next steps.
             </p>
           </>
+        ) : guided ? (
+          // October 30: no heading of its own. The module's title ("Tell us
+          // what you're building") introduces the form and the stepper names
+          // the step (the "Three steps…" line was removed earlier, Frame 123).
+          null
         ) : (
           <h3 className="text-heading-lg font-bold text-moloch-500 mb-12">
             Let&apos;s Get Started
@@ -697,9 +709,10 @@ export default function HireUs() {
               className="hire-us-wizard"
               steps={wizardSteps}
               onComplete={handleWizardComplete}
-              showProgress={false}
+              showProgress={guided}
               allowBackNavigation={true}
               showSummary={false}
+              onExit={onExit}
             />
           )}
         </Form>
