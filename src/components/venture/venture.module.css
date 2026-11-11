@@ -1194,7 +1194,7 @@
 .heroPaths .pillIcon { font: 700 22px/1 var(--font-mono), monospace; font-style: normal; }
 .heroPaths .heroPrimaryPath { grid-column: 1 / -1; }
 .heroPaths .pillOutline:hover { background: var(--coral); color: var(--paper); }
-.heroPaths .pill:focus-visible, details > summary:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+.heroPaths .pill:focus-visible, .site details > summary:focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
 .moreCommunity, .galleryMore, .inquiryMore { min-width: 0; }
 .moreCommunity > summary, .galleryMore > summary, .inquiryMore > summary { cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px clamp(24px, 6vw, 96px); background: var(--deep); color: var(--paper); font: 700 clamp(16px, 2vw, 24px)/1.2 var(--font-display), sans-serif; list-style: none; }
 .moreCommunity > summary::-webkit-details-marker, .galleryMore > summary::-webkit-details-marker, .inquiryMore > summary::-webkit-details-marker { display: none; }
